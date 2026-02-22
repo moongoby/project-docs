@@ -2,6 +2,12 @@
 > 최종 업데이트: 2026-02-23 | 문서 버전: v1.0
 
 ## 2026-02-23
+### [CUR-GO100-PHASE2-STABILIZE] fix: ISS-001/002/003 + .cursorrules 보완
+- ISS-001: ChatWidget 로딩 중 노출, fixed/z-[9999] 확인
+- ISS-002: for-backtest GO100 정렬(featured_order), universe_filter 안내 문구
+- ISS-003: 전략 저장 get_effective_uid fallback, INSERT 전 로깅, logger.exception, FE strategy_type/에러 로깅
+- .cursorrules: 빌드 검증 규칙, 커밋 후 sync, 보고서 규칙, 필수 참조 문서
+
 ### [acca08c0] docs: 문서 체계 구축
 - CONTEXT.md + architecture/handover/plan 디렉토리 정리
 

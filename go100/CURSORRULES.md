@@ -1,16 +1,17 @@
 # GO100 프로젝트 Cursor 규칙
 # 작업 전 반드시 docs/ 문서를 읽고 현재 상태를 파악하세요.
+# CUR-GO100-PHASE2-STABILIZE STEP4, 2026-02-23 — 빌드 검증/커밋 후 작업/보고서/필수 참조 문서
 
-## 필수 참조 문서
-- docs/CONTEXT.md (전체 요약)
-- docs/HANDOVER.md (인수인계서)
-- docs/CHANGELOG.md (변경 이력)
-- docs/ISSUES.md (알려진 이슈)
-- docs/ROADMAP.md (로드맵)
-- docs/DB_SCHEMA.md (DB 스키마)
-- docs/API_SPEC.md (API 명세)
-- docs/PLANNING.md (기획서)
-- docs/ARCHITECTURE.md (아키텍처)
+## 필수 참조 문서 (전체)
+- docs/CONTEXT.md
+- docs/PLANNING.md
+- docs/ARCHITECTURE.md
+- docs/DB_SCHEMA.md
+- docs/API_SPEC.md
+- docs/HANDOVER.md
+- docs/CHANGELOG.md
+- docs/ISSUES.md
+- docs/ROADMAP.md
 
 ## 절대 규칙
 1. go100_* 파일/테이블만 수정
@@ -30,6 +31,19 @@
 - get_effective_uid() 필수
 - v4_users: 3=naver, 2=gmail
 - legacy users: 15=naver, 6=gmail
+
+## 빌드 검증 규칙
+- 프론트엔드 수정 후 반드시: npm run build → BUILD_ID 시간 확인 → 커밋 시간보다 이후인지 검증
+- 검증 명령: ls -la frontend/.next/BUILD_ID && git log -1 --format="%ai"
+- BUILD_ID가 커밋보다 이전이면 재빌드 필수
+
+## 커밋 후 필수 작업
+- bash /root/project-docs/scripts/sync_go100.sh (매 커밋 후 필수)
+- report/ 폴더 보고서도 sync 대상에 포함
+
+## 보고서 규칙
+- 모든 작업 완료 후 report/YYYYMMDD-TASK-ID.md 생성
+- sync_go100.sh 실행하여 project-docs에 반영
 
 ## 문서 동기화
 - bash /root/project-docs/scripts/sync_go100.sh
