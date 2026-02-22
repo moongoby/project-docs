@@ -71,6 +71,18 @@
 [커밋] "작업명: 요약", .env/.bak 확인, 브랜치: phase-2c-command-center
 [보고서] report/ 에 .md, 사전/사후 DB 수치 포함
 
+[보고서 배포 규칙]
+- 작업 완료 후 보고서를 두 곳에 저장:
+  1. /root/kis-autotrade-v4/report/작업명-날짜.md (Private)
+  2. /root/project-docs/kis-autotrade-v4/reports/작업명-날짜.md (Public)
+- Public 보고서에 API 키, 계좌번호, 비밀번호, 토큰 절대 포함 금지
+- 저장 후 배포:
+  bash /root/project-docs/scripts/publish_report.sh 작업명
+  또는 전체 동기화:
+  bash /root/project-docs/scripts/sync_kis.sh
+- 배포 후 Public URL을 보고서 마지막에 기록:
+  https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/작업명-날짜.md
+
 [세션 종료 프로토콜]
 1. docs/CONTEXT.md "현재 상태" 섹션 갱신
 2. bash /root/project-docs/scripts/sync_kis.sh
@@ -277,14 +289,15 @@ docs/
 ├── handover/
 │   ├── HANDOVER-V50-20260214.md
 │   └── HANDOVER-V60-20260223.md
-└── plan/
-    ├── README.md               (CEO 원본 대기)
-    ├── PRD-v1.0-original.md    (예정)
-    └── PRD-v1.1-current.md     (예정)
+├── plan/
+│   ├── README.md               (CEO 원본 대기)
+│   ├── PRD-v1.0-original.md    (예정)
+│   └── PRD-v1.1-current.md     (예정)
+└── reports/                    ← 작업 완료 보고서 (Public 배포)
 ```
 
 Public (project-docs/kis-autotrade-v4/):
-위 구조와 동일. sync_kis.sh로 자동 동기화.
+위 구조와 동일. sync_kis.sh로 자동 동기화 (reports/ 포함).
 
 Public URL:
 https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
