@@ -29,6 +29,19 @@ if [ -f "/root/kis-autotrade-v4/.cursorrules" ]; then
   echo "✅ CURSORRULES.md"
 fi
 
+# 보고서 동기화
+REPORT_SRC="/root/kis-autotrade-v4/report"
+REPORT_DEST="/root/project-docs/go100/reports"
+
+if [ -d "$REPORT_SRC" ]; then
+  mkdir -p "$REPORT_DEST"
+  cp "$REPORT_SRC"/*.md "$REPORT_DEST/" 2>/dev/null || true
+  n=$(find "$REPORT_DEST" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l)
+  echo "✅ 보고서 동기화 (${n}건)"
+else
+  echo "⚠️ report/ 없음"
+fi
+
 # project-docs 커밋 + push
 cd /root/project-docs
 git add -A
