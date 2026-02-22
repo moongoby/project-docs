@@ -9,8 +9,8 @@
 
 ## Claude 새 대화 시작법
 해당 프로젝트 CONTEXT.md raw URL을 첫 메시지로 전달:
-- ShortFlow: https://raw.githubusercontent.com/moongoby/project-docs/main/shortflow/CONTEXT.md
-- GO100: https://raw.githubusercontent.com/moongoby/project-docs/main/go100/CONTEXT.md
+- ShortFlow: https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/CONTEXT.md
+- GO100: https://raw.githubusercontent.com/moongoby/project-docs/master/go100/CONTEXT.md
 
 ## 규칙
 - 코드, .env, credentials, API키 절대 포함 금지
