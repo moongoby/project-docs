@@ -6,7 +6,7 @@
 
 ## 해결됨
 ### ISS-001: 채팅 위젯 브라우저 미표시
-- 해결: CUR-GO100-PHASE2-STABILIZE (2026-02-23) — 로딩 중에도 ChatWidget 노출, fixed/z-index 확인
+- 해결: CUR-GO100-PHASE2-STABILIZE (2026-02-23) — 로딩 중·미인증 시에도 ChatWidget 노출, fixed/z-index 확인
 
 ### ISS-002: 백테스트 드롭다운 GO100 표시 미검증
 - 해결: CUR-GO100-PHASE2-STABILIZE (2026-02-23) — for-backtest 정렬(featured_order), 안내 문구 보강
