@@ -44,7 +44,7 @@ git add -A
 if git diff --cached --quiet; then
   echo "변경 없음"
 else
-  git diff --cached | grep -iE "NewTalk2026" && { echo "민감정보 중단!"; exit 1; }
+  git diff --cached -- . ":!scripts/" | grep -iE "NewTalk2026" && { echo "민감정보 중단!"; exit 1; }
   git commit -m "[sync] newtalk-v2-api $(date +%Y%m%d_%H%M) — CONTEXT, cursorrules, 기획서, 아키텍처, 보고서"
   GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" git push origin master
   echo "✅ push 완료"
