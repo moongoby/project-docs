@@ -1,0 +1,32 @@
+# 뉴톡 이미지 자동화 Phase 1 — NAS DS1821+ 실행용
+# 사용: docker-compose up -d
+
+services:
+  app:
+    build: .
+    container_name: newtalk-image-auto
+    ports:
+      - "8100:8100"
+    volumes:
+      # NAS 이미지 원본 (읽기 전용)
+      - /volume1/★제품사진:/data/photos:ro
+      # 처리 결과 저장 (쓰기 가능 — 별도 마운트)
+      - /volume1/★제품사진/_processed:/data/processed
+      # DB, 로그
+      - ./data/db:/app/data/db
+      - ./data/logs:/app/data/logs
+      # 114서버 동기화용 SSH 키
+      - /var/services/homes/newtalk/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
+      - /var/services/homes/newtalk/.ssh/known_hosts:/root/.ssh/known_hosts:ro
+    environment:
+      - PHOTOS_ROOT=/data/photos
+      - PROCESSED_ROOT=/data/processed
+      - DB_DIR=/app/data/db
+      - LOG_DIR=/app/data/logs
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    restart: unless-stopped
