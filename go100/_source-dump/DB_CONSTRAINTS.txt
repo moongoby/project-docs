@@ -1,0 +1,7 @@
+                 conname                  |                                                                                                                         pg_get_constraintdef                                                                                                                         
+------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ go100_strategy_cards_card_status_check   | CHECK (((card_status)::text = ANY ((ARRAY['IDEA'::character varying, 'DRAFT'::character varying, 'BACKTESTED'::character varying, 'PAPER_LIVE'::character varying, 'LIVE'::character varying, 'PAUSED'::character varying, 'RETIRED'::character varying])::text[])))
+ go100_strategy_cards_source_type_check   | CHECK (((source_type)::text = ANY ((ARRAY['SYSTEM'::character varying, 'CUSTOM'::character varying, 'LLM'::character varying, 'SHARED'::character varying])::text[])))
+ go100_strategy_cards_strategy_type_check | CHECK (((strategy_type)::text = ANY ((ARRAY['CUSTOM'::character varying, 'BUILTIN'::character varying, 'LLM_GENERATED'::character varying, 'SUBSCRIBED'::character varying, 'GO100_AI'::character varying])::text[])))
+(3 rows)
+
