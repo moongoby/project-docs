@@ -1,2 +1,2 @@
-{"status":401,"detail":"Not authenticated","timestamp":"2026-02-23T01:20:54.877402+00:00","request_id":"b0131d95-c28f-49bb-8946-8b52cde35ff4"}
-HTTP_CODE: 401
+{"status":401,"detail":"유효하지 않은 액세스 토큰","timestamp":"2026-02-23T01:49:11.010238+00:00","request_id":"b7988857-8b36-4d64-91d3-53bf9cd097f8"}
+HTTP_CODE:401

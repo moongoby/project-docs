@@ -1,4 +1,5 @@
-8529b500499ae7735790e2f31ad1d5919f5483a8 2026-02-23 10:20:24 +0900 fix: CUR-GO100-HOTFIX-SAVE-500 - strategy_type CHECK에 GO100_AI 추가 + /llm ChatWidget 중복 제거
-7b39c0875dc7ba21c1994afe170b629310805c4c 2026-02-23 09:59:31 +0900 fix: CUR-GO100-HOTFIX-SAVE-500 - strategy_type CHECK 제약조건에 GO100_AI 추가 + /llm 페이지 ChatWidget 중복 제거
-dead44f1e8196da193acddc8158f50d0c5450bb8 2026-02-23 09:30:33 +0900 fix: CUR-GO100-PHASE2-STABILIZE - ISS-001 채팅위젯 + ISS-002 백테스트드롭다운 + ISS-003 전략저장E2E + cursorrules 보완
-BUILD_ID: MKGYU20_brbvhXF1tOH5S
+aea10442 docs: CUR-GO100-FINAL-FIX-001 보고서, ISSUES, CHANGELOG, CONTEXT 갱신
+da4e5b0b rules: kis-v41-rules.md V4.1 전용 보강 — DESK정의, 무결성 기준값, 검수규칙, 작업큐, BT스키마 16컬럼
+a4a25e43 fix: CUR-GO100-FINAL-FIX-001 - strategy_type CHECK에 GO100_AI 추가, /llm ChatWidget 중복제거, 전략저장 500 해결
+3c9ba083 config: CUR-GO100-CURSOR-RULES-SPLIT - CLAUDE.md 공통화 + .cursor/rules/ 프로젝트별 분리 (GO100/KIS V4.1)
+1366d77c rules: 코드 검수 프로세스 반영 — CLAUDE.md + kis-v41-rules.md
