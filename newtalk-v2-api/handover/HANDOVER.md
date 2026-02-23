@@ -73,7 +73,7 @@ V2 Frontend: http://114.207.244.86:3000
 V1: http://114.207.244.86
 ```
 
-### 테스트 계정 (비밀번호: NewTalk2026!@# 또는 Test2026!@#)
+### 테스트 계정 (비밀번호: [REDACTED] 또는 [REDACTED])
 ```
 admin@newtalk.kr (관리자)
 md@newtalk.kr (MD)
