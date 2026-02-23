@@ -2,6 +2,11 @@
 > 최종 업데이트: 2026-02-23 | 문서 버전: v1.0
 
 ## 2026-02-23
+### [CUR-GO100-HOTFIX-002] fix: ChatWidget FAB 미노출 + 전략카드 저장 500 (6c69a23a)
+- FE: ChatWidget FAB를 createPortal로 document.body에 렌더링(ISS-008/009)
+- BE: get_effective_uid 예외 시 JWT fallback, card_service _safe_json으로 직렬화 방어(ISS-010)
+- 보고서: docs/reports/20260223-HOTFIX-002.md
+
 ### [CUR-GO100-FINAL-FIX-001] fix: 전략저장 500 해결 + ChatWidget 조건부 렌더링
 - DB: strategy_type CHECK에 GO100_AI 추가 (ALTER TABLE, 진단 시 이미 반영 확인)
 - FE: layout.tsx usePathname으로 /llm 페이지 ChatWidget 제외 유지, FINAL-FIX-001 주석

@@ -1,7 +1,7 @@
 # GO100 프로젝트 컨텍스트 (Claude PM용)
 > 이 파일을 Claude 새 대화 첫 메시지 URL로 전달하면 전체 맥락을 즉시 파악합니다.
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/go100/CONTEXT.md
-> 최종 갱신: 2026-02-23
+> 최종 갱신: 2026-02-23 (CUR-GO100-HOTFIX-002, 6c69a23a)
 
 ## 1. 프로젝트 개요
 - GO100: AI 주식 자동매매 SaaS
