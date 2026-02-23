@@ -1,32 +1,60 @@
-├ ○ /accounts                            12 kB           180 kB
-├ ○ /admin                               15.2 kB         170 kB
+
+> frontend@0.1.0 build
+> next build
+
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+  ▲ Next.js 14.2.35
+  - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/29) ...
+   Generating static pages (7/29) 
+   Generating static pages (14/29) 
+   Generating static pages (21/29) 
+ ✓ Generating static pages (29/29)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    600 B          88.2 kB
+├ ○ /_not-found                          152 B          87.8 kB
+├ ƒ /accounts                            12 kB           180 kB
+├ ƒ /admin                               15.2 kB         170 kB
 ├ ○ /auth/callback                       4.34 kB         130 kB
 ├ ○ /auth/forgot-password                5.96 kB         132 kB
 ├ ○ /auth/login                          6.46 kB         132 kB
 ├ ○ /auth/signup                         6.88 kB         133 kB
-├ ○ /backtest                            14.1 kB         173 kB
-├ ○ /dashboard                           17.6 kB         169 kB
+├ ƒ /backtest                            14.1 kB         173 kB
+├ ƒ /dashboard                           17.6 kB         169 kB
 ├ ƒ /go100                               3.05 kB         291 kB
-├ ○ /go100/chat                          499 B          88.1 kB
+├ ƒ /go100/chat                          499 B          88.1 kB
 ├ ƒ /go100/live-trading                  321 B           288 kB
 ├ ƒ /go100/live-trading/[id]             3.79 kB         291 kB
 ├ ƒ /go100/paper-trading                 321 B           288 kB
 ├ ƒ /go100/paper-trading/[id]            5.95 kB         293 kB
 ├ ƒ /go100/settings                      3.28 kB         291 kB
 ├ ƒ /go100/store                         152 B          87.8 kB
-├ ○ /go100/strategies                    2.59 kB         290 kB
+├ ƒ /go100/strategies                    2.59 kB         290 kB
 ├ ƒ /go100/strategies/[id]               510 B          88.2 kB
-├ ○ /llm                                 58.2 kB         229 kB
-├ ○ /monitoring                          8.8 kB          134 kB
-├ ○ /notifications                       8.59 kB         134 kB
+├ ƒ /llm                                 58.2 kB         229 kB
+├ ƒ /monitoring                          8.8 kB          134 kB
+├ ƒ /notifications                       8.59 kB         134 kB
 ├ ○ /offline                             386 B            88 kB
-├ ○ /portfolio                           6.56 kB         132 kB
+├ ƒ /portfolio                           6.56 kB         132 kB
 ├ ○ /privacy                             186 B          96.5 kB
-├ ○ /reports                             7.01 kB         162 kB
-├ ○ /settings                            17.3 kB         157 kB
-├ ○ /strategy-cards                      12.7 kB         182 kB
+├ ƒ /reports                             7.01 kB         162 kB
+├ ƒ /settings                            17.3 kB         157 kB
+├ ƒ /strategy-cards                      12.7 kB         182 kB
 ├ ○ /terms                               186 B          96.5 kB
-└ ○ /trade                               19.9 kB         182 kB
+└ ƒ /trade                               19.9 kB         182 kB
 + First Load JS shared by all            87.6 kB
   ├ chunks/3095-6a8e15896d28293d.js      31.9 kB
   ├ chunks/fbc43724-61cf057b637ccaf3.js  53.7 kB
