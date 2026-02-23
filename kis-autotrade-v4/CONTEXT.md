@@ -74,6 +74,7 @@
 - backtest_engine_v2.py, collector_minute.py, main.py
 
 ## 10. 문서 체계
+- API 문서 카탈로그: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/docs/API-DOCS-CATALOG.md
 - Cursor Rules: .cursor/rules/kis-v41-rules.md (서버)
 - Public Rules: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
 - 보고서: report/v41/{작업ID}-{YYYYMMDD}.md → sync_reports.sh
