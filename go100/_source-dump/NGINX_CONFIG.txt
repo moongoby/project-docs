@@ -31,6 +31,14 @@ server {
     location /health { proxy_pass http://go100_backend; }
 
     # 프론트엔드
+    # Next.js 정적 빌드 파일 — 브라우저 장기 캐시, CDN 즉시 갱신
+    location /_next/static/ {
+        proxy_pass http://go100_frontend;
+        proxy_set_header Host $host;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        add_header X-Content-Source "next-build";
+    }
+
     location / {
         proxy_pass http://go100_frontend;
         proxy_set_header Host $host;

@@ -1,3 +1,14 @@
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: Stopping go100-frontend.service - GO100 V4.1 Frontend (Next.js)...
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: go100-frontend.service: Failed to kill control group /system.slice/go100-frontend.service, ignoring: Invalid argument
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: go100-frontend.service: Deactivated successfully.
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: Stopped go100-frontend.service - GO100 V4.1 Frontend (Next.js).
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: go100-frontend.service: Consumed 5.103s CPU time, 116.0M memory peak, 0B memory swap peak.
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: Starting go100-frontend.service - GO100 V4.1 Frontend (Next.js)...
+Feb 23 12:57:46 kis-autotrade-v4 systemd[1]: Started go100-frontend.service - GO100 V4.1 Frontend (Next.js).
+Feb 23 12:57:48 kis-autotrade-v4 go100-frontend[2485799]:   ▲ Next.js 14.2.35
+Feb 23 12:57:48 kis-autotrade-v4 go100-frontend[2485799]:   - Local:        http://localhost:3000
+Feb 23 12:57:48 kis-autotrade-v4 go100-frontend[2485799]:  ✓ Starting...
+Feb 23 12:57:48 kis-autotrade-v4 go100-frontend[2485799]:  ✓ Ready in 700ms
 Feb 23 13:19:10 kis-autotrade-v4 systemd[1]: Stopping go100-frontend.service - GO100 V4.1 Frontend (Next.js)...
 Feb 23 13:19:10 kis-autotrade-v4 systemd[1]: go100-frontend.service: Deactivated successfully.
 Feb 23 13:19:10 kis-autotrade-v4 systemd[1]: Stopped go100-frontend.service - GO100 V4.1 Frontend (Next.js).
