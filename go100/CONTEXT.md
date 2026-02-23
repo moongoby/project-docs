@@ -60,6 +60,7 @@
 - GET /catalog?tab=all|my|v4, GET /for-backtest
 
 ## 8. 최근 커밋 (20건)
+- a4a25e43 fix: CUR-GO100-FINAL-FIX-001 - strategy_type CHECK, /llm ChatWidget, 전략저장 500
 - dead44f1 fix: CUR-GO100-PHASE2-STABILIZE (ISS-001/002/003 + cursorrules)
 - acca08c0 docs: 문서 체계 구축
 - 08a3b2ba fix: CUR-GO100-HOTFIX-IMPORT
@@ -83,7 +84,7 @@
 - 07c03316 feat: CUR-GO100-STRATEGY-INTEGRATE
 
 ## 9. 미해결 이슈
-- (없음)
+- (없음) — ISS-007/008 해결 완료, 브라우저 최종 검증 대기
 
 ## 10. 로드맵
 - Phase 2 (현재): 안정화 5개 항목

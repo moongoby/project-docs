@@ -2,6 +2,11 @@
 > 최종 업데이트: 2026-02-23 | 문서 버전: v1.0
 
 ## 2026-02-23
+### [CUR-GO100-FINAL-FIX-001] fix: 전략저장 500 해결 + ChatWidget 조건부 렌더링
+- DB: strategy_type CHECK에 GO100_AI 추가 (ALTER TABLE, 진단 시 이미 반영 확인)
+- FE: layout.tsx usePathname으로 /llm 페이지 ChatWidget 제외 유지, FINAL-FIX-001 주석
+- 검증: 비인증 401, 백엔드/프론트 200 확인
+
 ### [CUR-GO100-PHASE2-STABILIZE] fix: ISS-001/002/003 + .cursorrules 보완
 - ISS-001: ChatWidget 로딩 중 노출, fixed/z-[9999] 확인
 - ISS-002: for-backtest GO100 정렬(featured_order), universe_filter 안내 문구
