@@ -1,5 +1,4 @@
+8529b500499ae7735790e2f31ad1d5919f5483a8 2026-02-23 10:20:24 +0900 fix: CUR-GO100-HOTFIX-SAVE-500 - strategy_type CHECK에 GO100_AI 추가 + /llm ChatWidget 중복 제거
 7b39c0875dc7ba21c1994afe170b629310805c4c 2026-02-23 09:59:31 +0900 fix: CUR-GO100-HOTFIX-SAVE-500 - strategy_type CHECK 제약조건에 GO100_AI 추가 + /llm 페이지 ChatWidget 중복 제거
 dead44f1e8196da193acddc8158f50d0c5450bb8 2026-02-23 09:30:33 +0900 fix: CUR-GO100-PHASE2-STABILIZE - ISS-001 채팅위젯 + ISS-002 백테스트드롭다운 + ISS-003 전략저장E2E + cursorrules 보완
-a1ad56a9cad2173b465d1ae7f7473f3eee84f0cc 2026-02-23 09:18:35 +0900 rules: CLAUDE.md + kis-v41-rules.md 현행 동기화 — strategy_cards 62건, BT엔진 업그레이드, 보고서 배포 규칙 반영
-BUILD_ID: -rw-r--r-- 1 root root 21 Feb 23 09:58 /root/kis-autotrade-v4/frontend/.next/BUILD_ID
-LAST_COMMIT: 2026-02-23 09:59:31 +0900
+BUILD_ID: MKGYU20_brbvhXF1tOH5S
