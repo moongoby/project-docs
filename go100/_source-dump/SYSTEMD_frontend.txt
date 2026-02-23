@@ -1,0 +1,22 @@
+[Unit]
+Description=GO100 V4.1 Frontend (Next.js)
+After=network.target go100.service
+Wants=go100.service
+
+[Service]
+Type=exec
+User=root
+Group=root
+WorkingDirectory=/root/kis-autotrade-v4/frontend
+ExecStart=/usr/bin/npx next start -p 3000
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=go100-frontend
+Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_API_URL=http://localhost:8002
+
+[Install]
+WantedBy=multi-user.target
