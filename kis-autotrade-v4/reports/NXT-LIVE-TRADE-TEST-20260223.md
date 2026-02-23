@@ -99,3 +99,52 @@
 - [x] Phase H: 보고서 작성
 - [x] .env 커밋 안 함
 - [x] kis-v41-monitor/scheduler 재시작 안 함
+
+---
+
+## 2차 테스트 (2026-02-23 17:53 KST)
+
+| 항목 | 내용 |
+|------|------|
+| 시각 | 2026-02-23 17:57 KST (NXT 애프터마켓 15:40~20:00 내) |
+| 작업 | NXT 실매매 테스트 절차 STEP 0 ~ STEP 8 |
+
+### STEP 0: 사전 확인
+
+| 항목 | 결과 |
+|------|------|
+| strategy_cards | 60 |
+| v4_positions OPEN | 5 |
+| kis-v41-scheduler / monitor / api / position-monitor | 전부 active |
+| 디스크 / | 55% (43G 가용) |
+| .env 모드 | KIS_ACCOUNT_MODE=virtual, DRY_RUN=false |
+| 실계좌 .env 키 | KIS_REAL_APP_KEY, KIS_REAL_APP_SECRET, KIS_REAL_ACCOUNT_NUMBER 존재하나 **값 비어 있음** |
+
+### STEP 1: .env 백업
+
+- 백업 생성: `.env.bak.pre-nxt-live-202602231758`
+- 실계좌 전환: **미실행** — REAL_APP_KEY / REAL_APP_SECRET / REAL_ACCOUNT_NUMBER 미입력으로 전환 불가
+
+### STEP 2 ~ STEP 5
+
+- kis-v41-api 재시작: 미실행 (실계좌 전환 없음)
+- 토큰 발급·잔고 조회·NXT 매수/매도: **미실행** (실계좌 credentials 없음)
+
+### STEP 6: .env 복원
+
+- .env 변경 없음 → 복원 절차 검증만 수행. KIS_ACCOUNT_MODE=virtual 유지 확인.
+
+### STEP 7: DB 무결성 최종
+
+| 테이블 | 건수 |
+|--------|------|
+| strategy_cards | 60 |
+| v4_positions OPEN | 5 |
+
+OPEN 포지션: id 49(221800), 51(001510), 53(001290), 55(373110), 61(360140) — 변동 없음.
+
+### STEP 8: 결론 (2차)
+
+1. **실계좌 .env 미설정**: KIS_REAL_APP_KEY, KIS_REAL_APP_SECRET, KIS_REAL_ACCOUNT_NUMBER가 비어 있어 실계좌 전환 및 NXT 실매매 미진행.
+2. **권장**: 실계좌 테스트 시 .env에 REAL_* 값을 설정하거나, kis_configs 실계좌(config_id=4 등) 사용 시 KIS_ACCOUNT_MODE=real만 전환하여 1차 테스트와 동일 방식으로 재실행. NXT 체결을 위해서는 1차 보고서 결론대로 NXT/시간외 전용 TR_ID 및 거래소구분(exchange_cd=NX) 적용 선행 필요.
+3. **준수 사항**: monitor/scheduler/position-monitor 재시작 없음, DB ALTER/DROP/DELETE 없음, .env 백업 완료.
