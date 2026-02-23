@@ -53,3 +53,9 @@
 ## 문서 동기화
 - 커밋 후 반드시: bash /root/project-docs/scripts/sync_go100.sh
 - 보고서: report/<YYYYMMDD>-<TASK-ID>.md 생성 후 sync
+
+## 문서 저장 규칙 (2026-02-24 추가)
+- 보고서 파일명: `CUR-GO100-{TASK}-{SEQ}-{YYYYMMDD}.md`
+- 저장 위치: `go100/reports/` (교차 저장 금지)
+- 상세: go100/rules/DOCUMENT-RULES.md
+- 마스터: https://raw.githubusercontent.com/moongoby/project-docs/master/DOCUMENT-NAMING-CONVENTION.md

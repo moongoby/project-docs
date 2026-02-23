@@ -26,22 +26,6 @@
 - frontend/src/app/(protected)/backtest/page.tsx
 - frontend/src/app/(protected)/layout.tsx
 
-## 실시간 한국시간 동기화 규칙
-
-Claude 대화에서 시간 민감 작업 수행 전 반드시 아래 API로 실시간 KST 확인:
-
-https://timeapi.io/api/time/current/zone?timeZone=Asia/Seoul
-
-적용 기준:
-- 실매매 주문 전 시간 확인 필수
-- 커서 지시서 발행 시 조회된 실시간 KST 명시
-- 장 상태 판단 기준:
-  - 월~금 08:00~08:50 → NXT 프리마켓
-  - 월~금 09:00~15:30 → KRX/NXT 정규장
-  - 월~금 15:40~20:00 → NXT 애프터마켓
-  - 토/일/공휴일 → 장 휴무
-- 상세 시간표: rules/MARKET-HOURS-KR.md 참조
-
 ## 공통 절대 규칙
 1. .env, .bak 파일 절대 커밋 금지
 2. 작업 전 DB 백업: pg_dump -h localhost -U kis_admin -d kisautotrade -F c -f /tmp/backup_<TASK>_$(date +%Y%m%d_%H%M%S).dump
