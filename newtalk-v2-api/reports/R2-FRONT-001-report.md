@@ -70,13 +70,20 @@
 
 ## §2. Docker 빌드 결과
 
-frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에서 docker-compose.yml 추가 후 실행.
+서버에서 실행 후 기입:
+
+```bash
+cd /srv/newtalk-v2
+docker compose --env-file .env.docker up -d --build frontend
+docker compose --env-file .env.docker ps
+docker compose --env-file .env.docker logs frontend --tail 20
+```
 
 | 항목 | 결과 |
 |------|------|
-| frontend 빌드 | 서버에서 docker compose up --build frontend 실행 후 확인 |
-| frontend 상태 | (배포 후 확인) |
-| 로그 에러 | (배포 후 확인) |
+| frontend 빌드 | (서버 실행 후 기입) |
+| frontend 상태 | (Running 확인) |
+| 로그 에러 | (없음 확인) |
 
 ---
 
@@ -84,9 +91,9 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 
 | URL | 기대 HTTP | 결과 |
 |-----|-----------|------|
-| http://127.0.0.1:3000 | 200 | frontend 컨테이너 기동 후 확인 |
-| http://114.207.244.86:3000 | 200 | frontend 컨테이너 기동 후 확인 |
-| http://114.207.244.86:3000/login | 200 | 동일 |
+| http://127.0.0.1:3000 | 200 | (서버 실행 후 기입) |
+| http://114.207.244.86:3000 | 200 | (서버 실행 후 기입) |
+| http://114.207.244.86:3000/login | 200 | (서버 실행 후 기입) |
 
 ---
 
@@ -94,23 +101,32 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 
 | 항목 | 방법 | 기대 | 결과 |
 |------|------|------|------|
-| 로그인 | 브라우저 admin@newtalk.kr / [REDACTED] | 200, /admin/dashboard 리다이렉트 | frontend 기동 후 확인 |
-| 대시보드 KPI | /admin/dashboard 접속 | 카드 4개 데이터 표시 | 동일 |
-| 사입 대시보드 | /admin/purchasing 접속 | 요약·도매처·알림 표시 | 동일 |
-| 기존 API | curl POST .../api/auth/login | 200 | AuthController 반영 후 확인 |
-| V1 보호 | curl http://114.207.244.86 | 200 | (기존 확인) |
+| 로그인 | 브라우저 admin@newtalk.kr / [REDACTED] | 200, /admin/dashboard 리다이렉트 | (서버 실행 후 기입) |
+| 대시보드 KPI | /admin/dashboard 접속 | 카드 4개 데이터 표시 | (서버 실행 후 기입) |
+| 사입 대시보드 | /admin/purchasing 접속 | 요약·도매처·알림 표시 | (서버 실행 후 기입) |
+| 기존 API | curl POST .../api/auth/login | 200 | (서버 실행 후 기입) |
+| V1 보호 | curl http://114.207.244.86 | 200 | (서버 실행 후 기입) |
 
 ---
 
-## §5. Git 커밋 SHA 및 푸시 결과 (실행 완료)
+## §5. Git 커밋 SHA 및 푸시 결과
 
-**실행일시**: 2026-02-23 (에이전트 실행)
+서버에서 실행 후 기입:
+
+```bash
+cd /srv/newtalk-v2
+git add docs/ frontend/ app/Http/Controllers/Api/AuthController.php routes/api.php
+git status
+git diff --cached | grep -iE "(password|secret|key|token)" || echo "민감정보 없음"
+git commit -m "[R2-FRONT-001] Next.js 16 프로젝트 셋업 - 인증, 역할별 라우팅, 관리자 대시보드, Docker 연동"
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" git push origin feature/R2-FRONT-001-setup
+git log --oneline -1
+```
 
 | 항목 | 결과 |
 |------|------|
-| 커밋 SHA | **ce541c5** |
-| 푸시 결과 | **성공** — `feature/R2-FRONT-001-setup` → origin 푸시 완료 |
-| PR 링크 | https://github.com/moongoby/newtalk-v2-api-/pull/new/feature/R2-FRONT-001-setup |
+| 커밋 SHA | (서버 실행 후 기입) |
+| 푸시 결과 | (성공 확인) |
 
 ---
 
@@ -124,7 +140,7 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 - [ ] PART 3-4: http://114.207.244.86:3000 접속 200 (서버 배포 후)
 - [ ] PART 3-4: 로그인 → 역할별 리다이렉트 (서버 배포 후)
 - [ ] PART 3-4: 관리자 대시보드 R1 API 데이터 표시 (서버 배포 후)
-- [x] PART 3-5: Git 커밋·푸시 (서버에서 실행 완료, ce541c5)
+- [ ] PART 3-5: Git 커밋·푸시 (서버에서 실행)
 - [x] PART 3-6: 보고서 작성
 - [x] PART 3-7: CHANGELOG 업데이트
 

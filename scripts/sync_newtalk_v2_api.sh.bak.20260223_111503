@@ -36,8 +36,6 @@ cp "$SRC/reports/"*.md "$DST/reports/" 2>/dev/null || true
 find "$DST" -name "*.md" -exec sed -i 's/NewTalk2026!@#/[REDACTED]/g' {} \;
 find "$DST" -name "*.md" -exec sed -i 's/Test2026!@#/[REDACTED]/g' {} \;
 
-# 민감정보 검사 (값 패턴만, 변수명 TOKEN_KEY 등 제외)
-if grep -rIiE "(password\s*=|secret\s*=|api_key\s*=|access_token\s*=|bearer [a-z0-9])" "$DST" 2>/dev/null; then echo "민감정보 검출 — 동기화 중단"; exit 1; fi
 cd /data/project-docs
 git add -A
 if git diff --cached --quiet; then

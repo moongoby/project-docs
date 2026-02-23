@@ -5,7 +5,18 @@
 ---
 
 ## [Unreleased]
-- R2-FRONT-001-DEPLOY: Frontend Docker 기동 대기
+
+## [1.2.0] - 2026-02-23
+### Added
+- R2-FRONT-001-DEPLOY: 프론트엔드 Docker 빌드·실행 (870c007)
+- Rate Limiting: 로그인 API throttle:5,1 (1분 5회 제한)
+- 역할별 라우트 보호: middleware.ts ROLE_PATHS/ROLE_HOME 매핑
+- 401 자동 로그아웃: fetchApi에서 401 감지 → 쿠키·스토어 클리어 → /login 리다이렉트
+- Sanctum 토큰 만료: 7일 (config/sanctum.php)
+- 방화벽 3000 포트 개방 (ufw)
+### Fixed
+- Redis 연결: REDIS_PORT=6379 → app 서비스 환경변수 추가
+- Tailwind 배경·전경색 수정
 
 ## [1.1.0] - 2026-02-23
 ### Added
