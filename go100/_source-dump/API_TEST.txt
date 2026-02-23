@@ -1,0 +1,2 @@
+{"status":401,"detail":"유효하지 않은 액세스 토큰","timestamp":"2026-02-23T02:58:32.939805+00:00","request_id":"0fa83c6e-8ad2-4be4-824f-df45f36f25a7"}
+HTTP:401
