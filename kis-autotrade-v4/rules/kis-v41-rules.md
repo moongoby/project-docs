@@ -296,3 +296,17 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 - frontend/src/app/layout.tsx
 - frontend/src/app/backtest/page.tsx
 - frontend/src/app/strategy-cards/page.tsx
+
+## 필수 마감 단계: project-docs 보고서 push
+작업 완료 시 반드시 아래 절차 수행.
+```bash
+# === 필수 마감 단계: project-docs 보고서 push ===
+ls -la /root/project-docs/kis-autotrade-v4/reports/TOKEN-MANAGER*
+ls -la /root/project-docs/kis-autotrade-v4/reports/NXT-LIVE*
+cd /root/project-docs
+git add kis-autotrade-v4/
+git commit -m "docs: REPORT-PUSH-FIX 보고서 push (20260223)"
+git push origin master
+git log --oneline -1
+# 실패 시 재시도. 3회 실패 시 에러 보고.
+```
