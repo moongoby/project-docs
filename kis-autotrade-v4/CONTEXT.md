@@ -5,7 +5,7 @@
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
 - DESK 1~5 멀티 전략 운영 (62개 전략카드)
-- V4.1 코드베이스, GO100 SaaS와 서버/DB 공유
+- V4.1 코드베이스, 동일 서버/DB에서 타 서비스와 공유
 - 도메인: trading41.newtalk.kr
 - GitHub: moongoby/kis-autotrade-v4 (private), 문서: moongoby/project-docs (public)
 
