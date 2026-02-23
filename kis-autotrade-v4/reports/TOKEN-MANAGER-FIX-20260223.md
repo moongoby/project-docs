@@ -1,91 +1,114 @@
-# TOKEN-MANAGER-FIX 작업 보고서
-**일시:** 2026-02-23 16:05 KST (장마감 후)  
-**서버:** root@211.188.51.113  
-**프로젝트:** /root/kis-autotrade-v4  
-**브랜치:** phase-2c-command-center  
-**우선순위:** P0
+# TOKEN-MANAGER-FIX 진단 보고서 (읽기전용)
+
+**작업 ID**: TOKEN-MANAGER-FIX  
+**일시**: 2026-02-23  
+**서버**: root@211.188.51.113  
+**프로젝트**: /root/kis-autotrade-v4  
+**브랜치**: phase-2c-command-center  
+**범위**: 진단만 (코드/DB/서비스/.env 변경 없음)
 
 ---
 
-## 1. Phase A — 토큰 발급 경로 분석 결과
+## 1. token_manager.py 구조 요약
 
-### 1.1 token_manager._issue_token_kis() 인증키 소스
-- **소스:** `credentials` dict 인자만 사용 (함수 내부에서 `.env` 직접 참조 없음)
-- credentials dict의 키·시크릿 필드만 사용 (코드 내 get 인자로 전달)
-
-### 1.2 호출자별 토큰 획득 방식 요약표
-
-| 호출자 | 토큰 획득 방식 | 인증키 소스 | config_id 전달 |
-|--------|----------------|-------------|----------------|
-| KISOrderService (파이프라인) | get_token_manager().get_token("kis", account_id, credentials) | kis_configs DB (복호화) | O — account_id = f"kis:{config['id']}" |
-| V4OrderExecutor | _get_mock_token() → 직접 tokenP 호출 | kis_configs DB (_get_config_by_id → _decrypt_value) | O — config_id로 조회 |
-| account_sync_manager | _get_token_sync() → DB 토큰/재발급 | kis_configs DB (_load_config → _decrypt_value) | O — self.config_id |
-| position_monitor | _get_token_for_config_id(config_id) | kis_configs DB (복호화) | O |
-| kis_api_client (data_pipeline) | get_token() → get_kis_token_sync(..., base_url) | kis_configs DB (복호화) | O — config_id 기준 조회 |
-| verify_kis_token.py / test_token_manager.py | load_kis_config("virtual") 또는 os.getenv | **.env** (KIS_VIRTUAL_*) | N |
-| kis_config.load_kis_config() | — | .env (KIS_VIRTUAL_* 등) | N — KISOrderService는 base_url만 사용 |
-
-### 1.3 핵심 질문 답변
-- **a) _issue_token_kis() 인증키 출처:** 호출자가 넘기는 `credentials` dict. token_manager는 .env를 읽지 않음.
-- **b) 파이프라인에서 config_id 전달 여부:** 예. KISOrderService는 _get_kis_config()로 DB 조회 후 `account_id = f"kis:{config['id']}"` 로 전달.
-- **c) kis_configs 복호화 사용 여부:** 예. 주문/잔고/파이프라인 경로는 모두 kis_configs의 암호화 컬럼 복호화 값 사용.
-- **d) .env 인증키가 쓰이는 상황:** 스크립트(verify_kis_token.py, test_token_manager.py, verify_api_keys.py) 및 load_kis_config() 호출 시. 매매 파이프라인 본선은 DB 경로만 사용.
+| 항목 | 값 |
+|------|-----|
+| 경로 | `backend/app/core/token_manager.py` |
+| 총 라인 수 | 366 |
+| RENEW_BEFORE_EXPIRY | 1시간 (timedelta(hours=1)) |
+| REISSUE_LOCK_TTL | 60초 |
+| TOKEN_REDIS_TTL | 23시간 |
 
 ---
 
-## 2. 근본 원인
-- **.env의 KIS 모의 인증키·시크릿**이 이전 계좌용으로 설정되어 있었고, **kis_configs config_id=1**의 복호화 값(모의계좌 5016***)과 불일치.
-- DB 복호화 값 앞자리와 .env 값 앞자리 상이 → 불일치 확정.
-- 파이프라인 자체는 DB 경로만 사용하므로 403 원인은 스크립트·검증 경로에서 .env 사용 시 잘못된 키로 발급 요청이 나갔을 가능성 또는 과거 진단 시 .env 경로 사용 이력.
+## 2. 토큰 발급 경로 분석
+
+| 호출 경로 | 함수/모듈 | 인증키 소스 | config_id 전달 | token_manager 사용 |
+|-----------|-----------|----------------------|----------------|---------------------|
+| 파이프라인 주문 | V4OrderExecutor | kis_configs (DB) | ✅ config_id로 조회 | ❌ (_get_mock_token 직접 tokenP) |
+| kis_order_service | _get_token() | kis_configs (DB) | ✅ account_id=`kis:{config_id}` | ✅ get_token_manager().get_token("kis", ...) |
+| 잔고/사전검사 | AccountSyncManager | kis_configs (DB) | ✅ config_id | ❌ (_get_token_sync 직접 tokenP+DB) |
+| 데이터 수집 | kis_api_client.get_token() | kis_configs (DB) | ✅ account_id=`kis:{config_id}` | ✅ get_kis_token_sync() (동기) |
+| 포지션 모니터 | position_monitor._get_token_for_config_id | kis_configs (DB) | ✅ config_id | ❌ (직접 tokenP+DB) |
+
+- **token_manager.py 내부**: 인증키/시크릿은 항상 **caller가 넘긴 credentials dict**에서만 사용. `os.getenv`로 KIS 키를 읽는 코드 없음.
+- **결론**: KIS 토큰 발급의 단일 진실 공급원은 **kis_configs (DB)**. .env의 KIS 인증키는 이 경로에서 사용되지 않음.
 
 ---
 
-## 3. 수정 내역
+## 3. .env vs DB 키 불일치 여부
 
-### 3.1 .env 변경 (Phase B)
-- **백업:** `.env.bak.20260223_160916`
-- **조치:** kis_configs config_id=1의 복호화된 인증키·시크릿으로 .env의 KIS 모의 인증키·시크릿 항목 교체.
-- **AS-IS:** .env = 이전 계좌용 키 (PSSB...)  
-- **TO-BE:** .env = config_id=1 DB 복호화 값 (PSJj... 마스킹).
-
-### 3.2 코드 변경 (Phase C / Phase D)
-- **Phase C:** token_manager가 .env를 참조하지 않으며, 호출자가 DB에서 credentials를 넘기므로 **코드 변경 없음.**
-- **Phase D — revoke_token 버그 수정 (적용 완료):**
-  - **문제:** 253행 근처에서 KIS revoke 시 `key_index` 미정의 변수 참조 및 _get_cached_token(broker, account_id, key_index) 호출(_get_cached_token은 key_index 인자 없음).
-  - **수정:** `revoke_token(..., key_index: Optional[int] = None)` 추가, Redis 키는 `_redis_key_token(broker, account_id, key_index)`로 통일, 캐시 조회는 해당 키로 직접 get 후 JSON 파싱하여 키움 revoke 시만 토큰 사용. (CUR-TOKEN-MANAGER-FIX 주석 반영)
+- **KIS**: 모든 진입 경로가 kis_configs에서 인증키/시크릿 조회 후 token_manager 또는 직접 tokenP 호출. **.env와 DB 불일치 가능성 없음** (KIS는 .env 미사용).
+- **키움**: broker_kiwoom_client / BrokerFactory 등에서 .env 키 사용 가능. 키움 멀티키는 DB(accounts 암호화 컬럼) 사용. 본 진단은 KIS 토큰 매니저 중심이므로 키움 .env vs DB는 생략.
 
 ---
 
-## 4. Phase E 테스트 결과
-- **diagnose_balance_config3.py (CONFIG_ID=1):** 토큰 발급 성공, 예수금 **466,347,229원**, 보유 7종목.
-- **.env 직접 토큰 발급:** 403 — 원인 `EGW00133`(1분당 1회 제한). 직전에 동일 키로 config_id=1 진단에서 200 OK 확인되어, **.env 인증키는 유효한 것으로 판단.**
-- **Redis 토큰 캐시 (token:kis:kis:1):** 진단 스크립트는 token_manager 미사용(직접 httpx POST)이라 캐시 없음. 파이프라인 구동 시 token_manager 경로로 발급하면 캐시 생성됨.
+## 4. revoke_token 버그 확인 (line 253 key_index)
+
+**확인 구간**: `token_manager.py` 245~260행.
+
+- `revoke_token(self, broker, account_id, credentials=None, key_index=None)` 에서 **key_index는 시그니처에 정의됨** (Optional[int] = None).
+- 255행: `key = _redis_key_token(broker, account_id, key_index)` 로 전달됨.
+- `_redis_key_token`: broker가 "kiwoom"이고 key_index가 not None일 때만 `token:kiwoom:{key_index}:{account_id}` 사용, 그 외에는 `token:{broker}:{account_id}`.
+- **결론**: **현행 코드에는 key_index 미정의 버그 없음.** KIS 경로는 key_index=None으로 호출되며, Redis 키는 `token:kis:{account_id}`로 정상 생성됨.
 
 ---
 
-## 5. revoke_token 버그 수정 요약
-- **파일:** backend/app/core/token_manager.py  
-- **내용:** revoke_token에 `key_index` 파라미터 추가, Redis 키/캐시 읽기를 key_index 반영한 키로 통일, 키움 revoke 시에만 해당 토큰으로 API 호출. 토큰 취소 시에만 영향, 매매 사이클과 무관.
+## 5. 만료 1시간 전 갱신 구현 확인
+
+- **RENEW_BEFORE_EXPIRY**: 26행 `timedelta(hours=1)` 정의.
+- **_is_token_valid**: 115~123행. `now + RENEW_BEFORE_EXPIRY <= exp` 이면 유효. 즉 만료 1시간 이상 남았을 때만 재사용.
+- **_needs_renewal**: 125~131행. `now + RENEW_BEFORE_EXPIRY > exp` 이면 갱신 필요.
+- **get_token 흐름**: 74~100행. 캐시 조회 → 유효하면 반환 → 만료 임박 시 락 획득 후 재발급 시도 → 실패 시 1초 sleep 후 캐시 재조회.
+- **결론**: **만료 1시간 전 선제 갱신 로직 구현됨.** (규칙서 79~94행 참고와 일치)
 
 ---
 
-## 6. DB 무결성
-- **strategy_cards:** 65건  
-- **v4_positions OPEN:** 5건 (직접 수정 없음)
+## 6. Redis 토큰 캐시 상태
+
+| 키 패턴 | 조회 결과 (2026-02-23) |
+|---------|------------------------|
+| token:kis:* | `token:kis:kis:4` 1건 |
+| token:kis:1 | 없음 (TTL -2) |
+| token:kis:kis:4 TTL | 79,241초 (약 22시간) |
+| token:kiwoom:* | (조회 시 0건 표시) |
+| token_lock:* | (별도 미집계) |
+
+- config_id=4(실전) 계정에 대해서만 Redis KIS 토큰 캐시 존재. config_id=1, 3 등은 해당 시점에 캐시 없거나 만료된 상태로 보임.
 
 ---
 
-## 7. 내일 재시작 후 매매 사이클 테스트 계획
-- **kis-v41-api 재시작:** 본 작업에서는 수행하지 않음. 내일 08:40 별도 CEO 승인 후 재시작 예정.
-- 재시작 후: 토큰 발급이 kis_configs DB 경로로 정상 동작하는지, 매매 사이클(모의)에서 403 없이 진행되는지 확인 권장.
+## 7. 수정 제안 (내일 적용용)
+
+1. **이중 경로 통일 (선택)**  
+   - V4OrderExecutor._get_mock_token, AccountSyncManager._get_token_sync, position_monitor._get_token_for_config_id 는 **token_manager + Redis** 를 쓰지 않고 DB+직접 tokenP 사용.  
+   - 향후 정리 시: 동일 config_id에 대해 **token_manager + Redis** 단일 경로로 통일하면 캐시 재사용·1시간 전 갱신 정책이 일관 적용됨.
+
+2. **실패 시 단계별 재시도 (규칙서 미구현)**  
+   - 규칙서: 1회 실패 60초, 2회 120초, 3회 초과 시 degraded.  
+   - 현행 token_manager: 재발급 실패 시 1초 sleep 후 캐시 재조회만 있음.  
+   - 제안: 60/120초 단계별 대기 및 3회 초과 시 로그 경고·degraded 플래그 등 정책 반영 검토.
+
+3. **revoke_token**  
+   - 현재 구현으로 key_index 버그 없음. 변경 불필요.
 
 ---
 
-## 8. 시크릿 마스킹
-- 키·시크릿: 앞 4자리+... 로만 기록 (전문 노출 없음)
-- 토큰: 앞 20자+... 로만 기록 (전문 노출 없음)
+## 8. DB 무결성 (참고)
+
+- 본 작업은 **읽기전용 진단**이라 DB 변경·직접 조회는 수행하지 않음.
+- 기준값 (CONTEXT.md·규칙서 기준): strategy_cards 62건, v4_positions OPEN 5건 유지 권장.  
+  적용 시점에 `SELECT count(*) FROM strategy_cards;`, `SELECT count(*) FROM v4_positions WHERE status = 'OPEN';` 등으로 사전 확인 권장.
 
 ---
 
-**작성:** TOKEN-MANAGER-FIX Phase A~H  
-**Git:** phase-2c-command-center (token_manager.py 수정은 8f8a6f56에 포함된 상태)
+## 9. 체크리스트
+
+- [x] 토큰 발급 경로 분석 완료
+- [x] .env vs DB 키 비교 완료 (KIS: DB 단일 소스)
+- [x] revoke_token 버그 확인 (key_index 정의·전달 정상)
+- [x] 만료 1시간 전 갱신 로직 확인
+- [x] Redis 캐시 상태 확인
+- [x] 수정 제안 작성
+- [ ] 보고서 발행 + Git 동기화 (다음 단계)
+- [x] 코드/DB/서비스 변경 없음 확인
