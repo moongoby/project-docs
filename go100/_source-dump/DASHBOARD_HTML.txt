@@ -1,0 +1,1 @@
+/auth/login?from=%2Fdashboard

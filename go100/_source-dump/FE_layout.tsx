@@ -1,3 +1,4 @@
+// CUR-GO100-HOTFIX-005, 2026-02-23 — ChatWidget FAB 미노출: dynamic import ssr:false (클라이언트 전용 렌더)
 // CUR-GO100-FINAL-FIX-001, 2026-02-23 — ChatWidget 조건부 렌더링 + /llm 제외
 // CUR-GO100-HOTFIX-SAVE-500, 2026-02-23
 // CUR-GO100-PHASE2-STABILIZE STEP1, 2026-02-23 — ISS-001: ChatWidget 표시 수정
@@ -10,6 +11,7 @@
 // Modified by CUR-NOTIFICATION-UI-v1, 2026-02-20 — unread count refetch 30초
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -17,7 +19,11 @@ import { getUnreadCount } from "@/lib/api/notifications";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Header } from "@/components/layout/Header";
-import { ChatWidget } from "@/go100/components/ChatWidget";
+
+const ChatWidget = dynamic(
+  () => import("@/go100/components/ChatWidget").then((m) => ({ default: m.ChatWidget })),
+  { ssr: false }
+);
 
 export default function ProtectedLayout({
   children,

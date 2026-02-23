@@ -1,3 +1,5 @@
+8661c521 docs: CUR-GO100-HOTFIX-005 보고서
+ead0de09 fix: CUR-GO100-HOTFIX-005 - ChatWidget FAB 미노출 최종 수정 (dynamic import ssr:false)
 a15bb63c docs: CUR-GO100-HOTFIX-004 보고서 (JS 청크 404 원인: 빌드/프로세스 불일치, 재시작+빌드로 해결)
 6e2a0e5c fix: CUR-GO100-CI-FIX — CI에서 LLM e2e 테스트 제외 (DB/API 미제공 환경)
 565717d1 fix: CUR-GO100-CI-FIX — email-validator 의존성 추가 (pydantic EmailStr)
@@ -6,5 +8,3 @@ be46b7c5 fix: CUR-GO100-CI-FIX — Backend tests LOG_DIR 설정 (CI PermissionEr
 035854d5 fix: CUR-GO100-CI-FIX — CI Set up Node 20 실패 수정 (pnpm cache 제거)
 3afa5cfc docs: CUR-GO100-HOTFIX-003 보고서
 403b108c fix: CUR-GO100-HOTFIX-003 - ChatWidget FAB SSR/Portal 수정 + Too Many Requests 대응
-c4b2cebb docs: CUR-GO100-HOTFIX-002A 보고서 커밋 해시 반영
-0265c33a docs: CUR-GO100-HOTFIX-002A 보고서

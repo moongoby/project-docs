@@ -8,29 +8,29 @@
 ├ ○ /dashboard                           17.6 kB         169 kB
 ├ ƒ /go100                               3.05 kB         291 kB
 ├ ○ /go100/chat                          499 B          88.1 kB
-├ ƒ /go100/live-trading                  322 B           288 kB
+├ ƒ /go100/live-trading                  321 B           288 kB
 ├ ƒ /go100/live-trading/[id]             3.79 kB         291 kB
 ├ ƒ /go100/paper-trading                 321 B           288 kB
 ├ ƒ /go100/paper-trading/[id]            5.95 kB         293 kB
 ├ ƒ /go100/settings                      3.28 kB         291 kB
-├ ƒ /go100/store                         152 B          87.7 kB
+├ ƒ /go100/store                         152 B          87.8 kB
 ├ ○ /go100/strategies                    2.59 kB         290 kB
-├ ƒ /go100/strategies/[id]               510 B          88.1 kB
+├ ƒ /go100/strategies/[id]               510 B          88.2 kB
 ├ ○ /llm                                 58.2 kB         229 kB
 ├ ○ /monitoring                          8.8 kB          134 kB
 ├ ○ /notifications                       8.59 kB         134 kB
 ├ ○ /offline                             386 B            88 kB
 ├ ○ /portfolio                           6.56 kB         132 kB
-├ ○ /privacy                             186 B          96.4 kB
+├ ○ /privacy                             186 B          96.5 kB
 ├ ○ /reports                             7.01 kB         162 kB
 ├ ○ /settings                            17.3 kB         157 kB
 ├ ○ /strategy-cards                      12.7 kB         182 kB
-├ ○ /terms                               186 B          96.4 kB
+├ ○ /terms                               186 B          96.5 kB
 └ ○ /trade                               19.9 kB         182 kB
 + First Load JS shared by all            87.6 kB
   ├ chunks/3095-6a8e15896d28293d.js      31.9 kB
   ├ chunks/fbc43724-61cf057b637ccaf3.js  53.7 kB
-  └ other shared chunks (total)          2 kB
+  └ other shared chunks (total)          2.07 kB
 
 
 ƒ Middleware                             26.6 kB
