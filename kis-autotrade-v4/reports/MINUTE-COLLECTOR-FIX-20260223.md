@@ -72,3 +72,37 @@ WHERE su.is_active = true
 - kis-v41-api, kis-v41-monitor, kis-v41-scheduler 재시작 없음
 - strategy_cards / v4_positions 스키마·데이터 직접 수정 없음
 - .env/.bak 파일 커밋 없음
+
+---
+
+## 10. Phase A 추가 — 배치 수집 경로 진단 (2026-02-23)
+
+### 10.1 배치 스크립트 vs collector_minute
+- **minute_batch_cron.sh** 호출 대상: `scripts/collect_minute_historical.py` (NOT `collector_minute.py`).
+- 배치 경로는 **collector_minute.py를 사용하지 않음** → Phase C 수정(collector_minute.py)은 **배치와 무관**. 동일 SQL 미사용.
+
+### 10.2 배치 전용 SQL (boolean 이슈 여부)
+- `collect_minute_historical.py`의 `get_top_stocks()`: **ohlcv_daily만 사용**, `stock_universe` / `is_active` 미사용.
+- **결론**: 배치 스크립트에는 `boolean = integer` 오류 **없음**. 별도 수정 불필요.
+
+### 10.3 Cron 등록
+- 평일 16:00: `0 16 * * 1-5 /root/kis-autotrade-v4/scripts/minute_batch_cron.sh`
+- 토요일 02:00: `0 2 * * 6 /root/kis-autotrade-v4/scripts/minute_batch_cron.sh`
+
+### 10.4 최근 배치 로그
+| 로그 파일 | 크기 | 비고 |
+|-----------|------|------|
+| minute_hist_20260220.log-20260223 | 41MB | 목 16:00~ 일 07:00 수집 시도. INSERT 에러 다수 (trade_date str→date 타입) |
+| minute_hist_20260221.log-20260223 | 79B | 토 02:00 "이미 실행 중 (PID 1383866). 건너뜀." 만 기록 |
+
+### 10.5 금요일(02-21) 16:00 배치 및 DB 현황
+- **v4_ohlcv_minute** (trade_date ≥ 2026-02-19):
+  - 2026-02-19: **189,204건**
+  - 2026-02-20: **12,183건**
+  - 2026-02-21: **0건** (금요일 데이터 없음)
+- 02-21 16:00 배치: 해당 일자 로그가 동일 파일(minute_hist_20260221.log)에 남지 않음. 토 02:00만 "이미 실행 중"으로 건너뜀 → **금 16:00 배치 미실행 또는 로그 유실 가능성**.
+- 02-20 배치 로그: API는 정상 호출되었으나 **INSERT 에러** 반복 — `'str' object has no attribute 'toordinal'` (executemany 시 trade_date 인자 타입). 수집 행 0으로 종료. → **배치 경로는 별도 버그(날짜 타입)** 보유.
+
+### 10.6 Phase C와 배치 관계 요약
+- **같은 파일 아님**: 장중 수집 = `backend/.../collector_minute.py`, 배치 = `scripts/collect_minute_historical.py`.
+- **1회 수정으로 양쪽 해결 여부**: 아니오. Phase C 수정은 **collector_minute.py 전용**. 배치 스크립트는 동일 SQL을 쓰지 않으며, boolean 오류는 없고 **INSERT 시 trade_date 타입 오류**만 존재.

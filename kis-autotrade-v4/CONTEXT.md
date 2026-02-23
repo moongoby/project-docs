@@ -45,7 +45,7 @@
 
 ## 6. DB 무결성 기준
 - strategy_cards: 62건
-- v4_positions OPEN: 5건 (ID 49, 51, 55, 58, 61)
+- v4_positions OPEN: 5건 (ID 49, 51, 53, 55, 61)
 - DB 크기: 6,152 MB
 - v4_ohlcv_minute: 19,468,781행
 - v4_scalping_universe: 708종목
