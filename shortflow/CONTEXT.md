@@ -1,5 +1,5 @@
 # ShortFlow / StyleFlow 프로젝트 컨텍스트
-> 최종 갱신: 2026-02-23 15:19 KST
+> 최종 갱신: 2026-02-23 (Phase 2 마무리)
 
 ## 프로젝트 개요
 - **ShortFlow v3.0**: 쿠팡 파트너스 × YouTube Shorts 자동화 SaaS (B2C)
@@ -35,17 +35,17 @@
 - [x] Phase 2-3: crontab 업로드 스케줄러 (09/13/18시 KST, ±30분, 일일 6건)
 - [x] Phase 2-4: NAS→114 동기화 (tar over SSH, 268파일 수신)
 - [x] 멀티채널(korea_walker+moongoby), venv·Google API, project-docs(ONBOARDING·7종)
+- [x] Phase 2-5: MOV→MP4 변환 서비스 (394 MOV, crontab 10/40분)
 
 ## 진행 중
-- [ ] Phase 2-5: MOV→MP4 변환 서비스 (스크립트 완료, 서버 테스트 진행중)
+- Phase 3 대기
 
 ## 다음 작업 (우선순위)
-1. Phase 2-5 MOV→MP4 변환 서버 반영·crontab 등록
-2. 5개 템플릿 릴스 엔진 점검 (DB·상품 매칭)
-3. YouTube 업로드 워커 실제 파이프라인 연동
-4. 쿠팡 파트너스 약관 검증 (SaaS 링크 허용)
-5. 통신판매업 신고
-6. Python 3.10+ 업그레이드 검토
+1. 5개 템플릿 릴스 엔진 점검 (DB·상품 매칭)
+2. YouTube 업로드 워커 실제 파이프라인 연동
+3. 쿠팡 파트너스 약관 검증 (SaaS 링크 허용)
+4. 통신판매업 신고
+5. Python 3.10+ 업그레이드 검토
 
 ## 핵심 파일 경로
 - 기획·아키텍처·인계: docs/plans/, docs/architecture/, docs/handover/
