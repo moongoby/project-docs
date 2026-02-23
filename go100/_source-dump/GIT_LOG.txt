@@ -1,3 +1,4 @@
+4a52eade fix: CUR-GO100-HOTFIX-008 - ProtectedLayoutClient ChatWidget 확인(기존 반영) + 빌드·재시작 검증
 df5001cc fix: CUR-GO100-HOTFIX-006 - 빌드 Export 실패 수정 (force-dynamic) + Rate Limit 완화
 8661c521 docs: CUR-GO100-HOTFIX-005 보고서
 ead0de09 fix: CUR-GO100-HOTFIX-005 - ChatWidget FAB 미노출 최종 수정 (dynamic import ssr:false)
@@ -12,4 +13,3 @@ be46b7c5 fix: CUR-GO100-CI-FIX — Backend tests LOG_DIR 설정 (CI PermissionEr
 c4b2cebb docs: CUR-GO100-HOTFIX-002A 보고서 커밋 해시 반영
 0265c33a docs: CUR-GO100-HOTFIX-002A 보고서
 adce98c6 docs: CUR-GO100-HOTFIX-002B 보고서 커밋 해시 반영
-fdc565c2 fix: CUR-GO100-HOTFIX-002B - 전략카드 저장 500 수정
