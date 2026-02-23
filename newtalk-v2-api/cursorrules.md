@@ -5,6 +5,20 @@
 # 규칙을 위반하는 작업은 수행하지 않는다.
 
 # ============================================================
+# ★ DB 접속 방법 (상단 참고)
+# ============================================================
+# - V1 DB (autoda): 서버(114.207.244.86)에 SSH 접속한 뒤,
+#   mysql -u pigupuser -p -h 127.0.0.1 -P 3306 autoda
+#   비밀번호는 아래 경로의 database.php에서 확인 (보고서/Git/코드에 기록 금지).
+#   · /home/danharoo/pigup/application/config/database.php  (접속 실패 시 다음 경로 사용)
+#   · /home/danharoo/www/application/config/database.php   (동일 서버, 접속 가능 확인됨)
+#   확인: grep -E "'password'|'database'" <경로>/database.php
+#   → 읽기 전용(SELECT만). INSERT/UPDATE/DELETE/DROP/ALTER 금지.
+#
+# - V2 DB (newtalk_v2): mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
+#   비밀번호: /srv/newtalk-v2/.env.docker 참조.
+
+# ============================================================
 # 1. 서버 접속
 # ============================================================
 # - SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
@@ -18,31 +32,26 @@
 # 2. DB 접속
 # ============================================================
 # - V1 DB (autoda):
-#   mysql -u pigupuser -p'<비밀번호>' -h 127.0.0.1 -P 3306 autoda
+#   mysql -u pigupuser -p -h 127.0.0.1 -P 3306 autoda
 #   → 읽기 전용. SELECT만 허용.
 #   → INSERT/UPDATE/DELETE/DROP/ALTER 절대 금지.
-#
-#   비밀번호 확인 방법 (2개 경로 존재):
-#   ① /home/danharoo/www/application/config/database.php ← 이 파일로 접속 성공 확인됨
-#   ② /home/danharoo/pigup/application/config/database.php ← 접속 실패 (참고용)
-#   → cat <경로> | grep -A5 "password"
-#   → 비밀번호를 보고서/Git/코드에 기록 금지.
+#   → 비밀번호는 V1 소스의 database.php에서 확인.
+#     비밀번호를 보고서/Git/코드에 기록 금지.
 #
 # - V2 DB (newtalk_v2):
-#   mysql -u newtalk_v2_user -p'<비밀번호>' -h 127.0.0.1 -P 3307 newtalk_v2
+#   mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
 #   → 자유롭게 작업 가능.
 #   → 비밀번호는 /srv/newtalk-v2/.env.docker 참조.
 #
-# - V1 DB 접속 순서:
-#   (1) /home/danharoo/www/application/config/database.php 에서 비밀번호 확인
-#   (2) mysql -u pigupuser -p'<비밀번호>' -h 127.0.0.1 -P 3306 autoda -e "SELECT 1;"
-#   (3) 성공 확인 후 작업 진행
-#   (4) 작업 완료 후 unset DBPW (변수 제거)
+# - V1 DB 비밀번호 찾는 방법:
+#   find / -name "database.php" -path "*/config/*" 2>/dev/null
+#   cat <경로>/database.php | grep -A5 "password"
+#   찾은 비밀번호로 접속만 하고, 어디에도 기록하지 않는다.
 
 # ============================================================
 # 3. V1 보호 원칙 (절대 규칙)
 # ============================================================
-# - V1 소스 (/home/autoda/, /home/danharoo/ 등) 수정 금지. 읽기만 허용.
+# - V1 소스 (/home/autoda/ 등) 수정 금지. 읽기만 허용.
 # - V1 DB (autoda) 쓰기 금지. SELECT만 허용.
 # - V1 포트 (80, 443, 3306) 충돌 금지.
 # - V1 Apache/Nginx/MariaDB 설정 변경 금지.
@@ -82,7 +91,7 @@
 # ============================================================
 # 7. Git 커밋 규칙
 # ============================================================
-# - 저장소: GitHub newtalk-admin/newtalk-v2-api
+# - 저장소: GitHub moongoby/newtalk-v2-api- (끝에 하이픈 주의)
 # - 브랜치: main ← develop ← feature/<작업명>
 # - 커밋 메시지: [R0-001], [R0-002] 등 작업번호 접두사
 # - 커밋 시 "unknown option trailer" 오류 발생하면:
@@ -91,7 +100,6 @@
 # - 민감정보 (비밀번호, API키) 절대 커밋 금지.
 # - GitHub SSH: ~/.ssh/config에 github.com Host 설정 완료 상태.
 #   키: /root/.ssh/id_ed25519_newtalk
-# - GitHub CLI (gh): 설치 완료. 인증 필요 시 gh auth login -p ssh -h github.com
 
 # ============================================================
 # 8. 배포 규칙
@@ -127,3 +135,57 @@
 # - 대표님(사용자)은 직접적, 간결한 커뮤니케이션을 선호한다.
 # - 불필요한 확인 질문보다 실행 중심으로 진행한다.
 # - 잘못된 해석에 대해 즉시 교정이 온다.
+
+# ============================================================
+# 12. 작업 완료 후 문서 동기화 (필수)
+# ============================================================
+# - 모든 작업 완료 후 반드시 실행:
+#   (1) 보고서: /srv/newtalk-v2/docs/reports/{작업ID}-report.md
+#   (2) CONTEXT.md 갱신 (완료/진행중/다음작업)
+#   (3) CHANGELOG.md 갱신
+#   (4) 동기화: bash /data/project-docs/scripts/sync_newtalk_v2_api.sh
+#   (5) 양쪽 Git 커밋 & 푸시 (private + project-docs)
+# - 동기화 스크립트 실패 시 수동:
+#   cp /srv/newtalk-v2/docs/CONTEXT.md /data/project-docs/newtalk-v2-api/
+#   cp /srv/newtalk-v2/.cursorrules /data/project-docs/newtalk-v2-api/cursorrules.md
+#   cp /srv/newtalk-v2/docs/reports/*.md /data/project-docs/newtalk-v2-api/reports/
+
+# ============================================================
+# 13. project-docs 보안 (Public 저장소)
+# ============================================================
+# - project-docs 복사 시 민감정보 자동 제거
+# - 비밀번호, API키, 토큰, .env 내용 절대 포함 금지
+# - 커밋 전: grep -rIiE "(password|secret|token=)" /data/project-docs/newtalk-v2-api/
+
+# ============================================================
+# 14. Frontend 빌드 규칙
+# ============================================================
+# - Docker 내부에서 빌드 (서버 Node.js 미설치 가능)
+# - frontend/.env.local Git 커밋 금지
+# - 프론트엔드: docker compose --env-file .env.docker up -d --build frontend
+
+# ============================================================
+# 15. 대화 인계 규칙
+# ============================================================
+# - 토큰 80% 또는 대화 종료 시 인계서 작성
+# - 위치: /srv/newtalk-v2/docs/handover/HANDOVER.md
+# - 필수: 완료 작업, 진행중, 다음 단계, Git SHA, 에러, 파일 목록
+# - project-docs 동기화 후 인계
+# - 새 대화: https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/CONTEXT.md
+
+# ============================================================
+# 16. 소스 코드 검수 규칙
+# ============================================================
+# - 중요 소스(인증, 결제, 아키텍처 변경, 핵심 프론트)는 Claude 검수 필수.
+# - 검수 절차:
+#   (1) 소스를 /data/project-docs/newtalk-v2-api/review/ 에 복사
+#       파일명: {작업ID}_{파일명}.{확장자}
+#   (2) 민감정보 제거 (비밀번호, API키, 토큰 → [REDACTED])
+#   (3) REVIEW_REQUEST.md 작성 (파일 목록, 맥락, 검수 포인트)
+#   (4) git add → 민감정보 검사 → commit → push
+#   (5) 대표님에게 "검수 요청 올림" 보고
+#   (6) Claude 검수 결과 수신 후 수정사항 반영
+#   (7) 검수 통과 후 review/ 파일 삭제 → commit → push
+# - review/ 폴더는 검수 완료 후 항상 비어있어야 한다 (.gitkeep만 유지)
+# - 검수 대상: AuthController, middleware, 결제/정산, DB 마이그레이션,
+#   docker-compose.yml, API 클라이언트, 상태관리, 라우팅 구조
