@@ -310,3 +310,11 @@ git push origin master
 git log --oneline -1
 # 실패 시 재시도. 3회 실패 시 에러 보고.
 ```
+
+## DB 스키마 변경 시 문서 동기화 규칙
+
+DB ALTER TABLE / CREATE TABLE / DROP TABLE 수행 시 반드시:
+
+1. `/root/project-docs/kis-autotrade-v4/database/DB-SCHEMA.md` 업데이트
+2. 변경 이력(섹션 9)에 날짜·변경내용 추가
+3. project-docs에 git add/commit/push
