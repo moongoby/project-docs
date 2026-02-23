@@ -41,6 +41,7 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - 폴더 자동 분류 (EXIF 시간 기반)
 - Dockerfile SSH/rsync 추가
 - GitHub 연동, Windows PC SSH 키 인증
+- DB 스키마 문서화 (docs/DATABASE.md)
 
 ## 최근 완료 (2026-02-23 소스 검수 개선)
 - 톤 매칭 v2: 적응형 강도 차원별 정규화 가중치, AB채널 보호 비율 파라미터화, 피부 HSV config화, WB 배경 제외 옵션
@@ -52,7 +53,7 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - rsync_114: sync_goods 재시도 로직 (max_retries, retry_delay, retry_count)
 
 ## 바로 다음 할 일
-1. NAS Docker 재빌드 및 전체 테스트 (대표님 실행)
+1. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
 2. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항

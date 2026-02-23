@@ -1,6 +1,9 @@
 # 변경 이력
 
 ## 2026-02-23
+- DB 스키마 문서화 (docs/DATABASE.md) — 테이블 구조, 인덱스, 114서버 연동 참조
+- requirements.txt에 httpx 추가 (TestClient 의존성)
+- Docker 빌드 성공 (오프라인 pip-cache, libgl1 수정)
 - **소스 검수 개선사항 일괄 적용**
   - 톤 매칭 엔진 v2: 적응형 강도 차원별 정규화 가중치(ADAPTIVE_WEIGHTS), AB채널 보호 비율(ab_protection_ratio) 파라미터화, 피부 HSV(SKIN_HSV_*) config화, WhiteBalanceNormalizer 배경 제외(exclude_background) 옵션
   - 배치 파이프라인 리팩터링: PipelineConfig/PipelineResult dataclass, run_pipeline(source_path, config) 시그니처, HEIC 변환 convert_heic_to_jpg 유틸 분리
@@ -15,6 +18,9 @@
 - Windows PC → NAS SSH 키 인증 설정
 - NAS Git Server 설치
 - 문서 관리 체계 구축 (CONTEXT.md, CHANGELOG.md, .cursorrules)
+- Dockerfile 오프라인 빌드 전환: pip-cache/ 로컬 whl 설치 (NAS SSL 에러 대응)
+- .dockerignore 생성
+- 문서 보완: HANDOVER 테스트현황 갱신, 작업규칙 보완 (git경로 보고, 한국시간)
 
 ## 2026-02-22
 - 파일명 매핑 모듈 (7 tests)

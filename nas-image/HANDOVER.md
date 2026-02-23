@@ -21,6 +21,9 @@
 - 작업 완료 시 docs/CONTEXT.md + docs/CHANGELOG.md 업데이트
 - git commit + git push 실행
 - docs/ 에 작업결과 보고서 md 생성
+- 작업 완료 보고 시 git 경로와 동기화 상태 필수 명시
+- 모든 시간은 한국시간(KST, UTC+9) 기준 기록
+- project-docs 동기화: NAS docs/ → project-docs/nas-image/ 복사 후 push
 
 ### 1.3 서버 작업 분담
 - NAS 터미널 (Docker build, SSH 테스트): 대표님 직접
@@ -75,8 +78,20 @@ sudo docker exec newtalk-image-auto python -m pytest tests/ -v --tb=short
 - GitHub Private: https://github.com/moongoby/newtalk-image-auto
 - GitHub Public docs: https://github.com/moongoby/project-docs/tree/master/nas-image
 
-## 5. 테스트 현황 (68 passed, 8 skipped)
-test_filename_mapper 7p, test_image_resize 5p 1s, test_batch_pipeline 18p 3s, test_e2e_pipeline 2p 1s, test_auto_crop 8p, test_qc_ui 8p, test_tone_matcher 12p, test_auto_classify 8p
+## 5. 테스트 현황 (89 passed, 4 skipped, 1 fail)
+- test_filename_mapper: 7p
+- test_image_resize: 5p 1s
+- test_batch_pipeline: 4p 1f 1s
+- test_batch_pipeline_v2: 4p
+- test_e2e_pipeline: 2p 1s
+- test_auto_crop: 8p
+- test_qc_ui: 8p
+- test_tone_matcher: 12p
+- test_tone_matcher_v2: 4p
+- test_wb_adaptive: 12p
+- test_auto_corrector_v2: 3p
+- test_auto_classify: 8p
+- 참고: test_batch_api_folder_path_returns_job_id는 DB 미초기화 이슈
 
 ## 6. 알려진 이슈
 - PhotoRoom 크레딧 소진, 결제 보류
