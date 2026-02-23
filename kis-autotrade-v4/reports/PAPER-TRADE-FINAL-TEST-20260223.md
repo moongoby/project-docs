@@ -126,4 +126,4 @@
 
 - 소스: https://github.com/moongoby/kis-autotrade-v4/tree/phase-2c-command-center
 - 보고서: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/PAPER-TRADE-FINAL-TEST-20260223.md
-- sync_kis.sh 실행: (발행 후 실행 결과로 기입)
+- sync_kis.sh 실행: ✅ 완료
