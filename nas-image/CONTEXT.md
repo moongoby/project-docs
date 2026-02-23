@@ -42,10 +42,18 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - Dockerfile SSH/rsync 추가
 - GitHub 연동, Windows PC SSH 키 인증
 
+## 최근 완료 (2026-02-23 소스 검수 개선)
+- 톤 매칭 v2: 적응형 강도 차원별 정규화 가중치, AB채널 보호 비율 파라미터화, 피부 HSV config화, WB 배경 제외 옵션
+- 배치 파이프라인: PipelineConfig/PipelineResult dataclass, run_pipeline(config) 시그니처, HEIC 변환 유틸 분리
+- 자동 보정: CorrectionConfig dataclass로 파라미터 외부화
+- AI 크랍: FALLBACK_RATIOS 상수화, 종횡비 검증 경고, model_complexity=1 주석
+- 배경 제거: 반환값에 fallback_used 추가, API키 미설정 시 rembg 직접 사용 로그
+- 파일명 매퍼: EXCLUDE_SUFFIXES config화, 15장 초과 경고
+- rsync_114: sync_goods 재시도 로직 (max_retries, retry_delay, retry_count)
+
 ## 바로 다음 할 일
-1. Work C: 피부톤 보호 + 배경 분리 (tone_matcher.py)
-2. Work D: 적응형 강도 v2 + 화이트밸런스 정규화 (tone_matcher.py)
-3. NAS Docker 재빌드 (대표님 실행)
+1. NAS Docker 재빌드 및 전체 테스트 (대표님 실행)
+2. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항
 - mediapipe <0.10.31 고정 (solutions API 제거 이슈)
@@ -54,10 +62,12 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - 114 danharoo 계정 SFTP만, nasync 계정 사용
 - SQLite 동시성: Phase 3-4에서 WAL 또는 PostgreSQL 검토
 
-## 테스트 현황 (68 passed, 8 skipped)
-- test_filename_mapper: 7p / test_image_resize: 5p 1s / test_batch_pipeline: 18p 3s
+## 테스트 현황 (89 passed, 4 skipped, 1 fail DB미초기화)
+- test_filename_mapper: 7p / test_image_resize: 5p 1s / test_batch_pipeline: 4p 1f 1s / test_batch_pipeline_v2: 4p
 - test_e2e_pipeline: 2p 1s / test_auto_crop: 8p / test_qc_ui: 8p
-- test_tone_matcher: 12p / test_auto_classify: 8p
+- test_tone_matcher: 12p / test_tone_matcher_v2: 4p / test_wb_adaptive: 12p
+- test_auto_corrector_v2: 3p / test_auto_classify: 8p
+- test_batch_api_folder_path_returns_job_id: DB 미초기화 시 fail (lifespan 필요)
 
 ## 비용
 PhotoRoom API Basic $20/월 (1,000장, 초과 $0.02/장) - 결제 보류
