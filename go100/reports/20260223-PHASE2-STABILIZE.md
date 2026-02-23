@@ -1,6 +1,6 @@
 # CUR-GO100-PHASE2-STABILIZE 보고서
 작성일: 2026-02-23
-커밋: 630d5c62
+커밋: dead44f1 (layout ISS-001 주석 보강)
 
 ## 해결 이슈
 - **ISS-001**: ChatWidget 표시 → 로딩 중·**미인증 시**에도 FAB 노출, fixed/z-[9999] 유지
