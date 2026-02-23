@@ -1,5 +1,5 @@
+76ea77ea docs: CUR-GO100-HOTFIX-002 보고서 + ISSUES/CHANGELOG/CONTEXT 갱신
+6c69a23a fix: CUR-GO100-HOTFIX-002 - ChatWidget FAB 미노출 수정 + 전략카드 저장 500 수정
 aea10442 docs: CUR-GO100-FINAL-FIX-001 보고서, ISSUES, CHANGELOG, CONTEXT 갱신
 da4e5b0b rules: kis-v41-rules.md V4.1 전용 보강 — DESK정의, 무결성 기준값, 검수규칙, 작업큐, BT스키마 16컬럼
 a4a25e43 fix: CUR-GO100-FINAL-FIX-001 - strategy_type CHECK에 GO100_AI 추가, /llm ChatWidget 중복제거, 전략저장 500 해결
-3c9ba083 config: CUR-GO100-CURSOR-RULES-SPLIT - CLAUDE.md 공통화 + .cursor/rules/ 프로젝트별 분리 (GO100/KIS V4.1)
-1366d77c rules: 코드 검수 프로세스 반영 — CLAUDE.md + kis-v41-rules.md
