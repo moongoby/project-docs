@@ -14,6 +14,7 @@
 - **NAS**: Synology DSM 7.2.1, 내부 192.168.30.23, 외부 183.96.69.193, SSH 2222
 - **DB**: MySQL autoda (상품 77,111건, goods 테이블)
 - **GitHub**: https://github.com/moongoby/shortflow (private, SSH 인증)
+- **GitHub 문서 폴더**: https://github.com/moongoby/shortflow/tree/main/docs
 - **YouTube**: korea walker 6구독/22영상, moongoby 0/0
 - **venv**: /data/shortflow/venv (Py3.8.10)
 - **NAS 동기화**: tar over SSH → /data/styleflow/raw/
