@@ -87,4 +87,4 @@ Phase 3-3으로 (1) MOV→MP4 변환 결과에 대한 ffprobe 검수(샘플 5개
 - **커밋:** a509ea1  
 - **브랜치:** main  
 - **push:** origin main **성공**  
-- **project-docs 동기화:** 완료(동기화 스크립트 실행 후 project-docs push 완료 시 갱신)
+- **project-docs 동기화:** 완료 (sync_shortflow.sh 실행, project-docs push 성공)
