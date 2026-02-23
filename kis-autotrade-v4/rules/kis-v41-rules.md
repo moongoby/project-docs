@@ -232,6 +232,31 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
    (재시작은 절대 금지 — CEO/지시서 명시 시에만)
 6. 보고서 작성: report/v41/{작업ID}-{YYYYMMDD}.md
 7. 보고서 동기화: bash /root/project-docs/scripts/sync_reports.sh
+8. 보고서를 project-docs 레포에 복사:
+   cp /root/kis-autotrade-v4/report/v41/{작업ID}-{YYYYMMDD}.md \
+      /root/project-docs/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
+9. project-docs 커밋 및 push:
+   cd /root/project-docs && git add -A && git commit -m "docs: {작업ID} 보고서 ({YYYYMMDD})" && git push origin master
+10. push 확인:
+    curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
+    → 200이 아니면 재시도 또는 사용자에게 보고
+
+## 보고서 push 필수 절차 (CEO 지시, 2026-02-23)
+
+### 작업 절차 추가 항목 (기존 7단계 이후)
+8. 보고서를 project-docs 레포에 복사:
+   cp /root/kis-autotrade-v4/report/v41/{작업ID}-{YYYYMMDD}.md \
+      /root/project-docs/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
+9. project-docs 커밋 및 push:
+   cd /root/project-docs && git add -A && git commit -m "docs: {작업ID} 보고서 ({YYYYMMDD})" && git push origin master
+10. push 확인:
+    curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
+    → 200이 아니면 재시도 또는 사용자에게 보고
+
+### 지시서 작성 시 필수 포함 사항
+- 모든 커서 지시서 마지막에 위 8-10단계를 포함할 것
+- "코드 커밋 완료"와 "보고서 push 완료"를 별도 체크포인트로 기재
+- 보고서 push가 확인되지 않으면 태스크를 완료로 표기하지 않음
 
 ## 코드 검수 프로세스
 핵심 파일 수정 시:
