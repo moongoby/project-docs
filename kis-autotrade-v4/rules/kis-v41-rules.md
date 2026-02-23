@@ -297,6 +297,14 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 - frontend/src/app/backtest/page.tsx
 - frontend/src/app/strategy-cards/page.tsx
 
+## 실시간 시간 동기화
+
+Claude는 시스템 시계가 없으므로 시간 민감 작업 전 아래 API 호출:
+- URL: https://timeapi.io/api/time/current/zone?timeZone=Asia/Seoul
+- 응답: year, month, day, hour, minute, dayOfWeek
+- 장 상태 판단: MARKET-HOURS-KR.md 기준
+- 커서 지시서에 조회 시각 명시 필수
+
 ## 필수 마감 단계: project-docs 보고서 push
 작업 완료 시 반드시 아래 절차 수행.
 ```bash
