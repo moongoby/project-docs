@@ -12,6 +12,7 @@
 |----------|------|------|---------|--------------|
 | ShortFlow/StyleFlow | 114서버 rfree-0009 | shortflow/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/cursorrules.md) |
 | GO100 자동매매 | kis-autotrade-v4 | go100/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/cursorrules.md) |
+| KIS AutoTrade V4.1 | 211서버 | kis-autotrade-v4 | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md) |
 | NAS 이미지 자동화 | Synology NAS | nas-image/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/nas-image/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/nas-image/cursorrules.md) |
 
 ## 사용법

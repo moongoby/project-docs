@@ -148,24 +148,23 @@ docker compose --env-file .env.docker exec app composer {command}
 - 커밋: be662c7
 - 브랜치: feature/R1-TASK-005-migration
 
-### R2-FRONT-001: Next.js 프로젝트 셋업
+### R2-FRONT-001: Next.js 프로젝트 셋업 (진행 중)
 - Next.js 16 프로젝트 구조, 인증(로그인/회원가입), 역할별 라우팅
 - 관리자 대시보드 + 사입 대시보드 화면
 - 소매/도매/MD/사입자 레이아웃
 - 커밋: ce541c5
 - 브랜치: feature/R2-FRONT-001-setup
-
-### R2-FRONT-001-DEPLOY: 프론트엔드 배포
-- Rate Limiting + 역할 라우트 + 401 로그아웃 + Docker 기동
-- 커밋: 870c007
-- 브랜치: feature/R2-FRONT-001-setup
-- 접속: http://114.207.244.86:3000
+- 상태: 코드 푸시 완료, Docker 기동 미완
 
 ---
 
 ## 5. 현재 진행 중인 작업
 
-- (없음 — 다음: R2-FRONT-002 홈 피드 UI)
+### R2-FRONT-001-DEPLOY
+- frontend Docker 컨테이너 기동
+- CORS 설정
+- 접속 테스트 (http://114.207.244.86:3000)
+- 지시서: docs/R2-FRONT-001-docker-nginx.md
 
 ### 별도 진행 중 (다른 Cursor 대화)
 - NAS 이미지 연동
@@ -177,15 +176,16 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R2-FRONT-002 | 소매 홈 피드 + 탐색 |
-| 2 | R2-API-001 | 소셜 엔진 API (피드/팔로우/찜) |
-| 3 | R2-FRONT-003 | 상품 상세 + 찜 |
-| 4 | R2-FRONT-004 | 도매 브랜드 페이지 |
-| 5 | R2-API-002 | 브랜드 페이지 API |
-| 6 | R2-FRONT-005 | 관리자 사입 대시보드 상세 |
-| 7 | R2-FRONT-006 | 도매 콘텐츠 업로드 |
-| 8 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
-| 9 | R2-API-004 | 카페24 API 연동 |
+| 1 | R2-FRONT-001-DEPLOY | Frontend Docker 기동 + 테스트 |
+| 2 | R2-FRONT-002 | 소매 홈 피드 + 탐색 |
+| 3 | R2-API-001 | 소셜 엔진 API (피드/팔로우/찜) |
+| 4 | R2-FRONT-003 | 상품 상세 + 찜 |
+| 5 | R2-FRONT-004 | 도매 브랜드 페이지 |
+| 6 | R2-API-002 | 브랜드 페이지 API |
+| 7 | R2-FRONT-005 | 관리자 사입 대시보드 상세 |
+| 8 | R2-FRONT-006 | 도매 콘텐츠 업로드 |
+| 9 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
+| 10 | R2-API-004 | 카페24 API 연동 |
 
 ---
 

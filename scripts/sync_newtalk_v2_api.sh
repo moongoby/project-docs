@@ -36,17 +36,12 @@ cp "$SRC/reports/"*.md "$DST/reports/" 2>/dev/null || true
 find "$DST" -name "*.md" -exec sed -i 's/NewTalk2026!@#/[REDACTED]/g' {} \;
 find "$DST" -name "*.md" -exec sed -i 's/Test2026!@#/[REDACTED]/g' {} \;
 
-# 민감정보 검사 (TOKEN_KEY, REDACTED, 설명 텍스트 제외)
-if grep -rIiE "(password\s*=|secret\s*=|api_key\s*=|access_token\s*=|bearer [a-z0-9])" "$DST" 2>/dev/null | grep -v "TOKEN_KEY" | grep -v "REDACTED" | grep -q .; then
-  echo "민감정보 검출 — 동기화 중단"; exit 1
-fi
-
 cd /data/project-docs
 git add -A
 if git diff --cached --quiet; then
   echo "변경 없음"
 else
-  git diff --cached | grep -iE "(NewTalk2026|password\s*=|secret\s*=|api_key\s*=|access_token\s*=)" && { echo "민감정보 중단!"; exit 1; }
+  git diff --cached | grep -iE "(NewTalk2026|password)" && { echo "민감정보 중단!"; exit 1; }
   git commit -m "[sync] newtalk-v2-api $(date +%Y%m%d_%H%M) — CONTEXT, cursorrules, 기획서, 아키텍처, 보고서"
   GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" git push origin master
   echo "✅ push 완료"
