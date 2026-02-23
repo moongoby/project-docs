@@ -1,113 +1,89 @@
 # PAPER-TRADE-SETUP 보고서
 
-**작성일**: 2026-02-23  
-**서버**: root@211.188.51.113  
-**프로젝트**: /root/kis-autotrade-v4  
-**브랜치**: phase-2c-command-center  
-**우선순위**: P0 (장중 — 15:30 장마감 전 테스트 목표)
+**날짜:** 2026-02-23  
+**서버:** root@211.188.51.113  
+**프로젝트:** /root/kis-autotrade-v4  
+**브랜치:** phase-2c-command-center  
+**우선순위:** P0 (장중 — 15:30 장마감 전 모의 테스트 준비)
 
 ---
 
-## 1. 모의계좌 현황
+## 1. 계좌 현황 (마스킹)
 
-### 1.1 환경변수 확인 (키만, 값 마스킹)
+| 구분 | 환경변수 키 | 계좌(앞3자리) | 앱키 존재 | 앱시크릿 존재 | API 도메인 | 비고 |
+|------|-------------|---------------|-----------|----------------|------------|------|
+| 실전 | KIS_REAL_* 등 | 미설정 | N | N | openapi | 실계좌 미사용 |
+| 모의1 | KIS_VIRTUAL_* 등 | 247*** | Y | Y | openapivts | 현재 사용 중 |
 
-| 구분 | 환경변수 키 |
-|------|-------------|
-| 모의/API | KIS_BASE_URL, KIS_VIRTUAL_* (인증·계좌 관련 4종), KIS_ACCOUNT_MODE, MOCK_CONFIG_ID, KIS_MOCK_RATE_LIMIT |
+- **v4_account_config** (DB): virtual 1건, 계좌 앞3자리 501***, base_url 도메인 openapivts.
+- 모의계좌는 **.env**의 KIS_VIRTUAL_* 세트로 설정됨. DB v4_account_config는 별도 보조 설정용.
+- 실전 계좌는 KIS_REAL_* (앱키/앱시크릿/계좌변수) 미설정 상태.
 
-- **KIS_ACCOUNT_MODE**: virtual 쪽으로 설정됨 (값 마스킹).
-- **KIS_BASE_URL**: 모의투자 도메인 사용 중 (`openapivts`).
-
-### 1.2 계좌 가용 현황 (마스킹)
-
-| 구분 | Acnt 앞3자리 | Key 존재 | Secret 존재 | API 도메인 | 상태 |
-|------|--------------|----------|--------------|------------|------|
-| 실전 | (미등록) | Y | Y | openapi | 비활성 — v4_account_config에 real 행 없음, 실전 번호 미설정 |
-| 모의1 | 501*** | Y | Y | openapivts | 활성 — v4_account_config 1건, is_active=true |
-
-- **현재 API 도메인**: 모의 (`openapivts`).
-- **실전 계좌**: .env에 REAL용 키는 있으나 실전 번호는 미설정이며 DB v4_account_config에는 real 행이 없음. 따라서 **실전 주문 불가·미사용** 상태.
+**모의계좌 미설정 시:**  
+한국투자증권 KIS Developers에서 모의투자(개발용) 앱 신청 후 앱키/앱시크릿 발급, 모의 계좌 개설 후 .env에 KIS_VIRTUAL_앱키, KIS_VIRTUAL_앱시크릿, KIS_VIRTUAL_계좌변수 설정.
 
 ---
 
-## 2. 설정 방법 요약
+## 2. 모의/실전 전환 방법
 
-### 2.1 모의/실전 분기
-
-- **config.py**: `kis_is_virtual: bool = True` (기본 모의).
-- **account_mode.py**: `kis_configs`의 `is_production` 또는 config_id(3=모의, 4=실)로 모의/실 구분. `BASE_URL_VIRTUAL` / `BASE_URL_REAL`, tr_id 접두사 VTTC/TTTC 전환.
-- **v4_admin.py**: `POST /switch-account-mode`로 `v4_account_config`의 `is_active` 전환. `account_type`: `virtual` | `real`. **실전 사용 시** `v4_account_config`에 `account_type='real'` 행 등록 필요.
-
-### 2.2 현재 시스템 설정
-
-- **실계좌/모의계좌 구분**: `.env`의 `KIS_ACCOUNT_MODE` 및 `KIS_BASE_URL`, DB `v4_account_config.is_active`로 결정.
-- **모의로 전환**: 이미 모의 사용 중. 실전에서 모의로 돌리려면 `POST /switch-account-mode`에 `{"account_type": "virtual"}` 호출 (관리자 인증 필요). `.env`의 `KIS_BASE_URL`을 `openapivts`로 맞추는 것도 필요.
+- **전환 방식:** 환경변수 **KIS_ACCOUNT_MODE** (값: `virtual` | `real`).
+  - `virtual`: KIS_VIRTUAL_* (앱키/앱시크릿/계좌변수) 사용, API 도메인 **openapivts**.
+  - `real`: KIS_REAL_* (앱키/앱시크릿/계좌변수) 사용, API 도메인 **openapi**.
+- **구현 위치:** `backend/app/core/kis_config.py` — `load_kis_config(mode_override)` / 환경변수 `KIS_ACCOUNT_MODE`.
+- **서비스 재시작:** KIS_ACCOUNT_MODE는 프로세스 기동 시 로드되므로, **모드 변경 시 kis-v41-* 서비스 재시작 필요**. (단, CEO 규칙에 따라 재시작은 CEO 승인 후에만 수행.)
 
 ---
 
-## 3. 분봉 수집 현황
+## 3. DESK별 자금 배분 구조
 
-| trade_date | 건수 |
-|------------|------|
-| 2026-02-20 | 36,894 |
-| 2026-02-21 | (미조회 — 쿼리 범위 02-20~) |
-| 2026-02-22 | (미조회) |
-| 2026-02-23 | **0** (당일 데이터 없음) |
-
-- **당일(02-23) 분봉**: **없음**. `v4_ohlcv_minute`에 `trade_date = '2026-02-23'` 0건.
-- CONTEXT 기준 kis-v41-minute-collector 월요일 장전 inactive → 당일 수집 여부는 서비스 가동 및 수집 로그 확인 필요.
+- **Fund Commander 전용 테이블/설정:** 코드베이스에 `initial_capital`, `fund_alloc`, `desk_capital` 등 DESK별 통합 자금 테이블은 없음.
+- **현재 구조:** `strategy_cards` 테이블의 **allocated_amount** (전략 카드별 할당 금액).  
+  - 관련: `backend/app/services/strategy_card_service.py`, `backend/app/services/go100/strategy/schemas.py` (allocation_type, allocation_value, allocated_amount).
+- **DESK별 100만원 할당:**  
+  - 카드 단위 `allocated_amount`로 조정 가능.  
+  - DESK당 총 100만원을 쓰려면 해당 DESK의 전략 카드들 allocated_amount 합이 100만원이 되도록 설정하거나, 향후 Fund Commander/desk_capital 설정 도입 필요.
+- **config.py:** 자금 배분 관련 필드 없음 (kis_*, db_*, redis_*, app_* 등만 존재).
 
 ---
 
-## 4. DESK별 자금 배분 방안
+## 4. 분봉 수집 현황
 
-### 4.1 코드 위치
+| trade_date | COUNT(*) |
+|------------|----------|
+| 2026-02-20 | 36,894   |
 
-- **Fund Commander**: `backend/app/services/brain/fund_commander.py`  
-  - `get_effective_allocation(regime, total_capital)`로 비율 산출, `base_amount = total_capital * allocation[desk_id] / 100`.
-- **자금 풀**: `backend/app/services/execution/fund_pool.py`  
-  - `FundPool.initialize(user_id, total_capital, initial_capital, regime)`  
-  - `_calculate_desk_limits_static(total_capital, fund_mode, regime)` → 레짐·자금규모에 따른 DESK별 한도.
-- **레짐/규모**: `backend/app/core/desk_config.py`  
-  - `get_effective_allocation(regime, total_capital)`  
-  - `ROCKET_MODE_THRESHOLD = 1_000_000`: 총자금 ≤100만 시 DESK4·5 배분 0, DESK2·3으로 재분배.
-
-### 4.2 DESK별 100만원 × 5 = 500만원 테스트
-
-- **총 500만원**으로 테스트하려면: `total_capital = 5_000_000` (또는 `initial_capital` 500만)으로 FundPool/스냅샷이 초기화되도록 하면 됨.
-- 실제 값은 **v4_fund_pool_snapshot**의 `total_capital` 및 파이프라인/팩토리에서의 초기화 지점에서 설정됨 (`legacy_adapter`: `v4_fund_pool_snapshot.total_capital` 또는 기본 10_000_000).
-- “DESK별 100만원”을 **고정 100만원**으로 쓰려면: 현재 구조는 비율 배분이므로, 총자금 500만원이면 레짐에 따라 DESK당 금액이 비율로 나뉨. DESK당 정확히 100만원 고정은 설정/코드 확장 필요 (예: desk별 cap override).
+- **2026-02-21, 02-22, 02-23:** v4_ohlcv_minute에 **데이터 없음**.
+- 당일(02-23) 분봉 적재 **없음**.  
+  - kis-v41-minute-collector는 월요일 장전 활성화 예정(CONTEXT.md 기준).  
+  - 모의 테스트 전 당일 분봉 수집 가동 여부 확인 권장.
 
 ---
 
-## 5. 모의계좌 잔고 확인 API
+## 5. 모의 테스트 가동 조건 체크리스트
 
-- **코드만 확인**: KIS 모의투자 잔고/계좌조회 API는 `kis_api_registry.py` 및 주문/계좌 관련 서비스에서 tr_id·도메인 분기 지원. 실제 잔고 API 호출은 **CEO 승인 후** 진행할 것.
+- [x] 모의계좌 존재 (KIS_VIRTUAL_* 1세트)
+- [x] 모의계좌 앱키/앱시크릿 유효 (존재 Y)
+- [x] API 도메인 전환 가능 (KIS_ACCOUNT_MODE=virtual → openapivts)
+- [ ] 분봉 데이터 최신화 (당일 02-23 없음, 수집기 가동 후 확인)
+- [ ] DESK별 자금 배분 설정 완료 (카드별 allocated_amount 또는 신규 정책 적용)
+- [ ] 서비스 재시작 없이 전환 가능 (불가 — 모드 변경 시 재시작 필요, CEO 승인 후 수행)
 
 ---
 
 ## 6. CEO 결정 필요 사항
 
-1. **당일(02-23) 분봉 없음**: minute-collector 가동 및 당일 수집 실행 여부 확인 후, 필요 시 수집 재개.
-2. **실전 계좌 미등록**: 모의만 사용 중이면 유지. 실전 전환 시 v4_account_config에 real 행 추가 및 실전 계좌 번호 설정 필요.
-3. **DESK별 100만원 고정**: 현재는 총자금 기준 비율 배분. DESK당 정확히 100만원 고정이 필요하면 자금 배분 로직(설정/DB) 확장 검토.
-4. **모의 1회 매매 사이클 검증**: 장마감 전 실행 시, 모의 계좌·동일 도메인(openapivts)으로만 주문되도록 확인된 상태. 실제 주문 실행은 CEO 승인 후 진행.
+1. **모의계좌:** 이미 1개 설정됨. 추가 모의계좌 필요 시 KIS Developers 신청.
+2. **전환 승인:** 모의 테스트 시 KIS_ACCOUNT_MODE=virtual 유지 및, 필요 시 서비스 재시작 일정 승인.
+3. **자금 배분:** DESK별 100만원 실매매 테스트 시, 전략 카드별 allocated_amount 합산 정책 또는 Fund Commander 도입 여부 결정.
 
 ---
 
 ## 7. DB 무결성
 
-| 항목 | 기준 | 확인값 |
-|------|------|--------|
-| strategy_cards | 62건 | 62 |
-| v4_positions OPEN | 5건 | 5 |
-
-- strategy_cards ALTER/DROP/DELETE 금지, v4_positions 직접 수정 금지 준수.
+- **strategy_cards:** 62건 유지.
+- **v4_positions OPEN:** 5건 유지.
+- (확인 시각: 2026-02-23)
 
 ---
 
-## 8. 참고
-
-- **절대 규칙 준수**: kis-v41-api/monitor/scheduler 재시작 금지, .env/.bak 커밋 금지, 실계좌 주문 금지(모의만 사용).
-- **보고서 동기화**: `bash /root/project-docs/scripts/publish_report.sh PAPER-TRADE-SETUP`, `bash /root/project-docs/scripts/sync_kis.sh`.
+*보고서 작성: PAPER-TRADE-SETUP Phase B. 시크릿 값 미포함.*
