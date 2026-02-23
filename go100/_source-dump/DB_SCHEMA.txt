@@ -1,0 +1,60 @@
+                                                 Table "public.go100_strategy_cards"
+        Column        |           Type           | Collation | Nullable |                           Default                           
+----------------------+--------------------------+-----------+----------+-------------------------------------------------------------
+ go100_card_id        | bigint                   |           | not null | nextval('go100_strategy_cards_go100_card_id_seq'::regclass)
+ user_id              | integer                  |           | not null | 
+ account_id           | integer                  |           |          | 
+ strategy_name        | character varying(200)   |           | not null | 
+ strategy_type        | character varying(20)    |           | not null | 'CUSTOM'::character varying
+ universe_filter      | jsonb                    |           |          | '{}'::jsonb
+ entry_rules          | jsonb                    |           |          | '[]'::jsonb
+ exit_rules           | jsonb                    |           |          | '[]'::jsonb
+ risk_params          | jsonb                    |           |          | '{}'::jsonb
+ strategy_params      | jsonb                    |           |          | '{}'::jsonb
+ allocated_amount     | numeric(15,2)            |           |          | 0
+ max_stocks           | integer                  |           |          | 5
+ card_status          | character varying(20)    |           | not null | 'IDEA'::character varying
+ is_active            | boolean                  |           |          | true
+ is_live              | boolean                  |           |          | false
+ source_type          | character varying(20)    |           |          | 'CUSTOM'::character varying
+ source_store_card_id | bigint                   |           |          | 
+ source_user_id       | integer                  |           |          | 
+ llm_session_id       | character varying(100)   |           |          | 
+ last_backtest_id     | bigint                   |           |          | 
+ last_backtest_return | numeric(10,4)            |           |          | 
+ last_backtest_mdd    | numeric(10,4)            |           |          | 
+ last_backtest_sharpe | numeric(10,4)            |           |          | 
+ last_backtest_at     | timestamp with time zone |           |          | 
+ paper_total_return   | numeric(10,4)            |           |          | 
+ paper_start_date     | date                     |           |          | 
+ paper_days           | integer                  |           |          | 0
+ disclaimer_agreed    | boolean                  |           |          | false
+ disclaimer_agreed_at | timestamp with time zone |           |          | 
+ dedicated_account    | boolean                  |           |          | false
+ created_at           | timestamp with time zone |           |          | now()
+ updated_at           | timestamp with time zone |           |          | now()
+ is_featured          | boolean                  |           | not null | false
+ is_public            | boolean                  |           | not null | false
+ featured_order       | integer                  |           | not null | 0
+Indexes:
+    "go100_strategy_cards_pkey" PRIMARY KEY, btree (go100_card_id)
+    "idx_go100_cards_account" btree (account_id)
+    "idx_go100_cards_featured" btree (is_featured) WHERE is_featured = true
+    "idx_go100_cards_live" btree (user_id, is_live) WHERE is_live = true
+    "idx_go100_cards_public" btree (is_public) WHERE is_public = true
+    "idx_go100_cards_source" btree (source_type, source_store_card_id)
+    "idx_go100_cards_status" btree (card_status)
+    "idx_go100_cards_user" btree (user_id)
+Check constraints:
+    "go100_strategy_cards_card_status_check" CHECK (card_status::text = ANY (ARRAY['IDEA'::character varying, 'DRAFT'::character varying, 'BACKTESTED'::character varying, 'PAPER_LIVE'::character varying, 'LIVE'::character varying, 'PAUSED'::character varying, 'RETIRED'::character varying]::text[]))
+    "go100_strategy_cards_source_type_check" CHECK (source_type::text = ANY (ARRAY['SYSTEM'::character varying, 'CUSTOM'::character varying, 'LLM'::character varying, 'SHARED'::character varying]::text[]))
+    "go100_strategy_cards_strategy_type_check" CHECK (strategy_type::text = ANY (ARRAY['CUSTOM'::character varying, 'BUILTIN'::character varying, 'LLM_GENERATED'::character varying, 'SUBSCRIBED'::character varying]::text[]))
+Foreign-key constraints:
+    "go100_strategy_cards_account_id_fkey" FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+    "go100_strategy_cards_user_id_fkey" FOREIGN KEY (user_id) REFERENCES v4_users(user_id)
+Referenced by:
+    TABLE "go100_backtest_runs" CONSTRAINT "go100_backtest_runs_go100_card_id_fkey" FOREIGN KEY (go100_card_id) REFERENCES go100_strategy_cards(go100_card_id)
+    TABLE "go100_fit_analysis" CONSTRAINT "go100_fit_analysis_go100_card_id_fkey" FOREIGN KEY (go100_card_id) REFERENCES go100_strategy_cards(go100_card_id)
+    TABLE "go100_portfolios" CONSTRAINT "go100_portfolios_go100_card_id_fkey" FOREIGN KEY (go100_card_id) REFERENCES go100_strategy_cards(go100_card_id)
+    TABLE "go100_risk_disclaimers" CONSTRAINT "go100_risk_disclaimers_strategy_card_id_fkey" FOREIGN KEY (strategy_card_id) REFERENCES go100_strategy_cards(go100_card_id)
+
