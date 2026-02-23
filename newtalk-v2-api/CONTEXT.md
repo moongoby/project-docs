@@ -29,17 +29,20 @@
 - [x] R1: 백엔드 API (Sanctum, RBAC 6역할, 사입 API, 47+ 테이블) — v1.0.0, 2026-02-22
 - [x] R2-FRONT-001: Next.js 16 셋업 (인증·레이아웃·대시보드·Docker) — ce541c5, v1.1.0, 2026-02-23
 - [x] R2-FRONT-001-DEPLOY: Rate Limiting, 역할 라우트 보호, 401 자동 로그아웃, 프론트엔드 Docker 배포 — 870c007, v1.2.0, 2026-02-23
-- [x] R2-API-001: SNS 엔진 API (피드·팔로우·찜·검색, 4테이블, 13 EP) — c40faba, v1.3.0, 2026-02-23
-- [x] R2-FRONT-002: 홈 피드 + 탐색 UI (API 연동) — ed3177b, v1.4.0, 2026-02-23
-- [x] R2-FIX-001: 검수 피드백 반영 (store 역할체크, SQL 바인딩, wishlist toggle, 찜 UI, feed_likes unique) — 5f34b7f, v1.4.1, 2026-02-23
+- [x] R2-API-001: SNS 엔진 API (피드·팔로우·찜·검색) — {SHA}, v1.3.0
+- [x] R2-FRONT-002: 홈 피드 + 탐색 UI (Mock) — 푸시 후 SHA 기록, v1.4.0
+- [x] R2-FIX-001: 검수 피드백 반영 (store 역할체크, SQL 바인딩, wishlist toggle, 찜 UI, feed_likes unique) — v1.4.1
+- [x] R2-FRONT-003: 상품 상세·찜·공유 UI — (커밋 후 SHA), v1.5.0, 2026-02-24
+- [x] R2-API-002: 브랜드 페이지 API (brand_pages, 6 EP) — {SHA}, v1.6.0, 2026-02-24
+- [x] R2-FRONT-004: 브랜드 페이지 UI (헤더·상품 그리드·피드·탐색) — {SHA}, v1.6.0, 2026-02-24
 
 ## 진행 중
 (없음)
 
 ## 다음 작업
-1. R2-FRONT-003 상품 상세·찜·공유
-2. R2-FRONT-004 브랜드 페이지
-3. R2-API-002 브랜드 페이지 API
+1. R2-FRONT-005 관리자 사입 대시보드 상세
+2. R2-FRONT-006 도매 콘텐츠 업로드
+3. R2-API-003 AI 콘텐츠 처리 API
 
 ## 로드맵
 - R2 (0~8주): 프론트 셋업, 인증, 홈 피드, 상품 상세, 브랜드 페이지, SNS API

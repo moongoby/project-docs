@@ -10,8 +10,8 @@
 | 버전 | 날짜 | 변경 내용 |
 |------|------|-----------|
 | 1.0.0 | 2026-02-23 | R1 완료 + R2 착수 상태 기준 초판 |
-| 1.4.0 | 2026-02-23 | R2-API-001 + R2-FRONT-002 완료 (피드·팔로우·찜 API, 홈 피드·탐색 UI) |
-| 1.4.1 | 2026-02-23 | R2-FIX-001 완료 (검수 피드백 반영 — store 역할, SQL 바인딩, wishlist toggle, 찜 UI) |
+| 1.5.0 | 2026-02-24 | R2-FRONT-003 상품 상세·찜·공유 UI |
+| 1.6.0 | 2026-02-24 | R2-API-002 브랜드 페이지 API + R2-FRONT-004 브랜드 페이지 UI |
 
 ---
 
@@ -73,7 +73,7 @@ V2 Frontend: http://114.207.244.86:3000
 V1: http://114.207.244.86
 ```
 
-### 테스트 계정 (비밀번호: [REDACTED] 또는 [REDACTED])
+### 테스트 계정 (비밀번호: [REDACTED])
 ```
 admin@newtalk.kr (관리자)
 md@newtalk.kr (MD)
@@ -166,19 +166,33 @@ docker compose --env-file .env.docker exec app composer {command}
 ### R2-API-001: SNS 소셜 엔진 API
 - 피드(홈/탐색/상세/작성/검색/좋아요), 팔로우(팔로우/언팔로우/팔로워·팔로잉), 찜(목록/추가/해제)
 - follows, wishlists, feed_items, feed_likes 테이블 + 4 모델 + 3 컨트롤러 (13 엔드포인트)
-- 커밋: c40faba
+- 커밋: (서버 푸시 후 기록)
 - 브랜치: feature/R2-API-001-social-engine
 
-### R2-FRONT-002: 홈 피드 + 탐색 UI
-- 피드카드, 무한스크롤, 탐색 그리드, feed-api 연동
-- 커밋: ed3177b
-- 브랜치: (메인/feature)
-
 ### R2-FIX-001: 검수 피드백 반영 (v1.4.1)
-- FeedController store() 역할 체크(wholesale|admin), index() orderByRaw 바인딩
-- feed_likes unique(user_id, feed_item_id) 확인
+- store() 역할 체크(wholesale|admin), index() orderByRaw 바인딩, feed_likes unique 확인
 - WishlistController::toggle, POST /wishlists/{productId}/toggle
-- 프론트: toggleWishlist 엔드포인트 변경, 찜 UI 상태, 팔로우 disabled, placeholder
+- 프론트: toggleWishlist 엔드포인트 변경, 찜 UI 상태, 팔로우 disabled, placeholder 이미지
+- 브랜치: feature/R2-FIX-001-review-feedback
+
+### R2-FRONT-003: 상품 상세·찜·공유 UI (v1.5.0)
+- 상품 상세 페이지 `/retail/product/[id]`, 이미지 캐러셀, 옵션(컬러·사이즈), 찜·공유, 액션바, 관련상품
+- product-api.ts (getProduct, getRelatedProducts, toggleProductWishlist, shareProduct)
+- 브랜치: feature/R2-FRONT-003-product-detail
+- Git SHA: (커밋 후 기록)
+
+### R2-API-002: 브랜드 페이지 API (v1.6.0)
+- brand_pages 테이블, BrandPage·ProductImage 모델, BrandPageController 6 EP
+- GET /brands, /brands/{slug}, /brands/{slug}/products, /brands/{slug}/feed, POST follow, PUT /brands/me
+- BrandPageSeeder (wholesale@newtalk.kr), Feed API author.brand_slug·product.wholesale_name
+- 브랜치: feature/R2-API-002-brand-page
+- Git SHA: (푸시 후 기록)
+
+### R2-FRONT-004: 브랜드 페이지 UI (v1.6.0)
+- /brand/[slug] 상세 (헤더, 탭 상품/피드), /brands 탐색, 탐색 탭 "브랜드", FeedCard·ProductInfo 브랜드 링크
+- brand-api.ts, BrandHeader, BrandCard, BrandProductGrid, BrandFeedSection
+- 브랜치: feature/R2-API-002-brand-page
+- Git SHA: (푸시 후 기록)
 
 ---
 
@@ -194,13 +208,10 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R2-FRONT-003 | 상품 상세 + 찜 |
-| 2 | R2-FRONT-004 | 도매 브랜드 페이지 |
-| 3 | R2-API-002 | 브랜드 페이지 API |
-| 4 | R2-FRONT-005 | 관리자 사입 대시보드 상세 |
-| 5 | R2-FRONT-006 | 도매 콘텐츠 업로드 |
-| 6 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
-| 7 | R2-API-004 | 카페24 API 연동 |
+| 1 | R2-FRONT-005 | 관리자 사입 대시보드 상세 |
+| 2 | R2-FRONT-006 | 도매 콘텐츠 업로드 |
+| 3 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
+| 4 | R2-API-004 | 카페24 API 연동 |
 
 ---
 
@@ -223,7 +234,8 @@ docker compose --env-file .env.docker exec app composer {command}
 │   │   ├── R1-TASK-005-report.md
 │   │   ├── R2-FRONT-001-report.md
 │   │   ├── R2-API-001-report.md
-│   │   └── R2-FIX-001-report.md
+│   │   ├── R2-API-002-report.md
+│   │   └── R2-FRONT-004-report.md
 │   ├── v1-analysis/
 │   │   └── v1-purchasing-analysis.md
 │   ├── scripts/
