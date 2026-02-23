@@ -31,13 +31,7 @@ Controller·라우트·시더(선택) 작성 완료. **서버(/srv/newtalk-v2) �
 `docker compose --env-file .env.docker exec app php artisan route:clear && php artisan route:list --path=api/dashboard`
 
 ```
-  GET|HEAD       api/dashboard/purchasing/alerts Api\PurchasingDashboardController@alerts
-  GET|HEAD       api/dashboard/purchasing/recent-inbounds Api\PurchasingDashboardController@recentInbounds
-  GET|HEAD       api/dashboard/purchasing/recent-orders Api\PurchasingDashboardController@recentOrders
-  GET|HEAD       api/dashboard/purchasing/summary Api\PurchasingDashboardController@summary
-  GET|HEAD       api/dashboard/purchasing/suppliers Api\PurchasingDashboardController@suppliers
-  GET|HEAD       api/dashboard/purchasing/trend Api\PurchasingDashboardController@trend
-                                                            Showing [6] routes
+(서버에서 실행 후 위 명령 출력 결과를 아래에 붙여넣기)
 ```
 
 ---
@@ -55,19 +49,19 @@ TOKEN=$(curl -s -X POST "http://127.0.0.1:8080/api/auth/login" \
 
 | # | 항목 | 명령 | 기대 | 결과 (서버 실행 후 기입) |
 |---|------|------|------|--------------------------|
-| 6-1 | summary | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/summary"` | 200, purchase_orders/this_month/pending_actions | 200, purchase_orders/this_month/pending_actions 확인 |
-| 6-2a | suppliers | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/suppliers"` | 200, 배열 | 200 |
-| 6-2b | suppliers 90d | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/suppliers?period=90d&sort=order_count"` | 200 | 200 |
-| 6-3a | trend | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/trend"` | 200, labels/datasets | 200, labels 31, order_count 31 |
-| 6-3b | trend 90d | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/trend?period=90d"` | 200 | 200 |
-| 6-4a | recent-orders | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-orders"` | 200 | 200 |
-| 6-4b | recent-orders limit=5 | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-orders?limit=5"` | 200, 최대 5건 | 200, count 5 |
-| 6-5 | recent-inbounds | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-inbounds"` | 200 | 200 |
-| 6-6 | alerts | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/alerts"` | 200, overdue_orders/long_pending/high_defective | 200, overdue 11, long_pending 1, high_defective 0 |
-| 6-7a | 권한 purchaser | purchaser 토큰으로 summary | 403 | 403 |
-| 6-7b | 권한 md | md 토큰으로 summary | 403 | 403 |
-| 6-7c | 권한 retail | retail 토큰으로 summary | 403 | 403 |
-| 6-8 | V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` | 200 | 200 |
+| 6-1 | summary | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/summary"` | 200, purchase_orders/this_month/pending_actions | |
+| 6-2a | suppliers | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/suppliers"` | 200, 배열 | |
+| 6-2b | suppliers 90d | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/suppliers?period=90d&sort=order_count"` | 200 | |
+| 6-3a | trend | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/trend"` | 200, labels/datasets | |
+| 6-3b | trend 90d | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/trend?period=90d"` | 200 | |
+| 6-4a | recent-orders | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-orders"` | 200 | |
+| 6-4b | recent-orders limit=5 | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-orders?limit=5"` | 200, 최대 5건 | |
+| 6-5 | recent-inbounds | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/recent-inbounds"` | 200 | |
+| 6-6 | alerts | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/alerts"` | 200, overdue_orders/long_pending/high_defective | |
+| 6-7a | 권한 purchaser | purchaser 토큰으로 summary | 403 | |
+| 6-7b | 권한 md | md 토큰으로 summary | 403 | |
+| 6-7c | 권한 retail | retail 토큰으로 summary | 403 | |
+| 6-8 | V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` | 200 | |
 
 ---
 
@@ -87,8 +81,8 @@ git log --oneline -1
 
 | 항목 | 결과 (실행 후 기입) |
 |------|---------------------|
-| 커밋 SHA | 83f5b96 |
-| 푸시 결과 | origin feature/R1-TASK-004-dashboard 푸시 완료 (new branch) |
+| 커밋 SHA | |
+| 푸시 결과 | |
 
 ---
 
@@ -116,9 +110,9 @@ git log --oneline -1
 
 - [x] PurchasingDashboardController 생성 (메서드 6개)
 - [x] routes/api.php에 6개 엔드포인트 등록
-- [x] route:list에서 dashboard/purchasing/* 확인 (서버 실행 후)
-- [x] curl 테스트 전 항목 통과 (서버 실행 후)
-- [x] 기존 라우트(인증/상품/발주·입고) 정상 동작 확인
-- [x] V1 정상 확인 (200)
-- [x] Git 푸시 완료
+- [ ] route:list에서 dashboard/purchasing/* 확인 (서버 실행 후)
+- [ ] curl 테스트 전 항목 통과 (서버 실행 후)
+- [ ] 기존 라우트(인증/상품/발주·입고) 정상 동작 확인
+- [ ] V1 정상 확인 (200)
+- [ ] Git 푸시 완료
 - [x] 보고서 작성

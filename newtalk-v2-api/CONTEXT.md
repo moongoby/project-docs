@@ -29,12 +29,12 @@
 - [x] R1: 백엔드 API (Sanctum, RBAC 6역할, 사입 API, 47+ 테이블) — v1.0.0, 2026-02-22
 - [x] R2-FRONT-001: Next.js 16 셋업 (인증·레이아웃·대시보드·Docker) — ce541c5, v1.1.0, 2026-02-23
 - [x] R2-FRONT-001-DEPLOY: Rate Limiting, 역할 라우트 보호, 401 자동 로그아웃, 프론트엔드 Docker 배포 — 870c007, v1.2.0, 2026-02-23
-- [x] R2-API-001: SNS 엔진 API (피드·팔로우·찜·검색) — {SHA}, v1.3.0
-- [x] R2-FRONT-002: 홈 피드 + 탐색 UI (Mock) — 푸시 후 SHA 기록, v1.4.0
+- [x] R2-API-001: SNS 엔진 API (피드·팔로우·찜·검색) — c40faba, v1.3.0
+- [x] R2-FRONT-002: 홈 피드 + 탐색 UI (Mock) — ed3177b, v1.4.0
 - [x] R2-FIX-001: 검수 피드백 반영 (store 역할체크, SQL 바인딩, wishlist toggle, 찜 UI, feed_likes unique) — v1.4.1
-- [x] R2-FRONT-003: 상품 상세·찜·공유 UI — (커밋 후 SHA), v1.5.0, 2026-02-24
-- [x] R2-API-002: 브랜드 페이지 API (brand_pages, 6 EP) — {SHA}, v1.6.0, 2026-02-24
-- [x] R2-FRONT-004: 브랜드 페이지 UI (헤더·상품 그리드·피드·탐색) — {SHA}, v1.6.0, 2026-02-24
+- [x] R2-FRONT-003: 상품 상세·찜·공유 UI — (미푸시), v1.5.0, 2026-02-24
+- [x] R2-API-002: 브랜드 페이지 API (brand_pages, 6 EP) — (미푸시), v1.6.0, 2026-02-24
+- [x] R2-FRONT-004: 브랜드 페이지 UI (헤더·상품 그리드·피드·탐색) — (미푸시), v1.6.0, 2026-02-24
 
 ## 진행 중
 (없음)

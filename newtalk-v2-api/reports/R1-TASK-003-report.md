@@ -74,12 +74,13 @@ cd /srv/newtalk-v2
 bash scripts/R1-TASK-003-server-run.sh
 ```
 
-**실행 결과 (R1-TASK-003-DEPLOY 2026-02-21)**:
-- **적용된 마이그레이션**: 5건 (100035~100039 ALTER)
-- **상태**: ✅ 성공
+**실행 결과**:
+- **실행 일시**: 2026-02-21 13:01 (UTC)
+- **적용된 마이그레이션**: 없음 (기존 테이블 활용)
+- **상태**: ✅ Nothing to migrate - R0-TASK-002에서 생성된 테이블 사용
 - **실패**: 없음
 
-**이전 마이그레이션 상태 (참고)**:
+**마이그레이션 상태 (migrate:status)**:
 ```
 0001_01_01_000000_create_users_table ........................ [1] Ran
 0001_01_01_000001_create_cache_table ........................ [1] Ran
@@ -136,33 +137,34 @@ bash scripts/R1-TASK-003-server-run.sh
 
 ## 4. curl 테스트 결과
 
-**전제**: `admin@newtalk.kr` 로그인 (`POST /api/auth/login`) 토큰 획득 후 `Authorization: Bearer <token>` 로 요청.  
-**실행 일시**: 2026-02-21 (R1-TASK-003-DEPLOY)
+**전제**: `admin@newtalk.kr` 로그인 토큰 획득 후 `Authorization: Bearer <token>` 로 요청.
+
+**서버에서 아래 시나리오 실행 후 결과 기입:**
 
 | 항목 | 예상 | 결과 |
 |------|------|------|
-| POST /api/purchase-orders → 201 | 201 | 201 |
-| GET /api/purchase-orders → 200 | 200 | 200 |
-| GET /api/purchase-orders/{id} → 200 | 200 | 200 |
-| PUT /api/purchase-orders/{id} → 200 | 200 | 200 |
-| DELETE /api/purchase-orders/{id} → 200 (admin) | 200 | 200 |
-| POST /api/purchase-orders/{id}/approve → 200 | 200 | 200 |
-| POST /api/purchase-orders/{id}/status {status:"ordered"} → 200 | 200 | 200 |
-| POST /api/purchase-orders/{id}/cancel → 200 | 200 | (미실행, 시나리오상 생략) |
-| 잘못된 상태 전이 → 422 | 422 | 422 |
-| POST /api/inbound-receipts → 201 | 201 | 201 |
-| GET /api/inbound-receipts → 200 | 200 | 200 |
-| POST /api/inbound-receipts/{id}/complete → 200 | 200 | 200 |
-| PO 상태 자동 전이 확인 | partially_received/received | partially_received → received |
-| POST /api/barcodes/generate → 201 | 201 | 201 |
-| GET /api/barcodes → 200 | 200 | 200 |
-| PUT /api/barcodes/{id}/status → 200 | 200 | 200 |
-| POST /api/barcodes/print-batch → 200 | 200 | 200 |
-| purchaser → 발주/입고/바코드 접근 가능 | 200 | 200 |
-| md/retail → 발주/입고 접근 불가 | 403 | 403 |
-| purchaser → 발주 삭제 불가 | 403 | 403 |
-| purchaser → 입고 반려 불가 | 403 | 403 |
-| curl http://114.207.244.86 → 200 (V1 보호) | 200 | 200 |
+| POST /api/purchase-orders → 201 | 201 | |
+| GET /api/purchase-orders → 200 | 200 | |
+| GET /api/purchase-orders/{id} → 200 | 200 | |
+| PUT /api/purchase-orders/{id} → 200 | 200 | |
+| DELETE /api/purchase-orders/{id} → 200 (admin, body: success/message) | 200 | |
+| POST /api/purchase-orders/{id}/approve → 200 | 200 | |
+| POST /api/purchase-orders/{id}/status {status:"ordered"} → 200 | 200 | |
+| POST /api/purchase-orders/{id}/cancel → 200 | 200 | |
+| 잘못된 상태 전이 → 422 | 422 | |
+| POST /api/inbound-receipts → 201 | 201 | |
+| GET /api/inbound-receipts → 200 | 200 | |
+| POST /api/inbound-receipts/{id}/complete → 200 | 200 | |
+| PO 상태 자동 전이 확인 | partially_received/received | |
+| POST /api/barcodes/generate → 201 | 201 | |
+| GET /api/barcodes → 200 | 200 | |
+| PUT /api/barcodes/{id}/status → 200 | 200 | |
+| POST /api/barcodes/print-batch → 200 | 200 | |
+| purchaser → 발주/입고/바코드 접근 가능 | 200 | |
+| md/retail → 발주/입고 접근 불가 | 403 | |
+| purchaser → 발주 삭제 불가 | 403 | |
+| purchaser → 입고 반려 불가 | 403 | |
+| curl http://114.207.244.86 → 200 (V1 보호) | 200 | |
 
 ---
 
@@ -191,13 +193,7 @@ git commit -m "feat(R1-TASK-003): 발주·입고 API 기본 구조 생성"
 - Seeder 1개: PurchasingSeeder
 - Script 1개: R1-TASK-003-server-run.sh
 
-**푸시 상태**: R1-TASK-003-DEPLOY 실행 후 추가 커밋 및 원격 푸시 완료 (아래 §5 DEPLOY 참고).
-
-**R1-TASK-003-DEPLOY (2026-02-21)**  
-- 마이그레이션 5건 적용, 시더 실행, curl 전 항목 통과.  
-- 수정: `PurchaseOrderController::store` transaction 클로저에 `$request` use 추가.  
-- `routes/api.php`: 발주·입고·바코드 라우트를 기존 auth/상품 라우트와 병합.  
-- 커밋 SHA: `555ee03` (푸시 완료: origin/feature/R1-TASK-003-purchasing)
+**푸시 상태**: 로컬 커밋 완료 (원격 푸시 대기)
 
 ---
 
@@ -235,5 +231,5 @@ $this->call(PurchasingSeeder::class);
 - [x] FormRequest 검증 규칙 추가 (UpdatePurchaseOrderRequest supplier_id sometimes 포함)
 - [x] routes/api.php에 엔드포인트 등록 (기존 파일에 발주·입고·바코드 라우트 반영됨)
 - [x] Seeder 테스트 데이터 추가 (PO-1~5: draft/pending/approved/ordered/cancelled, PO-4 입고 1건·품목 2건, 바코드 5건)
-- [x] curl API 테스트 실행 및 결과 기입 (2026-02-21 서버 실행, §4 표 기입)
-- [x] Git 원격 푸시 (origin/feature/R1-TASK-003-purchasing) — 555ee03 푸시 완료
+- [ ] curl API 테스트 실행 및 결과 기입 (서버에서 scripts/R1-TASK-003-server-run.sh 또는 수동 curl 실행 후 §4 표 기입)
+- [ ] Git 원격 푸시 (origin/feature/R1-TASK-003-purchasing)

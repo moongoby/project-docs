@@ -72,4 +72,4 @@
 ## §6. 비고
 
 - review/ 파일은 유지 (Claude 최종 확인 후 삭제 지시 예정)
-- project-docs 동기화: `bash /data/project-docs/scripts/sync_newtalk_v2_api.sh` 실행 권장
+- project-docs 동기화: 스크립트 내 `git diff --cached | grep -iE '(password|secret|key|token)'` 검사가 코드 내 `token` 문자열(TOKEN_KEY 등)에 걸려 중단됨. 필요 시 스크립트에서 패턴 조정 후 재실행 권장.

@@ -47,5 +47,5 @@
 
 ## 4. Git SHA
 
-- DOCS 커밋: (서버 docs 커밋 후 기록)
+- DOCS 커밋: 89fde04
 - 소스 브랜치: feature/R2-FIX-001-review-feedback
