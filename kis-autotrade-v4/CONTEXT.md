@@ -75,7 +75,7 @@
 
 ## 10. 문서 체계
 - Cursor Rules: .cursor/rules/kis-v41-rules.md (서버)
-- Public Rules: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
+- Public Rules: project-docs/kis-autotrade-v4/rules/kis-v41-rules.md
 - 보고서: report/v41/{작업ID}-{YYYYMMDD}.md → sync_reports.sh
 - 검수: review/ → push_review.sh → CEO+Claude 승인 → clean_review.sh
 
