@@ -1,9 +1,9 @@
 # KIS AutoTrade V4.1 — 적응형 자동매매 시스템 아키텍처 기술서
 
-**문서 버전:** V4.1  
-**작성일:** 2026-02-13  
-**작성자:** Claude (Architecture Lead)  
-**승인자:** 대표님 (CEO)  
+**문서 버전:** V4.1
+**작성일:** 2026-02-13
+**작성자:** Claude (Architecture Lead)
+**승인자:** 대표님 (CEO)
 **변경 이력:**
 - V4.0 (2026-01) — 최초 설계
 - V4.1 (2026-02-13) — GPT 5.2 Pro 외부 리뷰 반영, P0 리스크 보완, 로드맵 재배치
@@ -252,22 +252,36 @@ V4.0 → V4.1 핵심 변경 사항:
 ║                                                                      ║
 ║  ═══════════════════════════════════════════════════════════         ║
 ║                                                                      ║
-║  ■ recovery_check (시스템 시작 시 필수):                            ║
+║  ■ recovery_check (시스템 시작 시 필수 실행):                        ║
 ║                                                                      ║
 ║    async def recovery_check():                                       ║
 ║      # 0. ★ V4.1: FundPool DB 기반 메모리 재구성                   ║
 ║      await fund_pool.rebuild_from_db()                               ║
-║      # 1. KIS 실잔고 vs DB 포지션 대조 → 미등록/누락 포지션 처리   ║
-║      # 2. 만료 예약금 정리 (cleanup_expired_reservations)           ║
-║      # 3. 손절가 이탈 즉시 체크 → emergency_sell                     ║
-║      # 4. 미체결 주문 확인 → 30분 초과 시 취소                      ║
+║      #   reservation(RESERVED/ORDER_SUBMITTED) SUM                   ║
+║      #   + position(OPEN) invested SUM                               ║
+║      #   → 메모리 available/reserved/invested 재계산                 ║
+║      # 1. KIS 실잔고 vs DB 포지션 대조                              ║
+║      kis_holdings = await kis_api.get_holdings()                     ║
+║      db_positions = await get_open_positions()                       ║
+║      # KIS에 있는데 DB에 없는 것 (장애 중 체결) → create_orphan    ║
+║      # DB에 있는데 KIS에 없는 것 (장애 중 청산) → close_orphan      ║
+║      # 2. 만료 예약금 정리 cleanup_expired_reservations()           ║
+║      # 3. 손절가 이탈 즉시 체크 → emergency_sell(position)          ║
+║      # 4. 미체결 주문 30분 초과 시 취소                             ║
 ║                                                                      ║
-║  ■ 축소 운영 (DEGRADED):                                              ║
-║    market_analyst/strategy_engine 장애 → 신규 진입 중단, 포지션만   ║
-║    fund_commander 장애 → 고정 bet_size(20%)                          ║
-║    risk_manager(Full) 장애 → 신규 진입 차단, CriticalRiskKernel만   ║
-║    order_executor 장애 → position_manager fallback 청산 + 알림       ║
-║    position_manager ★ 절대 불멸 (CriticalRiskKernel + fallback 내장) ║
+║  ■ 축소 운영 모드 (DEGRADED)                                         ║
+║  ┌──────────────────┬──────────────────────────────┐               ║
+║  │ 장애 모듈         │ 축소 운영 행동                │               ║
+║  ├──────────────────┼──────────────────────────────┤               ║
+║  │ market_analyst    │ 신규 진입 중단, 기존 포지션만 │               ║
+║  │ strategy_engine   │ 신규 진입 중단, 기존 포지션만 │               ║
+║  │ fund_commander    │ 고정 bet_size(20%)로 전환     │               ║
+║  │ risk_manager(Full)│ 신규 진입 차단, CRK만 가동   │               ║
+║  │ CriticalRiskKernel│ ★ 절대 죽으면 안 됨, 내장   │               ║
+║  │ order_executor    │ fallback 청산 경로 + 알림    │               ║
+║  │ data_provider     │ 캐시 전환, bet ×0.5          │               ║
+║  │ position_manager  │ ★ 절대 불멸, CRK+fallback   │               ║
+║  └──────────────────┴──────────────────────────────┘               ║
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 ```
