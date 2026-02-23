@@ -60,6 +60,7 @@
 - GET /catalog?tab=all|my|v4, GET /for-backtest
 
 ## 8. 최근 커밋 (20건)
+- dead44f1 fix: CUR-GO100-PHASE2-STABILIZE (ISS-001/002/003 + cursorrules)
 - acca08c0 docs: 문서 체계 구축
 - 08a3b2ba fix: CUR-GO100-HOTFIX-IMPORT
 - 8da6191b fix: CUR-GO100-HOTFIX-CRITICAL
@@ -82,9 +83,7 @@
 - 07c03316 feat: CUR-GO100-STRATEGY-INTEGRATE
 
 ## 9. 미해결 이슈
-- ISS-001: 채팅 위젯 미표시
-- ISS-002: 백테스트 드롭다운 미검증
-- ISS-003: 전략 저장 E2E 미검증
+- (없음)
 
 ## 10. 로드맵
 - Phase 2 (현재): 안정화 5개 항목
