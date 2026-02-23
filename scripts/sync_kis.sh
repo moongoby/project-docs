@@ -63,6 +63,19 @@ for f in "$SRC_REPORT/"*.md; do
     cp "$f" "$DST/reports/" && echo "    $BASENAME"
 done
 
+# 6b. report/v41/ 하위폴더 .md
+if [ -d "$SRC_REPORT/v41" ]; then
+    for f in "$SRC_REPORT/v41/"*.md; do
+        [ -f "$f" ] || continue
+        BASENAME=$(basename "$f")
+        if grep -qiE 'app_key|app_secret|password|passwd|계좌번호' "$f"; then
+            echo "    SKIP (민감정보): $BASENAME"
+            continue
+        fi
+        cp "$f" "$DST/reports/" && echo "    [v41] $BASENAME"
+    done
+fi
+
 # 7. 보안 점검 (전체)
 echo "[7/7] 보안 점검..."
 DANGER=$(find "$DST" \
