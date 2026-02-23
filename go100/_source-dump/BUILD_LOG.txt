@@ -1,0 +1,30 @@
+├ ƒ /go100/live-trading                  315 B           289 kB
+├ ƒ /go100/live-trading/[id]             3.79 kB         293 kB
+├ ƒ /go100/paper-trading                 315 B           289 kB
+├ ƒ /go100/paper-trading/[id]            5.94 kB         295 kB
+├ ƒ /go100/settings                      3.28 kB         292 kB
+├ ƒ /go100/store                         152 B          87.7 kB
+├ ○ /go100/strategies                    2.59 kB         291 kB
+├ ƒ /go100/strategies/[id]               514 B          88.1 kB
+├ ○ /llm                                 58.2 kB         230 kB
+├ ○ /monitoring                          8.77 kB         134 kB
+├ ○ /notifications                       8.59 kB         134 kB
+├ ○ /offline                             386 B          87.9 kB
+├ ○ /portfolio                           6.56 kB         132 kB
+├ ○ /privacy                             187 B          96.4 kB
+├ ○ /reports                             7.01 kB         163 kB
+├ ○ /settings                            17.3 kB         158 kB
+├ ○ /strategy-cards                      12.7 kB         184 kB
+├ ○ /terms                               183 B          96.4 kB
+└ ○ /trade                               20 kB           183 kB
++ First Load JS shared by all            87.6 kB
+  ├ chunks/2117-cc3b0be933e55e3a.js      31.9 kB
+  ├ chunks/fd9d1056-c1f95327ceb95c1d.js  53.7 kB
+  └ other shared chunks (total)          2 kB
+
+
+ƒ Middleware                             26.6 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

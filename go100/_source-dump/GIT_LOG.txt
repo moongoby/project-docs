@@ -1,5 +1,10 @@
+3afa5cfc docs: CUR-GO100-HOTFIX-003 보고서
+403b108c fix: CUR-GO100-HOTFIX-003 - ChatWidget FAB SSR/Portal 수정 + Too Many Requests 대응
+c4b2cebb docs: CUR-GO100-HOTFIX-002A 보고서 커밋 해시 반영
+0265c33a docs: CUR-GO100-HOTFIX-002A 보고서
+adce98c6 docs: CUR-GO100-HOTFIX-002B 보고서 커밋 해시 반영
+fdc565c2 fix: CUR-GO100-HOTFIX-002B - 전략카드 저장 500 수정
 76ea77ea docs: CUR-GO100-HOTFIX-002 보고서 + ISSUES/CHANGELOG/CONTEXT 갱신
 6c69a23a fix: CUR-GO100-HOTFIX-002 - ChatWidget FAB 미노출 수정 + 전략카드 저장 500 수정
 aea10442 docs: CUR-GO100-FINAL-FIX-001 보고서, ISSUES, CHANGELOG, CONTEXT 갱신
 da4e5b0b rules: kis-v41-rules.md V4.1 전용 보강 — DESK정의, 무결성 기준값, 검수규칙, 작업큐, BT스키마 16컬럼
-a4a25e43 fix: CUR-GO100-FINAL-FIX-001 - strategy_type CHECK에 GO100_AI 추가, /llm ChatWidget 중복제거, 전략저장 500 해결
