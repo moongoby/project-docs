@@ -6,7 +6,7 @@
 ## 절대 금지 사항 (위반 시 즉시 중단)
 1. `.env`, `.bak` 파일 수정/커밋 금지
 2. 백업 없이 DB 마이그레이션 실행 금지
-3. `strategy_cards` 테이블 ALTER/DROP/UPDATE/DELETE 금지
+3. `strategy_cards` 테이블 ALTER/DROP/DELETE 금지 (UPDATE는 CEO 승인 후에만)
 4. `v4_*` 테이블 ALTER/DROP 금지 (SELECT·INSERT만 허용, 지시서 명시 시 UPDATE 허용)
 5. V4.1 서비스 파일 수정 금지: `backtest_engine_v2.py`, `strategy_card_service.py`, `llm_gateway.py`, `llm_clients/*`, `v4_pipeline_orchestrator.py`, `account_sync_manager.py`, V4OrderExecutor
 6. `kis-v41-*` systemd 서비스 restart/stop/start 금지 (지시서 명시 시 제외)
@@ -32,11 +32,11 @@
 ### 작업 전 필수
 1. DB 백업: `sudo -u postgres pg_dump -d kisautotrade -Fc -f /tmp/backup_{작업명}_{TS}.dump`
 2. 백업 크기 확인 (0바이트면 중단)
-3. 기준값: `SELECT count(*) FROM strategy_cards;` → **59건**
+3. 기준값: `SELECT count(*) FROM strategy_cards;` → **62건**
 4. OPEN 포지션: `SELECT COUNT(*) FROM v4_positions WHERE status='OPEN';` → **5건**
 
 ### 작업 후 필수
-1. `SELECT count(*) FROM strategy_cards;` → 59 유지 확인
+1. `SELECT count(*) FROM strategy_cards;` → 62 유지 확인
 2. OPEN 포지션 수 불변 확인
 3. GO100 작업 시: 헬스체크(8002·3000·go100.newtalk.kr) + `PYTHONPATH=backend python3 -m pytest backend/tests/test_go100_*.py backend/tests/test_universe_engine_unit.py -v` + `systemctl restart go100`
 4. V4.1 작업 시: `systemctl is-active kis-v41-*` + git status clean
@@ -44,7 +44,7 @@
 6. **보고서 생성 필수**: 작업 완료 시 `report/` 디렉토리에 `{작업ID}-FINAL-REPORT-{YYYYMMDD}.md` 보고서를 생성하고, 보고서 경로를 사용자에게 보고할 것. 보고서에는 백업정보·구현내역·테스트결과·DB변경사항·서비스상태·컴플라이언스 체크리스트를 포함할 것.
 
 ### 컴플라이언스 체크리스트 (보고서 끝 필수 포함)
-`.env/.bak 커밋여부` | `strategy_cards 59건` | `v4_positions OPEN수` | `파일헤더` | `DB스키마변경` | `서비스재시작` | `V4.1파일수정여부`
+`.env/.bak 커밋여부` | `strategy_cards 62건` | `v4_positions OPEN수` | `파일헤더` | `DB스키마변경` | `서비스재시작` | `V4.1파일수정여부`
 
 ## 지시서 수신 규칙
 1. 지시서 절대 규칙 < 이 CLAUDE.md 절대 금지 사항 (CLAUDE.md 우선)
@@ -80,9 +80,12 @@
 - STRAT-DETAIL(2026-02-21): risk_params 키 이름 불일치 — **STRAT-TUNE에서 해결**: max_positions→max_concurrent_positions, max_single_stock_pct→max_single_position_pct
 - STRAT-DETAIL(2026-02-21): entry_rules.indicators 실매매 미평가 — 백테스트(CardRuleSimulator)에서만 사용, 실매매는 min_strength 필터만 적용
 - STRAT-DETAIL(2026-02-21): DESK3 카드 10개 exit_rules 완전 동일(SL-3%, TS2%, TP16%, hold10) → 차별화 필요
+- BT-ENGINE-UPGRADE(2026-02-23): v4_backtest_trades에 16개 컬럼 추가 (entry/exit datetime·price, MFE/MAE, regime_at_entry, indicator_snapshot, slippage/commission, sector, strategy_name, entry_volume, entry_spread_pct). 세션63 검증 완료. indicator_snapshot·sector INSERT 로직은 미구현.
+- REGIME-BACKFILL(2026-02-23): v4_market_regime_daily 59행 (2025-11-20~2026-02-13). PRE_MARKET에서 자동 갱신.
+- OVERLAP-GUARD(2026-02-23): DESK 간 동일 종목 중복 매수 차단 미구현. CEO 정책 결정 대기.
 
 ## STRAT-TUNE (2026-02-21, CC)
-- 손실/0건/미배정 카드 22개 is_live=false (58→36 live 카드)
+- 손실/0건/미배정 카드 22개 is_live=false (62개 중 36 live 카드)
 - DESK2 trailing_stop 1.5% 추가(7카드), max_hold_days 3일 추가(7카드)
 - risk_params 키 이름 통일: max_positions→max_concurrent_positions, max_single_stock_pct→max_single_position_pct (56카드)
 - 코드 수정 없음 (DB UPDATE만), 서비스 재시작 불필요
@@ -114,7 +117,7 @@
 - 코드 변경 없음 (백테스트 전용), 보고서: report/BT-OPTIMIZE-20260221-REPORT.md
 
 ## ENGINE-SWITCH (2026-02-21, CUR) — CEO 승인
-- 절대 규칙 4번 폐기: strategy_cards UPDATE 허용.
+- 절대 규칙 4번 변경: strategy_cards UPDATE는 CEO 승인 후에만 허용.
 - strategy_cards is_live=true 일괄 설정 (58개, card_id=1 제외).
 - Commander DESK1~5 스케줄 비활성화 (daily_scheduler.py register 주석 처리).
 - 09:10 카드 사이클 desk_id 1~5 스킵 해제 (v4_pipeline_orchestrator.py).
@@ -229,6 +232,16 @@ DO Spaces: newtalk1(SGP1, 17.5GB) + newtalk(NYC3, 1.4TB) — 이미지 CDN, 유�
 ## 최근 완료 작업 이력
 | ID | 내용 | 커밋 |
 |----|------|------|
+| BT-ENGINE-UPGRADE | v4_backtest_trades 16개 컬럼 추가(entry/exit datetime·price, MFE/MAE, regime, commission 등), 세션63 검증 | 556ddb17 |
+| REGIME-BACKFILL | v4_market_regime_daily 2→59행 백필 | 556ddb17 |
+| DESK-RECOMMEND | 종목추천 페이지 + API 4개 (pipeline-summary, signals, timeline, desk-summary) | d0a09050 |
+| DASH-FIX-VERIFY | nginx API key 헤더 주입 검증 | b61e68e1 |
+| OVERLAP-GUARD | DESK2·DESK3 19개 종목 중복 매수 분석, 타DESK 차단 미구현 확인 | (분석) |
+| REGIME-STRATEGY-CROSS | DESK×레짐 성과 교차 분석, DESK2 하락장 취약 확인 | (분석) |
+| DESK1-DATA-VERIFY | 스캘핑 유니버스 708종목, 호가수집기 인프라 검증 | 573d1ca8 |
+| KIS-DOCS-FULL-SETUP | docs/ 체계 구축, project-docs Public 동기화, CONTEXT.md 생성 | acca08c0 |
+| REPORT-PIPELINE-SETUP | 보고서 Public 배포 파이프라인 구축 (publish_report.sh, sync_kis.sh) | (배포) |
+| CURSOR-RULES-PUBLISH | CLAUDE.md + kis-v41-rules.md Public 배포 | (배포) |
 | BT-TRADE-DETAIL | BT-TUNE 세션(58/60/61) 개별 거래 상세 분석. TOP/WORST 거래, 카드별·종목별·DESK별·요일별·보유일수별 분석, 멀티카드 진입 리스크 분석 | (본 커밋) |
 | GO100-BUNDLE4D | 종목×전략 적합도 매트릭스+청산 최적화+멀티 데스크 배분 (fit_engine+optimizer_service+5 API, 141 tests) | (본 커밋) |
 | STRAT-TUNE | 손실/0건 카드 22개 비활성화, DESK2 trailing_stop+hold 추가, risk_params 키 통일, BT 검증(21.01%) | (본 커밋) |
