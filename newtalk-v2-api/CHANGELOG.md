@@ -6,6 +6,22 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-02-23
+### Added
+- R2-FRONT-002: 홈 피드 + 탐색 UI (ed3177b)
+- 피드카드, 무한스크롤, 탐색 그리드, feed-api 연동 (USE_MOCK=false)
+- shadcn card, avatar, tabs, skeleton, button
+
+## [1.3.0] - 2026-02-23
+### Added
+- R2-API-001: SNS 소셜 엔진 API (c40faba)
+- follows, wishlists, feed_items, feed_likes 테이블
+- FeedController, FollowController, WishlistController
+- GET/POST feed, feed/explore, feed/search, feed/{id}, feed/{id}/like
+- POST/DELETE follows/{userId}, GET followers/following
+- GET/POST/DELETE wishlists
+
+
 ## [1.2.0] - 2026-02-23
 ### Added
 - R2-FRONT-001-DEPLOY: 프론트엔드 Docker 빌드·실행 (870c007)

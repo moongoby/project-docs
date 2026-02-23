@@ -137,18 +137,20 @@
 # - 잘못된 해석에 대해 즉시 교정이 온다.
 
 # ============================================================
-# 12. 작업 완료 후 문서 동기화 (필수)
+# 12. 작업 완료 후 문서 동기화 (최우선 필수 — 생략 시 작업 미완료)
 # ============================================================
-# - 모든 작업 완료 후 반드시 실행:
-#   (1) 보고서: /srv/newtalk-v2/docs/reports/{작업ID}-report.md
-#   (2) CONTEXT.md 갱신 (완료/진행중/다음작업)
+# ★★★ 동기화 없이 "완료" 보고하면 작업 미완료 처리 ★★★
+# 필수 순서:
+#   (1) 보고서 작성
+#   (2) CONTEXT.md 갱신
 #   (3) CHANGELOG.md 갱신
-#   (4) 동기화: bash /data/project-docs/scripts/sync_newtalk_v2_api.sh
-#   (5) 양쪽 Git 커밋 & 푸시 (private + project-docs)
-# - 동기화 스크립트 실패 시 수동:
-#   cp /srv/newtalk-v2/docs/CONTEXT.md /data/project-docs/newtalk-v2-api/
-#   cp /srv/newtalk-v2/.cursorrules /data/project-docs/newtalk-v2-api/cursorrules.md
-#   cp /srv/newtalk-v2/docs/reports/*.md /data/project-docs/newtalk-v2-api/reports/
+#   (4) HANDOVER.md 갱신
+#   (5) V2 Git 커밋·푸시
+#   (6) project-docs 동기화 (수동 또는 스크립트)
+#   (7) 민감정보 검사
+#   (8) project-docs Git 커밋·푸시
+#   (9) curl로 검증 (grep으로 작업ID 확인)
+#   (10) 검증 통과 후에만 "완료. 확인해라." 보고
 
 # ============================================================
 # 13. project-docs 보안 (Public 저장소)
