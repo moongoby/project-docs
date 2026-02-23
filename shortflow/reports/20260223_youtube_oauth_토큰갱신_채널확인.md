@@ -100,4 +100,4 @@ https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163
 - **테스트 영상:** yMnvHuZXjXY 는 비공개로 업로드됨. 할당량 절약을 위해 YouTube 스튜디오에서 수동 삭제 권장.
 - **보안:** .env 실제 값, client_secret 내용, token 내용은 보고서에 노출하지 않음.
 - **venv:** 모든 YouTube 스크립트 실행 시 `source /data/shortflow/venv/bin/activate` 필수.
-- **project-docs 동기화:** `bash /data/project-docs/scripts/sync_shortflow.sh` 실행 완료.
+- **project-docs 동기화:** `bash /data/project-docs/scripts/sync_shortflow.sh` 실행함. shortflow → project-docs 복사 및 로컬 커밋 완료. push는 원격에 새 커밋이 있어 거절됨(`fetch first`). 필요 시 project-docs에서 `git pull --rebase` 후 `git push` 수행.
