@@ -1,0 +1,172 @@
+=== CUR-GO100-DIAG-013: 2026-02-23 13:57:43 KST ===
+
+===== A. 프로세스 =====
+--- A1. systemd unit 파일 ---
+# /etc/systemd/system/go100-frontend.service
+[Unit]
+Description=GO100 V4.1 Frontend (Next.js)
+After=network.target go100.service
+Wants=go100.service
+
+[Service]
+Type=exec
+User=root
+Group=root
+WorkingDirectory=/root/kis-autotrade-v4/frontend
+ExecStart=/usr/bin/npx next start -p 3000
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=go100-frontend
+Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_API_URL=http://localhost:8002
+
+[Install]
+WantedBy=multi-user.target
+
+--- A2. systemd 상태 ---
+● go100-frontend.service - GO100 V4.1 Frontend (Next.js)
+     Loaded: loaded (/etc/systemd/system/go100-frontend.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-02-23 13:19:14 KST; 38min ago
+   Main PID: 2494532 (npm exec next s)
+      Tasks: 31 (limit: 19104)
+     Memory: 96.3M (peak: 114.2M)
+        CPU: 4.692s
+     CGroup: /system.slice/go100-frontend.service
+             ├─2494532 "npm exec next start -p 3000"
+             ├─2494554 sh -c "next start -p 3000"
+             └─2494555 "next-server (v14.2.35)"
+
+Feb 23 13:19:14 kis-autotrade-v4 systemd[1]: Starting go100-frontend.service - GO100 V4.1 Frontend (Next.js)...
+Feb 23 13:19:14 kis-autotrade-v4 systemd[1]: Started go100-frontend.service - GO100 V4.1 Frontend (Next.js).
+Feb 23 13:19:15 kis-autotrade-v4 go100-frontend[2494555]:   ▲ Next.js 14.2.35
+Feb 23 13:19:15 kis-autotrade-v4 go100-frontend[2494555]:   - Local:        http://localhost:3000
+Feb 23 13:19:15 kis-autotrade-v4 go100-frontend[2494555]:  ✓ Starting...
+Feb 23 13:19:16 kis-autotrade-v4 go100-frontend[2494555]:  ✓ Ready in 693ms
+
+--- A3. PID 정보 ---
+MainPID: 2494532
+CWD: /root/kis-autotrade-v4/frontend
+EXE: /usr/bin/node
+CMDLINE: npm exec next start -p 3000          
+ENV(선택):
+HOME=/root
+NODE_ENV=production
+NEXT_PUBLIC_API_URL=http://localhost:8002
+프로세스CWD BUILD_ID: aQVyue1S2vMvH1hP4xe_X
+
+--- A4. node/next 프로세스 ---
+root     1103096  0.0  0.0 32424672 10272 ?      Sl   Feb20   0:05 next-server (v14.2.35)
+root     2189492  0.0  0.2 997780 43428 ?        Sl   Feb22   0:07 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/multiplex-server/3ce73d09cffc8f33c6d911e972bd0f6dabbe3e26e810844be8060e6b10987db8.js b9b7ca12-c5bf-4593-b4da-c9ad4baf08f6 0
+root     2189561  0.8  5.7 12656480 935300 ?     Sl   Feb22  14:55 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/out/server-main.js --start-server --host=127.0.0.1 --port 0 --connection-token-file /run/user/0/cursor-remote-code.token.6ca0869f6193ac0d40fa6ae74ed01260 --telemetry-level off --enable-remote-auto-shutdown --accept-server-license-terms
+root     2189619  5.9  4.8 97330988 791696 ?     Sl   Feb22 101:09 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node --dns-result-order=ipv4first /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/out/bootstrap-fork --type=extensionHost --transformURIs --useHostProxy=false
+root     2189634  0.5  0.9 12009120 147988 ?     Sl   Feb22   8:32 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/out/bootstrap-fork --type=fileWatcher
+root     2189733  0.1  0.3 11608164 51944 ?      Sl   Feb22   2:19 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/out/bootstrap-fork --type=ptyHost --logsPath /root/.cursor-server/data/logs/20260222T094457
+root     2189749  0.0  0.3 1037668 53484 ?       Sl   Feb22   0:07 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=2189619
+root     2190815  0.0  0.2 997096 43076 ?        Sl   Feb22   0:05 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=2189619
+root     2201330  0.0  0.4 1025780 67660 ?       Sl   Feb22   0:00 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/extensions/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /root/.cache/typescript/5.9 --enableTelemetry --typesMapLocation /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/extensions/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation
+root     2204620  0.0  0.6 1053848 108796 ?      Sl   Feb22   0:08 /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/node /root/.cursor-server/bin/linux-x64/4f2b772756b8f609e1354b3063de282ccbe7a690/extensions/html-language-features/server/dist/node/htmlServerMain --node-ipc --clientProcessId=2189619
+root     2494532  0.0  0.4 731696 70100 ?        Ssl  13:19   0:00 npm exec next start -p 3000
+root     2494554  0.0  0.0   2800  1792 ?        S    13:19   0:00 sh -c next start -p 3000
+root     2494555  0.1  0.6 32416744 111116 ?     Sl   13:19   0:03 next-server (v14.2.35)
+
+--- A5. 포트 3000 ---
+LISTEN 0      511          0.0.0.0:3000       0.0.0.0:*    users:(("next-server (v1",pid=2494555,fd=24))                                                                                                      
+
+===== B. 빌드 산출물 =====
+BUILD_ID: aQVyue1S2vMvH1hP4xe_X
+.next 수정시간: drwxr-xr-x 6 root root 4096 Feb 23 12:57 .next/
+BUILD_ID 파일시간: -rw-r--r-- 1 root root 21 Feb 23 12:57 .next/BUILD_ID
+
+--- B3. layout 청크 ---
+.next/static/chunks/app/(protected)/go100/layout-d9fc3e6dd7442fed.js (1027 bytes)
+  chat-widget-fab: 0
+0
+  ChatWidget: 0
+0
+  createPortal: 0
+0
+.next/static/chunks/app/(protected)/layout-f7159a8126be50d0.js (33806 bytes)
+  chat-widget-fab: 0
+0
+  ChatWidget: 1
+  createPortal: 0
+0
+
+--- B4. chat-widget-fab 전체 검색 ---
+.next/static/chunks/7044-c2f01c78813332b9.js
+.next/cache/webpack/client-production/0.pack
+.next/cache/webpack/server-production/0.pack
+.next/server/chunks/3117.js
+
+--- B5. build-manifest ---
+
+===== C. HTTP 응답 =====
+--- C1. localhost:3000 / ---
+HTTP:200 Size:9442
+--- C2. /dashboard (no auth, -L) ---
+HTTP:200 Size:11772
+noauth 크기: 11772
+noauth 내용(500자): <!DOCTYPE html><html lang="ko" class="dark"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover, user-scalable=yes"/><link rel="preload" href="/_next/static/media/e4af272ccee01ff0-s.p.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/7cca8e2c5137bd71.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/4b68e0b644663182.css" data-precedence="next"
+
+--- C3. 모든 로그인 경로 테스트 ---
+  /api/v1/auth/login -> 401
+  /api/v1/auth/signin -> 404
+  /api/auth/login -> 404
+  /api/auth/signin -> 404
+  /api/v1/auth/token -> 404
+
+--- C4. 로그인 상세 ---
+응답(300자): {"status":401,"detail":"이메일 또는 비밀번호가 올바르지 않습니다.","timestamp":"2026-02-23T04:57:44.902730+00:00","request_id":"4bb2a69a-bfb3-4047-9ec4-6940e80d8aae"}
+❌ 토큰 없음
+--- 인증 라우트 검색 ---
+/root/kis-autotrade-v4/backend/app/core/auth_v1.py:232:async def login(
+/root/kis-autotrade-v4/backend/app/routers/v4_auth.py:44:@router.post("/login", response_model=LoginResponse)
+/root/kis-autotrade-v4/backend/app/routers/v4_auth.py:45:async def login(
+/root/kis-autotrade-v4/backend/app/api/v1/social_auth_router.py:42:async def social_login(provider: str):
+/root/kis-autotrade-v4/backend/app/api/v1/auth_router.py:45:def _check_login_rate(client_ip: str) -> bool:
+/root/kis-autotrade-v4/backend/app/api/v1/auth_router.py:121:@router.post("/login", response_model=LoginResponse)
+/root/kis-autotrade-v4/backend/app/api/v1/auth_router.py:122:async def api_login(req: LoginRequest, request: Request, db: AsyncSession = Depends(get_db)):
+
+===== D. 실행 모드 =====
+--- D1. package.json scripts ---
+{
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "test:e2e": "playwright test",
+  "test:e2e:ui": "playwright test --ui",
+  "test:e2e:report": "playwright show-report"
+}
+
+--- D2. systemd ExecStart ---
+WorkingDirectory=/root/kis-autotrade-v4/frontend
+ExecStart=/usr/bin/npx next start -p 3000
+Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_API_URL=http://localhost:8002
+
+--- D3. next.config ---
+== next.config.mjs ==
+// CUR-GO100-FRONTEND-FIX2, 2026-02-21
+// CUR-GO100-FRONTEND-FIX, 2026-02-21 — go100 API 프록시 명시
+/** @type {import('next').NextConfig} */
+const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8002";
+const nextConfig = {
+  async rewrites() {
+    return [
+      { source: "/api/:path*", destination: `${apiBase.replace(/\/$/, "")}/api/:path*` },
+      { source: "/api/go100/:path*", destination: `${apiBase.replace(/\/$/, "")}/api/go100/:path*` },
+    ];
+  },
+};
+
+export default nextConfig;
+next.config 확인 완료
+
+===== E. 동기화 =====
+From github.com:moongoby/project-docs
+ * branch            master     -> FETCH_HEAD
+Already up to date.
