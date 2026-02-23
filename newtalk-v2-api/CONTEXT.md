@@ -31,6 +31,7 @@
 - [x] R2-FRONT-001-DEPLOY: Rate Limiting, 역할 라우트 보호, 401 자동 로그아웃, 프론트엔드 Docker 배포 — 870c007, v1.2.0, 2026-02-23
 - [x] R2-API-001: SNS 엔진 API (피드·팔로우·찜·검색, 4테이블, 13 EP) — c40faba, v1.3.0, 2026-02-23
 - [x] R2-FRONT-002: 홈 피드 + 탐색 UI (API 연동) — ed3177b, v1.4.0, 2026-02-23
+- [x] R2-FIX-001: 검수 피드백 반영 (store 역할체크, SQL 바인딩, wishlist toggle, 찜 UI, feed_likes unique) — 5f34b7f, v1.4.1, 2026-02-23
 
 ## 진행 중
 (없음)

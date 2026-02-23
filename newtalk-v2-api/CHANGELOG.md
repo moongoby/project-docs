@@ -6,6 +6,17 @@
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-02-23
+### Fixed
+- FeedController store() 역할 체크 추가 (wholesale|admin만 피드 작성)
+- FeedController index() orderByRaw SQL 바인딩 파라미터 적용
+- feed_likes 테이블 unique(user_id, feed_item_id) 인덱스 추가
+- WishlistController toggle 엔드포인트 추가 (POST /api/wishlists/{id}/toggle)
+- feed-card.tsx 찜 상태 UI 반영 (Bookmark 아이콘 색상 토글)
+- feed-card.tsx 팔로우 버튼 disabled 처리
+- feed-api.ts toggleWishlist → toggle 엔드포인트로 변경
+- feed-api.ts 타입 캐스팅 개선 (as unknown → 제네릭)
+
 ## [1.4.0] - 2026-02-23
 ### Added
 - R2-FRONT-002: 홈 피드 + 탐색 UI (ed3177b)
