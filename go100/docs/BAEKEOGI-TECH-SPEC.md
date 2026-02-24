@@ -260,3 +260,4 @@
 - AI-BACKTEST-OPT-001 보고서: go100/reports/CUR-GO100-AI-BACKTEST-OPT-001-20260224.md
 - 인계서: go100/HANDOVER-20260224-V2.md
 - API 명세: go100/API_SPEC.md
+- 키움증권 데이터 수집 (2026-02-25): [KIWOOM-DATA-COLLECTION-REPORT-20260225](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/KIWOOM-DATA-COLLECTION-REPORT-20260225.md) — v4_theme_*, v4_trade_strength_history 등 신규 수집; DataGate/백테스트 반영 시 참고.
