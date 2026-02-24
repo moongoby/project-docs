@@ -11,31 +11,43 @@
 | 2026-02-25 | 문서 레포 URL 섹션 추가: 저장소(go100), 브랜치(phase-2c-command-center), 문서별 blob URL 테이블 반영 |
 | 2026-02-25 | 미푸시 report 8건 add/commit/push (본 보고서 포함), 추가 참고 문서 레포 URL 표 추가 |
 | 2026-02-25 | 본 「작업·반영 이력」 섹션 추가 및 보고서 최종 반영 보고 |
+| 2026-02-25 | **문서 레포** project-docs 반영: 모든 문서 푸시 후 raw URL 기준으로 보고서 갱신 |
 
 ---
 
 ## 문서 레포 (Repository URL)
 
+### 문서 전용 레포 (project-docs) — Raw URL 기준
+
+| 항목 | 값 |
+|------|-----|
+| **저장소** | [project-docs](https://github.com/moongoby/project-docs) |
+| **브랜치** | `master` |
+| **go100 경로 (Raw)** | **https://raw.githubusercontent.com/moongoby/project-docs/master/go100/** |
+| **트리 (파일 목록)** | https://github.com/moongoby/project-docs/tree/master/go100 |
+
+### 소스 코드 레포 (go100)
+
 | 항목 | 값 |
 |------|-----|
 | **저장소** | [go100](https://github.com/moongoby/go100) |
 | **기본 브랜치** | `phase-2c-command-center` |
-| **트리 (파일 목록)** | https://github.com/moongoby/go100/tree/phase-2c-command-center |
+| **트리** | https://github.com/moongoby/go100/tree/phase-2c-command-center |
 
 ---
 
-## 1. 문서 목록 (요약) · 레포 URL
+## 1. 문서 목록 (요약) · 문서 레포 URL (Raw)
 
-| 구분 | 문서 경로 | 레포 URL | 요약 |
-|------|-----------|----------|------|
-| **핵심 스펙** | `docs/go100/기획문서/OPUS-LLM-AI-v1-FULL-SPEC.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/docs/go100/기획문서/OPUS-LLM-AI-v1-FULL-SPEC.md) | LLM/AI 레이어 통합 기획 (멀티벤더, Gateway, 비용, 프롬프트) |
-| **아키텍처** | `docs/go100-architecture-v1.1.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/docs/go100-architecture-v1.1.md) | GO100(백억이) 시스템 아키텍처, 사용자 여정, LLM 연동 |
-| **대시보드·채팅** | `report/DASHBOARD-BAEKOGI-BANNER-NAMING-AND-CHAT-INPUT-PLAN-20260224.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/DASHBOARD-BAEKOGI-BANNER-NAMING-AND-CHAT-INPUT-PLAN-20260224.md) | 배너 이름 표기·채팅 입력창 기획 |
-| **브리핑** | `report/DAILY-MARKET-BRIEFING-PLAN-20260224.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/DAILY-MARKET-BRIEFING-PLAN-20260224.md) | 당일 투자 환경 브리핑 (레짐, 지수, 백억이 채팅 연동) |
-| **로그인 인사** | `report/LOGIN-GREETING-AND-BRIEFING-PLAN-20260224.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/LOGIN-GREETING-AND-BRIEFING-PLAN-20260224.md) | 로그인 시 인사·브리핑, 백억이 위젯 연동 |
-| **종목 정보** | `report/GO100-STOCK-INFO-GENSPARK-STYLE-REPORT.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/GO100-STOCK-INFO-GENSPARK-STYLE-REPORT.md) | Genspark 스타일 종목 정보·1차 DB/2차 KIS API 기획 |
-| **채팅 위젯** | `report/GO100-CHAT-WIDGET-REPORT-20260222.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/GO100-CHAT-WIDGET-REPORT-20260222.md) | AI 대화 API, ChatWidget, `/go100/chat` 연동 |
-| **본 보고서** | `report/BAEKOGI-AI-TECH-DOCS-REPORT-20260225.md` | [보기](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/BAEKOGI-AI-TECH-DOCS-REPORT-20260225.md) | 백억이 AI 기술문서 검색·정리 보고서 |
+| 구분 | 문서 (project-docs 경로) | Raw URL | 요약 |
+|------|--------------------------|--------|------|
+| **핵심 스펙** | `docs/기획문서/OPUS-LLM-AI-v1-FULL-SPEC.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/docs/기획문서/OPUS-LLM-AI-v1-FULL-SPEC.md) | LLM/AI 레이어 통합 기획 (멀티벤더, Gateway, 비용, 프롬프트) |
+| **아키텍처** | `docs/go100-architecture-v1.1.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/docs/go100-architecture-v1.1.md) | GO100(백억이) 시스템 아키텍처, 사용자 여정, LLM 연동 |
+| **대시보드·채팅** | `reports/DASHBOARD-BAEKOGI-BANNER-NAMING-AND-CHAT-INPUT-PLAN-20260224.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/DASHBOARD-BAEKOGI-BANNER-NAMING-AND-CHAT-INPUT-PLAN-20260224.md) | 배너 이름 표기·채팅 입력창 기획 |
+| **브리핑** | `reports/DAILY-MARKET-BRIEFING-PLAN-20260224.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/DAILY-MARKET-BRIEFING-PLAN-20260224.md) | 당일 투자 환경 브리핑 (레짐, 지수, 백억이 채팅 연동) |
+| **로그인 인사** | `reports/LOGIN-GREETING-AND-BRIEFING-PLAN-20260224.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/LOGIN-GREETING-AND-BRIEFING-PLAN-20260224.md) | 로그인 시 인사·브리핑, 백억이 위젯 연동 |
+| **종목 정보** | `reports/GO100-STOCK-INFO-GENSPARK-STYLE-REPORT.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/GO100-STOCK-INFO-GENSPARK-STYLE-REPORT.md) | Genspark 스타일 종목 정보·1차 DB/2차 KIS API 기획 |
+| **채팅 위젯** | `reports/GO100-CHAT-WIDGET-REPORT-20260222.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/GO100-CHAT-WIDGET-REPORT-20260222.md) | AI 대화 API, ChatWidget, `/go100/chat` 연동 |
+| **본 보고서** | `reports/BAEKOGI-AI-TECH-DOCS-REPORT-20260225.md` | [Raw](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/BAEKOGI-AI-TECH-DOCS-REPORT-20260225.md) | 백억이 AI 기술문서 검색·정리 보고서 |
 
 ---
 
@@ -106,15 +118,12 @@
 
 ---
 
-## 3. 추가 참고 문서 (레포 URL)
+## 3. 추가 참고 문서 (문서 레포 Raw URL)
 
-| 문서 | 레포 URL |
-|------|----------|
-| 로그인 인사·브리핑 구현 보고 | [report/LOGIN-GREETING-AND-BRIEFING-IMPLEMENTATION-REPORT-20260224.md](https://github.com/moongoby/go100/blob/phase-2c-command-center/report/LOGIN-GREETING-AND-BRIEFING-IMPLEMENTATION-REPORT-20260224.md) |
-| 로드맵 | [docs/ROADMAP.md](https://github.com/moongoby/go100/blob/phase-2c-command-center/docs/ROADMAP.md) |
-| 이슈 | [docs/ISSUES.md](https://github.com/moongoby/go100/blob/phase-2c-command-center/docs/ISSUES.md) |
-| 변경 이력 | [docs/CHANGELOG.md](https://github.com/moongoby/go100/blob/phase-2c-command-center/docs/CHANGELOG.md) |
-| 사용자 가이드 (go100) | [docs/go100/user-guide/](https://github.com/moongoby/go100/tree/phase-2c-command-center/docs/go100/user-guide) — 백억이 화면·온보딩 등 |
+| 문서 | 문서 레포 (Raw) | 비고 |
+|------|-----------------|------|
+| 로그인 인사·브리핑 구현 보고 | [reports/LOGIN-GREETING-AND-BRIEFING-IMPLEMENTATION-REPORT-20260224.md](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/reports/LOGIN-GREETING-AND-BRIEFING-IMPLEMENTATION-REPORT-20260224.md) | project-docs |
+| 로드맵·이슈·변경 이력·사용자 가이드 | 소스 레포 [go100](https://github.com/moongoby/go100/tree/phase-2c-command-center) 내 `docs/` 참조 | 코드와 동일 레포 |
 
 ---
 
@@ -134,6 +143,7 @@
 ## 보고 요약
 
 - **대상**: 백억이(Baekogi) AI 관련 기술문서.
-- **저장소**: https://github.com/moongoby/go100 (브랜치 `phase-2c-command-center`).
-- **문서 수**: 핵심 8건(스펙·아키텍처·배너·브리핑·로그인 인사·종목 정보·채팅 위젯·본 보고서) + 참고 5건.
-- **반영 사항**: 문서 레포 URL을 1·3절 테이블에 반영함. 미푸시 report 8건 푸시 완료. 본 보고서에 작업·반영 이력 및 보고 요약 추가.
+- **문서 레포 (문서 전용)**: **https://raw.githubusercontent.com/moongoby/project-docs/master/go100/** — 저장소 [project-docs](https://github.com/moongoby/project-docs), 브랜치 `master`. 위 문서는 위 경로로 모두 푸시 완료.
+- **소스 레포**: https://github.com/moongoby/go100 (브랜치 `phase-2c-command-center`).
+- **문서 수**: 핵심 8건(스펙·아키텍처·배너·브리핑·로그인 인사·종목 정보·채팅 위젯·본 보고서) + 참고(구현 보고 등).
+- **반영 사항**: 문서 레포를 project-docs raw URL 기준으로 §문서 레포·§1·§3·보고 요약에 반영. project-docs에 7파일 추가 커밋·푸시 완료.
