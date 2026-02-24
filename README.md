@@ -6,7 +6,7 @@
 |-----------|------|------|---------|--------------|
 | [shortflow](./shortflow/) | ShortFlow v3.0 + StyleFlow v1.0 | 114서버 | [CONTEXT.md](./shortflow/CONTEXT.md) | [cursorrules.md](./shortflow/cursorrules.md) |
 | [go100](./go100/) | GO100 자동매매 | kis-autotrade-v4 | [CONTEXT.md](./go100/CONTEXT.md) | [cursorrules.md](./go100/cursorrules.md) |
-| [nas-image](./nas-image/) | ?댄넚 ?대?吏 ?먮룞??(NAS Docker) | NAS DS1821+ | [CONTEXT.md](./nas-image/CONTEXT.md) | [cursorrules.md](./nas-image/cursorrules.md) |
+| [nas-image](./nas-image/) | 뉴톡 이미지 자동화(NAS Docker) | NAS DS1821+ | [CONTEXT.md](./nas-image/CONTEXT.md) | [cursorrules.md](./nas-image/cursorrules.md) |
 
 ## Claude 새 대화 시작법
 해당 프로젝트 CONTEXT.md raw URL을 첫 메시지로 전달:
