@@ -151,9 +151,9 @@ TRADE_EXECUTED, STOP_LOSS_TRIGGERED, TAKE_PROFIT_TRIGGERED, BACKTEST_COMPLETED, 
 - [x] STEP 10: 설정 페이지 알림 섹션
 - [x] STEP 11: manifest·sw.js·pywebpush
 - [x] STEP 12: compile·tsc·build·pre-commit
-- [ ] STEP 13: 통합 테스트 (서버에서 실행)
-- [ ] STEP 14: 커밋·병합·push
-- [ ] STEP 15: 보고서 GitHub push
+- [x] STEP 13: 통합 테스트 (서버에서 실행) — API 401/엔드포인트·DB 테이블 확인 완료
+- [x] STEP 14: 커밋·병합·push
+- [x] STEP 15: 보고서 GitHub push
 
 ---
 

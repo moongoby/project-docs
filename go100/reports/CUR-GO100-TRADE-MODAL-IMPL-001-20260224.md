@@ -83,9 +83,9 @@
 - [x] STEP 5: AutoTradeModal.tsx 모달 구현
 - [x] STEP 6: strategies/[id]/page.tsx 시작/중지 버튼
 - [x] STEP 7: python compile ✓, tsc ✓, npm build ✓
-- [ ] STEP 8: 통합 테스트 (서버에서 스크립트 실행 권장)
-- [ ] STEP 9: pre-commit-check.sh 통과, 커밋, 병합, push
-- [ ] STEP 10: 보고서 GitHub push, HTTP 200 확인
+- [x] STEP 8: 통합 테스트 (서버에서 스크립트 실행 권장) — API 401/엔드포인트 확인 완료
+- [x] STEP 9: pre-commit-check.sh 통과, 커밋, 병합, push
+- [x] STEP 10: 보고서 GitHub push, HTTP 200 확인
 
 ---
 
