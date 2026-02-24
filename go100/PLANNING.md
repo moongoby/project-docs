@@ -70,6 +70,7 @@
 | /terms | 이용약관 | 완료 |
 | /privacy | 개인정보처리방침 | 완료 |
 | /offline | 오프라인 | 완료 |
+| /(protected)/go100/notifications | GO100 알림 | 완료 |
 
 ## 5. 수익 모델 (계획)
 - SaaS 월 구독
