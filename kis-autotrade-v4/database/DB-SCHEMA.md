@@ -139,6 +139,9 @@ API 토큰 메타. (실제 토큰 값·키 미기록.)
 36컬럼 확장 반영 (BT-ENGINE-UPGRADE 2026-02-23): session_id, stock_code, trade_type, price, quantity, pnl, trade_date, card_id, exit_reason, entry_date, exit_date, hold_days, entry_datetime, exit_datetime, entry_price, exit_price, mfe_pct, mae_pct, mfe_price, mae_price, regime_at_entry, indicator_snapshot(jsonb), slippage_pct, commission, sector, strategy_name, entry_volume, entry_spread_pct, split_phase, transfer_to 등.  
 *추정 행 수: 약 176,896 (문서 기준).*
 
+**v4_backtest_regime_analysis**  
+레짐별 백테스트 성과 (CUR-STRATEGY-REGIME-BT-VIZ-001): session_id, card_id, strategy_name, desk_id, market_type, regime, total_trades, win_count, loss_count, win_rate, profit_factor, total_pnl, avg_pnl, max_pnl, min_pnl, avg_hold_days, avg_mfe_pct, avg_mae_pct, max_drawdown_pct, sharpe_ratio, benchmark_return_pct, strategy_return_pct, alpha_pct, pass_win_rate, pass_pf, pass_alpha, pass_mdd, pass_sharpe, overall_pass, backtest_period_start, backtest_period_end, created_at.
+
 ---
 
 ## 3. GO100 테이블 상세
@@ -208,6 +211,7 @@ go100_account_reconciliation, go100_backtest_runs, go100_desk_allocation, go100_
 | 날짜 | 변경 내용 |
 |------|-----------|
 | 2026-02-23 | 초판 생성 (DB-SCHEMA-EXPORT, 코드·문서 기반) |
+| 2026-02-24 | v4_market_regime_daily에 market_type VARCHAR(10) DEFAULT 'KOSPI' 컬럼 추가, UNIQUE(date, market_type) 제약 추가 — CUR-REGIME-BACKFILL-002 |
 
 ---
 

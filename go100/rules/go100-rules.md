@@ -59,3 +59,9 @@
 - 저장 위치: `go100/reports/` (교차 저장 금지)
 - 상세: go100/rules/DOCUMENT-RULES.md
 - 마스터: https://raw.githubusercontent.com/moongoby/project-docs/master/DOCUMENT-NAMING-CONVENTION.md
+
+## Git 운영 규칙
+- 작업 시작: 브랜치 분기 필수 ({type}/CUR-GO100-{TASK-ID})
+- 커밋 전: bash scripts/pre-commit-check.sh 실행 필수
+- 보호 파일 변경 시: git diff로 의도한 변경만 포함 확인
+- GO100 카드 지원 코드 삭제 금지 (trade/page.tsx, ScheduleForm.tsx)
