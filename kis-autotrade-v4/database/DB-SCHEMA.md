@@ -94,7 +94,8 @@ id(VARCHAR PK), order_request_id(FK → v4_order_requests.id), user_id, desk_id,
 *추정 행 수: 약 19M (문서 기준).*
 
 **v4_market_regime_daily**  
-id(BIGINT PK), date(DATE UNIQUE), regime(VARCHAR 30), regime_score, kospi_ret_20d, ma5/ma20/ma60, ma_alignment, bull_ratio_20d, vkospi, foreign_flow_20d, previous_regime, transition_note, hysteresis_up_count, hysteresis_down_count, pending_regime.
+id(BIGINT PK), date(DATE), market_type(VARCHAR 10) DEFAULT 'KOSPI', regime(VARCHAR 30), regime_score, kospi_ret_20d, ma5/ma20/ma60, ma_alignment, bull_ratio_20d, vkospi, foreign_flow_20d, previous_regime, transition_note, hysteresis_up_count, hysteresis_down_count, pending_regime.  
+UNIQUE(date, market_type). 코스피/코스닥 이원 레짐 (CUR-STRATEGY-REGIME-BT-VIZ-001).
 
 **v4_market_calendar**  
 id(BIGINT PK), date(DATE), event_type, event_name, bet_modifier, desk1_active ~ desk5_active, class_restrictions(JSON), note, source.  
