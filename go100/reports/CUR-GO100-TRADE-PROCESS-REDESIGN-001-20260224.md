@@ -4,7 +4,19 @@
 **우선순위:** P1 (프로세스 재설계)  
 **서버:** root@211.188.51.113  
 **프로젝트:** /root/kis-autotrade-v4 (branch: phase-2c-command-center → docs/CUR-GO100-TRADE-PROCESS-REDESIGN-001)  
-**참조:** [PLANNING](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/PLANNING.md), [API_SPEC](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/API_SPEC.md)
+**참조:** [PLANNING](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/PLANNING.md), [DB_SCHEMA](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/DB_SCHEMA.md), [API_SPEC](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/API_SPEC.md), [go100-rules](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/rules/go100-rules.md), [GIT-WORKFLOW](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/rules/GIT-WORKFLOW.md)
+
+---
+
+## 0. 진단 결과 요약 (2026-02-24 실행)
+
+- **go100_strategy_cards 설정 컬럼:** `account_id`, `universe_filter`, `entry_rules`, `exit_rules`, `risk_params`, `strategy_params`, `allocated_amount`, `max_stocks`, `card_status`, `is_active`, `is_live` 확인됨. (실제 카드 8건 중 `allocated_amount`는 전부 0, `risk_params`에 `partial_exit.initial_stop_loss_pct` 등 상세 값 존재.)
+- **v4_trade_schedules 스키마:** `id`, `user_id`, `strategy_id`, `account_id`, `is_active`, `run_interval`, `market_open_only`, `invest_amount`, `max_stocks`, `max_per_stock_pct`, `stop_loss_pct`, `take_profit_pct`, `last_run_at`, `next_run_at`, `created_at`, `updated_at`, `card_source` (default `'v41'`).
+- **현재 스케줄:** `card_source='go100'` 1건 (strategy_id=15, is_active=false), `card_source='v41'` 3건 확인.
+- **토글 API:** `strategy_router.py` PATCH `/{card_id}/toggle` — `is_active`만 NOT, 스케줄 생성/비활성화 없음.
+- **엔진:** `card_source='go100'`일 때 `go100_strategy_cards`에서 `strategy_type`, `strategy_params`, `strategy_name`만 조회; `max_stocks`/`invest_amount`/`stop_loss_pct`/`take_profit_pct`는 스케줄 값 사용.
+- **전략 상세 페이지:** 토글·삭제·백테스트·모의거래 시작/현황 링크만 있음. "자동매매 시작" 모달 없음.
+- **/trade ScheduleForm:** 전략·계좌·투자금·종목수·손절·익절·실행주기 입력, `card_source`는 선택 전략의 source로 설정.
 
 ---
 
@@ -134,7 +146,7 @@
 
 ### 5.1 go100_strategy_cards
 
-- **account_id:** 이미 존재 (`backend/migrations/020_go100_tables.sql`, `account_id INTEGER REFERENCES accounts(account_id)`).
+- **account_id:** 이미 존재 (information_schema 확인: `account_id integer`, nullable).
 - **allocated_amount, max_stocks, risk_params:** 이미 존재.  
 - **추가 컬럼:** 없어도 됨. 자동매매 시작 시 선택한 계좌는 스케줄의 `account_id`에 저장하면 됨.  
   (카드에 "마지막 사용 계좌"를 남기려면 선택적으로 `account_id` 업데이트 가능.)
