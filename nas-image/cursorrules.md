@@ -39,3 +39,9 @@
 ## 인계서
 - 대화 80% 또는 종료 시 작성
 - 경로: docs/handover/YYYYMMDD_주제.md
+
+## 보고서 관리 규칙
+13. 보고서 파일명: CUR-NASIMG-{TASK}-{SEQ}-{YYYYMMDD}.md
+14. 저장 경로: docs/reports/ (Private), nas-image/reports/ (Public)
+15. 커밋 후 GitHub 등록 확인: curl → 200 필수
+16. 보고서 상세 규칙: docs/DOC_RULES.md 참조

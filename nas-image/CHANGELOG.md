@@ -1,5 +1,14 @@
 # 변경 이력
 
+## 2026-02-24
+- **QC 프리셋 등록 오류 수정 (BUG-FIX-001)**
+  - 증상: 등록 버튼 클릭 시 폼만 리셋되고 목록에 미등록
+  - 원인: 폼 기본 제출(native submit)으로 같은 페이지 GET 재로드 → API 미호출
+  - 수정: preset_register.html에 `onsubmit="return false;"`, `action="#"` 추가
+  - 부가: 수정 페이지용 `isEdit`/`presetId` 템플릿 주입, 목록 썸네일 fallback URL (`/api/preset/{id}/image`)
+  - 보강: API에서 `analyze_image()` 실패 시 400 + 한글 메시지 반환(stats_json NOT NULL 안전), Jinja2 필터 공백 정리
+  - 보고서: docs/reports/CUR-NASIMG-BUG-FIX-001-20260224.md
+
 ## 2026-02-23
 - DB 스키마 문서화 (docs/DATABASE.md) — 테이블 구조, 인덱스, 114서버 연동 참조
 - requirements.txt에 httpx 추가 (TestClient 의존성)

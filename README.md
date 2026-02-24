@@ -6,11 +6,13 @@
 |-----------|------|------|---------|--------------|
 | [shortflow](./shortflow/) | ShortFlow v3.0 + StyleFlow v1.0 | 114서버 | [CONTEXT.md](./shortflow/CONTEXT.md) | [cursorrules.md](./shortflow/cursorrules.md) |
 | [go100](./go100/) | GO100 자동매매 | kis-autotrade-v4 | [CONTEXT.md](./go100/CONTEXT.md) | [cursorrules.md](./go100/cursorrules.md) |
+| [nas-image](./nas-image/) | ?댄넚 ?대?吏 ?먮룞??(NAS Docker) | NAS DS1821+ | [CONTEXT.md](./nas-image/CONTEXT.md) | [cursorrules.md](./nas-image/cursorrules.md) |
 
 ## Claude 새 대화 시작법
 해당 프로젝트 CONTEXT.md raw URL을 첫 메시지로 전달:
 - ShortFlow: https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/CONTEXT.md
 - GO100: https://raw.githubusercontent.com/moongoby/project-docs/master/go100/CONTEXT.md
+- NAS Image: https://raw.githubusercontent.com/moongoby/project-docs/master/nas-image/CONTEXT.md
 
 ## Claude에게 보고서 확인 요청
 ```

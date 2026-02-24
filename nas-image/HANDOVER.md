@@ -35,6 +35,7 @@
 - NAS Private: github.com/moongoby/newtalk-image-auto (docs/)
 - Public 열람: github.com/moongoby/project-docs (nas-image/)
 - 동기화: NAS docs/ → project-docs/nas-image/ 복사 후 push
+- 보고서 파일명·경로·동기화: docs/DOC_RULES.md (Public: nas-image/DOC_RULES.md)
 
 ## 2. 프로젝트 현황
 
