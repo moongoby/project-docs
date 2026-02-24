@@ -122,7 +122,7 @@
 - [x] 결과 JSON 저장 (/tmp/desk2to5_scan_results.json)
 - [x] DB 정합성 (사전값 동일)
 - [x] 전체 서비스 active
-- [ ] project-docs 보고서 push (GitHub raw URL 200)
+- [x] project-docs 보고서 push (GitHub raw URL 200)
 
 ---
 
