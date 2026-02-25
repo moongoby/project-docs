@@ -51,7 +51,7 @@ GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" g
 
 ```bash
 cd /srv/newtalk-v2
-# SHA 기록 후 CONTEXT/CHANGELOG/HANDOVER 내 {SHA} 치환 권장
+# SHA 기록 후 CONTEXT/CHANGELOG/HANDOVER 내 SHA 플레이스홀더 치환 권장
 
 git add docs/
 git commit -m "[DOCS] R2-API-002 + R2-FRONT-004 보고서·문서 갱신 v1.6.0"

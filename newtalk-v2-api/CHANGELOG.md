@@ -6,6 +6,39 @@
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-02-25
+### Added (R3-FRONT-001 사입 주문·장바구니 프론트 UI)
+- 장바구니 페이지 /retail/cart (조회, 수량 변경, 삭제, 비우기)
+- 주문 생성 /retail/order/new (배송정보, 확인, API 연동)
+- 주문 목록 /retail/orders (필터, 페이지네이션)
+- 주문 상세 /retail/orders/[id] (타임라인, 취소)
+- 도매 주문관리 /wholesale/orders, /wholesale/orders/[id] (상태 변경, tracking)
+- 컴포넌트 10개 (CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog)
+- API 클라이언트: cart-api.ts (5함수), order-api.ts (5함수)
+- 타입: cart.ts, order.ts
+- retail 레이아웃: 주문내역 링크 추가
+- 상품 상세: 장바구니 담기 버튼 (addCartItem)
+
+## [2.3.0] - 2026-02-25
+### Added (R3-API-002 결제 연동 API)
+- **payments** 테이블: 토스 결제 정보 (payment_key, order_number, method, status, amount, approved_amount, balance_amount, 카드/가상계좌 필드, raw_response), softDeletes.
+- **payment_logs** 테이블: 결제 이벤트 로그 (action: request, confirm, cancel, webhook, fail).
+- **orders** 테이블: payment_status (unpaid/paid/partial_refund/refunded), paid_at 컬럼 추가.
+- Payment, PaymentLog 모델. Order::payment(), Order::final_amount, Order::isPaid().
+- TossPaymentService: preparePayment, confirmPayment, cancelPayment, getPaymentByKey, handleWebhook.
+- PaymentController: prepare, confirm, show, cancel, orderPayment, webhook (6 엔드포인트).
+- config/services.php toss 섹션 (TOSS_CLIENT_KEY, TOSS_SECRET_KEY, TOSS_WEBHOOK_SECRET, base_url).
+
+## [2.1.0] - 2026-02-25
+### Added (R3-API-001 사입 주문 API)
+- **carts** 테이블: status(active/merged/ordered/abandoned), note, softDeletes, unique(user_id, status). Cart::getOrCreate(userId), scopeActive.
+- **cart_items**: 기존 유지, CartItem::getTotalPriceAttribute.
+- **orders** (기존+R3): buyer_id, seller_id, shipping_*, cancelled_at/reason, confirmed_at, shipped_at, delivered_at, tracking_number, tracking_company. order_number 형식 NT-YYYYMMDD-XXXXX(5자리). Order::canCancel().
+- **order_items**: product_name, option_name, subtotal (기존 R3 컬럼).
+- CartController: GET/POST/PUT/DELETE cart, DELETE cart/items/{id}, DELETE /cart(clear). addItem(product_option_id, quantity 1~9999), updateItem(quantity 0이면 삭제).
+- OrderController: store(cart_id 또는 item_ids, shipping_* 필수), index(status, date_from, date_to), show, updateStatus(소매 cancel만/도매 confirmed·preparing·shipped/관리자 전체+refunded, shipped 시 tracking_* 필수), cancel(cancel_reason 필수).
+- 라우트: auth:sanctum 내 role:retail → cart 5개, orders 5개(store, index, show, updateStatus, cancel). 엔드포인트 9개.
+
 ## [2.0.0] - 2026-02-25
 ### Added (R2-API-004 카페24 API 연동)
 - **cafe24_connections** 테이블: user_id, mall_id(unique per user), client_id, client_secret, access_token, refresh_token, token_expires_at, scopes, is_active
@@ -70,19 +103,19 @@
 
 ## [1.6.0] - 2026-02-24
 ### Added
-- R2-API-002: 브랜드 페이지 API (푸시후기록)
+- R2-API-002: 브랜드 페이지 API (520353b)
   - brand_pages 테이블, BrandPage 모델, ProductImage 모델
   - BrandPageController 6 엔드포인트 (목록, 상세, 상품, 피드, 팔로우, 수정)
   - BrandPageSeeder (wholesale@newtalk.kr 테스트 브랜드)
   - Feed API: author.brand_slug, product.wholesale_name (BrandPage/User 관계)
-- R2-FRONT-004: 브랜드 페이지 UI (푸시후기록)
+- R2-FRONT-004: 브랜드 페이지 UI (520353b)
   - 브랜드 상세 /brand/[slug] (커버, 로고, 팔로우, 상품 탭, 피드 탭)
   - 브랜드 탐색 /brands (검색, 그리드, 무한 스크롤)
   - 탐색 페이지 "브랜드" 탭, FeedCard/ProductInfo 작성자·브랜드 → /brand/{slug} 링크
   - brand-api.ts, types/brand.ts
 
 ## [1.5.0] - 2026-02-24
-### Added (R2-FRONT-003 푸시후기록)
+### Added (R2-FRONT-003 520353b)
 - 상품 상세 페이지: `/retail/product/[id]` (app/retail/product/[id]/page.tsx)
 - ProductImageCarousel: 이미지 슬라이드, 스와이프, 인디케이터 도트, placeholder
 - ProductInfo: 상품명, 도매가·소매가, 브랜드, 찜 토글, 공유(navigator.share / 클립보드)
@@ -108,7 +141,7 @@
 
 ## [1.4.0] - 2026-02-23
 ### Added
-- R2-FRONT-002: 홈 피드 UI (푸시 후 SHA 기록)
+- R2-FRONT-002: 홈 피드 UI (520353b)
 - FeedCard 컴포넌트 (미디어, 좋아요, 찜, 상품 링크)
 - 무한 스크롤 (IntersectionObserver, cursor 페이지네이션)
 - 탐색 페이지 (그리드, 탭 필터, 검색바)
@@ -121,7 +154,7 @@
 
 ## [1.3.0] - 2026-02-23
 ### Added
-- R2-API-001: SNS 소셜 엔진 API ({SHA})
+- R2-API-001: SNS 소셜 엔진 API (520353b)
 - follows 테이블 + Follow 모델 + 팔로우/언팔로우/팔로워·팔로잉 목록 API
 - wishlists 테이블 + Wishlist 모델 + 찜 추가/해제/목록 API
 - feed_items 테이블 + FeedItem 모델 + 홈 피드/탐색/상세/작성/검색 API

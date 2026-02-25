@@ -7,7 +7,7 @@
 | 작업명 | 카페24 API 연동 (OAuth, 상품 push/sync) |
 | 작업일 | 2026-02-25 KST |
 | 버전 | v2.0.0 (예정) |
-| 커밋 SHA | 푸시후기록 |
+| 커밋 SHA | 520353b |
 | 상태 | 구현 완료 (실연동은 client_id/secret 설정 후) |
 
 ## 구현 기능
@@ -50,10 +50,15 @@
 - **.env.docker** (서버만, 커밋 금지): CAFE24_CLIENT_ID=, CAFE24_CLIENT_SECRET=, CAFE24_REDIRECT_URI= (예: https://도메인/api/cafe24/callback)
 
 ## 검수 결과 (서버에서 실행)
-- **PHP Syntax**: (실행 후 기입) — `php -l` app/Http/Controllers/Api/Cafe24Controller.php, app/Services/Cafe24ApiService.php, app/Models/Cafe24Connection.php, app/Models/Cafe24ProductMapping.php
-- **마이그레이션**: (실행 후 기입) — `php artisan migrate:status` cafe24
-- **라우트**: (실행 후 기입) — `php artisan route:list --path=cafe24`
-- **V1 헬스**: (실행 후 기입) — curl 114.207.244.86 → 200
+- **PHP Syntax**:  
+  - `app/Http/Controllers/Api/Cafe24Controller.php` → No syntax errors detected.  
+  - `app/Services/Cafe24ApiService.php` → No syntax errors detected.  
+  - `app/Models/Cafe24Connection.php` → No syntax errors detected.  
+  - `app/Models/Cafe24ProductMapping.php` → No syntax errors detected.  
+  (서버에서 `docker compose --env-file .env.docker exec app php -l <파일>` 실행으로 확인)
+- **마이그레이션**: `php artisan migrate:status | grep cafe24` → cafe24_connections, cafe24_product_mappings Run 상태 확인.
+- **라우트**: `php artisan route:list --path=cafe24` → 8개 라우트 확인 (connect, callback, status, products/push, products/{id}, products).
+- **V1 헬스**: **200** (`curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`)
 
 ## 비고
 - 실제 카페24 API 호출은 개발자센터에서 앱 발급 후 client_id/secret 설정해야 가능. 구조(마이그레이션·모델·서비스·컨트롤러·라우트)는 완성되어 있으며, 미설정 시 try-catch 및 메시지로 "연동 준비 완료" 상태 반환.

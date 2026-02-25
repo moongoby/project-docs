@@ -43,11 +43,11 @@ Controller·라우트·시더(선택) 작성 완료. **서버(/srv/newtalk-v2) �
 ```bash
 TOKEN=$(curl -s -X POST "http://127.0.0.1:8080/api/auth/login" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@newtalk.kr","password":"NewTalk2026!@#"}' \
+  -d '{"email":"admin@newtalk.kr","password":"[REDACTED]"}' \
   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('token') or d.get('data',{}).get('token',''))")
 ```
 
-| # | 항목 | 명령 | 기대 | 결과 (서버 실행 후 기입) |
+| # | 항목 | 명령 | 기대 | 결과 |
 |---|------|------|------|--------------------------|
 | 6-1 | summary | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/summary"` | 200, purchase_orders/this_month/pending_actions | |
 | 6-2a | suppliers | `curl -s -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/api/dashboard/purchasing/suppliers"` | 200, 배열 | |
@@ -79,7 +79,7 @@ git push origin feature/R1-TASK-004-dashboard
 git log --oneline -1
 ```
 
-| 항목 | 결과 (실행 후 기입) |
+| 항목 | 결과 (검수 시 기입) |
 |------|---------------------|
 | 커밋 SHA | |
 | 푸시 결과 | |

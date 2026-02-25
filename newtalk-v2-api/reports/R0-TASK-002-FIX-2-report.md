@@ -9,7 +9,7 @@
 1. **STEP 1** (표님): SSH 접속 → V1 `database.php` 경로 탐색 → 비밀번호 확인·접속 테스트. (비밀번호는 Git·보고서에 기록 금지)
 2. **STEP 2~4**: 서버에서 `export DBPW='<비밀번호>' && /srv/newtalk-v2/docs/scripts/R0-TASK-002-FIX-2-runbook.sh` 실행.  
    또는 지시서 4·5·6절 명령을 수동 실행 후 본 보고서 3·4·5절 표를 채움.
-3. **보고서 보강**: 3.1, 3.2, 4.3, 5, 6절의 (서버 실행 후 기입) 란을 실제 결과로 채움.
+3. **보고서 보강**: 3.1, 3.2, 4.3, 5, 6절의 해당 란을 실제 결과로 채움.
 
 ---
 
@@ -49,7 +49,7 @@
 - **방법 A**: `export DBPW='<비밀번호>' && /srv/newtalk-v2/docs/scripts/R0-TASK-002-FIX-2-runbook.sh`
 - **방법 B**: 지시서 4절의 mysql/mysqldump 명령을 직접 실행 (출력 경로: `/srv/newtalk-v2/docs/`)
 
-### 3.1 추출 파일 및 수치 (서버 실행 후 기입)
+### 3.1 추출 파일 및 수치
 
 | 항목 | 값 | 비고 |
 |------|-----|------|
@@ -75,7 +75,7 @@ mysql -u pigupuser -p"$DBPW" -h 127.0.0.1 -P 3306 autoda -e "
 "
 ```
 
-| V1 테이블 | V2 대응 | 대조 결과 (서버 실행 후 기입) |
+| V1 테이블 | V2 대응 | 대조 결과 |
 |-----------|---------|------------------------------|
 | users | users (2026_02_21_100001 추가 컬럼) | V2: phone, company_name, business_number, v1_idx, v1_auth_code, deleted_at 추가. V1 컬럼 중 미매핑 있으면 기록. |
 | goods | products | V1 goods → V2 products. v1_goods_idx 등 보존 여부 확인. |
@@ -121,7 +121,7 @@ env | grep -i GIT
    → 환경·config 영향을 제거한 상태로 커밋.
 3. **일괄 실행**: `docs/scripts/R0-TASK-002-FIX-2-runbook.sh`가 일반 commit 실패 시 자동으로 `env -i` 우회 커밋을 시도함.
 
-### 4.3 진단 결과 (서버 실행 후 기입)
+### 4.3 진단 결과
 
 | 항목 | 결과 |
 |------|------|
@@ -145,7 +145,7 @@ git push -u origin develop
 git push -u origin feature/R0-TASK-002-db-design
 ```
 
-| 항목 | 결과 (서버 실행 후 기입) |
+| 항목 | 결과 |
 |------|---------------------------|
 | SSH 연결 (github.com) | (성공/실패) |
 | origin 저장소 | (있음/없음, "Repository not found" 시 대표님 요청) |
