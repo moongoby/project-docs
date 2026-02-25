@@ -6,6 +6,18 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-02-25
+### Added (R2-API-003 AI 콘텐츠 처리 API)
+- **contents** 테이블: type(image,video,lookbook,codi), status(draft,published,scheduled,hidden), visibility(public,private), soft delete
+- **contents_media** 테이블: content_id(nullable), file_path, file_name, file_size, mime_type, sort_order
+- **contents_product_tags** 테이블: content_id, product_id, unique
+- Content, ContentFile, ContentProductTagLink 모델
+- ContentController: store, mine, show, update, destroy (본인 검증, visibility 적용)
+- MediaController: upload (storage/app/public/contents/{user_id}/{YYYYMMDD}/), 응답 id, file_path, file_name, url
+- ProductController::mine (기존): 내 상품 목록 검색
+- 라우트: POST/GET/PUT/DELETE contents, GET contents/mine, GET contents/{id}(인증만), POST media/upload, GET products/mine
+- 유효성: title required|max:200, body nullable|max:2000, type/status/visibility enum, media_ids max 10, product_ids max 10, scheduled_at (status=scheduled 시 required)
+
 ## [1.8.0] - 2026-02-24
 ### Added (R2-FRONT-006 도매 콘텐츠 업로드)
 - `/wholesale/content`: 콘텐츠 관리 목록 (그리드/리스트, 필터 타입·상태, 페이지네이션)

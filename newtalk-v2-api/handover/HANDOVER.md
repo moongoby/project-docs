@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.3.0
-**최종수정**: 2026-02-24 KST (R2-FRONT-006 도매 콘텐츠 업로드 UI 완료)
+**버전**: 2.4.0
+**최종수정**: 2026-02-25 KST (R2-API-003 AI 콘텐츠 처리 API 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -14,6 +14,7 @@
 | 1.6.0 | 2026-02-24 | R2-API-002 브랜드 페이지 API + R2-FRONT-004 브랜드 페이지 UI |
 | 2.1.0 | 2026-02-24 | DOCS-CLEANUP-001 완료: CONTEXT/CHANGELOG SHA 교체, v1.6.1, R2-FIX-002 보고서, V1-SCHEMA-SUMMARY 보완, review 정리 |
 | 2.3.0 | 2026-02-24 | R2-FRONT-006 도매 콘텐츠 업로드 UI: /wholesale/content 목록·작성·수정, MediaUploader, ContentEditor, ProductTagSelector |
+| 2.4.0 | 2026-02-25 | R2-API-003 AI 콘텐츠 처리 API: contents CRUD, contents_media, contents_product_tags, MediaController upload, ProductController::mine |
 
 ---
 
@@ -210,6 +211,13 @@ docker compose --env-file .env.docker exec app composer {command}
 - content-api.ts, types/content.ts, UI: input, label, textarea, progress, switch, alert-dialog
 - Git SHA: 푸시후기록
 
+### R2-API-003: AI 콘텐츠 처리 API (v1.9.0)
+- contents, contents_media, contents_product_tags 테이블 및 Content, ContentFile, ContentProductTagLink 모델
+- ContentController: store, mine, show, update, destroy
+- MediaController: upload (id, file_path, file_name, url), type=image|video
+- GET /api/contents/{id} 인증만(visibility=private은 본인만)
+- Git SHA: 푸시후기록
+
 ---
 
 ## 5. 현재 진행 중인 작업
@@ -224,8 +232,7 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
-| 2 | R2-API-004 | 카페24 API 연동 |
+| 1 | R2-API-004 | 카페24 API 연동 |
 
 ---
 
