@@ -74,8 +74,8 @@ cd /root/kis-autotrade-v4 && PYTHONPATH=. .venv/bin/python scripts/backtest/meas
 - [x] 백업 완료
 - [x] go100 관련 파일만 수정 (backtest, universe)
 - [x] 헤더 주석 CUR-GO100-BACKTEST-PERF-VERIFY-001, 2026-02-25
-- [ ] pre-commit-check 통과 (커밋 전 실행)
-- [ ] 보고서 GitHub push
+- [x] pre-commit-check 통과 (커밋 전 실행)
+- [x] 보고서 GitHub push
 
 ## 6. 다음 단계
 
