@@ -5,6 +5,18 @@
 
 ---
 
+## 0. 사전 확인 결과 (2026-02-25 실행)
+
+| 이슈 | 확인 명령 | 결과 | 조치 |
+|------|-----------|------|------|
+| **ISS-012** | `grep DEFAULT_USER_ID\|useAuthStore ChatWidget.tsx` | `DEFAULT_USER_ID` 없음, `useAuthStore` 이미 사용 중 (L18, L48), `user?.user_id` 사용 | **기 반영** → SKIP |
+| **ISS-011** | `cat go100/chat/page.tsx`, `grep redirect\|router.push.*llm` | 리다이렉트 없음, `ChatWidget mode="fullscreen"` 임베드, 헤더 ISS-011 fix 존재 | **기 반영** → SKIP |
+| **ISS-013** | `grep retry backtest_router.py` | `@router.post("/retry/{run_id}")`, `retry_backtest` 존재 (L115~151) | **기 반영** → SKIP |
+
+**결론:** 3건 모두 이미 반영됨. 본 작업에서 **추가 코드 수정 없음**. 검증 grep 재확인 및 보고서·문서레포 push만 수행.
+
+---
+
 ## 1. 개요
 Phase 2 미해결 이슈 ISS-011, ISS-012, ISS-013 수정.  
 보호 파일(auth-store.ts, client.ts) 변경 없음. kis-v41-* 서비스 재시작 금지 준수.
