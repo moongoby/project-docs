@@ -1,6 +1,9 @@
 # 변경 이력
 
 ## 2026-02-24
+- **PIPELINE_PROCESS.md 신규 생성** — 전체 자동화 파이프라인 프로세스 정의 (AS-IS/TO-BE, P1~P6 상세, 로드맵, 기술 참조)
+- PLANNING.md: TO-BE 워크플로우를 PIPELINE_PROCESS와 동기화, Phase 3/4 로드맵 구체화 (P3~P6)
+- CONTEXT.md: 바로 다음 할 일에 P1(모델사진폴더 NAS 직접 생성) 추가, 참조 문서에 PIPELINE_PROCESS.md 추가
 - **QC 프리셋 등록 오류 수정 (BUG-FIX-001)**
   - 증상: 등록 버튼 클릭 시 폼만 리셋되고 목록에 미등록
   - 원인: 폼 기본 제출(native submit)으로 같은 페이지 GET 재로드 → API 미호출

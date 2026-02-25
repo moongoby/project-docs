@@ -83,3 +83,7 @@
 1. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md (이 파일)
 2. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
 3. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/CLAUDE.md
+
+## 12. 최신 인계서
+- **HANDOVER-KIS-V41-005-20260224**: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/HANDOVER-KIS-V41-005-20260224.md
+- 내용: 전체 프로젝트 현황, 2/24 완료 10건, DESK2 재설계 CEO 지시, 5시간대 전략, 복리 자금운용, 실행 큐
