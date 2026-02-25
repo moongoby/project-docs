@@ -1,0 +1,1 @@
+[report] shortflow: 20260224 보고서 3건 (SaaS 대시보드 1차, 준비상태, 외부접속 URL)
