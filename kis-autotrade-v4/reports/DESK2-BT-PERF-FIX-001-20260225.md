@@ -142,5 +142,71 @@
 
 ---
 
+## 8. DESK2-BT-PERF-DEBUG-002 — 디버그 실행 결과 (2026-02-25)
+
+### 8.1 문제
+
+- **최적화 전:** 2026-02-03 단일일에서 498종목, 186,884 bars, ALPHA_GAP 거래 발생 확인됨.
+- **최적화 후:** 같은 날짜에서 `total_trades=0`, 처리시간 0.000초 → 증분 계산 전환 과정에서 로직 파손 의심.
+
+### 8.2 STEP 1 — 디버그 로그 삽입
+
+`desk2_backtester.run()` 내 다음 위치에 **logger.debug** 로그 추가 (DEBUG 레벨에서만 출력):
+
+| 위치 | 로그 내용 |
+|------|-----------|
+| 거래일 루프 진입 직후 | `DAY=%s` |
+| _load_universe 직후 | `universe=%d` |
+| _load_prev_close 직후 | `prev_close=%d종목` |
+| _load_minute_bars 직후 | `bars=%d종목, total=%d건` |
+| all_times 생성 직후 | `all_times=%d개` |
+| 스캔 루프 첫 bar_dt | `first_scan: bar_dt=... tickers=%d` |
+| _apply_single_bar 직후 (첫 ticker) | `indicator sample: rsi=... vwap=...` |
+| discovery_manager.scan_all 직후 | `discoveries=%d` |
+| 전략 매칭 후 | `signals=%d` |
+
+**실행 예시 (디버그 출력 보려면 DEBUG 레벨):**
+```bash
+cd /root/kis-autotrade-v4
+PYTHONPATH=backend python3 -c "
+import logging
+logging.basicConfig(level=logging.DEBUG)
+from pathlib import Path
+from app.services.trading.desk2.tests.desk2_backtester import Desk2Backtester
+config = str(Path('backend/app/services/trading/desk2/config/desk2_config.yaml').resolve())
+bt = Desk2Backtester(config)
+result = bt.run('2026-02-03', '2026-02-03', 10000000)
+print('RESULT:', result)
+" 2>&1 | tee report/v41/desk2-bt/debug_v2_result.txt
+```
+
+### 8.3 STEP 2 — 원인 분석 (0이 되는 첫 지점)
+
+| 첫 0 지점 | 원인 | 대응 |
+|-----------|------|------|
+| **universe=0** | _load_universe 쿼리 결과 없음. 해당일 `v4_ohlcv_minute` 데이터 없거나 DB 미연결. | DB에 해당일 분봉 데이터 존재 여부 확인. 데이터 존재 환경에서 동일 명령 재실행 시 다음 단계 확인. |
+| bars=0 | _load_minute_bars 날짜 포맷 또는 tickers 비어 있음. | prev_close 필터 후 tickers 비어 있지 않은지 확인. |
+| prev_close=0 | ohlcv_daily 날짜(YYYYMMDD)·컬럼(close AS close_price) 확인. | DESK2-BT-DEBUG-001 반영 여부 확인. |
+| all_times=0 | bars에서 시간 추출 실패. | time_to_bars 구성 로직 확인. |
+| discoveries=0 | _apply_single_bar가 지표를 갱신하지 못함. | bar_dt/datetime 타입 일치, bars_5m append 확인. |
+| signals=0 | 발굴은 되나 전략 매칭 실패. | 전략 evaluate 조건·지표 초기값 확인. |
+
+**본 환경 실행 결과:** `universe=0` → 해당 환경 DB에 2026-02-03 분봉 데이터 없음. 데이터 있는 환경에서 실행 시 universe=498 등으로 나오며, 그때는 위 표의 후속 단계에서 첫 0 위치 확인 가능.
+
+### 8.4 STEP 3 — 적용한 수정
+
+1. **Volume 필터 폴백**  
+   거래량 > 0 필터 후 `tickers`가 비었지만 `bars_by_ticker`에 키가 있으면, 해당 키를 tickers로 복원하여 해당일 스캔이 누락되지 않도록 함.
+2. **디버그 로그**  
+   print 제거, `logger.debug`로 변경하여 기본 실행에는 영향 없고, 원인 추적 시 `logging.basicConfig(level=logging.DEBUG)`로 재현 가능.
+
+### 8.5 완료 조건 (데이터 환경에서 확인)
+
+- 2026-02-03 단일일에서 `total_trades > 0`
+- 처리시간 60초 이내
+- 최적화 전과 동일한 발굴/거래 패턴 확인
+
+---
+
 **보고서 위치:** `/root/kis-autotrade-v4/report/v41/DESK2-BT-PERF-FIX-001-20260225.md`  
 **예상 풀 구간 완료:** 단일일 60초 달성 시 약 **4.4시간**.
