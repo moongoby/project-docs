@@ -13,7 +13,7 @@ TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 echo "=== NewTalk V2 API 문서 동기화: $TIMESTAMP ==="
 echo "SRC=$SRC"
 
-mkdir -p "$DST/handover" "$DST/reports"
+mkdir -p "$DST/handover" "$DST/reports" "$DST/architecture" "$DST/planning"
 
 # CONTEXT.md (없으면 인계서 기반 생성은 수동)
 cp "$SRC/CONTEXT.md" "$DST/" 2>/dev/null || echo "⚠️ CONTEXT.md 없음 (수동 생성 또는 인계서 기반 작성)"
@@ -21,9 +21,12 @@ cp "$SRC/CONTEXT.md" "$DST/" 2>/dev/null || echo "⚠️ CONTEXT.md 없음 (수�
 # cursorrules
 cp /srv/newtalk-v2/.cursorrules "$DST/cursorrules.md" 2>/dev/null || cp "${SRC%/docs}/.cursorrules" "$DST/cursorrules.md" 2>/dev/null || echo "⚠️ .cursorrules 없음"
 
-# 기획서, 아키텍처, CHANGELOG
+# 기획서, 아키텍처 (루트 복사 — 기존 URL 호환)
 cp "$SRC/planning/NT-V2-PLAN-002-FINAL.md" "$DST/" 2>/dev/null || true
 cp "$SRC/architecture/NT-V2-ARCHITECTURE.md" "$DST/" 2>/dev/null || true
+# DOCS-ARCH-001: architecture/, planning/ 폴더 복사 (원격 경로 .../architecture/..., .../planning/... 사용)
+cp -r "$SRC/architecture/"* "$DST/architecture/" 2>/dev/null || true
+cp -r "$SRC/planning/"* "$DST/planning/" 2>/dev/null || true
 cp "$SRC/CHANGELOG.md" "$DST/" 2>/dev/null || true
 
 # 인계서 (최신 3건)
