@@ -3,7 +3,7 @@
 - **작업일**: 2026-02-24 KST
 - **브랜치**: feature/R2-FIX-002-review-feedback
 - **버전**: v1.6.1
-- **Git SHA**: 푸시후기록
+- **Git SHA**: 520353b
 
 ## 수정 내역
 

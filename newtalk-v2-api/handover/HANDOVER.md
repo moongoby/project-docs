@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.5.0
-**최종수정**: 2026-02-25 KST (R2-API-004 카페24 API 연동 완료)
+**버전**: 2.6.0
+**최종수정**: 2026-02-25 KST (R3-API-001 사입 주문 API 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -16,6 +16,7 @@
 | 2.3.0 | 2026-02-24 | R2-FRONT-006 도매 콘텐츠 업로드 UI: /wholesale/content 목록·작성·수정, MediaUploader, ContentEditor, ProductTagSelector |
 | 2.4.0 | 2026-02-25 | R2-API-003 AI 콘텐츠 처리 API: contents CRUD, contents_media, contents_product_tags, MediaController upload, ProductController::mine |
 | 2.5.0 | 2026-02-25 | R2-API-004 카페24 API 연동: cafe24_connections, cafe24_product_mappings, Cafe24ApiService, Cafe24Controller (OAuth, 상품 push/sync) |
+| 2.6.0 | 2026-02-25 | R3-API-001 사입 주문 API: carts(status/note/softDeletes), cart_items, orders(주문·배송·취소), order_items 스냅샷, CartController 5 EP, OrderController 5 EP |
 
 ---
 
@@ -170,7 +171,7 @@ docker compose --env-file .env.docker exec app composer {command}
 ### R2-API-001: SNS 소셜 엔진 API
 - 피드(홈/탐색/상세/작성/검색/좋아요), 팔로우(팔로우/언팔로우/팔로워·팔로잉), 찜(목록/추가/해제)
 - follows, wishlists, feed_items, feed_likes 테이블 + 4 모델 + 3 컨트롤러 (13 엔드포인트)
-- 커밋: 푸시후기록
+- 커밋: 520353b
 - 브랜치: feature/R2-API-001-social-engine
 
 ### R2-FIX-001: 검수 피드백 반영 (v1.4.1)
@@ -183,20 +184,20 @@ docker compose --env-file .env.docker exec app composer {command}
 - 상품 상세 페이지 `/retail/product/[id]`, 이미지 캐러셀, 옵션(컬러·사이즈), 찜·공유, 액션바, 관련상품
 - product-api.ts (getProduct, getRelatedProducts, toggleProductWishlist, shareProduct)
 - 브랜치: feature/R2-FRONT-003-product-detail
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
 
 ### R2-API-002: 브랜드 페이지 API (v1.6.0)
 - brand_pages 테이블, BrandPage·ProductImage 모델, BrandPageController 6 EP
 - GET /brands, /brands/{slug}, /brands/{slug}/products, /brands/{slug}/feed, POST follow, PUT /brands/me
 - BrandPageSeeder (wholesale@newtalk.kr), Feed API author.brand_slug·product.wholesale_name
 - 브랜치: feature/R2-API-002-brand-page
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
 
 ### R2-FRONT-004: 브랜드 페이지 UI (v1.6.0)
 - /brand/[slug] 상세 (헤더, 탭 상품/피드), /brands 탐색, 탐색 탭 "브랜드", FeedCard·ProductInfo 브랜드 링크
 - brand-api.ts, BrandHeader, BrandCard, BrandProductGrid, BrandFeedSection
 - 브랜치: feature/R2-API-002-brand-page
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
 
 ### R2-FRONT-005: 관리자 구매 대시보드 상세 (v1.7.0)
 - 구매 대시보드 메인 /admin/purchase, 발주 목록 /admin/purchase/orders, 발주 상세 /admin/purchase/[id]
@@ -204,27 +205,34 @@ docker compose --env-file .env.docker exec app composer {command}
 - PurchaseStats, PurchaseFilter, PurchaseOrderTable, ReceivingTable, ReceivingDetail, BarcodeScanner
 - API: dashboard/purchasing/summary·recent-orders, purchase-orders(목록), inbound-receipts(목록/상세/complete), barcodes
 - 보고서: docs/reports/R2-FRONT-005-report.md
-- Git SHA: 배포 후 기록
+- Git SHA: 520353b
 
 ### R2-FRONT-006: 도매 콘텐츠 업로드 UI (v1.8.0)
 - /wholesale/content 목록(그리드/리스트, 필터, 페이지네이션), /wholesale/content/new 작성, /wholesale/content/[id]/edit 수정
 - MediaUploader, ContentEditor, ProductTagSelector, ContentList, ContentCard, ContentPreview
 - content-api.ts, types/content.ts, UI: input, label, textarea, progress, switch, alert-dialog
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
 
 ### R2-API-003: AI 콘텐츠 처리 API (v1.9.0)
 - contents, contents_media, contents_product_tags 테이블 및 Content, ContentFile, ContentProductTagLink 모델
 - ContentController: store, mine, show, update, destroy
 - MediaController: upload (id, file_path, file_name, url), type=image|video
 - GET /api/contents/{id} 인증만(visibility=private은 본인만)
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
 
 ### R2-API-004: 카페24 API 연동 (v2.0.0)
 - cafe24_connections, cafe24_product_mappings 테이블 및 Cafe24Connection, Cafe24ProductMapping 모델
 - Cafe24ApiService (OAuth URL, token 교환/갱신, 상품 push/update/delete/list)
 - Cafe24Controller: connect, callback, status, pushProducts, updateProduct, deleteProduct, listProducts
 - POST/GET /api/cafe24/connect, callback, GET status, POST products/push, PUT/DELETE/GET products
-- Git SHA: 푸시후기록
+- Git SHA: 520353b
+
+### R3-API-001: 사입 주문 API (v2.1.0)
+- carts (status, note, softDeletes, unique user_id+status), cart_items, orders R3 컬럼, order_items 스냅샷
+- CartController: index, addItem, updateItem, removeItem, clear (장바구니 5개 엔드포인트)
+- OrderController: store(cart_id/item_ids), index, show, updateStatus, cancel (주문 5개 엔드포인트)
+- 주문번호 NT-YYYYMMDD-XXXXX, 도매처별 주문 분리, 소매 취소/도매 확인·배송/관리자 refund
+- Git SHA: d3c5b60
 
 ---
 
@@ -240,7 +248,8 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | (없음) | R2-API-004 완료. 실제 카페24 연동 테스트는 대표 승인 후 진행 |
+| 1 | R3-FRONT-001 | 사입 주문·장바구니 프론트 UI (지시서 별도) |
+| 2 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
 
 ---
 
