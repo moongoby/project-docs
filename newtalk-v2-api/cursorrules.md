@@ -173,69 +173,27 @@
 # 코드 커밋과 별도로, 작업 완료 시 반드시 아래를 실행한다.
 # 이 단계를 건너뛰면 작업 미완료로 간주한다.
 #
-# --- 16-1. project-docs 경로 ---
-# project-docs 레포 위치: /root/project-docs 또는 /data/project-docs
-# 뉴톡 V2 문서 경로: {project-docs}/newtalk-v2-api/
-# 보고서 경로: {project-docs}/newtalk-v2-api/reports/
-# review 경로: {project-docs}/newtalk-v2-api/review/
-#
-# --- 16-2. 보고서 push 절차 (매 작업 완료 시 필수) ---
 # (1) 보고서 파일 존재 확인
 #     ls -la {project-docs}/newtalk-v2-api/reports/{TASK-ID}-report.md
-#     → 없으면 즉시 작성 (서버 docs에서 복사)
+#     → 없으면 즉시 작성
 #
 # (2) 핵심 문서 복사 (서버 → project-docs)
-#     cp /srv/newtalk-v2/docs/CONTEXT.md {project-docs}/newtalk-v2-api/
-#     cp /srv/newtalk-v2/docs/CHANGELOG.md {project-docs}/newtalk-v2-api/
-#     cp /srv/newtalk-v2/docs/handover/HANDOVER.md {project-docs}/newtalk-v2-api/handover/
-#     cp /srv/newtalk-v2/.cursorrules {project-docs}/newtalk-v2-api/cursorrules.md
-#     cp /srv/newtalk-v2/docs/reports/{TASK-ID}-report.md {project-docs}/newtalk-v2-api/reports/
+#     CONTEXT.md, CHANGELOG.md, HANDOVER.md, cursorrules.md, 보고서
 #
 # (3) review 소스 복사 (검수 대상이 있을 때)
-#     find 로 실제 경로 확인 후 복사:
-#       SRC=$(find /srv/newtalk-v2 -name "{파일명}" -type f | head -1)
-#       [ -n "$SRC" ] && cp "$SRC" {project-docs}/newtalk-v2-api/review/{접두사}_{파일명}
-#     → 복사 후 ls -la 로 파일 존재 반드시 확인
-#     → 민감정보 sed 제거
+#     find 로 실제 경로 확인 → 복사 → ls -la 로 존재 확인
 #
 # (4) 민감정보 검사
-#     grep -rIiE "(password|secret|token=|NewTalk2026|Test2026)" {project-docs}/newtalk-v2-api/
-#     → 결과 있으면 sed 로 제거, 없으면 통과
+#     grep -rIiE "(password|secret|token=|NewTalk2026|Test2026)"
 #
-# (5) git add / commit / push
-#     cd {project-docs}
-#     git add -A
-#     git status    ← 반드시 확인: 추가된 파일 목록에 보고서/review 파일 있는지 확인
-#     git commit -m "docs: {TASK-ID} 보고서 push (YYYYMMDD)"
-#     GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" git push origin master
+# (5) git add -A → git status 확인 → commit → push origin master
 #
-# (6) push 성공 확인 (exit code 0)
-#     echo $?       ← 0이면 성공
-#     git log --oneline -1
+# (6) push 성공 확인: echo $? → 0, git log --oneline -1
 #
-# (7) 원격 검증 (30초 대기 후 curl)
-#     sleep 30
-#     curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/reports/{TASK-ID}-report.md
-#     → 200이면 성공
+# (7) 원격 검증: sleep 30 → curl 200 확인
 #
-# (8) 실패 시 재시도. 3회 실패 시 에러 원인 보고하라.
-#     실패 원인 예: 파일 경로 오류, git conflict, SSH 키 문제, 파일 미존재
+# (8) 실패 시 3회 재시도. 3회 실패 시 에러 원인 보고.
 #
-# --- 16-3. {SHA} 플레이스홀더 금지 ---
-# CONTEXT.md, CHANGELOG.md, 보고서에 {SHA}, (커밋 후 기록), (푸시 후 기록) 등
-# 플레이스홀더를 남기지 않는다.
-# 반드시 실제 커밋 후 git log --oneline -1 로 SHA를 확인하고 즉시 교체한다.
-# 교체 후 다시 커밋·푸시한다.
-#
-# --- 16-4. 완료 보고 형식 ---
-# 작업 완료 보고 시 반드시 아래 형식을 따른다:
-#   "{TASK-ID} 완료. 확인해라."
-#   Git 경로:
-#   - V2 repo: https://github.com/moongoby/newtalk-v2-api-
-#   - project-docs: https://github.com/moongoby/project-docs
-#   동기화 체크:
-#   - CONTEXT ✅/❌
-#   - CHANGELOG ✅/❌
-#   - 보고서 ✅/❌
-#   - review (해당시) ✅/❌
-#   - V1 헬스 ✅/❌
+# --- {SHA} 플레이스홀더 금지 ---
+# CONTEXT, CHANGELOG, 보고서에 {SHA}, (커밋 후 기록) 등 빈칸 금지.
+# git log --oneline -1 로 SHA 확인 후 즉시 교체, 재커밋.

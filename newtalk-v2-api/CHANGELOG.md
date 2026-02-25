@@ -6,6 +6,19 @@
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-02-24
+### Added (R2-FRONT-006 도매 콘텐츠 업로드)
+- `/wholesale/content`: 콘텐츠 관리 목록 (그리드/리스트, 필터 타입·상태, 페이지네이션)
+- `/wholesale/content/new`: 새 콘텐츠 작성
+- `/wholesale/content/[id]/edit`: 콘텐츠 수정
+- MediaUploader: 드래그앤드롭, 다중파일(10장), 미리보기, 순서·삭제, 진행률, 이미지 10MB/영상 100MB
+- ContentEditor: 타입(이미지/영상/룩북/코디), 제목/본문(2000자), 공개/비공개, 예약발행
+- ProductTagSelector: 내 상품 검색·태그(10개)
+- ContentList, ContentCard, ContentPreview
+- content-api.ts, types/content.ts
+- UI: input, label, textarea, progress, switch, alert-dialog
+- api.ts: FormData 요청 시 Content-Type 미설정
+
 ## [1.7.0] - 2026-02-24
 ### Added (R2-FRONT-005 관리자 구매 대시보드 상세)
 - **구매 대시보드 메인** `/admin/purchase`: 통계 카드(PurchaseStats), 최근 발주 5건, 빠른 링크
@@ -35,19 +48,19 @@
 
 ## [1.6.0] - 2026-02-24
 ### Added
-- R2-API-002: 브랜드 페이지 API (46fccf5)
+- R2-API-002: 브랜드 페이지 API (푸시후기록)
   - brand_pages 테이블, BrandPage 모델, ProductImage 모델
   - BrandPageController 6 엔드포인트 (목록, 상세, 상품, 피드, 팔로우, 수정)
   - BrandPageSeeder (wholesale@newtalk.kr 테스트 브랜드)
   - Feed API: author.brand_slug, product.wholesale_name (BrandPage/User 관계)
-- R2-FRONT-004: 브랜드 페이지 UI (46fccf5)
+- R2-FRONT-004: 브랜드 페이지 UI (푸시후기록)
   - 브랜드 상세 /brand/[slug] (커버, 로고, 팔로우, 상품 탭, 피드 탭)
   - 브랜드 탐색 /brands (검색, 그리드, 무한 스크롤)
   - 탐색 페이지 "브랜드" 탭, FeedCard/ProductInfo 작성자·브랜드 → /brand/{slug} 링크
   - brand-api.ts, types/brand.ts
 
 ## [1.5.0] - 2026-02-24
-### Added (R2-FRONT-003 46fccf5)
+### Added (R2-FRONT-003 푸시후기록)
 - 상품 상세 페이지: `/retail/product/[id]` (app/retail/product/[id]/page.tsx)
 - ProductImageCarousel: 이미지 슬라이드, 스와이프, 인디케이터 도트, placeholder
 - ProductInfo: 상품명, 도매가·소매가, 브랜드, 찜 토글, 공유(navigator.share / 클립보드)
