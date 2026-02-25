@@ -232,7 +232,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - CartController: index, addItem, updateItem, removeItem, clear (장바구니 5개 엔드포인트)
 - OrderController: store(cart_id/item_ids), index, show, updateStatus, cancel (주문 5개 엔드포인트)
 - 주문번호 NT-YYYYMMDD-XXXXX, 도매처별 주문 분리, 소매 취소/도매 확인·배송/관리자 refund
-- Git SHA: d3c5b60
+- Git SHA: 87cb07b
 
 ---
 
