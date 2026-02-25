@@ -69,7 +69,7 @@ goods.`id`→v1_goods_idx, `GoodsName`→name, `GoodsCode`→product_code, `Good
 ```bash
 TOKEN=$(curl -s -X POST "http://127.0.0.1:8080/api/auth/login" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@newtalk.kr","password":"NewTalk2026!@#"}' \
+  -d '{"email":"admin@newtalk.kr","password":"[REDACTED]"}' \
   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('token') or d.get('data',{}).get('token',''))")
 ```
 

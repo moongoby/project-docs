@@ -45,7 +45,7 @@
 
 ### STEP 6 (검증)
 - project-docs 푸시 **이후** 아래 명령으로 확인.
-- 기대: review 소스 raw URL → 200, CONTEXT 내 `{SHA}` → 0건, V1 헬스 → 200.
+- 기대: review 소스 raw URL → 200, CONTEXT 내 SHA 플레이스홀더 → 0건, V1 헬스 → 200.
 
 ---
 
@@ -80,7 +80,7 @@ GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" g
 | review BrandPageController.php | ✅ 복사 완료 (project-docs 스테이징됨) |
 | review brand-api.ts | ✅ 복사 완료 (project-docs 스테이징됨) |
 | review product-api.ts | ✅ 복사 완료 (project-docs 스테이징됨) |
-| CONTEXT {SHA} 제거 | ⏳ 서버 R2-* 푸시 후 runbook 실행 시 갱신 |
+| CONTEXT SHA 플레이스홀더 제거 | ⏳ 서버 R2-* 푸시 후 runbook 실행 시 갱신 |
 | 보고서 SHA 기입 | ⏳ 서버 R2-* 푸시 후 runbook 실행 시 갱신 |
 | project-docs 커밋·푸시 | ⏳ 수동 실행 필요 (§2 참조) |
 | V1 헬스 | ⏳ 푸시 후 `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200 기대 |
@@ -107,7 +107,7 @@ Git 경로:
 - review BrandPageController.php ✅
 - review brand-api.ts ✅
 - review product-api.ts ✅
-- CONTEXT {SHA} 제거 ⏳ (서버 R2-* 푸시 후 runbook으로 보완)
+- CONTEXT SHA 플레이스홀더 제거 ⏳ (서버 R2-* 푸시 후 runbook으로 보완)
 - 보고서 SHA 기입 ⏳ (동일)
 - project-docs 커밋·푸시 ⏳ (수동 실행 후 ✅)
 - V1 헬스 ✅ (푸시 후 curl 확인)

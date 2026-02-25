@@ -10,9 +10,9 @@
 | 상태 | 로컬 수정 완료 / 서버 runbook 실행 시 SHA·동기화 완료 |
 
 ## 완료 기준 체크
-- [x] CONTEXT.md "푸시후기록" 4건 → **서버 runbook**에서 실제 SHA로 교체 (R2-FRONT-003, R2-API-002, R2-FRONT-004, R2-FIX-002)
-- [x] CHANGELOG.md "푸시후기록" 2건 교체 + v1.6.1 섹션 — **서버 runbook** SHA 치환 / v1.6.1 이미 반영됨
-- [x] R2-FIX-002 보고서 Git SHA — **서버 runbook**에서 "푸시후기록" → 실제 SHA 교체
+- [x] CONTEXT.md 플레이스홀더 4건 → **서버 runbook**에서 실제 SHA로 교체 (R2-FRONT-003, R2-API-002, R2-FRONT-004, R2-FIX-002)
+- [x] CHANGELOG.md 플레이스홀더 2건 교체 + v1.6.1 섹션 — **서버 runbook** SHA 치환 / v1.6.1 이미 반영됨
+- [x] R2-FIX-002 보고서 Git SHA — **서버 runbook**에서 플레이스홀더 → 실제 SHA 교체
 - [x] V1-SCHEMA-SUMMARY.md 보완 — **로컬 완료**: 구조·전체 테이블 목록 가이드·핵심 테이블 안내 (서버에서 SHOW TABLES/DESCRIBE 실행 시 완전 채움)
 - [x] HANDOVER.md 미해결→완료 반영 — **로컬 완료**: 버전 2.1.0, DOCS-CLEANUP-001 완료 항목 섹션 추가
 - [ ] review 폴더 .gitkeep만 유지 — 서버 runbook
@@ -44,4 +44,4 @@ cd /srv/newtalk-v2 && bash docs/scripts/DOCS-CLEANUP-001-runbook.sh
 
 ## 비고
 - 로컬 `/root/newtalk-v2`는 git 레포가 아니므로 실제 SHA 확인 및 push는 서버(`/srv/newtalk-v2`)에서 runbook 실행으로 수행.
-- CONTEXT/CHANGELOG/R2-FIX-002의 "푸시후기록"은 runbook 실행 시 자동으로 실제 7자리 SHA로 치환됨.
+- CONTEXT/CHANGELOG/R2-FIX-002의 SHA 플레이스홀더는 runbook 실행 시 자동으로 실제 7자리 SHA로 치환됨.
