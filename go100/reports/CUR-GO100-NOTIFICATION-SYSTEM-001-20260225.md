@@ -80,7 +80,8 @@
   - `PUT /api/go100/notifications/settings` (JSON body)  
   - `POST /api/go100/notifications/test`
 - **프론트:**  
-  - `npx tsc --noEmit`, `npm run build` (frontend 디렉터리)
+  - `npx tsc --noEmit`, `npm run build` (frontend 디렉터리)  
+  - ※ 2026-02-25 기준: `backtest/page.tsx`에 `checkBacktestReadiness` 미정의 TS 오류 1건 존재(알림 작업과 무관). 알림 수정 파일에는 오류 없음.
 
 ---
 
