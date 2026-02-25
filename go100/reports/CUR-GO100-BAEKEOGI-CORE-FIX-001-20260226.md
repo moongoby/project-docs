@@ -186,3 +186,25 @@
 ---
 
 *작성: Claude Code (CUR-GO100-BAEKEOGI-CORE-FIX-001)*
+
+---
+
+## 9. 추가 긴급 수정 (2026-02-26 00:50)
+
+### 문제 발견
+프론트엔드 "자유대화" 탭이 `/api/v1/llm/chat/stream` 엔드포인트를 호출하고 있었으며, 이 엔드포인트에는 C2SC 인텐트 분류가 없어서 모든 질문이 범용 LLM 스트리밍으로 직행 → 데이터 없이 "조회할 수 없습니다" 응답.
+
+### 수정
+
+| 파일 | 변경 |
+|------|------|
+| `backend/app/api/v1/llm_router.py` | C2SC 인터셉터 추가 — stock_info/market_briefing/portfolio_status/stock_screening 인텐트 감지 시 go100 핸들러 직접 호출 |
+| `frontend/src/components/chat/StrategyCardSaveButton.tsx` | 매수/매도/손절 섹션 최소 1개 있어야 "전략카드로 저장" 버튼 표시 |
+
+### 검증
+- "오늘 삼성전자 가격알려줘" → stock_info 인터셉트 → 203,500원 실데이터
+- "오늘장 어때" → market_briefing 인터셉트 → 레짐/KOSPI 실데이터
+- "안녕" → help (data-backed 아님) → 일반 LLM 스트리밍 정상
+
+### 커밋
+- `phase-2c-command-center` → `6adb7162`
