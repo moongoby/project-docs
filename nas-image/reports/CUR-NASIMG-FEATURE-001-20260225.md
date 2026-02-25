@@ -160,6 +160,7 @@ CREATE TABLE IF NOT EXISTS nas_folder_request (
 
 **2026-02-25 원격 실행 시도 요약:**  
 NAS SSH 접속 후 STEP 1~2까지 실행 시도. STEP 1(.env 키 확인) 통과, git pull 완료. **Docker 빌드 단계에서 `sudo` 비밀번호 입력 필요로 비대화형 원격 실행 중단.**  
+**재실행(14:12 KST):** NAS 접속·STEP 1·git pull 동일 통과. `docker ps` 시 컨테이너 미실행, docker 소켓 권한 없음(permission denied) → `sudo` 필요 → 비대화형 SSH에서 sudo 비밀번호 입력 불가로 STEP 3~9 미진행.  
 → **NAS 터미널에 직접 로그인한 뒤** 아래 스크립트 실행 후 §7.5 표를 채울 것.  
 - 전체 자동 실행 스크립트: `./scripts/nas_run_p1_remote.sh` (STEP 1~9 + 결과를 `p1_test_result.txt`에 저장)  
 - 또는 지시서 단계별: `./scripts/nas_p1_integration_test.sh`  
