@@ -8,19 +8,19 @@
 - 현상: "AI 대화" 클릭 → /go100/chat → /llm 리다이렉트, GO100 사이드바 사라짐
 - 심각도: MEDIUM
 - 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [C-1]
-- 해결: 문서 반영 (2026-02-25, bd4f99c)
+- 해결: 문서 반영 (2026-02-25, 9db4af9)
 
 ### ISS-012: ChatWidget 하드코딩 DEFAULT_USER_ID=1
 - 현상: 멀티유저 환경에서 전략이 모두 user_id=1로 생성
 - 심각도: HIGH
 - 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [C-3]
-- 해결: 문서 반영 (2026-02-25, bd4f99c)
+- 해결: 문서 반영 (2026-02-25, 9db4af9)
 
 ### ISS-013: 백테스트 재시도 API 없음
 - 현상: 실패 시 재시도 불가, 새 전략 재생성 필요
 - 심각도: MEDIUM
 - 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [H-2]
-- 해결: 문서 반영 (2026-02-25, bd4f99c)
+- 해결: 문서 반영 (2026-02-25, 9db4af9)
 
 ### ISS-C2: /go100/strategies/[id] 상세 페이지 미구현
 - 원인: 리다이렉트만 존재, 전용 상세 뷰 없음
