@@ -1,5 +1,5 @@
 # 뉴톡 이미지 자동화 시스템 — 데이터베이스 구조
-**최종 갱신**: 2026-02-23 (KST)
+**최종 갱신**: 2026-02-25 (KST)
 **DB 엔진**: SQLite 3 (aiosqlite 비동기 래퍼)
 **DB 경로**: /app/data/db/jobs.db (Docker 내부), /volume1/뉴톡/newtalk-image-auto/data/db/jobs.db (NAS)
 **보안 참고**: 내부 작업 관리용 DB, 사용자 개인정보 없음, Public 공개 가능
@@ -89,3 +89,37 @@ image_queue.preset_id ──> tone_presets.id (논리 참조, FK 미정의)
 - DB: MySQL (cafe24 호스팅)
 - 주요 테이블: goods_detail, goods_image
 - 연동 방식: Phase 4에서 API 또는 직접 DB 연결로 이미지 경로 자동 업데이트
+
+## 8. 116서버 DB(autoda) — nas_folder_request (P1 폴더생성 폴링)
+- **서버**: 114.207.244.86:3306 (116서버 MySQL)
+- **DB명**: autoda
+- **용도**: 116 어드민 "NAS 폴더생성" 버튼 시 INSERT → NAS 폴러가 1분마다 pending 조회 후 폴더 생성, 상태 업데이트
+
+### nas_folder_request (116서버 DB에 생성)
+| 컬럼명 | 타입 | NOT NULL | 기본값 | 설명 |
+|--------|------|----------|--------|------|
+| id | INT AUTO_INCREMENT | ✓ | - | PK |
+| shooting_id | INT | ✓ | - | 촬영 ID (contents_msg 등 조인 키) |
+| status | ENUM('pending','processing','completed','failed') | - | 'pending' | 처리 상태 |
+| error_message | TEXT | - | NULL | 실패 시 오류 메시지 |
+| created_at | DATETIME | - | CURRENT_TIMESTAMP | 요청 생성 시각 |
+| processed_at | DATETIME | - | NULL | 처리 완료 시각 |
+
+**인덱스**: `INDEX idx_status (status)`
+
+**생성 SQL (116서버에서 실행)**:
+```sql
+CREATE TABLE nas_folder_request (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  shooting_id INT NOT NULL,
+  status ENUM('pending','processing','completed','failed') DEFAULT 'pending',
+  error_message TEXT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  processed_at DATETIME NULL,
+  INDEX idx_status (status)
+);
+```
+
+**플로우**:
+- 116 PHP: `INSERT INTO nas_folder_request (shooting_id) VALUES (?);`
+- NAS 폴러: `SELECT * FROM nas_folder_request WHERE status = 'pending';` → 폴더 생성 후 `UPDATE ... SET status='completed', processed_at=NOW();` 또는 `status='failed', error_message=?`
