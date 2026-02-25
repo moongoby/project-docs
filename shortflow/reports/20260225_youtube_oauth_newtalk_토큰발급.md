@@ -128,3 +128,13 @@ https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163
 
 - `config/youtube_token_*.json`, `.env`, `venv/` **절대 git 커밋 금지**  
 - 업로드 테스트는 반드시 **private(비공개)** 로 수행  
+
+---
+
+## 11. 푸시 및 동기화 결과
+
+| 항목 | 결과 |
+|------|------|
+| shortflow 푸시 | ✅ 완료 (main, 1174cac) |
+| project-docs 동기화 | ✅ `sync_shortflow.sh` 실행 후 `git pull --rebase` + `git push origin master` 완료 |
+| raw URL HTTP 200 | ⚠️ 저장소가 비공개일 경우 raw URL은 인증 없이 404. 브라우저 로그인 후 `https://github.com/moongoby/shortflow/blob/main/docs/reports/20260225_youtube_oauth_newtalk_토큰발급.md` 에서 확인 가능. |
