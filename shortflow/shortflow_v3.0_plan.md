@@ -791,9 +791,10 @@ FFmpeg 4.2.7+ 시스템 설치 필요.
 
 | 용도 | URL |
 |------|-----|
+| **SaaS 대시보드 (공식)** | https://shotflow.newtalk.kr |
 | YouTube 채널 | https://www.youtube.com/channel/UCqpf3lJQio6EBHxthLQob0g |
 | 릴스 미리보기 (데모) | http://114.207.244.86:8888/index.html |
-| 대시보드 (구축 예정) | http://114.207.244.86:3000 |
+| 대시보드 (IP 직접) | http://114.207.244.86:3000 |
 | YouTube Data API v3 | https://www.googleapis.com/youtube/v3/videos |
 | 쿠팡 파트너스 | https://partners.coupang.com |
 | Supabase | (프로젝트 생성 후 기입) |

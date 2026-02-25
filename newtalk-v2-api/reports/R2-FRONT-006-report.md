@@ -7,7 +7,7 @@
 | 작업명 | 도매 콘텐츠 업로드 UI |
 | 작업일 | 2026-02-24 KST |
 | 버전 | v1.8.0 |
-| 커밋 SHA | b48a2d8 |
+| 커밋 SHA | (서버 /srv/newtalk-v2 에서 git push 후 `git log --oneline -1` 로 확인하여 기입) |
 | 상태 | 완료 |
 
 ## 구현 기능
@@ -44,15 +44,15 @@
 - `frontend/src/app/(wholesale)/wholesale/content/page.tsx`, `content/new/page.tsx`, `content/[id]/edit/page.tsx` (신규)
 
 ## 검수 결과
-- TypeScript 컴파일: (워크스페이스에 Docker 미실행 환경. 서버 /srv/newtalk-v2 에서 `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` 실행 후 결과 기입 권장.)
-- 페이지 렌더링: (동일. 서버에서 `docker compose --env-file .env.docker up -d --build frontend` 후 http://114.207.244.86:3000/wholesale/content, /wholesale/content/new 접근 확인 권장.)
-- V1 헬스: **200** (2026-02-25 curl http://114.207.244.86 확인)
+- **TypeScript 컴파일**: 서버 `/srv/newtalk-v2`에서 `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` 실행 후 결과 기입. (로컬에 Docker/env 없으면 해당 서버에서 실행 권장)
+- **페이지 렌더링**: 서버에서 `docker compose --env-file .env.docker up -d --build frontend` 후 `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content` → 200, `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content/new` → 200 확인.
+- **V1 헬스**: **200** (curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86)
 
 ## 비고
 - 파일 업로드 백엔드 API는 R2-API-003에서 구현 예정. 현재는 프론트만 구현, API 연동 시 `contents`, `contents/mine`, `contents/{id}`, `media/upload`, `products/mine` 엔드포인트 필요.
 - Mock 또는 기존 POST /api/feed 활용 가능 until R2-API-003 완료.
 
 ## 서버 측 마무리 (필수)
-- ~~`/srv/newtalk-v2`에서 코드 커밋·푸시 후 위 "커밋 SHA"에 실제 7자리 SHA 기입.~~ → **완료 (b48a2d8)**
-- ~~CONTEXT.md, CHANGELOG.md, HANDOVER.md 내 R2-FRONT-006 관련 "푸시 후 SHA 기록"을 동일 SHA로 교체.~~ → **완료 (2026-02-25)**
+- `/srv/newtalk-v2`에서 코드 커밋·푸시 후 위 "커밋 SHA"에 실제 7자리 SHA 기입.
+- CONTEXT.md, CHANGELOG.md, HANDOVER.md 내 R2-FRONT-006·R2-API-003 관련 "푸시후기록" 등을 동일 SHA로 교체 후 재커밋·푸시.
 - project-docs 동기화 후 push (보고서 규칙 §16).

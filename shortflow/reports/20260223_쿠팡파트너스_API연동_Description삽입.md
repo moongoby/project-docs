@@ -108,7 +108,7 @@ Fallback description:
   git commit -m "[docs] 쿠팡 파트너스 API 연동 + Description 삽입 보고서"
   git push origin main
   ```
-- **project-docs:** 동기화는 Step 7 참고. 보고서 복사 후 project-docs 저장소에 커밋·push.
+- **project-docs:** 동기화 완료. 커밋 `47ecd92` push됨. 보고서는 GitHub에서 확인 가능.
 
 ## 5. 보고서 GitHub 위치
 

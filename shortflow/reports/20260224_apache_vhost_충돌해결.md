@@ -134,8 +134,8 @@ HTTP 200
 
 ## 6. 커밋 정보
 
-- shortflow: (아래 Step 4 실행 후 기입)
-- project-docs: (아래 Step 5 실행 후 기입)
+- shortflow: `bfea905` (fix: Apache vhost shotflow 443 proxy)
+- project-docs: `1ca5b99` (docs: shortflow Apache VirtualHost conflict report)
 
 ---
 
