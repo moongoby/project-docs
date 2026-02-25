@@ -10,6 +10,7 @@
 | 일자 | 내용 |
 |------|------|
 | 2026-02-25 | 최초 작성: 전체 데이터 수집 현황 총괄 기술문서 |
+| 2026-02-25 | CUR-GO100-DATA-ENGINE-INTEGRATION 반영: 수급/신용잔고 크론 자동화, 신규 필터 5종 엔진 연동, 거래정지 차단 |
 
 ---
 
@@ -56,8 +57,8 @@
 | **거래대금 상위** | `market_turnover_daily` | 26,148 | 3.2 MB | 2025-02-05 ~ 2026-02-05 | 98 종목 | KIS | ✅ |
 | **시장 랭킹** | `v4_market_ranking` | 300 | 296 KB | - | 117 종목 | KIS | ✅ |
 | **스캘핑 유니버스** | `v4_scalping_universe` | 708 | 216 KB | - | - | 산출 | ✅ |
-| **프로그램매매** | `v4_program_trades` | 0 | 24 KB | - | - | **키움** | ⏳ |
-| **신용잔고** | `v4_credit_balance` | 0 | 24 KB | - | - | KIS | ⏳ |
+| **프로그램매매** | `v4_program_trades` | 0 | 24 KB | - | - | **키움** | ⏳ (cron 16:30) |
+| **신용잔고** | `v4_credit_balance` | 0 | 24 KB | - | - | KIS | ⏳ (cron 16:45) |
 | **업종가격** | `v4_sector_price` | 0 | 24 KB | - | - | KIS | ⏳ |
 | **회원사매매** | `v4_broker_trades` | 0 | 24 KB | - | - | KIS | ⏳ |
 | **조건검색** | `v4_condition_search` | 0 | 24 KB | - | - | **키움** | ⏳ |
@@ -90,14 +91,14 @@
 | FHKST03010100 | 주식 일봉 | `ohlcv_daily` | 일 1회 + 이력 백필 | ✅ |
 | FHKST03010100 | 주식 주봉·월봉 | `ohlcv_weekly`, `ohlcv_monthly` | 백필 스크립트 | ✅ |
 | FHKST03010230 | 주식 분봉 (1분) | `v4_ohlcv_minute_*` | 장후 배치 | ✅ |
-| FHKST01010900 | 종목별 투자자 | `v4_investor_daily` | 일 1회 | ✅ |
+| FHKST01010900 | 종목별 투자자 | `v4_investor_daily` | **cron 16:50** (상위 500) | ✅ |
 | FHPTJ04040000 | 시장 투자자 | `v4_market_investor_daily` | cron 18:40 | ✅ |
 | FHKUP03500100 | 업종 지수 | `v4_sector_daily` | 일 1회 + 이력 백필 | ✅ |
 | CTPF1002R | 기업 기본정보 | `stock_fundamentals` | 필요시 | ✅ |
 | FHKST01010100 | 현재가 조회 | `stock_fundamentals.shares_outstanding` | 필요시 | ✅ |
 | FHKST01010600 | 회원사 매매 | `v4_broker_trades` | Phase 2: 16:00 | ⏳ |
 | FHPUP02120000 | 업종 현재가 | `v4_sector_price` | Phase 2: 15:45 | ⏳ |
-| FHKST17010000 | 신용잔고 | `v4_credit_balance` | Phase 2: 16:30 | ⏳ |
+| FHKST17010000 | 신용잔고 | `v4_credit_balance` | **cron 16:45** | ✅ (크론등록) |
 
 ### 2.2 키움증권 REST API
 
@@ -106,7 +107,7 @@
 | ka90001 | 테마그룹별요청 | `v4_theme_master` | 스크립트 수동 | ✅ |
 | ka90002 | 테마구성종목요청 | `v4_theme_stock`, `v4_theme_detail` | 스크립트 수동 + Phase 3: 17:00 | ✅ |
 | ka10047 | 체결강도추이일별 | `v4_trade_strength_history` | 스크립트 수동 + Phase 2: 5분 | ✅ |
-| ka90004 | 종목별프로그램매매 | `v4_program_trades` | Phase 3: 16:30 | ⏳ |
+| ka90004 | 종목별프로그램매매 | `v4_program_trades` | **cron 16:30** | ✅ (크론등록) |
 | ka10046 | 체결강도추이시간별 | (v4_trade_strength_history) | Phase 2: 장중 5분 | ⏳ |
 | ka10079 | 틱데이터 | `v4_tick_data` | Phase 3: 장중 1분 | ⏳ |
 | - | 조건검색 | `v4_condition_search` | Phase 3: 장중 5분 | ⏳ |
@@ -277,11 +278,18 @@ kiwoom_credentials.py (공통 자격증명: env → DB 폴백)
 15:45    업종 현재가 (Phase 2)                      v4_sector_price
 16:00    회원사 매매 (Phase 2)                      v4_broker_trades
 16:25    프로그램매매 (Phase 3)                     v4_program_trades
-16:30    신용잔고 (Phase 2)                         v4_credit_balance
+16:30    프로그램매매 (cron)                        v4_program_trades
+16:35    체결강도 일별 (cron)                       v4_trade_strength_history
+16:45    신용잔고/공매도 (cron) ★신규              v4_credit_balance
+16:50    투자자 수급 (cron) ★신규                  v4_investor_daily (상위 500)
 16:55    테마 상세 (Phase 3)                        v4_theme_detail
+17:00    테마 수집 (cron)                           v4_theme_master/stock
+18:00    일봉 OHLCV (cron)                         ohlcv_daily
 18:30    지수 수집 (cron)                           index_daily
+18:30    VKOSPI (cron)                             v4_vkospi_daily
 18:40    시장 투자자 (cron)                         v4_market_investor_daily
-20:00    DB 백업
+19:00    종목 유니버스 (cron)                       stock_universe
+03:00    DB 백업
 ```
 
 ### 5.3 Systemd 서비스
@@ -317,11 +325,17 @@ kiwoom_credentials.py (공통 자격증명: env → DB 폴백)
 
 ### 6.2 셸 크론 스크립트
 
-| 스크립트 | 용도 | 권장 크론 |
-|----------|------|----------|
-| `collect_index_daily.sh` | KOSPI/KOSDAQ/200 지수 | 평일 18:30 |
-| `minute_batch_cron.sh` | 분봉 배치 수집 | 평일 15:40~ |
-| `collection_scheduler.sh` | 수집 일시정지/재개 | 08:50/15:40 |
+| 스크립트 | 용도 | 크론 | 상태 |
+|----------|------|------|:---:|
+| `cron/collect_program_trades.sh` | 프로그램매매 (키움 ka90004) | 평일 16:30 | ✅ |
+| `cron/collect_strength_daily.sh` | 체결강도 일별 (키움 ka10047) | 평일 16:35 | ✅ |
+| `cron/collect_credit_balance.sh` | 신용잔고/공매도 (KIS) | **평일 16:45** | **✅ 신규** |
+| `cron/collect_investor_daily.sh` | 투자자 수급 (KIS, 상위 500) | **평일 16:50** | **✅ 신규** |
+| `cron/collect_theme.sh` | 테마 (키움 ka90001+ka90002) | 평일 17:00 | ✅ |
+| `cron/collect_strength_intraday.sh` | 체결강도 장중 증분 | 장중 매 5분 | ✅ |
+| `collect_index_daily.sh` | KOSPI/KOSDAQ/200 지수 | 평일 18:30 | ✅ |
+| `minute_batch_cron.sh` | 분봉 배치 수집 | 평일 16:00~ | ✅ |
+| `collection_scheduler.sh` | 수집 일시정지/재개 | 08:50/15:40 | ✅ |
 
 ### 6.3 실행 방법 (공통)
 
@@ -447,14 +461,50 @@ UNIQUE(date, event_type)
 
 ---
 
+## 7b. 수집 데이터 → 엔진 연동 현황 (CUR-GO100-DATA-ENGINE-INTEGRATION)
+
+### 유니버스 필터 연동
+
+| # | 필터 | 데이터 소스 | 기능 | 파이프라인 |
+|---|------|-----------|------|-----------|
+| 13 | `filter_credit_short` | v4_credit_balance | 신용잔고율/공매도잔고율 과열 종목 제외 | daily, swing |
+| 14 | `filter_by_theme` | v4_theme_master/stock | 특정 테마 소속 종목 선별 | AI 전략 |
+| 15 | `filter_trade_strength` | v4_trade_strength_history | 체결강도 >= 기준값 종목 (매수세 우위) | AI 전략 |
+| 16 | `filter_program_trading` | v4_program_trades | 프로그램매매 순매수/순매도 필터 | AI 전략 |
+| 17 | `filter_supply_demand` | 복합 (수급+강도+신용) | 수급 강도 복합 필터 (교집합) | AI 전략 |
+
+### 데이터 활용 매트릭스
+
+| 데이터 | 백테스트 | 유니버스 필터 | AI 전략생성 | 수집 |
+|--------|---------|-------------|------------|------|
+| ohlcv_daily | **사용** | **사용** | 간접 | 자동 |
+| stock_universe | **사용** | **사용** | 간접 | 자동 |
+| v4_investor_daily | - | **사용** | **사용** | **자동** (cron 16:50) |
+| v4_credit_balance | - | **사용** (신규) | **사용** (신규) | **자동** (cron 16:45) |
+| v4_theme_master/stock | - | **사용** (신규) | **사용** (신규) | 자동 (cron 17:00) |
+| v4_trade_strength | - | **사용** (신규) | **사용** (신규) | 자동 (cron 16:35) |
+| v4_program_trades | - | **사용** (신규) | **사용** (신규) | 자동 (cron 16:30) |
+
+### AI DESIGN 프롬프트 반영
+
+- `ADVANCED_FILTER_SPEC` (prompts.py): 12개 → **17개** 필터로 확장
+- 신규 필터 활용 가이드: 테마 전략, 수급 모멘텀, 프로그램 추종
+
+---
+
 ## 8. 데이터 갭 및 미수집 항목
 
-### 8.1 장중 수집 예정 (컬렉터 완성, 데이터 미적재)
+### 8.1 크론 등록 완료, 데이터 적재 대기
+
+| 테이블 | 컬렉터 | API | 크론 | 상태 |
+|--------|--------|:---:|------|:---:|
+| `v4_program_trades` | program_trades_collector.py | 키움 ka90004 | **cron 16:30** | 크론 등록, 다음 거래일 적재 예정 |
+| `v4_credit_balance` | credit_balance_collector.py | KIS FHKST17010000 | **cron 16:45** | 크론 등록, 다음 거래일 적재 예정 |
+
+### 8.1b 장중 수집 예정 (스케줄러 의존, 크론 미등록)
 
 | 테이블 | 컬렉터 | API | 필요 조건 |
 |--------|--------|:---:|------|
-| `v4_program_trades` | program_trades_collector.py | 키움 ka90004 | 장마감 후 16:25~16:40 자동 수집 |
-| `v4_credit_balance` | credit_balance_collector.py | KIS FHKST17010000 | Phase 2 스케줄러 장후 16:30 |
 | `v4_sector_price` | sector_price_collector.py | KIS FHPUP02120000 | Phase 2 스케줄러 장후 15:45 |
 | `v4_broker_trades` | broker_trades_collector.py | KIS FHKST01010600 | Phase 2 스케줄러 장후 16:00 |
 | `v4_condition_search` | condition_search_collector.py | 키움 조건검색 | Phase 3 장중 5분 |
@@ -549,19 +599,23 @@ ORDER BY relname;
 | 우선순위 | 항목 | 상태 |
 |:---:|------|:---:|
 | P0 | Phase 3 스케줄러 main.py lifespan 등록 | 미착수 |
-| P0 | 프로그램매매 장중 자동 수집 검증 (ka90004) | 미착수 |
-| P1 | 테마 데이터 일 1회 자동 수집 cron 설정 (17:00) | 미착수 |
-| P1 | 체결강도 이력 증분 수집 (신규 데이터만) | 미착수 |
+| P0 | 프로그램매매 장중 자동 수집 검증 (ka90004) | **cron 등록 완료**, 데이터 적재 확인 대기 |
+| P1 | 테마 데이터 일 1회 자동 수집 cron 설정 (17:00) | **완료** (cron 17:00) |
+| P1 | 체결강도 이력 증분 수집 (신규 데이터만) | **완료** (cron 16:35) |
 | P1 | 분봉 2025-01 백필 | 미착수 |
+| P1 | **투자자 수급 자동 수집 (상위 500종목)** | **완료** (cron 16:50) |
+| P1 | **신용잔고/공매도 자동 수집** | **완료** (cron 16:45) |
+| P1 | **수집 데이터 → 엔진 필터 연동 (5종)** | **완료** (advanced_filters.py) |
+| P1 | **거래정지 종목 백테스트 진입 차단** | **완료** (simulator.py) |
 
 ### 10.2 중기 (P2)
 
 | 항목 | 비고 |
 |------|------|
 | 체결강도 시간별 (ka10046) 장중 수집 | 장시간 내에만 데이터 반환 |
-| 키움 추가 API 활용 (신용잔고, 공매도, 업종지수) | API 문서 검토 필요 |
 | v4_theme_daily / v4_theme_activity_daily 수집기 구현 | 테마 일간 변동 추적 |
 | 데이터 수집 모니터링 대시보드 (관리자) | 수집 상태 실시간 확인 |
+| v4_sector_price / v4_broker_trades 크론 전환 | Phase 2 스케줄러 → 독립 크론 |
 
 ### 10.3 장기 (P3)
 
@@ -582,13 +636,17 @@ ORDER BY relname;
 | **주요 데이터 테이블** | 27개 |
 | **총 데이터 행** | ~45,100,000 |
 | **수집 완료 테이블** | 21개 (✅) |
-| **장중 수집 예정** | 6개 (⏳) |
+| **크론 등록, 적재 대기** | 2개 (v4_credit_balance, v4_program_trades) |
+| **장중 수집 예정 (스케줄러)** | 4개 (⏳) |
 | **데이터 소스** | KIS REST + 키움 REST + 공공데이터 |
 | **서비스 컬렉터** | 14개 |
 | **수집 스크립트** | 14개 |
+| **크론 등록 셸 스크립트** | **9개** (기존 7 + 신규 2) |
 | **스케줄러** | 4개 (Phase2 + Phase3 + AccountSync + Daily) |
 | **활성 종목** | 3,844개 |
 | **분봉 데이터** | 10 GB (41.6M행, 13개월) |
 | **일봉 데이터** | 672 MB (260만행, 3년) |
 | **키움 테마** | 100 테마, 472 종목 매핑 |
 | **키움 체결강도** | 219,892건 (60일, 3,757종목) |
+| **유니버스 필터** | **17개** (기존 12 + 신규 5) |
+| **엔진 연동 데이터** | **7종** (ohlcv, universe, investor, credit, theme, strength, program) |
