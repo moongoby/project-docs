@@ -63,5 +63,6 @@
 
 - GitHub Private: https://github.com/moongoby/newtalk-image-auto
 - GitHub Public docs: https://github.com/moongoby/project-docs
-- project-docs 동기화: (완료/미완료)
-- 최종 커밋: (해시 및 메시지)
+- Public 보고서: https://github.com/moongoby/project-docs/blob/master/nas-image/reports/CUR-NASIMG-DB-CONN-001-20260225.md
+- project-docs 동기화: 완료
+- Private 최종 커밋: 572a35b [P1] NAS->114 MySQL 접속 테스트 스크립트 및 DB-CONN 보고서 추가 (2026-02-25 KST)
