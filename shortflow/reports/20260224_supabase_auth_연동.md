@@ -51,3 +51,21 @@ SaaS 대시보드(shotflow.newtalk.kr)에 Supabase Auth 기반 회원가입/로�
 - 대시보드 헤더에 LogoutButton 노출 확인
 - 프로필 수정 페이지 (full_name, company_name 등)
 - 3000 포트 사용처 정리 후 saas-dashboard 컨테이너 기동 확인
+
+## 7. Git 커밋
+
+변경 사항은 스테이징까지 완료되어 있습니다. 서버 Git이 `--trailer` 옵션을 지원하지 않아 커밋은 로컬에서 진행해 주세요.
+
+```bash
+cd /data/shortflow
+git commit -m "[feat] Supabase Auth 회원가입/로그인 연동"
+git push origin main
+```
+
+project-docs 동기화는 `/data/project-docs`가 있는 환경에서 아래를 실행하면 됩니다.
+
+```bash
+cp /data/shortflow/docs/reports/20260224_supabase_auth_연동.md /data/project-docs/shortflow/reports/
+cp /data/shortflow/sql/010_profiles_table.sql /data/project-docs/shortflow/sql/
+cd /data/project-docs && git add -A && git commit -m "[report] shortflow: Supabase Auth 연동" && git push origin master
+```

@@ -1,6 +1,25 @@
 # 변경 이력
 
 ## 2026-02-25
+- **P1 통합 테스트 실행 (NAS 작업지시서)**
+  - 스크립트: `scripts/nas_p1_integration_test.sh` (STEP 0~11: .env 확인, git pull, Docker 재빌드, 사전확인, DB 테이블, INSERT, 폴링 대기, 결과 확인, 정리, pytest, 보고 안내)
+  - 보고서 §7.5: STEP별 통합 테스트 결과 표 보강 (docs/reports/CUR-NASIMG-FEATURE-001-20260225.md)
+  - 통합 테스트 성공 시: DB INSERT → 폴링 → status=completed, NAS 루트+코디 2개 폴더 생성, API/로그 반영
+- **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)** — 지시서 버전 반영
+  - app/config.py: MYSQL_HOST/PORT/DB/USER/PASSWORD (os.getenv) 추가
+  - app/workers/folder_poller.py: nas_folder_request 단일 테이블 + cody_data(JSON) 기반으로 전면 수정 (get_db_connection, build_folder_structure(request), process_pending_requests, run_poll_cycle)
+  - app/api/routes.py: GET /api/folder/status/{request_id}, GET /api/folder/requests 추가
+  - tests/test_folder_poller.py: 지시서 테스트 11건으로 교체
+  - 보고서: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md 갱신
+- **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)** (기존)
+  - requirements.txt에 PyMySQL>=1.1.0 추가
+  - .env.example 및 app/config.py에 116 DB 설정 (NEWTALK_DB_HOST/PORT/NAME/USER/PASSWORD)
+  - docs/DATABASE.md §8: nas_folder_request 테이블 설계, CREATE TABLE, 플로우
+  - app/workers/folder_poller.py 신규: pending 조회 → contents_msg/cody_msg/cody_product_msg 기반 폴더명 조합 → mkdir (파일 삭제/수정 금지)
+  - docker-compose.yml: /volume1/★제품사진 ro → rw
+  - main.py: 60초 간격 _folder_poller_loop 백그라운드 등록
+  - tests/test_folder_poller.py 7건 추가
+  - 보고서: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md
 - **P1 선행: NAS → 114서버(116 DB) MySQL 접속 테스트**
   - 스크립트: `scripts/nas_mysql_114_connection_test.sh` (STEP 1~4: 포트 확인, Docker 내 mysql/pymysql 확인, TCP 테스트, 로그인 예시 안내)
   - 보고서 템플릿: docs/reports/CUR-NASIMG-DB-CONN-001-20260225.md (실행 후 결과 기입, 비밀번호/접속 문자열 미포함)
