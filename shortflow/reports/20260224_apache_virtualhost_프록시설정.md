@@ -66,7 +66,7 @@ Next.js 대시보드(127.0.0.1:3000)로 연결.
 ## 6. 커밋 정보
 
 - shortflow 커밋: 65050fc
-- project-docs 커밋: (아래 Step 9 후 기입)
+- project-docs 커밋: 833e3bc
 
 ## 7. 보고서 GitHub 위치
 

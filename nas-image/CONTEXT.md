@@ -1,5 +1,5 @@
 # NAS 이미지 자동화 프로젝트 CONTEXT
-> 최종 갱신: 2026-02-23
+> 최종 갱신: 2026-02-24
 > 관리자: moongoby
 > GitHub Private: https://github.com/moongoby/newtalk-image-auto
 
@@ -53,8 +53,9 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - rsync_114: sync_goods 재시도 로직 (max_retries, retry_delay, retry_count)
 
 ## 바로 다음 할 일
-1. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
-2. 실사진으로 톤 매칭/보정 검증
+1. **[P1]** 모델사진폴더 NAS 직접 생성 (116서버 폴더생성 API → NAS SSH/SMB 직접 생성)
+2. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
+3. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항
 - mediapipe <0.10.31 고정 (solutions API 제거 이슈)
@@ -73,7 +74,15 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 ## 비용
 PhotoRoom API Basic $20/월 (1,000장, 초과 $0.02/장) - 결제 보류
 
+## 참조 문서
+- 현재 상태: docs/CONTEXT.md
+- 변경 이력: docs/CHANGELOG.md
+- 기획: docs/PLANNING.md
+- **전체 파이프라인**: docs/PIPELINE_PROCESS.md
+- 아키텍처: docs/ARCHITECTURE.md
+- 인수인계: docs/HANDOVER.md
+
 ## 로드맵
-- 2월 4주차: Work C/D, Docker 빌드, Phase 2 완료
-- 3월 초중: 실사진 테스트, Phase 3 착수
-- 4월: Phase 4 (어드민 연동)
+- 2월 4주차: Work C/D, Docker 빌드, Phase 2 완료, P1 착수
+- 3월 초중: 실사진 테스트, Phase 3 (P3 A컷 선별, P4 배너/인트로 자동생성)
+- 4월: Phase 4 (P5 114 DB 자동 업데이트, P6 상세페이지 자동 정렬)

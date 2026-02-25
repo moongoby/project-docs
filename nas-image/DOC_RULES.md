@@ -14,6 +14,7 @@ github.com/moongoby/newtalk-image-auto (branch: main)
     ├── CONTEXT.md       # 프로젝트 현재 상태
     ├── CHANGELOG.md     # 변경 이력
     ├── PLANNING.md      # 기획서
+    ├── PIPELINE_PROCESS.md  # 전체 파이프라인 프로세스 (AS-IS/TO-BE, P1~P6)
     ├── ARCHITECTURE.md  # 아키텍처
     ├── HANDOVER.md      # 인수인계서
     ├── DATABASE.md      # DB 스키마
@@ -31,6 +32,7 @@ github.com/moongoby/project-docs (branch: master)
     ├── CONTEXT.md
     ├── CHANGELOG.md
     ├── PLANNING.md
+    ├── PIPELINE_PROCESS.md
     ├── ARCHITECTURE.md
     ├── HANDOVER.md
     ├── DATABASE.md
@@ -69,6 +71,7 @@ github.com/moongoby/project-docs (branch: master)
 | HOTFIX | 긴급 수정 보고 |
 | REFACTOR | 리팩터링 보고 |
 | DEPLOY | 배포 보고 |
+| DB-CONN | DB 접속/폴링 테스트 (P1 선행 등) |
 | HANDOVER | 대화 인계서 |
 
 ### 2.3 보고서 예시 파일명
@@ -112,6 +115,7 @@ cp /volume1/뉴톡/newtalk-image-auto/docs/CHANGELOG.md nas-image/CHANGELOG.md
 cp /volume1/뉴톡/newtalk-image-auto/docs/HANDOVER.md nas-image/HANDOVER.md
 cp /volume1/뉴톡/newtalk-image-auto/docs/DATABASE.md nas-image/DATABASE.md
 cp /volume1/뉴톡/newtalk-image-auto/docs/PLANNING.md nas-image/PLANNING.md
+cp /volume1/뉴톡/newtalk-image-auto/docs/PIPELINE_PROCESS.md nas-image/PIPELINE_PROCESS.md
 cp /volume1/뉴톡/newtalk-image-auto/docs/ARCHITECTURE.md nas-image/ARCHITECTURE.md
 cp /volume1/뉴톡/newtalk-image-auto/docs/DOC_RULES.md nas-image/DOC_RULES.md
 cp /volume1/뉴톡/newtalk-image-auto/.cursorrules nas-image/cursorrules.md
@@ -138,6 +142,7 @@ curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongob
 | CHANGELOG.md | 날짜별 변경 이력 | 매 작업 완료 시 |
 | HANDOVER.md | 인수인계서, 접속정보, 작업규칙 | 인계 시 |
 | PLANNING.md | AS-IS/TO-BE, 로드맵 | Phase 변경 시 |
+| PIPELINE_PROCESS.md | 전체 파이프라인 프로세스 (P1~P6, 로드맵) | 파이프라인 변경 시 |
 | ARCHITECTURE.md | 시스템 구조, 모듈, API | 구조 변경 시 |
 | DATABASE.md | DB 스키마, 테이블, 관계 | 테이블 변경 시 |
 | DOC_RULES.md | 문서 관리 규칙 (본 문서) | 규칙 변경 시 |

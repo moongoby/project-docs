@@ -1,6 +1,14 @@
 # 변경 이력
 
+## 2026-02-25
+- **P1 선행: NAS → 114서버(116 DB) MySQL 접속 테스트**
+  - 스크립트: `scripts/nas_mysql_114_connection_test.sh` (STEP 1~4: 포트 확인, Docker 내 mysql/pymysql 확인, TCP 테스트, 로그인 예시 안내)
+  - 보고서 템플릿: docs/reports/CUR-NASIMG-DB-CONN-001-20260225.md (실행 후 결과 기입, 비밀번호/접속 문자열 미포함)
+
 ## 2026-02-24
+- **PIPELINE_PROCESS.md 신규 생성** — 전체 자동화 파이프라인 프로세스 정의 (AS-IS/TO-BE, P1~P6 상세, 로드맵, 기술 참조)
+- PLANNING.md: TO-BE 워크플로우를 PIPELINE_PROCESS와 동기화, Phase 3/4 로드맵 구체화 (P3~P6)
+- CONTEXT.md: 바로 다음 할 일에 P1(모델사진폴더 NAS 직접 생성) 추가, 참조 문서에 PIPELINE_PROCESS.md 추가
 - **QC 프리셋 등록 오류 수정 (BUG-FIX-001)**
   - 증상: 등록 버튼 클릭 시 폼만 리셋되고 목록에 미등록
   - 원인: 폼 기본 제출(native submit)으로 같은 페이지 GET 재로드 → API 미호출

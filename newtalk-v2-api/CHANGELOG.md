@@ -60,19 +60,19 @@
 
 ## [1.6.0] - 2026-02-24
 ### Added
-- R2-API-002: 브랜드 페이지 API (푸시후기록)
+- R2-API-002: 브랜드 페이지 API (b48a2d8)
   - brand_pages 테이블, BrandPage 모델, ProductImage 모델
   - BrandPageController 6 엔드포인트 (목록, 상세, 상품, 피드, 팔로우, 수정)
   - BrandPageSeeder (wholesale@newtalk.kr 테스트 브랜드)
   - Feed API: author.brand_slug, product.wholesale_name (BrandPage/User 관계)
-- R2-FRONT-004: 브랜드 페이지 UI (푸시후기록)
+- R2-FRONT-004: 브랜드 페이지 UI (b48a2d8)
   - 브랜드 상세 /brand/[slug] (커버, 로고, 팔로우, 상품 탭, 피드 탭)
   - 브랜드 탐색 /brands (검색, 그리드, 무한 스크롤)
   - 탐색 페이지 "브랜드" 탭, FeedCard/ProductInfo 작성자·브랜드 → /brand/{slug} 링크
   - brand-api.ts, types/brand.ts
 
 ## [1.5.0] - 2026-02-24
-### Added (R2-FRONT-003 푸시후기록)
+### Added (R2-FRONT-003 b48a2d8)
 - 상품 상세 페이지: `/retail/product/[id]` (app/retail/product/[id]/page.tsx)
 - ProductImageCarousel: 이미지 슬라이드, 스와이프, 인디케이터 도트, placeholder
 - ProductInfo: 상품명, 도매가·소매가, 브랜드, 찜 토글, 공유(navigator.share / 클립보드)
@@ -98,7 +98,7 @@
 
 ## [1.4.0] - 2026-02-23
 ### Added
-- R2-FRONT-002: 홈 피드 UI (푸시 후 SHA 기록)
+- R2-FRONT-002: 홈 피드 UI (b48a2d8)
 - FeedCard 컴포넌트 (미디어, 좋아요, 찜, 상품 링크)
 - 무한 스크롤 (IntersectionObserver, cursor 페이지네이션)
 - 탐색 페이지 (그리드, 탭 필터, 검색바)
@@ -111,7 +111,7 @@
 
 ## [1.3.0] - 2026-02-23
 ### Added
-- R2-API-001: SNS 소셜 엔진 API ({SHA})
+- R2-API-001: SNS 소셜 엔진 API (b48a2d8)
 - follows 테이블 + Follow 모델 + 팔로우/언팔로우/팔로워·팔로잉 목록 API
 - wishlists 테이블 + Wishlist 모델 + 찜 추가/해제/목록 API
 - feed_items 테이블 + FeedItem 모델 + 홈 피드/탐색/상세/작성/검색 API
