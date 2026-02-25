@@ -214,6 +214,10 @@ go100_account_reconciliation, go100_backtest_runs, go100_desk_allocation, go100_
 | 2026-02-23 | 초판 생성 (DB-SCHEMA-EXPORT, 코드·문서 기반) |
 | 2026-02-24 | v4_market_regime_daily에 market_type VARCHAR(10) DEFAULT 'KOSPI' 컬럼 추가, UNIQUE(date, market_type) 제약 추가 — CUR-REGIME-BACKFILL-002 |
 | 2026-02-24 | v4_backtest_regime_analysis 테이블 생성·regime_mapped 컬럼 추가 — CUR-FULLBT-REGIME-003 |
+| 2026-02-25 | v4_bt_sessions, v4_bt_discoveries, v4_bt_trades, v4_bt_versions 생성 (BT-DASHBOARD-IMPL-001); v4_bt_discovery_log, v4_bt_daily_risk_log 생성 및 v4_bt_trades 확장 (DESK2-BT-LIVE-PARITY-001) |
+| 2026-02-25 | v4_trade_schedules.card_source VARCHAR(10) DEFAULT 'v41' 추가 — CUR-GO100-TRADE-MODAL-IMPL-001 |
+| 2026-02-25 | go100_backtest_runs.params_hash VARCHAR(12) 추가 — CUR-GO100-OPTIMIZER-CORE-FIX-001 |
+| 2026-02-25 | 문서 최신화(무결성 기준 60/11, 백테스트 대시보드·GO100 반영) 및 project-docs 푸시 |
 
 ---
 
