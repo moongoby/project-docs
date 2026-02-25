@@ -93,33 +93,3 @@
 
 ## 7. 환경변수 (.env 키 목록, 값 마스킹)
 ALLOWED_IPS=****, ANTHROPIC_API_KEY=****, APP_DEBUG=****, APP_ENV=****, APP_HOST=****, APP_NAME=****, APP_PORT=****, DATABASE_URL=****, DATABASE_URL_SYNC=****, DATA_GO_KR_API_KEY=****, DB_HOST=****, DB_NAME=****, DB_PASSWORD=****, DB_PORT=****, DB_USER=****, DRY_RUN=****, ENCRYPTION_KEY=****, GEMINI_API_KEY=****, GOOGLE_AI_API_KEY=****, INTERNAL_API_KEY=****, JWT_ACCESS_TOKEN_EXPIRE_MINUTES=****, JWT_ALGORITHM=****, JWT_SECRET_KEY=****, KIS_* (계좌/API 관련), LLM_* (채팅/일한도 등), LOG_*, REDIS_*, SECRET_KEY=****, SMTP_*, TOTAL_KIS_RPS=****, TRUSTED_PROXY_IPS=****, TZ=****
-
-## 8. 자동매매 모달 (CUR-GO100-TRADE-MODAL-IMPL-001, 2026-02-24)
-### 백엔드
-- backend/app/routers/go100/trade_modal_router.py — API 4개 (start, stop, status, accounts)
-- backend/app/routers/go100/strategy_router.py — 토글 OFF → 스케줄 비활성화 연동 추가
-
-### 프론트엔드
-- frontend/src/go100/components/AutoTradeModal.tsx — 자동매매 시작 모달
-- frontend/src/app/(protected)/go100/strategies/[id]/page.tsx — 시작/중지 버튼 추가
-
-### 동작
-- 카드 상세에서 "자동매매 시작" → 계좌 선택 → 카드 설정값 자동 로드 → v4_trade_schedules 자동 생성
-- 토글 OFF 시 해당 GO100 스케줄 자동 비활성화
-
-## 9. 알림 시스템 (CUR-GO100-NOTIFICATION-SYSTEM-001, 2026-02-24)
-### 백엔드
-- backend/app/services/go100/notification/notification_service.py — 알림 생성/조회/SSE/이메일/푸시
-- backend/app/routers/go100/notification_router.py — API 10개
-- 트리거: auto_trade_engine.py(매매), backtest_service.py(백테스트), backtest_optimizer.py(최적화), scheduler_router.py(스케줄러 에러)
-
-### 프론트엔드
-- frontend/src/go100/components/Go100NotificationBell.tsx — 헤더 알림 벨+뱃지
-- frontend/src/go100/hooks/useNotifications.ts, useNotificationStore.ts — SSE 연결+상태
-- frontend/src/app/(protected)/go100/notifications/page.tsx — 알림 목록 페이지
-- frontend/src/go100/components/SettingsNotificationSection.tsx — 설정 알림 섹션
-
-### PWA
-- frontend/public/manifest.json — start_url "/go100"
-- frontend/public/sw.js — push 수신, notificationclick 처리
-- VAPID 키: .env (VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT)
