@@ -235,7 +235,6 @@ docker compose --env-file .env.docker exec app composer {command}
 - OrderController: store(cart_id/item_ids), index, show, updateStatus, cancel (주문 5개 엔드포인트)
 - 주문번호 NT-YYYYMMDD-XXXXX, 도매처별 주문 분리, 소매 취소/도매 확인·배송/관리자 refund
 - Git SHA: 87cb07b
-<<<<<<< HEAD
 
 ### R3-API-002: 결제 연동 API (v2.3.0)
 - payments, payment_logs 테이블 및 orders 결제 컬럼 (payment_status, paid_at)
@@ -251,9 +250,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog
 - cart-api.ts (5함수), order-api.ts (5함수), types/cart.ts, types/order.ts
 - retail 레이아웃: 주문내역 링크. 상품 상세: 장바구니 담기 버튼
-- Git SHA: 0000000 (main 머지 후 git log --oneline -1 로 교체)
-=======
->>>>>>> cc8c50ae0a36c9be49c911a8e3cc39c2436e30ed
+- Git SHA: b798049
 
 ---
 
@@ -269,14 +266,9 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-<<<<<<< HEAD
 | 1 | R3-FRONT-002 | 결제 UI (R3-API-002 완료 후) |
 | 2 | R3-API-003 | 배송 API |
 | 3 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
-=======
-| 1 | R3-FRONT-001 | 사입 주문·장바구니 프론트 UI (지시서 별도) |
-| 2 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
->>>>>>> cc8c50ae0a36c9be49c911a8e3cc39c2436e30ed
 
 ---
 

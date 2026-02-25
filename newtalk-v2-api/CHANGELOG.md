@@ -6,29 +6,6 @@
 
 ## [Unreleased]
 
-## [2.2.0] - 2026-02-25
-### Added (R3-FRONT-001 사입 주문·장바구니 프론트 UI)
-- 장바구니 페이지 /retail/cart (조회, 수량 변경, 삭제, 비우기)
-- 주문 생성 /retail/order/new (배송정보, 확인, API 연동)
-- 주문 목록 /retail/orders (필터, 페이지네이션)
-- 주문 상세 /retail/orders/[id] (타임라인, 취소)
-- 도매 주문관리 /wholesale/orders, /wholesale/orders/[id] (상태 변경, tracking)
-- 컴포넌트 10개 (CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog)
-- API 클라이언트: cart-api.ts (5함수), order-api.ts (5함수)
-- 타입: cart.ts, order.ts
-- retail 레이아웃: 주문내역 링크 추가
-- 상품 상세: 장바구니 담기 버튼 (addCartItem)
-
-## [2.3.0] - 2026-02-25
-### Added (R3-API-002 결제 연동 API)
-- **payments** 테이블: 토스 결제 정보 (payment_key, order_number, method, status, amount, approved_amount, balance_amount, 카드/가상계좌 필드, raw_response), softDeletes.
-- **payment_logs** 테이블: 결제 이벤트 로그 (action: request, confirm, cancel, webhook, fail).
-- **orders** 테이블: payment_status (unpaid/paid/partial_refund/refunded), paid_at 컬럼 추가.
-- Payment, PaymentLog 모델. Order::payment(), Order::final_amount, Order::isPaid().
-- TossPaymentService: preparePayment, confirmPayment, cancelPayment, getPaymentByKey, handleWebhook.
-- PaymentController: prepare, confirm, show, cancel, orderPayment, webhook (6 엔드포인트).
-- config/services.php toss 섹션 (TOSS_CLIENT_KEY, TOSS_SECRET_KEY, TOSS_WEBHOOK_SECRET, base_url).
-
 ## [2.1.0] - 2026-02-25
 ### Added (R3-API-001 사입 주문 API)
 - **carts** 테이블: status(active/merged/ordered/abandoned), note, softDeletes, unique(user_id, status). Cart::getOrCreate(userId), scopeActive.
