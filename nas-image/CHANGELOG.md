@@ -1,6 +1,13 @@
 # 변경 이력
 
 ## 2026-02-25
+- **P1 통합 테스트 완료 (NAS)**
+  - 2026-02-25 18:55 KST 기준: DB INSERT(shooting_id=662)·폴더폴링 pending→completed(17초)·NAS 폴더 생성·API completed·PyMySQL 1.4.6·Docker·pick.newtalk.kr 정상
+  - 보고서 §7.5: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md 최종 결과 표 및 커밋(114: 1dd059f/8e71d73, NAS: ca064ae/f8bf7be) 기입
+- **DB 비밀번호 이슈 해결 (NAS 배포)**
+  - NAS .env에 MYSQL_PASSWORD 미설정 시 폴더 폴링 스킵. 116서버 database.php 기준 비밀번호 설정 후 정상 동작 (비밀번호 값은 문서/코드에 미기재)
+- **116 서버 shooting_id 선택자 버그 수정**
+  - 어드민 NAS 폴더 요청 시 shooting_id가 올바르게 전달되도록 수정 반영 (114 Cursor와 협의)
 - **P1 통합 테스트 실행 (NAS 작업지시서)**
   - 스크립트: `scripts/nas_p1_integration_test.sh` (STEP 0~11: .env 확인, git pull, Docker 재빌드, 사전확인, DB 테이블, INSERT, 폴링 대기, 결과 확인, 정리, pytest, 보고 안내)
   - 보고서 §7.5: STEP별 통합 테스트 결과 표 보강 (docs/reports/CUR-NASIMG-FEATURE-001-20260225.md)

@@ -42,9 +42,10 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - Dockerfile SSH/rsync 추가
 - GitHub 연동, Windows PC SSH 키 인증
 - DB 스키마 문서화 (docs/DATABASE.md)
-- **NAS 폴더 자동생성 폴링 워커 (P1)** — 116 DB nas_folder_request 폴링, mkdir, API /folder/requests
+- **NAS 폴더 자동생성 폴링 워커 (P1)** — **완료 (통합 테스트 통과)** — 116 DB nas_folder_request 폴링, mkdir, API /folder/requests
 
 ## 최근 완료 (2026-02-25 P1 폴더생성)
+- **P1 통합 테스트 완료** — 2026-02-25 18:55 KST NAS 실행: shooting_id=662·폴더폴링 17초·NAS 폴더·API completed·PyMySQL 1.4.6·Docker·pick.newtalk.kr 정상 (§7.5 보고서)
 - **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)**
   - requirements.txt에 PyMySQL 추가, config/.env.example에 116 DB 설정 (NEWTALK_DB_*)
   - app/workers/folder_poller.py: nas_folder_request 폴링, 상위/하위 폴더명 조합, mkdir만 수행
@@ -64,9 +65,10 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - rsync_114: sync_goods 재시도 로직 (max_retries, retry_delay, retry_count)
 
 ## 바로 다음 할 일
-1. **[P1]** 모델사진폴더 NAS 직접 생성 — **구현 완료** (통합 테스트는 NAS에서 `./scripts/nas_p1_integration_test.sh` 실행 후 §7.5 기입)
-2. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
-3. 실사진으로 톤 매칭/보정 검증
+1. **[P3]** Gemini A-cut 선택 실험 (다음 단계)
+2. **[P1]** 모델사진폴더 NAS 직접 생성 — **완료 (통합 테스트 통과, 2026-02-25 18:55 KST)**
+3. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
+4. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항
 - mediapipe <0.10.31 고정 (solutions API 제거 이슈)

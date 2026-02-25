@@ -158,14 +158,27 @@ CREATE TABLE IF NOT EXISTS nas_folder_request (
 
 ### 7.5 통합 테스트 결과 (NAS 실행 후 기입)
 
-**2026-02-25 원격 실행 시도 요약:**  
-NAS SSH 접속 후 STEP 1~2까지 실행 시도. STEP 1(.env 키 확인) 통과, git pull 완료. **Docker 빌드 단계에서 `sudo` 비밀번호 입력 필요로 비대화형 원격 실행 중단.**  
-**재실행(14:12 KST):** NAS 접속·STEP 1·git pull 동일 통과. `docker ps` 시 컨테이너 미실행, docker 소켓 권한 없음(permission denied) → `sudo` 필요 → 비대화형 SSH에서 sudo 비밀번호 입력 불가로 STEP 3~9 미진행.  
-→ **NAS 터미널에 직접 로그인한 뒤** 아래 스크립트 실행 후 §7.5 표를 채울 것.  
-- 전체 자동 실행 스크립트: `./scripts/nas_run_p1_remote.sh` (STEP 1~9 + 결과를 `p1_test_result.txt`에 저장)  
-- 또는 지시서 단계별: `./scripts/nas_p1_integration_test.sh`  
-- pip-cache에 PyMySQL 없으면:  
-  `wget -P pip-cache/ https://files.pythonhosted.org/packages/c5/29/5114dc18bad3ed1d2e7df7969790f1b15e648d7d3ba6dc19f904bb6d6f57/pymysql-1.1.1-py3-none-any.whl`
+**최종 통합 테스트 (2026-02-25 18:55 KST)**
+
+| 항목 | 결과 |
+|------|------|
+| DB INSERT | ✅ shooting_id=662, 임지영, 2026-02-26 |
+| 폴더폴링 처리 | ✅ pending → completed (17초) |
+| NAS 폴더 | ✅ /volume1/★제품사진/2026-02-26_임지영_팔마드 스튜디오/ |
+| 하위 폴더 | ✅ 1번코디 - 699eabbda7a4c/ |
+| API 응답 | ✅ {"status":"completed"} |
+| PyMySQL | ✅ 1.4.6 |
+| Docker | ✅ 빌드+실행 정상 |
+| pick.newtalk.kr | ✅ 정상 운영 |
+
+- **테스트 일시:** 2026-02-25 18:55 KST  
+- **114 서버 커밋:** 1dd059f, 8e71d73  
+- **NAS 커밋:** ca064ae, f8bf7be  
+
+**STEP별 상세 (참고용)**  
+- 전체 자동 실행: `./scripts/nas_run_p1_remote.sh` (STEP 1~9 + 결과 `p1_test_result.txt`)  
+- 단계별: `./scripts/nas_p1_integration_test.sh`  
+- pip-cache PyMySQL: `wget -P pip-cache/ https://files.pythonhosted.org/.../pymysql-1.1.1-py3-none-any.whl`
 
 | STEP | 항목 | 결과 | 비고 |
 |------|------|------|------|
@@ -202,3 +215,5 @@ NAS SSH 접속 후 STEP 1~2까지 실행 시도. STEP 1(.env 키 확인) 통과,
 ## 8. 커밋 해시 (작업 완료 후 기입)
 
 - **ca064ae** feat: NAS 폴더 자동생성 폴링 워커 (P1) - PyMySQL + folder_poller + API + MYSQL_* config
+- **f8bf7be** (NAS 배포/통합 테스트 반영)
+- **1dd059f**, **8e71d73** (114 서버)
