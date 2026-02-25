@@ -6,6 +6,16 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-02-25
+### Added (R2-API-004 카페24 API 연동)
+- **cafe24_connections** 테이블: user_id, mall_id(unique per user), client_id, client_secret, access_token, refresh_token, token_expires_at, scopes, is_active
+- **cafe24_product_mappings** 테이블: user_id, product_id, cafe24_product_no, cafe24_mall_id, sync_status(pending,synced,failed,deleted), last_synced_at, error_message, unique(user_id, product_id, cafe24_mall_id)
+- Cafe24Connection, Cafe24ProductMapping 모델
+- Cafe24ApiService: getAuthUrl, exchangeToken, refreshToken, pushProduct, updateProduct, deleteProduct, getProducts (Base: https://{mall_id}.cafe24api.com/api/v2)
+- Cafe24Controller: connect, callback, status, pushProducts, updateProduct, deleteProduct, listProducts
+- 라우트: POST/GET /api/cafe24/connect, callback, GET status, POST products/push, PUT/DELETE/GET products (auth:sanctum, role:retail|wholesale|admin)
+- config/services.php cafe24 섹션 (CAFE24_CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, scopes). .env.docker에 값 설정 후 실제 연동 가능.
+
 ## [1.9.0] - 2026-02-25
 ### Added (R2-API-003 AI 콘텐츠 처리 API)
 - **contents** 테이블: type(image,video,lookbook,codi), status(draft,published,scheduled,hidden), visibility(public,private), soft delete
@@ -60,19 +70,19 @@
 
 ## [1.6.0] - 2026-02-24
 ### Added
-- R2-API-002: 브랜드 페이지 API (b48a2d8)
+- R2-API-002: 브랜드 페이지 API (푸시후기록)
   - brand_pages 테이블, BrandPage 모델, ProductImage 모델
   - BrandPageController 6 엔드포인트 (목록, 상세, 상품, 피드, 팔로우, 수정)
   - BrandPageSeeder (wholesale@newtalk.kr 테스트 브랜드)
   - Feed API: author.brand_slug, product.wholesale_name (BrandPage/User 관계)
-- R2-FRONT-004: 브랜드 페이지 UI (b48a2d8)
+- R2-FRONT-004: 브랜드 페이지 UI (푸시후기록)
   - 브랜드 상세 /brand/[slug] (커버, 로고, 팔로우, 상품 탭, 피드 탭)
   - 브랜드 탐색 /brands (검색, 그리드, 무한 스크롤)
   - 탐색 페이지 "브랜드" 탭, FeedCard/ProductInfo 작성자·브랜드 → /brand/{slug} 링크
   - brand-api.ts, types/brand.ts
 
 ## [1.5.0] - 2026-02-24
-### Added (R2-FRONT-003 b48a2d8)
+### Added (R2-FRONT-003 푸시후기록)
 - 상품 상세 페이지: `/retail/product/[id]` (app/retail/product/[id]/page.tsx)
 - ProductImageCarousel: 이미지 슬라이드, 스와이프, 인디케이터 도트, placeholder
 - ProductInfo: 상품명, 도매가·소매가, 브랜드, 찜 토글, 공유(navigator.share / 클립보드)
@@ -98,7 +108,7 @@
 
 ## [1.4.0] - 2026-02-23
 ### Added
-- R2-FRONT-002: 홈 피드 UI (b48a2d8)
+- R2-FRONT-002: 홈 피드 UI (푸시 후 SHA 기록)
 - FeedCard 컴포넌트 (미디어, 좋아요, 찜, 상품 링크)
 - 무한 스크롤 (IntersectionObserver, cursor 페이지네이션)
 - 탐색 페이지 (그리드, 탭 필터, 검색바)
@@ -111,7 +121,7 @@
 
 ## [1.3.0] - 2026-02-23
 ### Added
-- R2-API-001: SNS 소셜 엔진 API (b48a2d8)
+- R2-API-001: SNS 소셜 엔진 API ({SHA})
 - follows 테이블 + Follow 모델 + 팔로우/언팔로우/팔로워·팔로잉 목록 API
 - wishlists 테이블 + Wishlist 모델 + 찜 추가/해제/목록 API
 - feed_items 테이블 + FeedItem 모델 + 홈 피드/탐색/상세/작성/검색 API
