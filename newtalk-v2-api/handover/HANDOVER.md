@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.2.0
-**최종수정**: 2026-02-24 KST (DOCS-CLEANUP-001 완료)
+**버전**: 2.3.0
+**최종수정**: 2026-02-24 KST (R2-FRONT-006 도매 콘텐츠 업로드 UI 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -12,7 +12,8 @@
 | 1.0.0 | 2026-02-23 | R1 완료 + R2 착수 상태 기준 초판 |
 | 1.5.0 | 2026-02-24 | R2-FRONT-003 상품 상세·찜·공유 UI |
 | 1.6.0 | 2026-02-24 | R2-API-002 브랜드 페이지 API + R2-FRONT-004 브랜드 페이지 UI |
-| 2.2.0 | 2026-02-24 | DOCS-CLEANUP-001 완료: CONTEXT/CHANGELOG SHA 교체, v1.6.1, R2-FIX-002 보고서, V1-SCHEMA-SUMMARY 보완, review 정리 |
+| 2.1.0 | 2026-02-24 | DOCS-CLEANUP-001 완료: CONTEXT/CHANGELOG SHA 교체, v1.6.1, R2-FIX-002 보고서, V1-SCHEMA-SUMMARY 보완, review 정리 |
+| 2.3.0 | 2026-02-24 | R2-FRONT-006 도매 콘텐츠 업로드 UI: /wholesale/content 목록·작성·수정, MediaUploader, ContentEditor, ProductTagSelector |
 
 ---
 
@@ -74,7 +75,7 @@ V2 Frontend: http://114.207.244.86:3000
 V1: http://114.207.244.86
 ```
 
-### 테스트 계정 (비밀번호: NewTalk2026!@# 또는 Test2026!@#)
+### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
 ```
 admin@newtalk.kr (관리자)
 md@newtalk.kr (MD)
@@ -167,7 +168,7 @@ docker compose --env-file .env.docker exec app composer {command}
 ### R2-API-001: SNS 소셜 엔진 API
 - 피드(홈/탐색/상세/작성/검색/좋아요), 팔로우(팔로우/언팔로우/팔로워·팔로잉), 찜(목록/추가/해제)
 - follows, wishlists, feed_items, feed_likes 테이블 + 4 모델 + 3 컨트롤러 (13 엔드포인트)
-- 커밋: 46fccf5
+- 커밋: b48a2d8
 - 브랜치: feature/R2-API-001-social-engine
 
 ### R2-FIX-001: 검수 피드백 반영 (v1.4.1)
@@ -180,20 +181,20 @@ docker compose --env-file .env.docker exec app composer {command}
 - 상품 상세 페이지 `/retail/product/[id]`, 이미지 캐러셀, 옵션(컬러·사이즈), 찜·공유, 액션바, 관련상품
 - product-api.ts (getProduct, getRelatedProducts, toggleProductWishlist, shareProduct)
 - 브랜치: feature/R2-FRONT-003-product-detail
-- Git SHA: 46fccf5
+- Git SHA: b48a2d8
 
 ### R2-API-002: 브랜드 페이지 API (v1.6.0)
 - brand_pages 테이블, BrandPage·ProductImage 모델, BrandPageController 6 EP
 - GET /brands, /brands/{slug}, /brands/{slug}/products, /brands/{slug}/feed, POST follow, PUT /brands/me
 - BrandPageSeeder (wholesale@newtalk.kr), Feed API author.brand_slug·product.wholesale_name
 - 브랜치: feature/R2-API-002-brand-page
-- Git SHA: 46fccf5
+- Git SHA: b48a2d8
 
 ### R2-FRONT-004: 브랜드 페이지 UI (v1.6.0)
 - /brand/[slug] 상세 (헤더, 탭 상품/피드), /brands 탐색, 탐색 탭 "브랜드", FeedCard·ProductInfo 브랜드 링크
 - brand-api.ts, BrandHeader, BrandCard, BrandProductGrid, BrandFeedSection
 - 브랜치: feature/R2-API-002-brand-page
-- Git SHA: 46fccf5
+- Git SHA: b48a2d8
 
 ### R2-FRONT-005: 관리자 구매 대시보드 상세 (v1.7.0)
 - 구매 대시보드 메인 /admin/purchase, 발주 목록 /admin/purchase/orders, 발주 상세 /admin/purchase/[id]
@@ -201,7 +202,13 @@ docker compose --env-file .env.docker exec app composer {command}
 - PurchaseStats, PurchaseFilter, PurchaseOrderTable, ReceivingTable, ReceivingDetail, BarcodeScanner
 - API: dashboard/purchasing/summary·recent-orders, purchase-orders(목록), inbound-receipts(목록/상세/complete), barcodes
 - 보고서: docs/reports/R2-FRONT-005-report.md
-- Git SHA: 46fccf5
+- Git SHA: b48a2d8
+
+### R2-FRONT-006: 도매 콘텐츠 업로드 UI (v1.8.0)
+- /wholesale/content 목록(그리드/리스트, 필터, 페이지네이션), /wholesale/content/new 작성, /wholesale/content/[id]/edit 수정
+- MediaUploader, ContentEditor, ProductTagSelector, ContentList, ContentCard, ContentPreview
+- content-api.ts, types/content.ts, UI: input, label, textarea, progress, switch, alert-dialog
+- Git SHA: b48a2d8
 
 ---
 
@@ -217,9 +224,8 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R2-FRONT-006 | 도매 콘텐츠 업로드 |
-| 2 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
-| 3 | R2-API-004 | 카페24 API 연동 |
+| 1 | R2-API-003 | AI 콘텐츠 처리 API (NAS 연동) |
+| 2 | R2-API-004 | 카페24 API 연동 |
 
 ---
 
