@@ -158,31 +158,43 @@ CREATE TABLE IF NOT EXISTS nas_folder_request (
 
 ### 7.5 통합 테스트 결과 (NAS 실행 후 기입)
 
+**2026-02-25 원격 실행 시도 요약:**  
+NAS SSH 접속 후 STEP 1~2까지 실행 시도. STEP 1(.env 키 확인) 통과, git pull 완료. **Docker 빌드 단계에서 `sudo` 비밀번호 입력 필요로 비대화형 원격 실행 중단.**  
+→ **NAS 터미널에 직접 로그인한 뒤** 아래 스크립트 실행 후 §7.5 표를 채울 것.  
+- 전체 자동 실행 스크립트: `./scripts/nas_run_p1_remote.sh` (STEP 1~9 + 결과를 `p1_test_result.txt`에 저장)  
+- 또는 지시서 단계별: `./scripts/nas_p1_integration_test.sh`  
+- pip-cache에 PyMySQL 없으면:  
+  `wget -P pip-cache/ https://files.pythonhosted.org/packages/c5/29/5114dc18bad3ed1d2e7df7969790f1b15e648d7d3ba6dc19f904bb6d6f57/pymysql-1.1.1-py3-none-any.whl`
+
 | STEP | 항목 | 결과 | 비고 |
 |------|------|------|------|
-| 0 | NAS 경로 이동 | (실행 후 기입) | `cd /volume1/뉴톡/newtalk-image-auto` |
-| 1 | .env MYSQL/GEMINI 키 | (실행 후 기입) | `grep MYSQL_HOST ... \| sed 's/=.*/=***/'` |
-| 2 | git pull + Docker 재빌드 | (실행 후 기입) | build --no-cache, up -d, sleep 15 |
-| 3-1 | pymysql 버전 | (실행 후 기입) | 예: pymysql 1.1.0 |
-| 3-2 | 폴링 워커 로그 | (실행 후 기입) | [폴더폴링] 워커 시작 등 |
-| 3-3 | API /api/health | (실행 후 기입) | 200 |
-| 3-4 | API /api/folder/requests | (실행 후 기입) | 200 + JSON |
-| 3-5 | 볼륨 rw 쓰기 | (실행 후 기입) | 쓰기 성공 / 정리 완료 |
-| 4 | DB 테이블 존재/생성 | (실행 후 기입) | DESCRIBE 또는 CREATE 완료 |
-| 5 | INSERT shooting_id=9999 | (실행 후 기입) | INSERT 성공, id=N |
-| 6 | 폴링 대기 70초 | (실행 후 기입) | KST 시각 기록 |
-| 7-1 | DB status/processed_at | (실행 후 기입) | status=completed 여부 |
-| 7-2 | NAS 루트폴더 | (실행 후 기입) | 2026-02-25_통합테스트모델_스튜디오A |
-| 7-3 | NAS 코디 하위폴더 2개 | (실행 후 기입) | 1번코디, 2번코디 |
-| 7-4 | Docker 로그 완료 메시지 | (실행 후 기입) | [폴더폴링] 요청 #N 완료 |
-| 7-5 | API /folder/requests 응답 | (실행 후 기입) | shooting_id=9999 표시 |
-| 8 | DB 테스트 데이터 삭제 | (실행 후 기입) | DELETE 완료 N건 |
-| 9 | pytest test_folder_poller | (실행 후 기입) | passed 개수 |
-| 9 | pytest 전체 | (실행 후 기입) | passed/skipped/failed |
-| **판정** | **성공/실패** | **(✅ 성공 시 / 실패 시 에러 요약)** | |
+| 0 | NAS 경로 이동 | ✅ (원격 시도 시 확인) | find로 /volume1/뉴톡/newtalk-image-auto 진입 |
+| 1 | .env MYSQL/GEMINI 키 | ✅ MYSQL_PASSWORD=*** 존재 | 원격 실행 시 확인됨 |
+| 1 | pip-cache PyMySQL | ⚠️ whl 없음 → wget 시도 | Docker 단계 전에 중단되어 wget 결과 미확인 |
+| 2 | git pull | ✅ Already up to date | |
+| 2 | Docker 재빌드/기동 | ❌ 중단 | sudo 비밀번호 필요 (NAS에서 직접 실행 시 입력 후 진행) |
+| 3-1 | pymysql 버전 | (NAS 실행 후 기입) | 예: pymysql 1.1.0 |
+| 3-2 | 폴링 워커 로그 | (NAS 실행 후 기입) | [폴더폴링] 워커 시작 등 |
+| 3-3 | API /api/health | (NAS 실행 후 기입) | 200 |
+| 3-4 | API /api/folder/requests | (NAS 실행 후 기입) | 200 + JSON |
+| 3-5 | 볼륨 rw 쓰기 | (NAS 실행 후 기입) | 쓰기 성공 / 정리 완료 |
+| 4 | DB 테이블 존재/생성 | (NAS 실행 후 기입) | DESCRIBE 또는 CREATE 완료 |
+| 5 | INSERT shooting_id=9999 | (NAS 실행 후 기입) | INSERT 성공, id=N |
+| 6 | 폴링 대기 70초 | (NAS 실행 후 기입) | KST 시각 기록 |
+| 7-1 | DB status/processed_at | (NAS 실행 후 기입) | status=completed 여부 |
+| 7-2 | NAS 루트폴더 | (NAS 실행 후 기입) | 2026-02-25_통합테스트모델_스튜디오A |
+| 7-3 | NAS 코디 하위폴더 2개 | (NAS 실행 후 기입) | 1번코디, 2번코디 |
+| 7-4 | Docker 로그 완료 메시지 | (NAS 실행 후 기입) | [폴더폴링] 요청 #N 완료 |
+| 7-5 | API /folder/requests 응답 | (NAS 실행 후 기입) | shooting_id=9999 표시 |
+| 8 | DB 테스트 데이터 삭제 | (NAS 실행 후 기입) | DELETE 완료 N건 |
+| 9 | pytest test_folder_poller | (NAS 실행 후 기입) | passed 개수 |
+| 9 | pytest 전체 | (NAS 실행 후 기입) | passed/skipped/failed |
+| **판정** | **성공/실패** | **(NAS 전체 실행 후 기입)** | |
 | (실패 시) | 에러 로그 | (해당 시 전문 붙여넣기) | |
 
-**실행 스크립트:** `./scripts/nas_p1_integration_test.sh` (NAS SSH에서 프로젝트 루트 실행)
+**실행 스크립트:**  
+- `./scripts/nas_p1_integration_test.sh` (NAS SSH에서 프로젝트 루트 실행)  
+- `./scripts/nas_run_p1_remote.sh` (STEP 1~9 일괄 실행, 결과 `p1_test_result.txt` 저장)
 
 ---
 
