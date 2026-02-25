@@ -25,5 +25,6 @@ CONTEXT.md를 Phase 4 진행 상태로 갱신.
 - 채널 구조: 쇼핑군/콘텐츠군 정리
 
 ## 4. 커밋
-- shortflow: 수동 실행 시 `bash scripts/20260224_context_index_commit_push.sh` (서버 SSH에서 실행 권장. Cursor 터미널은 git --trailer 미지원으로 커밋 실패 가능)
-- 커밋 해시: 수동 커밋 후 위 스크립트 출력으로 확인
+- shortflow: `b4908bf` (pushed)
+- project-docs: `508707e` (pushed, rebase 후)
+- 수동 재실행 시 `bash scripts/20260224_context_index_commit_push.sh` (서버 SSH에서 실행 권장)
