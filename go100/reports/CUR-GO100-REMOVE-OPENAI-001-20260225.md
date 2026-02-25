@@ -3,6 +3,7 @@
 **작성일**: 2026-02-25 14:35 KST
 **우선순위**: P1
 **상태**: **완료**
+**BATCH-002 WAVE 1-B 검수**: 2026-02-25 15:45 KST — llm_client.py 에러 메시지·cost_tracker PROVIDER_TO_VENDOR에서 OpenAI 제거 반영 (커밋 252f9207).
 
 ---
 
