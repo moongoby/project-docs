@@ -12,10 +12,11 @@
 | FIX | 내용 | 적용 방법 |
 |-----|------|------------|
 | **FIX 1** | ATR(14) Wilder + ADX(14) +DI/-DI/DX | `_atr_wilder`, `_adx_wilder` 추가, `get_cumulative_indicators`에 `atr_14`, `adx` 반영 |
-| **FIX 2** | 시가총액 실데이터 | Feeder 초기화 시 `stock_fundamentals` (date≤지정일 최신) 1회 로드, 없으면 5000억 |
+| **FIX 2** | 시가총액 실데이터 | Feeder 초기화 시 `stock_fundamentals` (date≤지정일 최신) 1회 로드, **없으면 ohlcv_daily close×발행주식수 추정**, 그래도 없으면 5000억 |
 | **FIX 3** | 섹터코드 매핑 | Feeder 초기화 시 `v4_stock_sector` 1회 로드, `state_data`에 `sector_code` 반영 |
 | **FIX 4** | market_is_down / market_drop_pct | `v4_market_regime_daily`로 하락 레짐 판별, KOSPI 일봉 등락률 → C7 gate 활성화 |
 | **FIX 5** | 외인/기관 순매수 | `v4_investor_daily` 당일 `foreign_net_amount`/`institution_net_amount` 로드, 없으면 0 |
+| **FIX 6** | 뉴스/공시 연동 | `go100_news_items`에서 해당일·해당 종목 뉴스 존재(`has_news`), 악재 공시(`has_bad_news`, title/category 기반), `state_data` 반영 |
 
 ---
 
@@ -37,7 +38,8 @@
 - **적용 후**:  
   - Feeder `_load()` 내 `_load_market_cap()` 호출  
   - `SELECT stock_code, market_cap FROM stock_fundamentals WHERE date = (SELECT MAX(date) ... WHERE date <= '지정일') AND stock_code IN (...)`  
-  - 없으면 5000억 유지 (지침: ohlcv_daily close×발행주식수 추정은 미구현, 동일 폴백)  
+  - **없으면**: 동일 기준일 `shares_outstanding` + `ohlcv_daily` 당일 `close`로 **close×발행주식수** 추정  
+  - 그래도 없으면 5000억 유지  
 - **연동**: `get_cumulative_indicators`에서 `self._market_cap.get(stock_code, DEFAULT_MARKET_CAP_FALLBACK)` 반환.
 
 ### FIX 3 — 섹터코드 매핑
@@ -64,6 +66,16 @@
   - `_load_investor_daily()`: `v4_investor_daily`에서 `trade_date = '지정일'`로 `foreign_net_amount`, `institution_net_amount` 조회  
   - 해당일 없으면 0 유지 (127일분 불균일 데이터 대응)  
   - `get_cumulative_indicators` 및 `state_data`에 `foreign_net_buy`, `inst_net_buy` 반영  
+
+### FIX 6 — 뉴스/공시 연동
+
+- **적용 전**: `news_flag`/`has_news`/`has_bad_news` 미제공(또는 False 고정).
+- **적용 후**:  
+  - `_load_news_flags()`: `go100_news_items`에서 `data_date = 지정일`, `stock_code1 IN (유니버스)`로 조회  
+  - **has_news**: 해당일 해당 종목 뉴스 존재 여부  
+  - **has_bad_news**: `is_disclosure = true` 이고 `title`이 악재 키워드 정규식(상장폐지, 관리종목, 감사의견거절 등)과 매칭  
+  - `get_cumulative_indicators`에 `has_news`, `has_bad_news`, `news_flag = has_news` 반영  
+  - `backtest_runner._apply_indicators_to_cache` 및 `state_data`에 `has_news`, `has_bad_news` 포함 → C1, C3, C7 점수/과대탐지 제거에 활용  
 
 ---
 
@@ -109,14 +121,14 @@ python3 scripts/backtest/desk2_live_parity_run.py --date 2026-02-20 --capital 10
 
 ## 4. 보조 수정 사항 (backtest_runner)
 
-- **`_apply_indicators_to_cache`**: feeder 지표에서 `atr_14`, `market_cap`, `sector_code`, `market_is_down`, `market_drop_pct`, `foreign_net_buy`, `inst_net_buy`를 `TickerIndicators`에 설정.
-- **`_build_bar_data_map`**: `state_data`에 `market_cap`, `sector_code`, `market_is_down`, `market_drop_pct`, `foreign_net_buy`, `inst_net_buy` 포함하여 전략/발굴에서 사용 가능하도록 함.
+- **`_apply_indicators_to_cache`**: feeder 지표에서 `atr_14`, `market_cap`, `sector_code`, `market_is_down`, `market_drop_pct`, `foreign_net_buy`, `inst_net_buy`, **`has_news`**, **`has_bad_news`**를 `TickerIndicators`에 설정.
+- **`_build_bar_data_map`**: `state_data`에 `market_cap`, `sector_code`, `market_is_down`, `market_drop_pct`, `foreign_net_buy`, `inst_net_buy`, **`has_news`**, **`has_bad_news`** 포함.
 
 ---
 
 ## 5. 결론
 
-- **FIX 1~5** 모두 `historical_price_feeder.py` 및 `backtest_runner.py`에 반영 완료.
+- **FIX 1~6** 모두 `historical_price_feeder.py` 및 `backtest_runner.py`에 반영 완료.
 - **2026-02-20** 기준 검증: C4·C7 발굴, 거래 ≥ 2건, DESK Score 62~72 분포, C7 gate 동작, hold_seconds/exit_price/entry_quantity 지침 충족.
 - 추가 수집 없이 코드만으로 Feeder 보강 및 DESK Score 회복 목표에 부합.
 
@@ -124,5 +136,7 @@ python3 scripts/backtest/desk2_live_parity_run.py --date 2026-02-20 --capital 10
 
 ## 6. 문서 레포 푸시 및 경로
 
-- **보고서 경로**: `report/v41/DESK2-BT-FEEDER-PHASE1-001-20260226.md` (메인 레포 `kis-autotrade-v4` 내).
-- 문서 레포(예: project-docs) 푸시 정책이 있는 경우, 해당 레포로 복사·푸시 후 최종 문서 URL/경로를 운영 측에서 보고할 것.
+- **코드 레포 보고서**: `report/v41/DESK2-BT-FEEDER-PHASE1-001-20260226.md` (kis-autotrade-v4 내).
+- **문서 레포 경로**: `kis-autotrade-v4/reports/DESK2-BT-FEEDER-PHASE1-001-20260226.md`
+- **문서 레포 전체 경로**: `/root/project-docs/kis-autotrade-v4/reports/DESK2-BT-FEEDER-PHASE1-001-20260226.md`
+- **Public URL (푸시 후)**: `https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/DESK2-BT-FEEDER-PHASE1-001-20260226.md`
