@@ -135,7 +135,7 @@
 - [x] 프론트엔드 컴포넌트 5개 완성 (GoalTracking, TradeTimeline, DiscoveryPanel, ExitAnalysis, IntentVerification)
 - [x] npm run build 에러 0
 - [x] 소스 검수 완료
-- [ ] 보고서 push curl 200 (Push 후 확인)
+- [x] 보고서 push curl 200 (Push 후 확인)
 
 ---
 

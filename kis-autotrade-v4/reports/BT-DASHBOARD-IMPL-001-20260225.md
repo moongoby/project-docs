@@ -145,7 +145,7 @@ print('Routes:', len(router.routes))
 
 ## 8. 절대 규칙 준수
 
-- kis-v41-api, kis-v41-monitor, kis-v41-scheduler 재시작은 **CEO 승인 후** 진행 (BT-DASHBOARD-FINALIZE-001에서 승인 완료 후 재시작 반영).
+- kis-v41-api, kis-v41-monitor, kis-v41-scheduler **재시작 안 함** (CEO 승인 필요).
 - strategy_cards, v4_positions 테이블 **INSERT/UPDATE/DELETE 없음**.
 - datetime.now() 미사용 → `datetime.now(timezone.utc)` 사용.
 - from typing import Any 미사용.
@@ -154,12 +154,12 @@ print('Routes:', len(router.routes))
 
 ---
 
-## 9. 다음 단계 (BT-DASHBOARD-FINALIZE-001 완료 반영 2026-02-25)
+## 9. 다음 단계
 
-1. **DB:** 백업 후 `create_bt_dashboard_tables.sql` 실행 완료. 검증: `v4_bt_sessions`, `v4_bt_discoveries`, `v4_bt_trades`, `v4_bt_versions` 4개 테이블 확인됨.
+1. **DB:** 운영 DB에서 백업 후 `create_bt_dashboard_tables.sql` 실행 및 위 검증 쿼리로 4테이블 확인.
 2. **백테스터 연동:** `desk2_backtester.py`에 BtDataWriter 주입 후 세션 생성·발굴·거래·버전 기록 호출 추가.
-3. **서비스 재시작:** kis-v41-api 재시작 완료. `/health` 200, `/api/v1/backtest/sessions` 200, `/api/v1/backtest/readiness` 200 확인.
-4. **프론트:** `npm run build` 재실행 완료, 빌드 에러 0.
+3. **서비스 재시작:** main.py에 bt_dashboard_router 추가 반영을 위해 **장 마감 후(15:30 이후)** kis-v41-api 재시작 시 CEO 승인 후 진행.
+4. **프론트:** `npm run build` 재실행하여 타입/린트 통과 확인.
 
 ---
 

@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-02-25
+> 최종 갱신: 2026-02-23
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -24,13 +24,13 @@
 3. v4_positions 직접 수정 금지
 4. 핵심 파일 수정 → review/ 업로드 → CEO+Claude 승인 후 적용
 5. .env/.bak 커밋 절대 금지
-6. 사전확인: strategy_cards=60, v4_positions OPEN=11
+6. 사전확인: strategy_cards=62, v4_positions OPEN=5
 
 ## 4. DESK 구성
 | DESK | 역할 | max_hold | 라이브/전체 | 수익률 | 상태 |
 |------|------|----------|------------|--------|------|
 | DESK1 | 초단타/스캘핑 | 0-1일 | 10/10 | 미검증 | 인프라 구축 완료 |
-| DESK2 | 단타 | 1-3일 | 10/16 | -23.25% | 7개 발굴 조건 + 7개 전략 재설계 완료, LIVE-PARITY 백테스트 진행 중 |
+| DESK2 | 단타 | 1-3일 | 10/16 | -23.25% | 분봉 진입 최적화 필요 |
 | DESK3 | 단기스윙 | 3-10일 | 9/11 | +32.23% | 주 수익원 |
 | DESK4 | 중기스윙 | 20-40일 | 6/9 | 운영중 | 안정 |
 | DESK5 | 장기 | 90-120일 | 1/10 | — | 카드 부족 |
@@ -44,23 +44,21 @@
 | kis-v41-minute-collector | — | inactive (월요일 장전) |
 
 ## 6. DB 무결성 기준
-- strategy_cards: 60건
-- v4_positions OPEN: 11건
-- DB 크기: 13 GB
-- v4_ohlcv_minute: 42,351,682행
+- strategy_cards: 62건
+- v4_positions OPEN: 5건 (ID 49, 51, 53, 55, 61)
+- DB 크기: 6,152 MB
+- v4_ohlcv_minute: 19,468,781행
 - v4_scalping_universe: 708종목
-- v4_theme_master: 125건
-- v4_theme_stock: 781건
-- v4_trade_strength_history: 223,814건
 
 ## 7. 작업 큐
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0 | DESK2-BT-RESULT-HARVEST-001 | 전략별 매트릭스 확정, PAPER 카드 등록 |
-| P0 | BT-DASHBOARD-DATA-SYNC-001 | 대시보드 데이터 동기화 |
-| P1 | MINUTE-BAR-VERIFY-AND-CHART-001 | 1분봉 확인 + 차트 전환 |
-| P1 | DESK2-BT-LIVE-PARITY 잔여 | 분할 익절, 적응 엔진, FutureDataGuard |
-| P2 | DESK2 모의매매 투입 | HARVEST 완료 후 |
+| P0 | MINUTE-COLLECTOR-STATUS | Cursor 결과 대기 |
+| P1 | DESK2-MINUTE-REBT | P0 후 |
+| P2 | DESK5-CARD-BT | P1 후 |
+| P3 | OVERLAP-GUARD | CEO 정책 대기 |
+| P4 | REGIME-FILTER | CEO 승인 대기 |
+| P5 | DESK1-LIVE-PREP | 월요일 09:00 전 |
 
 ## 8. CEO 결정 대기
 1. DESK 간 중복 매수 정책
@@ -85,7 +83,3 @@
 1. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md (이 파일)
 2. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
 3. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/CLAUDE.md
-
-## 12. 최신 인계서
-- **HANDOVER-KIS-V41-005-20260224**: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/HANDOVER-KIS-V41-005-20260224.md
-- 내용: 전체 프로젝트 현황, 2/24 완료 10건, DESK2 재설계 CEO 지시, 5시간대 전략, 복리 자금운용, 실행 큐

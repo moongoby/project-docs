@@ -76,12 +76,12 @@ if [ -d "$SRC_REPORT/v41" ]; then
     done
 fi
 
-# 7. 보안 점검 (전체)
+# 7. 보안 점검 (전체, review/ 제외 — 코드검수용)
 echo "[7/7] 보안 점검..."
-DANGER=$(find "$DST" \
-    -name ".env" -o -name "*.key" -o -name "*.pem" \
+DANGER=$(find "$DST" ! -path "*/review/*" \
+    \( -name ".env" -o -name "*.key" -o -name "*.pem" \
     -o -name "*credential*" -o -name "*secret*" \
-    -o -name "*.py" -o -name "*.pyc" 2>/dev/null)
+    -o -name "*.py" -o -name "*.pyc" \) 2>/dev/null)
 if [ -n "$DANGER" ]; then
     echo "!!! 민감 파일 감지 — 중단 !!!"
     echo "$DANGER"
