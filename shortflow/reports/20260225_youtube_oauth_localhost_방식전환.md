@@ -20,10 +20,11 @@
 | 구분 | 기존 (OOB) | 변경 후 (localhost redirect) |
 |------|------------|------------------------------|
 | `redirect_uris` | `["urn:ietf:wg:oauth:2.0:oob", "http://localhost"]` | `["http://localhost:8090", "http://114.207.244.86:8090"]` |
-| 인증 흐름 | `flow.authorization_url()` → URL 출력 → `input("인증 코드 입력")` → `flow.fetch_token(code=...)` | `flow.run_local_server(host="0.0.0.0", port=8090, open_browser=False)` |
+| 인증 흐름 | `flow.authorization_url()` → URL 출력 → `input("인증 코드 입력")` → `flow.fetch_token(code=...)` | `flow.run_local_server(host="114.207.244.86", bind_addr="0.0.0.0", port=8090, ...)` |
 | 사용자 조작 | URL 열기 → 코드 복사 → 터미널에 붙여넣기 | URL 열기 → 로그인·승인 → 자동 리다이렉트로 완료 |
 
 - **백업:** `scripts/youtube_oauth_setup.py.bak` 에 기존 스크립트 보관.
+- **리디렉션 URI 수정:** 서버에서 `host="0.0.0.0"`만 쓰면 인증 URL에 `redirect_uri=http://0.0.0.0:8090/`가 들어가 Google이 거부함. `host="114.207.244.86"`, `bind_addr="0.0.0.0"`로 변경해 redirect_uri를 `http://114.207.244.86:8090/`로 맞춤.
 - **동작 요약:**  
   - 서버에서 스크립트 실행 시 포트 8090에서 임시 웹 서버 대기.  
   - 브라우저에서 출력된 URL 또는 `http://114.207.244.86:8090` 접속 → Google 로그인·채널 승인 → `http://114.207.244.86:8090?...` 로 리다이렉트되며 스크립트가 인증 코드를 받아 토큰 발급·저장.
@@ -98,6 +99,29 @@
 | 포트 8090 | 사용 가능 확인, 방화벽 허용 완료 |
 | 대표님 조치 | Google Console에 `http://localhost:8090`, `http://114.207.244.86:8090` 리디렉션 URI 추가 |
 | 실행 | 리디렉션 URI 추가 후 `venv/bin/python scripts/youtube_oauth_setup.py economy` 또는 `health` |
+
+---
+
+## 8. 서버 실행 결과 및 리디렉션 URL (2026-02-25)
+
+서버에서 `venv/bin/python scripts/youtube_oauth_setup.py economy` 실행 시 출력된 내용.
+
+**리디렉션 URI (Google에 등록·사용되는 값)**
+
+| 구분 | URL |
+|------|-----|
+| 콜백(리디렉션) 주소 | `http://114.207.244.86:8090/` |
+| 인증 후 브라우저가 이동하는 주소 | `http://114.207.244.86:8090/?state=...&code=...` |
+
+**인증용 URL (브라우저에서 열기)**  
+*state는 실행할 때마다 바뀌므로, 실제 발급 시에는 당일 서버 실행 시 출력되는 URL을 사용할 것.*
+
+```
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163214-mjupn2kn5ere0a77m4sn7qj15z69nidv.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F114.207.244.86%3A8090%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube&state=SwaCgXUv6hMG4esRPUs482qhYtIsgL&access_type=offline
+```
+
+- **decoded redirect_uri:** `http://114.207.244.86:8090/` (Google Console에 등록한 값과 일치)
+- **실행 환경:** 서버 114.207.244.86, 포트 8090 사용 가능·방화벽 허용 확인됨
 
 ---
 
