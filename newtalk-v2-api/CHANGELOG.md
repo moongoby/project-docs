@@ -6,6 +6,16 @@
 
 ## [Unreleased]
 
+## [3.7.0] - 2026-02-26
+### Added (R4-FRONT-002 스토리 UI)
+- **타입**: `frontend/src/types/story.ts` — Story, StoryView, StoryGroup, StoryFeedResponse
+- **API 클라이언트**: `frontend/src/lib/story-api.ts` — getStoryFeed, getUserStories, getMyStories, createStory, deleteStory, recordView, react, toggleHighlight (8함수)
+- **컴포넌트 10개** (`frontend/src/components/story/`): StoryBar, StoryAvatar, StoryViewer, StoryMediaDisplay, StoryReactionBar, StoryUploadPage, StoryViewersList, MyStoriesPage, StoryHighlights, index
+- **페이지 3개**: /wholesale/stories/new (도매 스토리 업로드), /wholesale/stories (도매 내 스토리 관리), /retail/stories (소매 스토리 피드·뷰어)
+- **피드 연동**: /retail/feed 상단 StoryBar 삽입
+- **브랜드 연동**: /brand/[slug] 에 StoryHighlights 삽입 (하이라이트 원형 캐러셀)
+- **도매 레이아웃**: "스토리" 메뉴 → /wholesale/stories
+
 ## [3.6.0] - 2026-02-26
 ### Added (R4-FRONT-001 거래처 제도 UI)
 - **타입**: `frontend/src/types/trade.ts` — ApplicationStatus, PartnershipTier, TradeApplication, TradePartnership, TradePrice, TradeApplyRequest

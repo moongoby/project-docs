@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.7.0
-**최종수정**: 2026-02-26 KST (R4-FRONT-001 거래처 제도 UI 완료)
+**버전**: 2.8.0
+**최종수정**: 2026-02-26 KST (R4-FRONT-002 스토리 UI 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -18,6 +18,7 @@
 | 2.5.0 | 2026-02-25 | R2-API-004 카페24 API 연동: cafe24_connections, cafe24_product_mappings, Cafe24ApiService, Cafe24Controller (OAuth, 상품 push/sync) |
 | 2.6.0 | 2026-02-25 | R3-API-001 사입 주문 API: carts(status/note/softDeletes), cart_items, orders(주문·배송·취소), order_items 스냅샷, CartController 5 EP, OrderController 5 EP |
 | 2.7.0 | 2026-02-26 | R4-FRONT-001 거래처 제도 UI: 소매 거래처 신청/목록, 도매 신청 승인·거절/거래처 상세·전용가, 관리자 거래처 현황, 브랜드 페이지 "거래처 신청" 버튼 |
+| 2.8.0 | 2026-02-26 | R4-FRONT-002 스토리 UI: StoryBar(피드 상단), StoryViewer(풀스크린), 업로드/내 스토리 관리, 브랜드 하이라이트, 리액션 바 |
 
 ---
 
