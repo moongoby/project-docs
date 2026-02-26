@@ -266,7 +266,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - 도매 주문 상세: 결제 상태 PaymentStatusBadge, 결제금액 표시
 - 컴포넌트 8개: PaymentMethodSelector, PaymentSummary, PaymentProcessing, PaymentResult, PaymentStatusBadge, PaymentDetail, PaymentCancelDialog, useTossPaymentRequest
 - payment-api.ts (5함수), types/payment.ts
-- Git SHA: 0000000
+- Git SHA: b798049
 
 ### R3-API-003: 배송 API (v2.5.0)
 - shipments 테이블 alter: seller_id, buyer_id, type(direct/consignment), tracking_company, tracking_url, sender_*, receiver_*, returned_at, estimated_delivery, weight, note, softDeletes
@@ -276,7 +276,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - ShipmentController: POST/GET orders/{orderId}/shipment, GET/PUT shipments/{id}, PUT tracking, PUT status, GET tracking (6 EP)
 - ShippingAddressController: GET/POST/PUT/DELETE shipping-addresses, PUT default (5 EP)
 - Order::shipment(), Order::shipping_status accessor
-- Git SHA: 0000000
+- Git SHA: b798049
 
 ### R3-FRONT-003: 배송 UI (v2.6.0)
 - /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
@@ -286,7 +286,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - retail-layout: 하단 메뉴 "배송지" 링크 (/retail/addresses)
 - 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
 - shipping-api.ts 11함수, types/shipping.ts
-- Git SHA: 0000000
+- Git SHA: b798049
 
 ### R3-API-004: DM API (v2.7.0)
 - conversations, conversation_participants, messages, message_reads 테이블
@@ -296,7 +296,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - ConversationController: store, index, show, toggleMute, togglePin, leave (6 EP)
 - MessageController: index, store, markAsRead, destroy (4 EP)
 - 라우트: GET/POST /conversations, GET/PUT/DELETE /conversations/{id}, mute, pin, messages, read, DELETE /messages/{id}
-- Git SHA: 0000000
+- Git SHA: b798049
 
 ### R3-FRONT-004: DM UI (v2.8.0)
 - /retail/messages 대화 목록, /retail/messages/[id] 대화방
