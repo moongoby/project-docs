@@ -1,0 +1,50 @@
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     WHERE is_active = true
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     ORDER BY next_run_at ASC NULLS FIRST
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                 
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:34:40,082 | INFO     | sqlalchemy.engine.Engine |
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     SELECT id, user_id, strategy_id, account_id, is_active,
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                            run_interval, market_open_only, invest_amount,
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                            max_stocks, max_per_stock_pct, stop_loss_pct, take_profit_pct,
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                            last_run_at, next_run_at
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     FROM v4_trade_schedules
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     WHERE is_active = true
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                     ORDER BY next_run_at ASC NULLS FIRST
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]:                 
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:34:40,083 INFO sqlalchemy.engine.Engine [cached since 900.1s ago] ()
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:34:40,083 | INFO     | sqlalchemy.engine.Engine | [cached since 900.1s ago] ()
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:34:40,086 INFO sqlalchemy.engine.Engine ROLLBACK
+Feb 23 13:34:40 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:34:40,086 | INFO     | sqlalchemy.engine.Engine | ROLLBACK
+Feb 23 13:35:11 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:11,289 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:11 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:11,290 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:11 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:11,458 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160697&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 500 Internal Server Error"
+Feb 23 13:35:11 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:11,459 | WARNING  | account_sync | Balance API config_id=1: 500
+Feb 23 13:35:11 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:11,462 | WARNING  | account_sync_scheduler | account_sync config_id=1 error: KIS balance API failed or empty
+Feb 23 13:35:12 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:12,496 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:12 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:12,498 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:12 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:12,941 | INFO     | httpx | HTTP Request: GET https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=74032243&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:13,015 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:13,016 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:13,168 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160697&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 500 Internal Server Error"
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:13,170 | WARNING  | account_sync | Balance API config_id=1: 500
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:13,173 | WARNING  | account_sync_scheduler | account_sync config_id=1 error: KIS balance API failed or empty
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:13,976 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:13 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:13,977 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:14,139 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160711&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 500 Internal Server Error"
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:14,139 | WARNING  | account_sync | Balance API config_id=3: 500
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:14,142 | WARNING  | account_sync_scheduler | account_sync config_id=3 error: KIS balance API failed or empty
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:14,196 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:14,197 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:14 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:14,863 | INFO     | httpx | HTTP Request: GET https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=74032243&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"
+Feb 23 13:35:15 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:15,161 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:15 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:15,162 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:15 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:15,428 | INFO     | httpx | HTTP Request: GET https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=74032243&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"
+Feb 23 13:35:16 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:16,836 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:16 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:16,836 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:17 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:17,006 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160711&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 500 Internal Server Error"
+Feb 23 13:35:17 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:17,007 | WARNING  | account_sync | Balance API config_id=3: 500
+Feb 23 13:35:17 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:17,011 | WARNING  | account_sync_scheduler | account_sync config_id=3 error: KIS balance API failed or empty
+Feb 23 13:35:17 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:35:17,843 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160404&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"
+Feb 23 13:35:18 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:18,037 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:18 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:18,037 | INFO     | backend.app.core.crypto | Decrypted via fallback key chain (source: SECRET_KEY(SHA256))
+Feb 23 13:35:18 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:18,492 | INFO     | httpx | HTTP Request: GET https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=74032243&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"
+Feb 23 13:35:19 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:35:19,811 | INFO     | httpx | HTTP Request: GET https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-balance?CANO=50160404&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100= "HTTP/1.1 200 OK"

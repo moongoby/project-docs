@@ -1,0 +1,1123 @@
+=== CUR-GO100-DOC-RECOVERY: 2026-02-23 14:14:36 KST ===
+
+========== PART 1: Git에서 삭제된 파일 추적 ==========
+--- 1-1. go100 repo: 삭제된 파일 ---
+ delete mode 100644 backend/app/services/kis/client.py.backup_20260130_103601
+ delete mode 100644 backend/.env
+ delete mode 100644 backend/.env.backup_20260130_103236
+ delete mode 100644 backend/kisautotrade.db.corrupt_20260202_043511
+ delete mode 100644 backend/kisautotrade.db-shm
+ delete mode 100644 backend/kisautotrade.db-wal
+ delete mode 100644 backend/multi_account_live_trading.py.bak
+ delete mode 100644 backups/database/kisautotrade_20260125_051154.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260125_053416.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260126_000001.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260127_000001.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260130_000002.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260201_000001.db.gz
+ delete mode 100644 backups/database/kisautotrade_20260201_111209.db.gz
+ delete mode 100644 frontend/admin_d01_card.tmp
+ delete mode 100644 frontend/admin.html.backup_20260127_041150
+ delete mode 100644 frontend/admin.html.backup_20260202_050812
+ delete mode 100644 frontend/admin.html.bak
+ delete mode 100644 frontend/admin.html.before_inline_fix
+ delete mode 100644 frontend/console-log-request.html
+ delete mode 100644 frontend/dashboard/app.js
+ delete mode 100644 frontend/dashboard_broken.html
+ delete mode 100644 frontend/dashboard/dashboard_prod.html
+ delete mode 100644 frontend/dashboard/index.html
+ delete mode 100644 frontend/dashboard_old.html
+ delete mode 100644 frontend/dashboard_optimized.html
+ delete mode 100644 frontend/dashboard/style.css
+ delete mode 100644 frontend/debug-navigation.html
+ delete mode 100644 frontend/diagnostic.html
+ delete mode 100644 frontend/hashchange-fix-test.html
+ delete mode 100644 frontend/js/admin.js.backup.auth_fix
+ delete mode 100644 frontend/js/api-client.js.backup_20260202
+ delete mode 100644 frontend/js/strategies.js.backup
+ delete mode 100644 frontend/js/trading.js.backup_20260202
+ delete mode 100644 frontend/login.html.backup
+ delete mode 100644 frontend/navigation-fix-test.html
+ delete mode 100644 frontend/.next/app-build-manifest.json
+ delete mode 100644 frontend/.next/build-manifest.json
+ delete mode 100644 frontend/.next/cache/config.json
+ delete mode 100644 frontend/.next/cache/.tsbuildinfo
+ delete mode 100644 frontend/.next/cache/webpack/client-development/0.pack.gz
+ delete mode 100644 frontend/.next/cache/webpack/client-development/index.pack.gz
+ delete mode 100644 frontend/.next/cache/webpack/client-development/index.pack.gz.old
+ delete mode 100644 frontend/.next/cache/webpack/client-production/0.pack
+ delete mode 100644 frontend/.next/cache/webpack/client-production/index.pack
+ delete mode 100644 frontend/.next/cache/webpack/edge-server-production/0.pack
+ delete mode 100644 frontend/.next/cache/webpack/edge-server-production/index.pack
+ delete mode 100644 frontend/.next/cache/webpack/server-development/0.pack.gz
+ delete mode 100644 frontend/.next/cache/webpack/server-development/index.pack.gz
+ delete mode 100644 frontend/.next/cache/webpack/server-production/0.pack
+ delete mode 100644 frontend/.next/cache/webpack/server-production/1.pack
+ delete mode 100644 frontend/.next/cache/webpack/server-production/2.pack
+ delete mode 100644 frontend/.next/cache/webpack/server-production/index.pack
+ delete mode 100644 frontend/.next/cache/webpack/server-production/index.pack.old
+ delete mode 100644 frontend/.next/package.json
+ delete mode 100644 frontend/.next/react-loadable-manifest.json
+ delete mode 100644 frontend/.next/server/app/page_client-reference-manifest.js
+ delete mode 100644 frontend/.next/server/app/page.js
+ delete mode 100644 frontend/.next/server/app-paths-manifest.json
+ delete mode 100644 frontend/.next/server/interception-route-rewrite-manifest.js
+ delete mode 100644 frontend/.next/server/middleware-build-manifest.js
+ delete mode 100644 frontend/.next/server/middleware-manifest.json
+ delete mode 100644 frontend/.next/server/middleware-react-loadable-manifest.js
+ delete mode 100644 frontend/.next/server/next-font-manifest.js
+ delete mode 100644 frontend/.next/server/next-font-manifest.json
+ delete mode 100644 frontend/.next/server/pages-manifest.json
+ delete mode 100644 frontend/.next/server/server-reference-manifest.js
+ delete mode 100644 frontend/.next/server/server-reference-manifest.json
+ delete mode 100644 frontend/.next/server/vendor-chunks/next@14.2.35_react-dom@18.3.1_react@18.3.1__react@18.3.1.js
+ delete mode 100644 frontend/.next/server/vendor-chunks/@swc+helpers@0.5.5.js
+ delete mode 100644 frontend/.next/server/vendor-chunks/@tanstack+query-core@5.90.20.js
+ delete mode 100644 frontend/.next/server/vendor-chunks/@tanstack+react-query@5.90.21_react@18.3.1.js
+ delete mode 100644 frontend/.next/server/webpack-runtime.js
+ delete mode 100644 frontend/.next/static/chunks/app/layout.js
+ delete mode 100644 frontend/.next/static/chunks/app/page.js
+ delete mode 100644 frontend/.next/static/chunks/app-pages-internals.js
+ delete mode 100644 frontend/.next/static/chunks/main-app.js
+ delete mode 100644 frontend/.next/static/chunks/polyfills.js
+ delete mode 100644 frontend/.next/static/chunks/webpack.js
+ delete mode 100644 frontend/.next/static/css/app/layout.css
+ delete mode 100644 frontend/.next/static/development/_buildManifest.js
+ delete mode 100644 frontend/.next/static/development/_ssgManifest.js
+ delete mode 100644 frontend/.next/static/media/19cfc7226ec3afaa-s.woff2
+ delete mode 100644 frontend/.next/static/media/21350d82a1f187e9-s.woff2
+ delete mode 100644 frontend/.next/static/media/8e9860b6e62d6359-s.woff2
+ delete mode 100644 frontend/.next/static/media/ba9851c3c22cd980-s.woff2
+ delete mode 100644 frontend/.next/static/media/c5fe6dc8356a8c31-s.woff2
+ delete mode 100644 frontend/.next/static/media/df0a9ae256c0569c-s.woff2
+ delete mode 100644 frontend/.next/static/media/e4af272ccee01ff0-s.p.woff2
+ delete mode 100644 frontend/.next/static/webpack/3ab73918774cf756.webpack.hot-update.json
+ delete mode 100644 frontend/.next/static/webpack/633457081244afec._.hot-update.json
+ delete mode 100644 frontend/.next/static/webpack/app/layout.3ab73918774cf756.hot-update.js
+ delete mode 100644 frontend/.next/static/webpack/webpack.3ab73918774cf756.hot-update.js
+ delete mode 100644 frontend/.next/trace
+ delete mode 100644 frontend/.next/types/app/layout.ts
+ delete mode 100644 frontend/.next/types/app/page.ts
+ delete mode 100644 frontend/.next/types/package.json
+ delete mode 100644 frontend/phase3-4-demo.html
+ delete mode 100644 frontend/public/sw.js
+ delete mode 100644 frontend/strategies.html.backup_20260201_124254
+ delete mode 100644 frontend/strategies.html.old
+ delete mode 100644 frontend/test.html
+ delete mode 100644 frontend/test-login.html
+ delete mode 100644 frontend/test-onboarding-complete.html
+ delete mode 100644 frontend/test-onboarding-debug.html
+ delete mode 100644 frontend/test-onboarding-final.html
+ delete mode 100644 frontend/test-onboarding.html
+ delete mode 100644 frontend/test-phase2-modules.html
+ delete mode 100644 frontend/test-signup.html
+ delete mode 100644 frontend/trading_old_backup.html
+ delete mode 100644 frontend/unfilled_management_section.html
+ delete mode 100644 frontend/virtual-test-dashboard.html
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/ma/LICENSE
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/distributions/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/philox/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/METADATA
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/RECORD
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_array_api_info.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_array_api_info.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/char/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/char/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/__config__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_configtool.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_configtool.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_add_newdocs.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_add_newdocs_scalars.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_add_newdocs_scalars.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/arrayprint.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/arrayprint.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_asarray.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/defchararray.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/defchararray.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_dtype_ctypes.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_dtype.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/einsumfunc.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_exceptions.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/function_base.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/function_base.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/getlimits.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/getlimits.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/include/numpy/npy_2_compat.h
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/include/numpy/npy_2_complexcompat.h
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/include/numpy/_public_dtype_api_table.h
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/include/numpy/random/LICENSE.txt
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_internal.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/lib/libnpymath.a
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/lib/pkgconfig/numpy.pc
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/memmap.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_methods.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/multiarray.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/core/_multiarray_umath.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/numeric.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/numeric.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/numerictypes.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/numerictypes.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/overrides.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/overrides.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/core/overrides.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/printoptions.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/printoptions.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/records.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/records.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/shape_base.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/shape_base.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_simd.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_string_helpers.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/strings.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/strings.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arccos.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arccosh.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arcsin.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arcsinh.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arctan.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-arctanh.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-cosh.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-exp2.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-exp.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-expm1.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-log10.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-log1p.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-log2.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-log.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-sinh.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/data/umath-validation-set-tan.csv
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/examples/cython/checks.pyx
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/examples/cython/setup.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/limited_api2.pyx
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/limited_api_latest.c
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/meson.build
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/_natype.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_array_api_info.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_arrayobject.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_cython.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_defchararray.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_deprecations.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_errstate.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_finfo.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_limited_api.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_multiprocessing.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_multithreading.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_stringdtype.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/tests/test_strings.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_type_aliases.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_type_aliases.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_ufunc_config.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/umath.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_core/_umath_tests.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/core/_utils.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/ctypeslib/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/ctypeslib/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_distributor_init.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_expired_attrs_2_0.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_expired_attrs_2_0.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/auxfuncs.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_backends/_backend.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_backends/_distutils.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_backends/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_backends/_meson.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/capi_maps.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/cb_rules.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/cfuncs.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/common_rules.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/crackfortran.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/diagnose.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/f2py2e.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/f90mod_rules.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/func2subr.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_isocbind.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/rules.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/_src_pyf.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/symbolic.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/callback/gh26681.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/crackfortran/common_with_division.f
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/crackfortran/gh27697.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/modules/gh26920/two_mods_with_no_public_entities.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/modules/gh26920/two_mods_with_one_public_routine.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/modules/use_modules.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/parameter/constant_array.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/AB.inc
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/assignOnlyModule.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/datonly.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/f77comments.f
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/f77fixedform.f95
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/f90continuation.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/incfile.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/lower_f2py_fortran.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/regression/mod_derived_types.f90
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/routines/funcfortranname.f
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/routines/funcfortranname.pyf
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/routines/subrout.f
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/src/routines/subrout.pyf
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/test_modules.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/tests/test_routines.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/use_rules.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/f2py/__version__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/fft/_helper.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_globals.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_arraysetops_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_arrayterator_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_array_utils_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_array_utils_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/array_utils.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/array_utils.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_datasource.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_format_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_format_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_histograms_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_index_tricks_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/introspect.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/introspect.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_iotools.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_npyio_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/recfunctions.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_scimath_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_scimath_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_stride_tricks_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_stride_tricks_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/tests/data/py2-np0-objarr.npy
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/tests/test_array_utils.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_twodim_base_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_type_check_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_ufunclike_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_user_array_impl.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_user_array_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/user_array.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/lib/_utils_impl.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/linalg/lapack_lite.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/linalg/_linalg.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/linalg/_umath_linalg.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/ma/tests/test_arrayobject.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/ma/testutils.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/matlib.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/polynomial/_polytypes.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_pyinstaller/hook-numpy.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_pyinstaller/tests/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/_bounded_integers.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/_common.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/_pickle.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/tests/data/generator_pcg64_np121.pkl.gz
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/tests/data/generator_pcg64_np126.pkl.gz
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/random/tests/data/sfc64_np126.pkl.gz
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/rec/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/rec/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/strings/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/strings/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/testing/overrides.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/testing/print_coercion_tables.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/testing/_private/extbuild.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/tests/test_configtool.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_typing/_nbit_base.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_typing/_nbit_base.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/fail/ma.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/fail/shape.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/fail/strings.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass/lib_user_array.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass/ma.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass/nditer.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass/recfunctions.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass/shape.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/array_api_info.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/ma.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/ndarray_assignability.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/polynomial_polybase.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/polynomial_polyutils.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/polynomial_series.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/shape.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/strings.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_typing/_ufunc.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_utils/_convertions.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_utils/__init__.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_utils/_inspect.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/_utils/_pep440.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/numpy/version.pyi
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/api/executors/__init__.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/api/internals.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/api/typing/aliases.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/core/col.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/errors/cow.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/io/formats/templates/typst.tpl
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/io/iceberg.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/apply/conftest.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/arithmetic/test_bool.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/arithmetic/test_string.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/copy_view/index/test_intervalindex.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/copy_view/test_copy_deprecation.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/dtypes/cast/test_box_unbox.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/groupby/methods/test_kurt.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/io/formats/style/test_to_typst.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/io/test_iceberg.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/reshape/merge/test_merge_antijoin.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/series/test_arrow_interface.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/test_col.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/tseries/offsets/test_business_halfyear.py
+ delete mode 100644 .venv/lib/python3.12/site-packages/pandas/tests/tseries/offsets/test_halfyear.py
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_multiarray_tests.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_multiarray_umath.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_operand_flag_tests.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_rational_tests.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_simd.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_struct_ufunc_tests.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/_core/_umath_tests.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/numpy/fft/_pocketfft_umath.cpython-312-x86_64-linux-gnu.so
+ delete mode 100755 .venv/lib/python3.12/site-packages/pandas/_libs/_cyutility.cpython-312-x86_64-linux-gnu.so
+
+--- 1-2. go100 repo: 삭제된 문서 파일 (.md, .pdf, .txt, .doc, .xlsx) ---
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/distributions/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/philox/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md
+.venv/lib/python3.12/site-packages/numpy/_core/include/numpy/random/LICENSE.txt
+
+--- 1-3. go100 repo: 'api문서|기획|아키텍처|설계|spec|plan|architecture' 관련 삭제 ---
+    문서화 원칙:
+    - 문서 디렉토리 구조 생성 및 분류
+    - 기존 문서 재분류 및 정리
+    - 모든 개발 작업 문서화 필수
+    ✅ 문서화 표준 수립
+    ✅ 문서 템플릿 준비
+    ✅ 기존 문서 정리
+      * 총 24개 문서 정리
+    - 3개 API 엔드포인트 연동
+    - API 연동 및 주문 로직은 정상 작동 확인
+      * api/ - API 문서
+       - API: /dashboard/summary, /live-trading/positions
+    API Integration:
+       - API: /live-trading/stats, /live-trading/trades
+      * architecture/ - 아키텍처 문서
+      * bugfix/ - 버그 수정 문서
+    - Dashboard: Add data source badge showing KIS API / DB / Local data
+    - Dashboard: Replace simulation data with real API (/api/v1/dashboard/summary)
+      * database/ - DB 변경 문서
+    - 개발 문서화 표준 가이드 작성 (DEVELOPMENT_STANDARDS.md)
+    docs: 개발 문서화 표준 수립 및 문서 체계 구축
+    feat(frontend): Connect dashboard to real API and remove 20 test/backup files
+      * 자동매매 관련 문서 → features/
+      * features/ - 기능 개발 문서
+frontend/js/api-client.js.backup_20260202
+    - Git 커밋 전 반드시 문서 포함
+      * 설정 관련 문서 → reports/
+      * templates/ - 문서 템플릿
+      * 실매매 테스트 문서 → testing/
+      * testing/ - 테스트 문서
+    - Total Assets from KIS API
+.venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING
+.venv/lib/python3.12/site-packages/numpy/_array_api_info.py
+.venv/lib/python3.12/site-packages/numpy/_array_api_info.pyi
+.venv/lib/python3.12/site-packages/numpy/_core/include/numpy/_public_dtype_api_table.h
+.venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/limited_api2.pyx
+.venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/limited_api_latest.c
+.venv/lib/python3.12/site-packages/numpy/_core/tests/examples/limited_api/meson.build
+.venv/lib/python3.12/site-packages/numpy/_core/tests/test_array_api_info.py
+.venv/lib/python3.12/site-packages/numpy/_core/tests/test_limited_api.py
+.venv/lib/python3.12/site-packages/numpy/f2py/capi_maps.pyi
+.venv/lib/python3.12/site-packages/numpy/lib/introspect.py
+.venv/lib/python3.12/site-packages/numpy/lib/introspect.pyi
+.venv/lib/python3.12/site-packages/numpy/typing/tests/data/reveal/array_api_info.pyi
+.venv/lib/python3.12/site-packages/numpy/_utils/_inspect.pyi
+.venv/lib/python3.12/site-packages/pandas/api/executors/__init__.py
+.venv/lib/python3.12/site-packages/pandas/api/internals.py
+.venv/lib/python3.12/site-packages/pandas/api/typing/aliases.py
+
+--- 1-4. go100 repo: docs/ 디렉토리 관련 삭제 커밋 ---
+40a20cbd fix: CONTEXT.md v4_positions OPEN ID 수정 (58→53)
+4a52eade fix: CUR-GO100-HOTFIX-008 - ProtectedLayoutClient ChatWidget 확인(기존 반영) + 빌드·재시작 검증
+df5001cc fix: CUR-GO100-HOTFIX-006 - 빌드 Export 실패 수정 (force-dynamic) + Rate Limit 완화
+8661c521 docs: CUR-GO100-HOTFIX-005 보고서
+a15bb63c docs: CUR-GO100-HOTFIX-004 보고서 (JS 청크 404 원인: 빌드/프로세스 불일치, 재시작+빌드로 해결)
+3afa5cfc docs: CUR-GO100-HOTFIX-003 보고서
+c4b2cebb docs: CUR-GO100-HOTFIX-002A 보고서 커밋 해시 반영
+0265c33a docs: CUR-GO100-HOTFIX-002A 보고서
+adce98c6 docs: CUR-GO100-HOTFIX-002B 보고서 커밋 해시 반영
+fdc565c2 fix: CUR-GO100-HOTFIX-002B - 전략카드 저장 500 수정
+76ea77ea docs: CUR-GO100-HOTFIX-002 보고서 + ISSUES/CHANGELOG/CONTEXT 갱신
+aea10442 docs: CUR-GO100-FINAL-FIX-001 보고서, ISSUES, CHANGELOG, CONTEXT 갱신
+8529b500 fix: CUR-GO100-HOTFIX-SAVE-500 - strategy_type CHECK에 GO100_AI 추가 + /llm ChatWidget 중복 제거
+630d5c62 fix: CUR-GO100-PHASE2-STABILIZE - ISS-001 채팅위젯(미인증 노출) + ISS-003 전략저장 로깅 + cursorrules 보완
+27c2ee88 fix: CUR-GO100-PHASE2-STABILIZE - ISS-001 채팅위젯 + ISS-002 백테스트드롭다운 + ISS-003 전략저장E2E + cursorrules 보완
+8bb62f10 docs: 보고서 배포 파이프라인 — CONTEXT 규칙 추가 + 보고서 템플릿
+94f1a692 docs: CUR-GO100-DOCS-COMPLETE - 전체 문서 체계 구축 (기획서/아키텍처/스키마/API/인계서/이력/이슈/로드맵/컨텍스트)
+acca08c0 docs: 문서 체계 구축 — CONTEXT.md + architecture/handover/plan 디렉토리 정리
+4f8fef24 feat: CUR-GO100-STRATEGY-CARD-FIX - GO100 전략카드 화면 노출 수정
+00d87ab7 docs: 아키텍처 문서 v1.1 — V4.1 / GO100 분리 버전 관리
+13977fcc [V4.1] data: 신규 전략 23건 strategy_cards INSERT + DESK 매핑 - DESK1 9건 + DESK4 7건 + DESK5 7건 - 20260220
+e544c8ba [V4.1] docs: 신규 전략 23건 규칙 설계서 - DESK1 스캘핑 9건 + DESK4 중기 7건 + DESK5 장기 7건 - 20260220
+fc168dc7 [V4.1] data: DESK2 전략 14건 strategy_cards 변환 + 매핑 문서 - 20260220
+a28a6910 [V4.1] data: DESK3 전략 10건 strategy_cards 변환 + 매핑 문서 - 20260220
+a1db73c2 [V4.1] data: DESK4/5 전략 3건 strategy_cards 변환 + 매핑 문서 - 20260220
+576af097 docs: CUR-API-KEY-SETUP-GUIDE-v1 API 키 설정 가이드 + 검증 스크립트 + .env.example
+0998e6c8 [V4.1] docs: 전략 카드 시스템 DB 설계서 - DESK-전략 동적 매칭 아키텍처 - 20260220
+fba39246 [V4.1] data: 시장 특성 실증 분석 스크립트 + 보고서 - 20260220
+18d53b9a [V4.1] docs: 최적화 필요 데이터 요구사항 + 슬리피지 수집 설계 - 20260220
+e229ee6a [V4.1] docs: 백테스트 방법론 연구 기획 보고서 - 20260220
+
+--- 1-5. go100 repo: 현재 docs/ 구조 ---
+./.cursor/rules/go100-rules.md
+./.cursor/rules/kis-v41-rules.md
+./.pytest_cache/README.md
+./docs/OPS-DNS-SWITCH-RUNBOOK.md
+./docs/68-server-extract/kis_config.md
+./docs/68-server-extract/signal_functions.md
+./docs/68-server-extract/db_comparison.md
+./docs/68-server-extract/strategies_full.md
+./docs/CURSOR-REPORT-TEMPLATE.md
+./docs/CHART-FEATURE-PLAN.md
+./docs/MOCK_TRADING_START_GUIDE.md
+./docs/ROADMAP.md
+./docs/go100-architecture-v1.0.md
+./docs/OPS-68-SERVER-CLEANUP.md
+./docs/HANDOVER.md
+./docs/ISSUES.md
+./docs/ops_manual_20260220.md
+./docs/desk3_strategy_mapping.md
+./docs/analysis/market_characteristics_20260220.md
+./docs/API_SPEC.md
+./docs/REAL_MOCK_PARALLEL_PLAN.md
+./docs/kis-api-portal/09-provider-doc2.md
+./docs/kis-api-portal/excel-full/converted/주식현재가_시간외일자별주가.md
+./docs/kis-api-portal/excel-full/converted/해외주식_신고_신저가.md
+./docs/kis-api-portal/excel-full/converted/주식현재가_당일시간대별체결.md
+./docs/kis-api-portal/excel-full/converted/국내주식_예상체결_상승_하락상위.md
+./docs/kis-api-portal/excel-full/converted/해외선물_미결제추이.md
+./docs/kis-api-portal/excel-full/converted/해외옵션종목상세.md
+./docs/kis-api-portal/excel-full/converted/국내주식_재무비율_순위.md
+./docs/kis-api-portal/excel-full/converted/해외주식_체결기준현재잔고.md
+./docs/kis-api-portal/excel-full/converted/해외선물옵션_예수금현황.md
+./docs/kis-api-portal/excel-full/converted/선물옵션_총자산현황.md
+./docs/kis-api-portal/excel-full/converted/국내지수_실시간예상체결.md
+./docs/kis-api-portal/excel-full/converted/해외주식_미국주간정정취소.md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내지수_실시간예상체결.md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간호가_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_장운영정보_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간체결가_(통합).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_시간외_실시간예상체결_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내지수_실시간프로그램매매.md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간프로그램매매_(통합).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간예상체결_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_시간외_실시간체결가_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_장운영정보_(NXT).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간체결가_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간회원사_(통합).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간예상체결_(NXT).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/API_목록.md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간프로그램매매_(KRX).md
+./docs/kis-api-portal/excel-full/converted/국내주식_실시간시세/국내주식_실시간호가_(NXT).md
+./docs/api/키움 REST API 문서.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/home.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/move.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/qt4_editor_options.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/hand.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/back.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/subplots.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/filesave.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/matplotlib.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/forward.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/zoom_to_rect.pdf
+./.venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/help.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/home.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/move.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/qt4_editor_options.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/hand.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/back.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/subplots.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/filesave.pdf
+./venv/lib/python3.12/site-packages/matplotlib/mpl-data/images/matplotlib.pdf
+total 312
+drwxr-xr-x 11 go100user go100user  4096 Feb 23 13:34 .
+drwxr-xr-x 18 go100user go100user  4096 Feb 23 10:34 ..
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 68-server-extract
+-rw-r--r-x  1 go100user go100user  1528 Feb 22 09:45 68server_kis_setup_extraction.md
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 analysis
+drwxr-xr-x  3 go100user go100user  4096 Feb 21 01:56 api
+-rw-r--r-x  1 go100user go100user  5009 Feb 22 09:45 API_KEY_SETUP_GUIDE.md
+-rw-r--r--  1 root      root       1075 Feb 23 08:53 API_SPEC.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:06 architecture
+-rw-r--r--  1 root      root       6208 Feb 23 08:53 ARCHITECTURE.md
+-rw-r--r-x  1 go100user go100user  1843 Feb 22 09:45 architecture-v1.0.md
+-rw-r--r-x  1 go100user go100user 13185 Feb 22 09:45 backtest_methodology_research_20260220.md
+-rw-r--r--  1 root      root       3232 Feb 23 11:16 CHANGELOG.md
+-rw-r--r-x  1 go100user go100user  4910 Feb 22 09:45 CHART-FEATURE-PLAN.md
+-rw-r--r-x  1 go100user go100user  1217 Feb 22 09:45 CHECKLIST-20260218-PREMARKET.md
+-rw-r--r--  1 root      root       3739 Feb 23 13:34 CONTEXT.md
+-rw-r--r--  1 root      root       3739 Feb 23 13:22 CONTEXT.md.bak.20260223_132236
+-rw-r--r--  1 root      root        972 Feb 23 09:50 CURSOR-REPORT-TEMPLATE.md
+-rw-r--r-x  1 go100user go100user  1635 Feb 22 09:45 DATA-COLLECTION-POLICY.md
+-rw-r--r-x  1 go100user go100user 15637 Feb 22 09:45 data_requirements_20260220.md
+-rw-r--r--  1 root      root       6347 Feb 23 08:53 DB_SCHEMA.md
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 design
+-rw-r--r-x  1 go100user go100user  1387 Feb 22 09:45 desk2_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user  1040 Feb 22 09:45 desk3_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user   673 Feb 22 09:45 desk4_5_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user  4282 Feb 22 09:45 FRONTEND-API-MAPPING.md
+-rw-r--r-x  1 go100user go100user   720 Feb 21 10:41 go100-architecture-v1.0.md
+-rw-r--r-x  1 go100user go100user 33502 Feb 21 10:31 go100-architecture-v1.1.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:06 handover
+-rw-r--r--  1 root      root       2471 Feb 23 08:53 HANDOVER.md
+-rw-r--r--  1 root      root       1914 Feb 23 11:16 ISSUES.md
+drwxr-xr-x  3 go100user go100user  4096 Feb 21 01:56 kis-api-portal
+-rw-r--r-x  1 go100user go100user  2973 Feb 22 09:45 MOCK_TRADING_START_GUIDE.md
+-rw-r--r-x  1 go100user go100user  1907 Feb 22 09:45 new_strategies_card_mapping.md
+-rw-r--r-x  1 go100user go100user 29089 Feb 22 09:45 new_strategies_design.md
+-rw-r--r-x  1 go100user go100user  1553 Feb 22 09:45 OPS-68-SERVER-CLEANUP.md
+-rw-r--r-x  1 go100user go100user  1118 Feb 22 09:45 OPS-BACKUP-GUIDE.md
+-rw-r--r-x  1 go100user go100user  1918 Feb 22 09:45 OPS-DNS-SWITCH-RUNBOOK.md
+-rw-r--r-x  1 go100user go100user  7427 Feb 22 09:45 ops_manual_20260220.md
+-rw-r--r-x  1 go100user go100user  2915 Feb 22 09:45 OPS-V41-SCHEDULER.md
+-rw-r--r-x  1 go100user go100user  5231 Feb 22 09:45 PHASE6-MIGRATION-PLAN.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:07 plan
+-rw-r--r--  1 root      root       3135 Feb 23 08:53 PLANNING.md
+-rw-r--r-x  1 go100user go100user  4948 Feb 22 09:45 REAL_MOCK_PARALLEL_PLAN.md
+drwxr-xr-x  2 root      root       4096 Feb 23 12:22 reports
+-rw-r--r--  1 root      root       1015 Feb 23 09:16 ROADMAP.md
+-rw-r--r-x  1 go100user go100user   947 Feb 21 01:56 signal_opt_20260220.md
+-rw-r--r-x  1 go100user go100user  2898 Feb 22 09:45 TRUSTED_PROXY_GUIDE.md
+-rw-r--r-x  1 go100user go100user   633 Feb 22 09:45 v41-scheduler.service
+docs/:
+total 312
+drwxr-xr-x 11 go100user go100user  4096 Feb 23 13:34 .
+drwxr-xr-x 18 go100user go100user  4096 Feb 23 10:34 ..
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 68-server-extract
+-rw-r--r-x  1 go100user go100user  1528 Feb 22 09:45 68server_kis_setup_extraction.md
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 analysis
+drwxr-xr-x  3 go100user go100user  4096 Feb 21 01:56 api
+-rw-r--r-x  1 go100user go100user  5009 Feb 22 09:45 API_KEY_SETUP_GUIDE.md
+-rw-r--r--  1 root      root       1075 Feb 23 08:53 API_SPEC.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:06 architecture
+-rw-r--r--  1 root      root       6208 Feb 23 08:53 ARCHITECTURE.md
+-rw-r--r-x  1 go100user go100user  1843 Feb 22 09:45 architecture-v1.0.md
+-rw-r--r-x  1 go100user go100user 13185 Feb 22 09:45 backtest_methodology_research_20260220.md
+-rw-r--r--  1 root      root       3232 Feb 23 11:16 CHANGELOG.md
+-rw-r--r-x  1 go100user go100user  4910 Feb 22 09:45 CHART-FEATURE-PLAN.md
+-rw-r--r-x  1 go100user go100user  1217 Feb 22 09:45 CHECKLIST-20260218-PREMARKET.md
+-rw-r--r--  1 root      root       3739 Feb 23 13:34 CONTEXT.md
+-rw-r--r--  1 root      root       3739 Feb 23 13:22 CONTEXT.md.bak.20260223_132236
+-rw-r--r--  1 root      root        972 Feb 23 09:50 CURSOR-REPORT-TEMPLATE.md
+-rw-r--r-x  1 go100user go100user  1635 Feb 22 09:45 DATA-COLLECTION-POLICY.md
+-rw-r--r-x  1 go100user go100user 15637 Feb 22 09:45 data_requirements_20260220.md
+-rw-r--r--  1 root      root       6347 Feb 23 08:53 DB_SCHEMA.md
+drwxr-xr-x  2 go100user go100user  4096 Feb 21 01:56 design
+-rw-r--r-x  1 go100user go100user  1387 Feb 22 09:45 desk2_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user  1040 Feb 22 09:45 desk3_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user   673 Feb 22 09:45 desk4_5_strategy_mapping.md
+-rw-r--r-x  1 go100user go100user  4282 Feb 22 09:45 FRONTEND-API-MAPPING.md
+-rw-r--r-x  1 go100user go100user   720 Feb 21 10:41 go100-architecture-v1.0.md
+-rw-r--r-x  1 go100user go100user 33502 Feb 21 10:31 go100-architecture-v1.1.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:06 handover
+-rw-r--r--  1 root      root       2471 Feb 23 08:53 HANDOVER.md
+-rw-r--r--  1 root      root       1914 Feb 23 11:16 ISSUES.md
+drwxr-xr-x  3 go100user go100user  4096 Feb 21 01:56 kis-api-portal
+-rw-r--r-x  1 go100user go100user  2973 Feb 22 09:45 MOCK_TRADING_START_GUIDE.md
+-rw-r--r-x  1 go100user go100user  1907 Feb 22 09:45 new_strategies_card_mapping.md
+-rw-r--r-x  1 go100user go100user 29089 Feb 22 09:45 new_strategies_design.md
+-rw-r--r-x  1 go100user go100user  1553 Feb 22 09:45 OPS-68-SERVER-CLEANUP.md
+-rw-r--r-x  1 go100user go100user  1118 Feb 22 09:45 OPS-BACKUP-GUIDE.md
+-rw-r--r-x  1 go100user go100user  1918 Feb 22 09:45 OPS-DNS-SWITCH-RUNBOOK.md
+-rw-r--r-x  1 go100user go100user  7427 Feb 22 09:45 ops_manual_20260220.md
+-rw-r--r-x  1 go100user go100user  2915 Feb 22 09:45 OPS-V41-SCHEDULER.md
+-rw-r--r-x  1 go100user go100user  5231 Feb 22 09:45 PHASE6-MIGRATION-PLAN.md
+drwxr-xr-x  2 root      root       4096 Feb 23 08:07 plan
+-rw-r--r--  1 root      root       3135 Feb 23 08:53 PLANNING.md
+-rw-r--r-x  1 go100user go100user  4948 Feb 22 09:45 REAL_MOCK_PARALLEL_PLAN.md
+drwxr-xr-x  2 root      root       4096 Feb 23 12:22 reports
+-rw-r--r--  1 root      root       1015 Feb 23 09:16 ROADMAP.md
+-rw-r--r-x  1 go100user go100user   947 Feb 21 01:56 signal_opt_20260220.md
+-rw-r--r-x  1 go100user go100user  2898 Feb 22 09:45 TRUSTED_PROXY_GUIDE.md
+
+--- 1-6. project-docs repo: 삭제된 파일 ---
+go100/reports/BT-ENGINE-UPGRADE-REPORT-20260223.md
+go100/reports/BT-MINUTE-OPT-VERIFY-20260222.md
+go100/reports/BT-OPTIMIZE-20260221-REPORT.md
+go100/reports/BT-SESSION62-CHECK-20260222.md
+go100/reports/BT-TRADE-DETAIL-20260221-REPORT.md
+go100/reports/BUNDLE4A-STEP1-DATA-AUDIT-20260221.md
+go100/reports/BUNDLE4B-FINAL-REPORT-20260221.md
+go100/reports/BUNDLE4B-FIX-FINAL-REPORT-20260221.md
+go100/reports/BUNDLE4C-FINAL-REPORT-20260221.md
+go100/reports/BUNDLE4D-FINAL-REPORT-20260221.md
+go100/reports/CARD-BUY-20260221-REPORT.md
+go100/reports/CLEANUP-SCAN-20260222.md
+go100/reports/CUR-20260220-E2-BACKTEST-SIGNAL-TUNING-REPORT.md
+go100/reports/CUR-20260220-N-SIGNAL-BACKFILL-DASHBOARD-REPORT.md
+go100/reports/DASHBOARD-HISTORY-REPORT-20260222.md
+go100/reports/DASH-FIX-20260221-REPORT.md
+go100/reports/DASH-FIX-VERIFY-PROMOTION-SCAN-20260222.md
+go100/reports/DASH-RESTORE-REPORT-20260222.md
+go100/reports/DESK1-DATA-FINAL-REPORT-20260221.md
+go100/reports/DESK1-DATA-VERIFY-20260222.md
+go100/reports/DESK-OPT-STATUS-REPORT-20260222.md
+go100/reports/DESK-RECOMMEND-PAGE-REPORT-20260222.md
+go100/reports/DESK-STRATEGY-OPTIMIZATION-RESEARCH-20260222.md
+go100/reports/DOC-VERSION-AUDIT-REPORT-20260223.md
+go100/reports/KIS-DOCS-FULL-SETUP-REPORT-20260223.md
+go100/reports/MINUTE-COLLECTOR-STATUS-20260223.md
+go100/reports/MONDAY-PRECHECK-20260222.md
+go100/reports/OPTIMIZATION-INFRA-AUDIT-REPORT-20260223.md
+go100/reports/OVERLAP-REGIME-CROSS-REPORT-20260223.md
+go100/reports/REGIME-BACKFILL-DESK-ROLE-AUDIT-REPORT-20260223.md
+go100/reports/REPORT-PIPELINE-SETUP-20260223.md
+go100/reports/REPORT_TEMPLATE.md
+go100/reports/RULES-UPDATE-FINAL-REPORT-20260223.md
+go100/reports/STRAT-DETAIL-20260221-REPORT.md
+go100/reports/STRATEGY-INTEGRATE-REPORT-20260222.md
+go100/reports/STRAT-TUNE-20260221-REPORT.md
+go100/_source-dump/API_TEST.txt
+go100/_source-dump/DB_CONSTRAINTS.txt
+go100/_source-dump/DB_SCHEMA.txt
+go100/_source-dump/DIAG2_RESULT.txt
+go100/_source-dump/ERROR_LOG_NEW.txt
+go100/_source-dump/ERROR_LOG.txt
+go100/_source-dump/NGINX_go100.txt
+go100/_source-dump/NGINX_kis-autotrade.txt
+go100/_source-dump/NGINX_RATE.txt
+go100/_source-dump/SYSTEMD_frontend.txt
+nas-image/_review/requirements.txt
+newtalk-v2-api/review/REVIEW_GUIDE.md
+newtalk-v2-api/review/REVIEW_REQUEST.md
+newtalk-v2-api/RUNBOOK-V120-SYNC.md
+
+--- 1-7. project-docs repo: 문서 관련 삭제 ---
+Author: KIS AutoTrade <autotrade@trading.newtalk.kr>
+go100/reports/KIS-DOCS-FULL-SETUP-REPORT-20260223.md
+go100/_source-dump/API_TEST.txt
+go100/_source-dump/FE_go100Api.ts
+go100/_source-dump/NGINX_kis-autotrade.txt
+newtalk-v2-api/review/R2-FRONT-001_api.ts
+newtalk-v2-api/review/R2-FRONT-001_AuthController.php
+newtalk-v2-api/review/R2-FRONT-001_auth-store.ts
+newtalk-v2-api/review/R2-FRONT-001_middleware.ts
+newtalk-v2-api/review/REVIEW_GUIDE.md
+newtalk-v2-api/review/REVIEW_REQUEST.md
+newtalk-v2-api/RUNBOOK-V120-SYNC.md
+scripts/sync_newtalk_v2_api.sh.bak.20260223_111503
+    sync: GO100 문서 동기화 (2026-02-23 11:11:12)
+    sync: GO100 문서 동기화 (2026-02-23 11:58:28)
+    [sync] newtalk-v2-api R2-API-001 + R2-FRONT-002 동기화 + 검수 요청 + cursorrules 강화
+
+========== PART 2: sync_go100.sh 파일 확인 ==========
+--- 2-1. sync_go100.sh 내용 ---
+#!/bin/bash
+# CUR-GO100-SYNC-CLEANUP, 2026-02-23
+# GO100 문서 동기화: kis-autotrade-v4/docs/ → project-docs/go100/
+# 사용법: bash /root/project-docs/scripts/sync_go100.sh
+
+set -e
+
+SOURCE="/root/kis-autotrade-v4/docs"
+DEST="/root/project-docs/go100"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+echo "=== GO100 문서 동기화 시작: $TIMESTAMP ==="
+
+mkdir -p "$DEST"
+
+DOCS="CONTEXT PLANNING ARCHITECTURE DB_SCHEMA API_SPEC HANDOVER CHANGELOG ISSUES ROADMAP"
+
+for f in $DOCS; do
+  if [ -f "$SOURCE/${f}.md" ]; then
+    cp "$SOURCE/${f}.md" "$DEST/${f}.md"
+    echo "✅ ${f}.md"
+  else
+    echo "⚠️ ${f}.md 없음"
+  fi
+done
+
+# .cursorrules 참고용
+if [ -f "/root/kis-autotrade-v4/.cursorrules" ]; then
+  cp "/root/kis-autotrade-v4/.cursorrules" "$DEST/CURSORRULES.md"
+  echo "✅ CURSORRULES.md"
+fi
+
+# 보고서 동기화 (GO100 전용만 — V4.1 중복 방지)
+REPORT_SRC="/root/kis-autotrade-v4/report"
+REPORT_DEST="/root/project-docs/go100/reports"
+
+if [ -d "$REPORT_SRC" ]; then
+  mkdir -p "$REPORT_DEST"
+  for f in "$REPORT_SRC/"*.md; do
+    [ -f "$f" ] || continue
+    BASENAME=$(basename "$f")
+    case "$BASENAME" in
+      GO100-*|CUR-GO100-*|*HOTFIX-SAVE-500*|*PHASE2-STABILIZE*)
+        cp "$f" "$REPORT_DEST/$BASENAME"
+        echo "  ✅ $BASENAME"
+        ;;
+      *)
+        echo "  ⏭️ SKIP (V4.1): $BASENAME"
+        ;;
+    esac
+  done
+  n=$(find "$REPORT_DEST" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l)
+  echo "✅ GO100 보고서 동기화 (${n}건)"
+else
+  echo "⚠️ report/ 없음"
+fi
+
+# project-docs 커밋 + push
+cd /root/project-docs
+git add -A
+if git diff --cached --quiet; then
+  echo "변경 없음"
+else
+  git commit -m "sync: GO100 문서 동기화 ($TIMESTAMP)"
+  git push origin master
+  echo "✅ push 완료"
+fi
+
+echo ""
+echo "=== Public URLs ==="
+for f in $DOCS; do
+  echo "  ${f}: https://raw.githubusercontent.com/moongoby/project-docs/master/go100/${f}.md"
+done
+cat: /root/kis-autotrade-v4/scripts/sync_go100.sh: No such file or directory
+
+--- 2-2. 최근 sync 관련 커밋 (파일 삭제 포함) ---
+c659b10 [sync] newtalk-v2-api R2-API-001 + R2-FRONT-002 동기화 + 검수 요청 + cursorrules 강화
+575f2af verify: CUR-GO100-HOTFIX-005 검수 덤프
+9cfb3c5 sync: GO100 문서 동기화 (2026-02-23 11:58:28)
+54eaf29 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+8c2b23c verify: CUR-GO100-HOTFIX-003 검수 덤프
+0662fce docs: V4.1 CONTEXT.md 재작성 + ONBOARDING V4.1 등록 + go100 보고서 중복 제거
+d5e5329 [review] remove _review folder
+3dc2d33 sync: GO100 문서 동기화 (2026-02-23 11:11:12)
+6e8d2db verify: CUR-GO100-FINAL-FIX-001 검수 덤프
+b8d58c3 verify: CUR-GO100-HOTFIX-SAVE-500 검수 덤프
+09dcbce cleanup: source dump 삭제
+
+--- 2-3. 대량 삭제 커밋 특정 ---
+ 3 files changed, 175 insertions(+), 2 deletions(-)
+ 1 file changed, 51 insertions(+), 75 deletions(-)
+ 3 files changed, 85 insertions(+), 1 deletion(-)
+ 5 files changed, 73 insertions(+), 25 deletions(-)
+ 3 files changed, 101 insertions(+), 1 deletion(-)
+ 5 files changed, 116 insertions(+), 2 deletions(-)
+ 13 files changed, 820 insertions(+), 50 deletions(-)
+ 1 file changed, 14 insertions(+), 9 deletions(-)
+ 1 file changed, 46 insertions(+), 104 deletions(-)
+ 3 files changed, 82 insertions(+), 2 deletions(-)
+ 1 file changed, 84 insertions(+), 86 deletions(-)
+ 1 file changed, 61 insertions(+), 70 deletions(-)
+ 3 files changed, 54 insertions(+), 105 deletions(-)
+ 10 files changed, 38 insertions(+), 247 deletions(-)
+ 18 files changed, 1123 insertions(+), 2 deletions(-)
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ 12 files changed, 660 insertions(+), 46 deletions(-)
+ 37 files changed, 24 insertions(+), 4639 deletions(-)
+ 3 files changed, 84 insertions(+), 1 deletion(-)
+ 36 files changed, 4774 insertions(+), 105 deletions(-)
+ 8 files changed, 163 insertions(+), 318 deletions(-)
+ 1 file changed, 70 insertions(+), 105 deletions(-)
+ 2 files changed, 184 insertions(+), 70 deletions(-)
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ 15 files changed, 903 insertions(+), 208 deletions(-)
+ 44 files changed, 107 insertions(+), 5049 deletions(-)
+ 17 files changed, 3236 deletions(-)
+ 2 files changed, 25 insertions(+), 6 deletions(-)
+ 18 files changed, 248 insertions(+), 302 deletions(-)
+ 5 files changed, 424 insertions(+), 24 deletions(-)
+ 6 files changed, 28 insertions(+), 85 deletions(-)
+ 6 files changed, 271 insertions(+), 314 deletions(-)
+ 1 file changed, 4 insertions(+), 49 deletions(-)
+ 9 files changed, 479 insertions(+), 36 deletions(-)
+ 4 files changed, 33 insertions(+), 54 deletions(-)
+ 66 files changed, 4653 insertions(+), 2 deletions(-)
+ 14 files changed, 4075 deletions(-)
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ 11 files changed, 813 insertions(+), 18 deletions(-)
+ 2 files changed, 82 insertions(+), 1 deletion(-)
+
+========== PART 3: 서버 전체 문서 검색 ==========
+--- 3-1. /root 하위 KIS API 문서 ---
+/root/backup/phase4w4_prep_20260213_222620/data_services/kis_api_interface.py
+/root/backup/PHASE3_WAVE2_20260213_110624_services/data/kis_api_interface.py
+/root/backup/v41_launch_20260214_011257/kis-webapp-api.service.txt
+/root/backup/PHASE3_WAVE1_20260213_105733_services/data/kis_api_interface.py
+/root/backup/v41_service_launch_20260214_011032/kis-webapp-api.service.txt
+/root/backup/v41_standalone_20260214_010712/kis-webapp-api.service.txt
+/root/backup/task_s_complete_20260214_010808/kis-webapp-api.service
+/root/backup/api_registry_20260214_024840/kis_api_registry.py
+/root/report/KIS-API-주식일별분봉조회-적용확인-20260218.md
+/root/report/KIS-API-FULL-EXCEL-CONVERT-20260218_결과.md
+/root/report/20260213_APPLY_KIS_APIKEY_결과.md
+/root/report/20260213_CHECK_KIS_APIKEY_결과.md
+/root/report/KIS-API-EXCEL-CONVERT-PROCEED-20260218_결과.md
+/root/report/KIS-API-PORTAL-SAVE-20260218_결과.md
+/root/report/KIS-API-EXCEL-TO-DOCS-20260218_결과.md
+/root/report/IMPL-A0-KIS-API-REGISTRY-20260214_결과.md
+/root/webapp/docs/KIS_API_TEST_FAILURE_REPORT.md
+/root/webapp/docs/KIS_API_FIX_REPORT.md
+/root/webapp/docs/KIS_API_MULTI_TOKEN_GUIDE.md
+/root/webapp/docs/KIS_API_CONNECTION_SUCCESS_REPORT.md
+/root/webapp/docs/KIS_API_TOKEN_MANAGEMENT_GUIDE.md
+/root/webapp/docs/KIS_API_CONNECTION_TEST_REPORT.md
+/root/webapp/docs/api/kisapi
+/root/webapp/docs/MOONGOBY_PASSWORD_AND_KIS_API_CHECK.md
+/root/webapp/backend/test_kis_api.py
+/root/webapp/backend/test_kis_api_auto.py
+/root/webapp/backend/scripts/kis_api_diagnose.py
+/root/webapp/reports/kis_api_doc_reflection_report.md
+/root/webapp/reports/20260211_STEP47_PART_A2_KIS_API_survey.md
+/root/webapp/reports/20260210_STEP23b1_kis_api_rest_vs_websocket_report.md
+
+--- 3-2. /root 하위 기획/아키텍처 문서 ---
+/root/report/ANALYSIS-68-CHART-AND-V41-PLANNING-20260214_결과.md
+/root/webapp/docs/ARCHITECTURE_SERVICE_FLOW.md
+/root/webapp/docs/DATA_DAM_SPEC.md
+/root/webapp/docs/ADMIN_COLLABORATION_PLAN.md
+/root/webapp/docs/architecture
+/root/webapp/docs/COMPREHENSIVE_AUDIT_PLAN.md
+/root/webapp/docs/ADMIN_PANEL_IMPROVEMENT_PLAN.md
+/root/webapp/docs/reports/CONTEXT_SYNC_AND_NXT_CHART_PLAN_20260205.md
+/root/webapp/docs/reports/ADMIN_PAGE_INSPECTION_20260202.md
+/root/webapp/docs/DEEP_INSPECTION_REPORT.md
+/root/webapp/backend/docs/RECENT_TRADES_DISPLAY_SPEC.md
+/root/webapp/backend/docs/PENDING_BUY_DISPLAY_SPEC.md
+/root/webapp/backend/node_modules/object-inspect
+/root/webapp/reports/step60_fund_redesign_plan.md
+/root/kis-autotrade-v4/docs/CHART-FEATURE-PLAN.md
+/root/kis-autotrade-v4/docs/go100-architecture-v1.0.md
+/root/kis-autotrade-v4/docs/API_SPEC.md
+/root/kis-autotrade-v4/docs/REAL_MOCK_PARALLEL_PLAN.md
+/root/kis-autotrade-v4/docs/architecture
+/root/kis-autotrade-v4/docs/architecture/v41-development-plan-spec.md
+/root/kis-autotrade-v4/docs/architecture/v41-architecture-v1.1.md
+/root/kis-autotrade-v4/docs/architecture/v41-phase-a-code-spec.md
+/root/kis-autotrade-v4/docs/architecture/v41-adaptive-architecture-spec.md
+/root/kis-autotrade-v4/docs/PHASE6-MIGRATION-PLAN.md
+/root/kis-autotrade-v4/docs/plan
+/root/kis-autotrade-v4/docs/go100-architecture-v1.1.md
+/root/kis-autotrade-v4/docs/ARCHITECTURE.md
+/root/kis-autotrade-v4/docs/architecture-v1.0.md
+/root/kis-autotrade-v4/docs/PLANNING.md
+/root/kis-autotrade-v4/frontend/e2e/auth.spec.ts
+
+--- 3-3. /root 하위 PDF 파일 ---
+/root/kis-autotrade-v4/docs/api/키움 REST API 문서.pdf
+
+--- 3-4. /root 하위 대용량 md 파일 (기획서 가능성) ---
+/root/.cursor/skills-cursor/create-skill/SKILL.md
+/root/.cursor/skills-cursor/create-subagent/SKILL.md
+/root/.cursor/skills-cursor/migrate-to-skills/SKILL.md
+/root/backup/baseurl_dynamic_20260213_221753/www_full/TEST_ACCOUNTS.md
+/root/backup/baseurl_dynamic_20260213_221753/www_full/LOGIN_COMPLETE.md
+/root/backup/baseurl_dynamic_20260213_221753/www_full/README.md
+/root/backup/baseurl_dynamic_20260213_221753/www_full/QUICK_LOGIN.md
+/root/.claude/cache/changelog.md
+/root/report/CUR-GO100-PHASE5-BASE-UNDERSTAND-DESIGN-20260221-REPORT.md
+/root/report/CUR-ENGPREP-20260221-REPORT.md
+/root/report/CUR-K-VERIFY-LLM-REPORT-20260219.md
+/root/report/CUR-GLOBAL-DESIGN-SYSTEM-v1-REPORT-20260220.md
+/root/report/CUR-DATAPIPE-20260221-REPORT.md
+/root/report/CUR-SECIND-20260221-REPORT.md
+/root/report/CUR-AN-LEGACY-AUTH-v1-REPORT-20260219.md
+/root/report/CUR-BACKTEST-UI-CHECK-PRE-REPORT-20260220.md
+/root/report/CUR-GO100-HOTFIX-02-20260221-REPORT.md
+/root/report/CURSOR-EXEC-DESK-FUND-REBALANCE-DESK345-20260219.md
+/root/report/CUR-POST-P0-CLEANUP-20260220-REPORT.md
+/root/report/CUR-20260220-E2-V2-BUGFIX-BT009-REPORT.md
+/root/report/CUR-DASHBOARD-v1-REPORT-20260219.md
+/root/report/20260214_SERVER_QUERY_ORM_DB_REDIS_결과.md
+/root/report/20260212_PHASE1-D-3_완료보고서.md
+/root/report/CUR-DATACOL-RECON-20260220-REPORT.md
+/root/report/CUR-MINUTE-DATA-CHECK-20260220-REPORT.md
+/root/report/CUR-PIPEFIX2-20260221-REPORT.md
+/root/report/20260213_PHASE2C-STEP1+6-FIX_결과.md
+/root/report/20260221_GO100-BUNDLE2_E2E+PHASE7_완료보고서.md
+/root/report/CUR-20260220-H6-DASHBOARD-DESK-STRATEGY-SELECT-REPORT.md
+/root/report/CUR-AUDIT1-20260220-REPORT.md
+
+--- 3-5. /tmp, /var/backups 등 백업 ---
+/tmp/BUNDLE4D_CODEBASE_PATTERNS.md
+
+========== PART 4: 복구 가능 여부 ==========
+--- 4-1. go100 repo: 삭제된 문서의 마지막 커밋 ---
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/distributions/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/philox/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy-2.4.2.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+  .venv/lib/python3.12/site-packages/numpy/_core/include/numpy/random/LICENSE.txt
+    마지막: 6d1be5bf5e68a8fc354db741c15fa0ce91f2899c 2026-02-20 23:07:37 +0900 fix: CUR-BACKTEST-CARD6-TEST 전략카드 드롭다운 수정 + 경로2 백테스트 검증
+
+--- 4-2. project-docs repo: 삭제된 문서의 마지막 커밋 ---
+  go100/reports/BT-ENGINE-UPGRADE-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BT-MINUTE-OPT-VERIFY-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BT-OPTIMIZE-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BT-SESSION62-CHECK-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BT-TRADE-DETAIL-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BUNDLE4A-STEP1-DATA-AUDIT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BUNDLE4B-FINAL-REPORT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BUNDLE4B-FIX-FINAL-REPORT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BUNDLE4C-FINAL-REPORT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/BUNDLE4D-FINAL-REPORT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/CARD-BUY-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/CLEANUP-SCAN-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/CUR-20260220-E2-BACKTEST-SIGNAL-TUNING-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/CUR-20260220-N-SIGNAL-BACKFILL-DASHBOARD-REPORT.md
+    마지막: c74ed8bdbf1c1ac02c407b6c28e6e494b6542473 2026-02-23 11:35:50 +0900 sync: GO100 문서 동기화 (2026-02-23 11:35:50)
+  go100/reports/DASHBOARD-HISTORY-REPORT-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DASH-FIX-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DASH-FIX-VERIFY-PROMOTION-SCAN-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DASH-RESTORE-REPORT-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DESK1-DATA-FINAL-REPORT-20260221.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DESK1-DATA-VERIFY-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DESK-OPT-STATUS-REPORT-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DESK-RECOMMEND-PAGE-REPORT-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DESK-STRATEGY-OPTIMIZATION-RESEARCH-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/DOC-VERSION-AUDIT-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/KIS-DOCS-FULL-SETUP-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/MINUTE-COLLECTOR-STATUS-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/MONDAY-PRECHECK-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/OPTIMIZATION-INFRA-AUDIT-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/OVERLAP-REGIME-CROSS-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/REGIME-BACKFILL-DESK-ROLE-AUDIT-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/REPORT-PIPELINE-SETUP-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/REPORT_TEMPLATE.md
+    마지막: 0662fce00f38dcc8cc695f98a26b069205e44c9a 2026-02-23 11:17:31 +0900 docs: V4.1 CONTEXT.md 재작성 + ONBOARDING V4.1 등록 + go100 보고서 중복 제거
+  go100/reports/RULES-UPDATE-FINAL-REPORT-20260223.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/STRAT-DETAIL-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/STRATEGY-INTEGRATE-REPORT-20260222.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/reports/STRAT-TUNE-20260221-REPORT.md
+    마지막: 54eaf29be91703a28ff0f45f5e24db65d624e029 2026-02-23 11:58:24 +0900 fix: sync_go100.sh GO100 전용 필터 + 중복 정리 + .bak 제거 + .gitignore
+  go100/_source-dump/API_TEST.txt
+    마지막: bf659f089d220c689023f3126842c12e54423f6a 2026-02-23 13:35:32 +0900 dump: CUR-GO100-HOTFIX-011 Nginx캐시+인증검증 (20260223_1335)
+  go100/_source-dump/DB_CONSTRAINTS.txt
+    마지막: bf110f2cc1aeb595d7cfba3c1170ca89e83769e5 2026-02-23 13:20:18 +0900 dump: CUR-GO100-EMERGENCY-FULL-CHECK 전체 점검 결과 (20260223_1320)
+  go100/_source-dump/DB_SCHEMA.txt
+    마지막: 09dcbcee60734a08e1f187a6591afed458dfa506 2026-02-23 09:59:46 +0900 cleanup: source dump 삭제
+  go100/_source-dump/DIAG2_RESULT.txt
+    마지막: 6e8d2db805cacd40f1c562fbbf2602e7ebdd87f9 2026-02-23 10:49:16 +0900 verify: CUR-GO100-FINAL-FIX-001 검수 덤프
+  go100/_source-dump/ERROR_LOG_NEW.txt
+    마지막: 6e8d2db805cacd40f1c562fbbf2602e7ebdd87f9 2026-02-23 10:49:16 +0900 verify: CUR-GO100-FINAL-FIX-001 검수 덤프
+  go100/_source-dump/ERROR_LOG.txt
+    마지막: 575f2afa87ca693b0f5ad9b575673854dbec6374 2026-02-23 12:14:03 +0900 verify: CUR-GO100-HOTFIX-005 검수 덤프
+  go100/_source-dump/NGINX_go100.txt
+    마지막: 575f2afa87ca693b0f5ad9b575673854dbec6374 2026-02-23 12:14:03 +0900 verify: CUR-GO100-HOTFIX-005 검수 덤프
+  go100/_source-dump/NGINX_kis-autotrade.txt
+    마지막: 575f2afa87ca693b0f5ad9b575673854dbec6374 2026-02-23 12:14:03 +0900 verify: CUR-GO100-HOTFIX-005 검수 덤프
+  go100/_source-dump/NGINX_RATE.txt
+    마지막: 9cfb3c53e941b6fcb102d6fd6871abe1c7dd44f7 2026-02-23 11:58:29 +0900 sync: GO100 문서 동기화 (2026-02-23 11:58:28)
+  go100/_source-dump/SYSTEMD_frontend.txt
+    마지막: 575f2afa87ca693b0f5ad9b575673854dbec6374 2026-02-23 12:14:03 +0900 verify: CUR-GO100-HOTFIX-005 검수 덤프
+  nas-image/_review/requirements.txt
+    마지막: d5e5329d09eb819beb7a0e94e50ad5021ba5e8b5 2026-02-23 11:12:02 +0900 [review] remove _review folder
+  newtalk-v2-api/review/REVIEW_GUIDE.md
+    마지막: c659b104b5be45b630affe9b9093601d072ddf5a 2026-02-23 13:17:28 +0900 [sync] newtalk-v2-api R2-API-001 + R2-FRONT-002 동기화 + 검수 요청 + cursorrules 강화
+  newtalk-v2-api/review/REVIEW_REQUEST.md
+    마지막: c659b104b5be45b630affe9b9093601d072ddf5a 2026-02-23 13:17:28 +0900 [sync] newtalk-v2-api R2-API-001 + R2-FRONT-002 동기화 + 검수 요청 + cursorrules 강화
+  newtalk-v2-api/RUNBOOK-V120-SYNC.md
+    마지막: 0662fce00f38dcc8cc695f98a26b069205e44c9a 2026-02-23 11:17:31 +0900 docs: V4.1 CONTEXT.md 재작성 + ONBOARDING V4.1 등록 + go100 보고서 중복 제거
+
+--- 4-3. .cursor 디렉토리 내 문서 ---
+/root/kis-autotrade-v4/.cursor/rules/go100-rules.md
+/root/kis-autotrade-v4/.cursor/rules/kis-v41-rules.md
+/root/kis-autotrade-v4/.cursor/:
+total 12
+drwxr-xr-x  3 go100user go100user 4096 Feb 12 22:14 .
+drwxr-xr-x 18 go100user go100user 4096 Feb 23 10:34 ..
+drwxr-xr-x  2 go100user go100user 4096 Feb 23 10:34 rules
+
+/root/kis-autotrade-v4/.cursor/rules:
+total 36
+drwxr-xr-x 2 go100user go100user 4096 Feb 23 10:34 .
+drwxr-xr-x 3 go100user go100user 4096 Feb 12 22:14 ..
+-rw-r--r-- 1 root      root       906 Feb 22 10:27 cur-go100-fix-backend-step4.mdc
+-rw-r--r-x 1 go100user go100user 1483 Feb 22 09:45 github-access.mdc
+-rw-r--r-- 1 root      root      2363 Feb 23 11:13 go100-rules.md
+-rw-r--r-x 1 go100user go100user 1900 Feb 22 09:45 kis-api-docs.mdc
+-rw-r--r-x 1 go100user go100user 8523 Feb 23 11:15 kis-v41-rules.md
+
+========== PART 5: 복구 실행 ==========
+삭제된 파일 목록 확인 후 아래 명령으로 복구 가능:
+
+# 특정 파일 복구 (go100 repo):
+# cd /root/kis-autotrade-v4
+# git checkout <마지막존재커밋>^ -- <파일경로>
+
+# 예시:
+# git checkout abc1234^ -- docs/KIS-API-SPEC.md
+
+# 전체 삭제된 파일 한번에 복구:
+# git log --diff-filter=D --name-only --all | sort -u | while read f; do
+#   git checkout $(git log --all -1 --format='%H' -- "$f")^ -- "$f" 2>/dev/null
+# done
+
+⚠️ 위 명령은 PM 확인 후 실행할 것. 이 스크립트는 조회만 수행.
+
+========== PART 6: 동기화 ==========
+From github.com:moongoby/project-docs
+ * branch            master     -> FETCH_HEAD
+Already up to date.

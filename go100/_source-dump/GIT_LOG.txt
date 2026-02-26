@@ -1,5 +1,15 @@
-76ea77ea docs: CUR-GO100-HOTFIX-002 보고서 + ISSUES/CHANGELOG/CONTEXT 갱신
-6c69a23a fix: CUR-GO100-HOTFIX-002 - ChatWidget FAB 미노출 수정 + 전략카드 저장 500 수정
-aea10442 docs: CUR-GO100-FINAL-FIX-001 보고서, ISSUES, CHANGELOG, CONTEXT 갱신
-da4e5b0b rules: kis-v41-rules.md V4.1 전용 보강 — DESK정의, 무결성 기준값, 검수규칙, 작업큐, BT스키마 16컬럼
-a4a25e43 fix: CUR-GO100-FINAL-FIX-001 - strategy_type CHECK에 GO100_AI 추가, /llm ChatWidget 중복제거, 전략저장 500 해결
+e38872b6 report: CUR-GO100-DIAG-012 ChatWidget 미노출 진단 보고서 (2026-02-23)
+83f7e338 fix: HOTFIX-011 스크립트 Nginx 백업 경로 및 덤프 수정 (sites-enabled 제외)
+7e3c62f7 fix: CUR-GO100-HOTFIX-011 - Nginx 캐시헤더 + 인증 E2E 검증 + SW 정리 (20260223_1332)
+40a20cbd fix: CONTEXT.md v4_positions OPEN ID 수정 (58→53)
+183872f8 fix: CUR-GO100-EMERGENCY-FULL-CHECK - 브라우저 미반영 전체 점검 + 서비스 재배포 (20260223_1319)
+a9df255e fix: CUR-MINUTE-COLLECTOR-FIX — boolean=integer 타입 캐스트 수정
+4a52eade fix: CUR-GO100-HOTFIX-008 - ProtectedLayoutClient ChatWidget 확인(기존 반영) + 빌드·재시작 검증
+df5001cc fix: CUR-GO100-HOTFIX-006 - 빌드 Export 실패 수정 (force-dynamic) + Rate Limit 완화
+8661c521 docs: CUR-GO100-HOTFIX-005 보고서
+ead0de09 fix: CUR-GO100-HOTFIX-005 - ChatWidget FAB 미노출 최종 수정 (dynamic import ssr:false)
+a15bb63c docs: CUR-GO100-HOTFIX-004 보고서 (JS 청크 404 원인: 빌드/프로세스 불일치, 재시작+빌드로 해결)
+6e2a0e5c fix: CUR-GO100-CI-FIX — CI에서 LLM e2e 테스트 제외 (DB/API 미제공 환경)
+565717d1 fix: CUR-GO100-CI-FIX — email-validator 의존성 추가 (pydantic EmailStr)
+be46b7c5 fix: CUR-GO100-CI-FIX — Backend tests LOG_DIR 설정 (CI PermissionError 방지)
+39d7f503 fix: CUR-GO100-CI-FIX — pnpm-lock.yaml 갱신 (recharts 반영, CI frozen-lockfile 통과)

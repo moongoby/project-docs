@@ -38,6 +38,92 @@ globs: [
 - DB명: kisautotrade (NOT kis_autotrading)
 - 테스트: python -m pytest scripts/ -v --tb=short
 
+## API 토큰 관리 규칙 (CEO 지시, 2026-02-23)
+
+### 1. KIS (한국투자증권) 토큰 관리
+
+#### 공식 정책 (KIS Developers)
+- access_token 유효기간: 24시간 (실전/모의 동일)
+- 1일 1회 발급 원칙: 발급 후 만료 전까지 재사용 필수
+- 재발급 최소 간격: 1분 (1분 이내 재시도 시 KIS 서버에서 거부)
+- REST API 호출 제한: 초당 20건
+- 발급 URL: POST /oauth2/tokenP (실전·모의 동일 경로)
+
+#### V4.1 KIS 토큰 관리 원칙
+1. **토큰 캐시 필수**: 발급받은 토큰은 Redis에
+   (token, expires_at) 형태로 저장 (키: token:kis:{account_id}, account_id = kis:{config_id})
+2. **재사용 우선**: API 호출 전 캐시 토큰의 만료시각 확인,
+   유효하면 반드시 재사용 (불필요한 재발급 금지)
+3. **만료 1시간 전 선제 갱신 (CEO 규칙)**:
+   - 토큰 발급 후 만료 1시간 전에 자동으로 재발급 진행
+   - 구현: backend/app/core/token_manager.py (RENEW_BEFORE_EXPIRY=1시간, _needs_renewal, _is_token_valid에서 now+RENEW_BEFORE_EXPIRY와 만료시각 비교, 79-94행)
+   - 갱신 성공 시 기존 토큰을 새 토큰으로 교체
+   - 갱신 실패 시 기존 토큰이 아직 유효하므로 계속 사용, 다음 주기에 재시도
+4. **config_id별 독립 관리**: config_id 1/3/5 각각 별도 토큰 캐시
+   (서로 다른 APP_KEY/APP_SECRET 사용)
+5. **실패 대응**:
+   - 1회 실패: 60초 대기 후 재시도
+   - 2회 실패: 120초 대기 후 재시도
+   - 3회 초과: 로그 경고 + 기존 캐시 토큰이 유효하면 재사용,
+     무효하면 서비스 degraded 모드 (주문 차단, 조회만 허용)
+   - 현행: token_manager에는 위 단계별 재시도/폴백 미구현 (1초 sleep 후 캐시 재조회만 존재)
+6. **서비스 재시작 시**: Redis에 기존 토큰 키 유지 시 로딩,
+   유효하면 재사용 (get_token → _get_cached_token → _is_token_valid)
+
+### 2. 키움증권 토큰 관리
+
+#### 공식 정책 (키움 REST API)
+- access_token 유효기간: 24시간 (모의·실전 동일)
+- 발급 URL: POST /oauth2/token (KIS의 /tokenP와 다름)
+- 모의 API: https://mockapi.kiwoom.com
+- 실전 API: (KIWOOM_IS_PRODUCTION=true 시 사용, 현재 false)
+- 인증 파라미터: appkey + **secretkey** (KIS의 appsecret과 다름, 주의!)
+- 주문 엔드포인트: POST /api/dostk/ordr (매수 api-id: kt10000, 매도: kt10001)
+- 잔고 조회: POST /api/dostk/acnt
+
+#### V4.1 키움 토큰 관리 원칙
+1. **토큰 캐시**: Redis (키: `token:kiwoom:kiwoom:{account_id}`)
+   (token, expires_at) 형태로 저장
+2. **재사용 우선**: token_manager에서 캐시 유효성 확인 후 재사용
+3. **만료 1시간 전 선제 갱신 (CEO 규칙)**:
+   - KIS와 동일하게 만료 1시간 전 자동 재발급
+   - 구현: token_manager.py 동일 로직 (get_token → _needs_renewal, 79-94행)
+4. **account_id별 독립 관리**: account_id 4(모의), 5(실전), 6(실전) 각각 별도 토큰
+5. **빈 토큰 방어 (2026-02-23 패치 적용 완료)**:
+   - token_manager._is_token_valid()에서 빈 문자열 토큰을 무효로 처리
+   - _issue_token_kiwoom()에서 빈 토큰 응답 시 ValueError 발생, Redis 저장 방지
+   - authenticate()에서 빈 토큰 시 RuntimeError → fallback 직접 발급
+6. **실패 대응**: token_manager 실패 시 broker_kiwoom_client.authenticate()에서 직접 POST 폴백, 3회 재시도(2^attempt+1초 대기)
+7. **RPS 제한**: 전체 5 rps, 계좌당 1.67 rps (3계좌 기준)
+   - 구현: kis_rate_limiter.py (TOTAL_KIWOOM_RPS=5, per_account fair-share)
+
+#### 키움 계좌 현황
+| account_id | 계좌번호 | 유형 | 상태 |
+|------------|---------|------|------|
+| 4 | 81201280 | 모의 | active |
+| 5 | 52568156 | 실전 | active |
+| 6 | 63109343 | 실전 | active |
+
+#### 키움 앱키 관리
+- .env의 KIWOOM_APP_KEY/KIWOOM_SECRET_KEY: 글로벌 폴백용 (현재 비어 있음)
+- 실제 키: DB accounts 테이블의 enc_app_key/enc_app_secret에 Fernet 암호화 저장
+- 복호화: ENCRYPTION_KEY/FERNET_KEY (.env) 사용
+
+### 3. 공통 금지 사항
+- 매 API 호출마다 토큰 재발급 시도 금지
+- 1분 이내 연속 토큰 발급 요청 금지
+- 토큰을 소스코드/로그에 평문 전체 기록 금지 (앞 20자+... 마스킹)
+- .env에 토큰 하드코딩 금지 (APP_KEY/SECRET만 저장)
+- 키움 인증 파라미터를 KIS와 혼동 금지 (appsecret ≠ secretkey)
+
+### 4. 현행 구현 상태 (Phase A 검증 기준)
+- KIS 토큰 매니저: backend/app/core/token_manager.py (통합)
+- 키움 토큰 매니저: token_manager.py + broker_kiwoom_client.py
+- 캐시 방식: KIS Redis (token:kis:{account_id}) / 키움 Redis (token:kiwoom:*)
+- KIS 만료 1시간 전 갱신: 구현됨 (token_manager.py:26, 80, 115-131)
+- 키움 만료 1시간 전 갱신: 구현됨 (token_manager.py 동일 로직)
+- 개선 필요 사항: 있음 — KIS 실패 시 60초/120초 단계별 재시도 및 3회 초과 degraded 모드 미구현
+
 ## 코드 규칙
 - datetime.utcnow() 절대 금지 → datetime.now(timezone.utc)
 - v4_* 테이블: INSERT/SELECT만, TRUNCATE/DROP/ALTER 절대 금지
@@ -177,6 +263,14 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 3. 레짐 전환 방어 모드 48h
 4. strategy_cards 61, 62 처리
 5. index_daily OHLC=0 재수집
+
+## 정적 프론트엔드 관리 규칙 (2026-02-26 CEO 지시)
+1. admin.html, backtest-dashboard.js, admin.css는 frontend/static/에서 git 관리
+2. /var/www/trading.newtalk.kr/ 직접 수정 절대 금지
+3. 수정 흐름: frontend/static/ 수정 → git 커밋 → bash scripts/deploy_static.sh
+4. frontend/static/ 파일 수정 시 CEO + Claude PM 사전 승인 필수
+5. deploy_static.sh는 배포 전 자동 백업 수행
+6. 위반 시 git checkout으로 즉시 롤백
 
 ## 공유 파일 주의사항 (GO100과 공유)
 아래 파일은 GO100 프로젝트와 공유됨. 수정 시 GO100 PM에게 알릴 것:

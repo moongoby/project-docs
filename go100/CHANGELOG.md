@@ -1,5 +1,15 @@
 # GO100 변경 이력
-> 최종 업데이트: 2026-02-23 | 문서 버전: v1.0
+> 최종 업데이트: 2026-02-24 | 문서 버전: v1.1
+
+## 2026-02-24
+### [CUR-GO100-DETAIL-PAGE] feat: 전략 상세 페이지 모바일 최적화 구현 (5bf98a68)
+- FE: /go100/strategies/[id] 리다이렉트 → 전용 상세 페이지로 전면 재작성
+- 모바일 퍼스트: 히어로 카드, 핵심 지표 2x2, 3탭(요약/매매규칙/위험관리)
+- 기능: 백테스트 실행/polling, 활성 토글, 삭제, 상태별 액션 버튼
+- FE: portfolio/page.tsx React Hook 순서 버그 수정
+- FE: stock/[code]/page.tsx params null 체크 수정
+- 보고서: report/GO100-DETAIL-PAGE-DEV-REPORT-20260224.md
+- 프로세스 개선안: report/GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md
 
 ## 2026-02-23
 ### [CUR-GO100-HOTFIX-002] fix: ChatWidget FAB 미노출 + 전략카드 저장 500 (6c69a23a)

@@ -1,0 +1,8 @@
+*.bak
+*.bak.*
+.env
+.env.*
+*.key
+*.pem
+*.pyc
+__pycache__/

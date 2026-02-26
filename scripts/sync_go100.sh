@@ -1,4 +1,5 @@
 #!/bin/bash
+# CUR-GO100-SYNC-CLEANUP, 2026-02-23
 # GO100 문서 동기화: kis-autotrade-v4/docs/ → project-docs/go100/
 # 사용법: bash /root/project-docs/scripts/sync_go100.sh
 
@@ -29,15 +30,27 @@ if [ -f "/root/kis-autotrade-v4/.cursorrules" ]; then
   echo "✅ CURSORRULES.md"
 fi
 
-# 보고서 동기화
+# 보고서 동기화 (GO100 전용만 — V4.1 중복 방지)
 REPORT_SRC="/root/kis-autotrade-v4/report"
 REPORT_DEST="/root/project-docs/go100/reports"
 
 if [ -d "$REPORT_SRC" ]; then
   mkdir -p "$REPORT_DEST"
-  cp "$REPORT_SRC"/*.md "$REPORT_DEST/" 2>/dev/null || true
+  for f in "$REPORT_SRC/"*.md; do
+    [ -f "$f" ] || continue
+    BASENAME=$(basename "$f")
+    case "$BASENAME" in
+      GO100-*|CUR-GO100-*|*HOTFIX-SAVE-500*|*PHASE2-STABILIZE*)
+        cp "$f" "$REPORT_DEST/$BASENAME"
+        echo "  ✅ $BASENAME"
+        ;;
+      *)
+        echo "  ⏭️ SKIP (V4.1): $BASENAME"
+        ;;
+    esac
+  done
   n=$(find "$REPORT_DEST" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l)
-  echo "✅ 보고서 동기화 (${n}건)"
+  echo "✅ GO100 보고서 동기화 (${n}건)"
 else
   echo "⚠️ report/ 없음"
 fi

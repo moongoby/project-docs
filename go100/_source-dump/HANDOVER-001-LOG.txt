@@ -1,0 +1,255 @@
+=== CUR-GO100-HANDOVER-001: 2026-02-23 14:06:49 KST ===
+
+========== PART 1: 키움증권 API 연동 확인 ==========
+--- 1-1. 키움 관련 소스 검색 ---
+backend/app/core/kis_rate_limiter.py
+backend/app/core/broker_factory.py
+backend/app/core/kiwoom_key_manager.py
+backend/app/core/broker_kiwoom_client.py
+backend/app/core/broker_base.py
+backend/app/core/token_manager.py
+backend/app/routers/monitoring_router.py
+backend/app/schemas/account_schemas.py
+backend/app/main.py
+backend/app/api/v1/health_router.py
+backend/app/api/v1/market_router.py
+backend/app/api/v1/dashboard_router.py
+backend/app/api/v1/admin_router.py
+backend/app/services/data/theme_detail_collector.py
+backend/app/services/data/program_trades_collector.py
+backend/app/services/data/tick_data_collector.py
+backend/app/services/data/condition_search_collector.py
+backend/app/services/data/trade_strength_history_collector.py
+backend/app/services/market_data_service.py
+backend/app/services/trading/v4_order_executor.py
+backend/app/services/account_service.py
+backend/app/services/collectors/trade_strength_collector.py
+backend/app/services/collectors/kiwoom_chart_collector.py
+backend/app/services/monitoring/system_monitor.py
+backend/app/services/auto_trade_engine.py
+backend/tests/test_data_collectors.py
+backend/tests/test_market_router_extended.py
+backend/tests/test_token_manager.py
+backend/scripts/verify_api_keys.py
+frontend/src/app/(protected)/monitoring/page.tsx
+frontend/src/app/privacy/page.tsx
+frontend/src/app/terms/page.tsx
+frontend/src/lib/api/monitoring.ts
+frontend/src/lib/api/market.ts
+frontend/src/components/settings/AccountsApiTab.tsx
+frontend/src/components/settings/BrokerLogo.tsx
+frontend/src/components/settings/AccountAddWizard.tsx
+frontend/src/components/accounts/AddAccountModal.tsx
+frontend/src/components/accounts/AccountFormDialog.tsx
+frontend/src/components/accounts/AccountCard.tsx
+frontend/src/components/admin/SystemOverviewPanel.tsx
+frontend/src/components/dashboard/AccountsCard.tsx
+frontend/src/components/dashboard/SystemStatusCard.tsx
+frontend/src/types/index.ts
+frontend/.next/static/chunks/app/(protected)/settings/page-3b48606453e8513a.js
+frontend/.next/static/chunks/app/(protected)/accounts/page-2144c7c2e6264c09.js
+frontend/.next/static/chunks/app/(protected)/admin/page-21a9627ebfb4cf2d.js
+frontend/.next/static/chunks/app/(protected)/monitoring/page-b70456a9a2e6edae.js
+frontend/.next/static/chunks/app/(protected)/dashboard/page-f9cc187163ded178.js
+frontend/.next/server/app/(protected)/settings/page.js
+frontend/.next/server/app/(protected)/accounts/page.js
+frontend/.next/server/app/(protected)/admin/page.js
+frontend/.next/server/app/(protected)/monitoring/page.js
+frontend/.next/server/app/(protected)/dashboard/page.js
+frontend/.next/server/app/privacy/page.js
+frontend/.next/server/app/terms/page.js
+
+backend/app/core/kis_rate_limiter.py:333:#     ├── GlobalBucket (KIS: 20rps, KIWOOM: 5rps)
+backend/app/core/kis_rate_limiter.py:447:            "KIWOOM": float(os.getenv("TOTAL_KIWOOM_RPS", "5")),
+backend/app/core/broker_factory.py:2:# Modified by CUR-KIWOOM-MULTIKEY-v1, 2026-02-20 — 키움 멀티키 매니저 연동
+backend/app/core/broker_factory.py:8:    """broker_type에 따라 KIS 어댑터 또는 키움 클라이언트 반환."""
+backend/app/core/broker_factory.py:20:        if bt == BrokerType.KIWOOM.value:
+backend/app/core/broker_factory.py:21:            from backend.app.core.broker_kiwoom_client import KiwoomBrokerClient
+backend/app/core/broker_factory.py:22:            from backend.app.core.kiwoom_key_manager import get_kiwoom_key_manager
+backend/app/core/broker_factory.py:26:            key_manager = get_kiwoom_key_manager()
+backend/app/core/kiwoom_key_manager.py:1:# Created by CUR-KIWOOM-MULTIKEY-v1, 2026-02-20
+backend/app/core/kiwoom_key_manager.py:2:"""키움증권 REST API 멀티키 매니저. 복수 앱키 로드, round_robin/least_used, Rate Limit·failover."""
+backend/app/core/kiwoom_key_manager.py:11:KEY_USAGE_PREFIX = "kiwoom:key_usage:"   # kiwoom:key_usage:{key_index} TTL 1일
+backend/app/core/kiwoom_key_manager.py:12:KEY_RATE_PREFIX = "kiwoom:rate:"        # kiwoom:rate:{key_index} 슬라이딩 윈도우 (sorted set)
+backend/app/core/kiwoom_key_manager.py:13:KEY_DISABLED_PREFIX = "kiwoom:disabled:"  # kiwoom:disabled:{key_index} 비활성화 마킹
+backend/app/core/kiwoom_key_manager.py:23:    - KIWOOM_KEYS=[{"app_key":"...","secret":"..."},...] (JSON 배열)
+backend/app/core/kiwoom_key_manager.py:24:    - 또는 KIWOOM_APP_KEY_1, KIWOOM_SECRET_KEY_1, KIWOOM_APP_KEY_2, ...
+backend/app/core/kiwoom_key_manager.py:25:    - 또는 단일 KIWOOM_APP_KEY, KIWOOM_SECRET_KEY (KIWOOM_APP_SECRET)
+backend/app/core/kiwoom_key_manager.py:30:    raw = (os.getenv("KIWOOM_KEYS") or "").strip()
+backend/app/core/kiwoom_key_manager.py:41:            logger.warning("KIWOOM_KEYS JSON parse error: %s", e)
+backend/app/core/kiwoom_key_manager.py:49:        ak = (os.getenv(f"KIWOOM_APP_KEY_{i}") or os.getenv(f"KIWOOM_APP_KEY{i}") or "").strip()
+backend/app/core/kiwoom_key_manager.py:50:        sk = (os.getenv(f"KIWOOM_SECRET_KEY_{i}") or os.getenv(f"KIWOOM_SECRET_KEY{i}") or "").strip()
+backend/app/core/kiwoom_key_manager.py:65:        ak = (os.getenv("KIWOOM_APP_KEY") or "").strip()
+backend/app/core/kiwoom_key_manager.py:66:        sk = (os.getenv("KIWOOM_SECRET_KEY") or os.getenv("KIWOOM_APP_SECRET") or os.getenv("KIWOOM_SECRET_KEY") or "").strip()
+backend/app/core/kiwoom_key_manager.py:144:        """Redis kiwoom:key_usage:{i} 최소인 인덱스 (동기)."""
+backend/app/core/kiwoom_key_manager.py:166:        """호출 1회 기록. kiwoom:key_usage:{key_index} TTL 1일."""
+backend/app/core/kiwoom_key_manager.py:244:_kiwoom_key_manager_instance: Optional[KiwoomKeyManager] = None
+backend/app/core/kiwoom_key_manager.py:247:def get_kiwoom_key_manager(redis_client: Any = None) -> Optional[KiwoomKeyManager]:
+backend/app/core/kiwoom_key_manager.py:249:    global _kiwoom_key_manager_instance
+backend/app/core/kiwoom_key_manager.py:250:    if _kiwoom_key_manager_instance is None:
+backend/app/core/kiwoom_key_manager.py:260:        _kiwoom_key_manager_instance = KiwoomKeyManager(redis_client)
+backend/app/core/kiwoom_key_manager.py:261:    return _kiwoom_key_manager_instance
+
+--- 1-2. DB 계좌 정보 ---
+ERROR:  column u.full_name does not exist
+LINE 2: SELECT u.id, u.email, u.full_name
+                              ^
+
+--- 1-3. 전체 브로커/계좌 설정 ---
+ERROR:  relation "trading_accounts" does not exist
+LINE 3: FROM trading_accounts
+             ^
+
+ERROR:  relation "account_configs" does not exist
+LINE 3: FROM account_configs
+             ^
+
+--- 1-4. 키움 전용 테이블/컬럼 검색 ---
+          table_name          
+------------------------------
+ account_rate_quotas
+ account_snapshots
+ accounts
+ go100_account_reconciliation
+ social_accounts
+ v4_account_config
+ v4_account_holdings
+ v4_account_sync_log
+ v4_broker_trades
+(9 rows)
+
+
+--- 1-5. broker 컬럼 ENUM/CHECK 확인 ---
+ conname | pg_get_constraintdef 
+---------+----------------------
+(0 rows)
+
+
+--- 1-6. 키움 API 설정/env 확인 ---
+TOTAL_KIWOOM_RPS=5
+KIWOOM_APP_KEY=
+KIWOOM_SECRET_KEY=
+KIWOOM_IS_PRODUCTION=false
+backend/.env에 kiwoom 없음
+frontend/.env.local에 kiwoom 없음
+
+--- 1-7. 서비스 목록 (키움 관련) ---
+  go100-frontend.service                   loaded    active   running GO100 V4.1 Frontend (Next.js)
+  go100-scheduler@live.service             loaded    inactive dead    GO100 Scheduler - live
+  go100-scheduler@paper.service            loaded    inactive dead    GO100 Scheduler - paper
+  go100-scheduler@reconcile.service        loaded    inactive dead    GO100 Scheduler - reconcile
+  go100-scheduler@report.service           loaded    inactive dead    GO100 Scheduler - report
+  go100.service                            loaded    active   running GO100 V4.1 AutoTrade API
+  kis-autotrade-top100-211.service         loaded    inactive dead    KIS AutoTrade Daily Top100 Turnover Collector (211)
+  kis-scalping.service                     loaded    active   running KIS AutoTrade Scalping Scheduler
+  kis-trading-engine.service               loaded    active   running KIS AutoTrade Trading Engine (unified_trading_scheduler)
+  kis-v41-api.service                      loaded    active   running KIS AutoTrade V4.1 API (port 8003)
+  kis-v41-minute-collector.service         loaded    active   running KIS V4.1 Minute OHLCV Collector
+  kis-v41-monitor.service                  loaded    active   running KIS V4.1 Position Monitor
+  kis-v41-position-monitor.service         loaded    active   running KIS V4.1 Position Monitor
+  kis-v41-scheduler.service                loaded    active   running KIS AutoTrade V4.1 Scheduler
+  kis-webapp-api.service                   loaded    active   running KIS AutoTrade Web API (Legacy Platform)
+
+--- 1-8. 최근 키움 관련 로그 ---
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,671 | INFO     | backend.app.core.kis_rate_limiter | Global bucket initialized: KIWOOM = 5.0 rps
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,709 INFO sqlalchemy.engine.Engine [cached since 0.03223s ago] ('KIWOOM',)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,709 | INFO     | sqlalchemy.engine.Engine | [cached since 0.03223s ago] ('KIWOOM',)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,710 INFO sqlalchemy.engine.Engine [cached since 0.02886s ago] (4, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,710 | INFO     | sqlalchemy.engine.Engine | [cached since 0.02886s ago] (4, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,713 INFO sqlalchemy.engine.Engine [cached since 0.03197s ago] (5, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,713 | INFO     | sqlalchemy.engine.Engine | [cached since 0.03197s ago] (5, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,715 INFO sqlalchemy.engine.Engine [cached since 0.03392s ago] (6, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,715 | INFO     | sqlalchemy.engine.Engine | [cached since 0.03392s ago] (6, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494651]: 2026-02-23 13:19:39,722 | INFO     | backend.app.core.kis_rate_limiter | Quotas recalculated: KIWOOM, accounts=3, per_account=1.67 rps
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,793 | INFO     | backend.app.core.kis_rate_limiter | Global bucket initialized: KIWOOM = 5.0 rps
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,834 INFO sqlalchemy.engine.Engine [cached since 0.03325s ago] ('KIWOOM',)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,834 | INFO     | sqlalchemy.engine.Engine | [cached since 0.03325s ago] ('KIWOOM',)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,839 INFO sqlalchemy.engine.Engine [cached since 0.02701s ago] (4, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,839 | INFO     | sqlalchemy.engine.Engine | [cached since 0.02701s ago] (4, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,840 INFO sqlalchemy.engine.Engine [cached since 0.02862s ago] (5, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,840 | INFO     | sqlalchemy.engine.Engine | [cached since 0.02862s ago] (5, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,845 INFO sqlalchemy.engine.Engine [cached since 0.03303s ago] (6, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,845 | INFO     | sqlalchemy.engine.Engine | [cached since 0.03303s ago] (6, 'KIWOOM', 1.6666666666666667)
+Feb 23 13:19:39 kis-autotrade-v4 go100[2494650]: 2026-02-23 13:19:39,848 | INFO     | backend.app.core.kis_rate_limiter | Quotas recalculated: KIWOOM, accounts=3, per_account=1.67 rps
+
+--- 1-9. broker 분기 로직 ---
+/root/kis-autotrade-v4/backend/app/core/kis_rate_limiter.py
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py
+/root/kis-autotrade-v4/backend/app/core/broker_kiwoom_client.py
+/root/kis-autotrade-v4/backend/app/core/broker_base.py
+/root/kis-autotrade-v4/backend/app/core/token_manager.py
+/root/kis-autotrade-v4/backend/app/core/broker_kis_adapter.py
+/root/kis-autotrade-v4/backend/app/schemas/account_schemas.py
+/root/kis-autotrade-v4/backend/app/api/v1/health_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/trade_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/market_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/portfolio_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/dashboard_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/admin_router.py
+/root/kis-autotrade-v4/backend/app/api/v1/accounts_router.py
+/root/kis-autotrade-v4/backend/app/services/notification_service.py
+/root/kis-autotrade-v4/backend/app/services/go100/live_trading/schemas.py
+/root/kis-autotrade-v4/backend/app/services/go100/live_trading/live_engine.py
+/root/kis-autotrade-v4/backend/app/services/data/theme_detail_collector.py
+/root/kis-autotrade-v4/backend/app/services/data/program_trades_collector.py
+/root/kis-autotrade-v4/backend/app/services/data/tick_data_collector.py
+
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py:21:            from backend.app.core.broker_kiwoom_client import KiwoomBrokerClient
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py:22:            from backend.app.core.kiwoom_key_manager import get_kiwoom_key_manager
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py:26:            key_manager = get_kiwoom_key_manager()
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py:31:                    return KiwoomBrokerClient(
+/root/kis-autotrade-v4/backend/app/core/broker_factory.py:38:            return KiwoomBrokerClient(app_key=app_key, secret_key=secret_key, is_production=is_production)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:11:KEY_USAGE_PREFIX = "kiwoom:key_usage:"   # kiwoom:key_usage:{key_index} TTL 1일
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:12:KEY_RATE_PREFIX = "kiwoom:rate:"        # kiwoom:rate:{key_index} 슬라이딩 윈도우 (sorted set)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:13:KEY_DISABLED_PREFIX = "kiwoom:disabled:"  # kiwoom:disabled:{key_index} 비활성화 마킹
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:57:            logger.warning("Kiwoom key pair %s incomplete (app_key or secret missing), skip", i)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:73:class KiwoomKeyManager:
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:144:        """Redis kiwoom:key_usage:{i} 최소인 인덱스 (동기)."""
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:166:        """호출 1회 기록. kiwoom:key_usage:{key_index} TTL 1일."""
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:174:            logger.debug("Kiwoom key usage record failed: %s", e)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:197:            logger.debug("Kiwoom rate check failed: %s", e)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:205:            logger.warning("Kiwoom key_index=%s marked failed (disabled temporarily)", key_index)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:207:            logger.warning("Kiwoom mark_key_failed redis error: %s", e)
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:244:_kiwoom_key_manager_instance: Optional[KiwoomKeyManager] = None
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:247:def get_kiwoom_key_manager(redis_client: Any = None) -> Optional[KiwoomKeyManager]:
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:248:    """KiwoomKeyManager 싱글톤. Redis 주입. 키가 0개면 None."""
+/root/kis-autotrade-v4/backend/app/core/kiwoom_key_manager.py:249:    global _kiwoom_key_manager_instance
+
+========== PART 2: ChatWidget 진단 (간략) ==========
+BUILD_ID: aQVyue1S2vMvH1hP4xe_X
+layout 청크 chat-widget-fab:
+  .next/static/chunks/app/(protected)/go100/layout-d9fc3e6dd7442fed.js: 0
+0건
+  .next/static/chunks/app/(protected)/layout-f7159a8126be50d0.js: 0
+0건
+빌드 전체 chat-widget-fab:
+4
+FE PID: 2494532
+FE CWD: /root/kis-autotrade-v4/frontend
+FE CWD BUILD_ID: aQVyue1S2vMvH1hP4xe_X
+FE CMDLINE: npm exec next start -p 3000          
+systemd ExecStart:
+WorkingDirectory=/root/kis-autotrade-v4/frontend
+ExecStart=/usr/bin/npx next start -p 3000
+package.json start:
+next start
+next.config:
+== next.config.mjs ==
+// CUR-GO100-FRONTEND-FIX2, 2026-02-21
+// CUR-GO100-FRONTEND-FIX, 2026-02-21 — go100 API 프록시 명시
+/** @type {import('next').NextConfig} */
+const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8002";
+const nextConfig = {
+  async rewrites() {
+    return [
+      { source: "/api/:path*", destination: `${apiBase.replace(/\/$/, "")}/api/:path*` },
+      { source: "/api/go100/:path*", destination: `${apiBase.replace(/\/$/, "")}/api/go100/:path*` },
+    ];
+  },
+};
+
+export default nextConfig;
+
+--- 로그인 테스트 ---
+  /api/v1/auth/login -> {"status":401,"detail":"이메일 또는 비밀번호가 올바르지 않습니다.","timestamp":"2026-02-23T05:07:15.971766+00:00","request_id":"294ff900-1ddb-4ed8-9022-7cc4a04f8585"}
+  /api/v1/auth/signin -> {"detail":"Not Found"}

@@ -1,6 +1,71 @@
 # 변경 이력
 
+## 2026-02-26
+- **P2 cody_matcher 실제 DB 컬럼 반영**
+  - app/workers/cody_matcher.py: get_cody_by_product_code 쿼리를 실제 114 DB 컬럼에 맞게 수정 — codyProdCode = %s (정확 일치), 조인 codyCode + shooting_id, 반환 cody_number/cody_code/product_code 매핑 유지
+  - app/workers/folder_poller.py: md_name NULL 시 contents_msg.MDName fallback(_get_md_name_from_contents), 분류 시작 시 sort_status='processing' 설정
+  - requirements.txt: google-generativeai>=0.8.0 유지, NAS 오프라인 빌드용 pip-cache TODO 주석 추가
+  - tests/test_cody_matcher.py: mock 컬럼명(codyProdCode, codyCode, codyNumber) 및 정확 일치 인자 반영
+
+## 2026-02-25
+- **P2 라벨감지 + OCR + 코디 자동분류 워커 (FEATURE-002)**
+  - requirements.txt: google-generativeai>=0.8.0 추가
+  - app/workers/label_detector.py: is_label_image(Gemini), extract_product_code(Gemini+정규식), 라벨 가로형 사전 필터
+  - app/workers/cody_matcher.py: get_cody_by_product_code(DB), find_shooting_folder, find_cody_folder (TODO: cody_product_msg 컬럼명 114 확정 후 조정)
+  - app/workers/photo_sorter.py: sort_photos_for_shooting — homes 수집·EXIF 시간순·라벨→코디 설정/사진→코디 복사, _labels 보관, 원본 복사만
+  - app/workers/folder_poller.py: process_sort_pending_requests, run_sort_poll_cycle (status=completed, sort_status=pending), sort_status 컬럼 있으면 업데이트
+  - app/main.py: photo_sort_poller_loop 5분 간격 등록
+  - app/config.py: HOMES_ROOT, GEMINI_API_KEY, GEMINI_MODEL, LABEL_DETECT_CONFIDENCE, PHOTO_SORT_INTERVAL
+  - app/api/routes.py: GET /api/sort/status/{shooting_id}, GET /api/sort/results/{shooting_id}, POST /api/sort/trigger/{shooting_id}
+  - docker-compose.yml: /volume1/homes:/data/homes:ro 추가
+  - tests: test_label_detector.py, test_cody_matcher.py, test_photo_sorter.py (19 passed)
+  - 보고서: docs/reports/CUR-NASIMG-FEATURE-002-20260225.md
+- **P1 통합 테스트 완료 (NAS)**
+  - 2026-02-25 18:55 KST 기준: DB INSERT(shooting_id=662)·폴더폴링 pending→completed(17초)·NAS 폴더 생성·API completed·PyMySQL 1.4.6·Docker·pick.newtalk.kr 정상
+  - 보고서 §7.5: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md 최종 결과 표 및 커밋(114: 1dd059f/8e71d73, NAS: ca064ae/f8bf7be) 기입
+- **DB 비밀번호 이슈 해결 (NAS 배포)**
+  - NAS .env에 MYSQL_PASSWORD 미설정 시 폴더 폴링 스킵. 116서버 database.php 기준 비밀번호 설정 후 정상 동작 (비밀번호 값은 문서/코드에 미기재)
+- **116 서버 shooting_id 선택자 버그 수정**
+  - 어드민 NAS 폴더 요청 시 shooting_id가 올바르게 전달되도록 수정 반영 (114 Cursor와 협의)
+- **P1 통합 테스트 실행 (NAS 작업지시서)**
+  - 스크립트: `scripts/nas_p1_integration_test.sh` (STEP 0~11: .env 확인, git pull, Docker 재빌드, 사전확인, DB 테이블, INSERT, 폴링 대기, 결과 확인, 정리, pytest, 보고 안내)
+  - 보고서 §7.5: STEP별 통합 테스트 결과 표 보강 (docs/reports/CUR-NASIMG-FEATURE-001-20260225.md)
+  - 통합 테스트 성공 시: DB INSERT → 폴링 → status=completed, NAS 루트+코디 2개 폴더 생성, API/로그 반영
+- **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)** — 지시서 버전 반영
+  - app/config.py: MYSQL_HOST/PORT/DB/USER/PASSWORD (os.getenv) 추가
+  - app/workers/folder_poller.py: nas_folder_request 단일 테이블 + cody_data(JSON) 기반으로 전면 수정 (get_db_connection, build_folder_structure(request), process_pending_requests, run_poll_cycle)
+  - app/api/routes.py: GET /api/folder/status/{request_id}, GET /api/folder/requests 추가
+  - tests/test_folder_poller.py: 지시서 테스트 11건으로 교체
+  - 보고서: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md 갱신
+- **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)** (기존)
+  - requirements.txt에 PyMySQL>=1.1.0 추가
+  - .env.example 및 app/config.py에 116 DB 설정 (NEWTALK_DB_HOST/PORT/NAME/USER/PASSWORD)
+  - docs/DATABASE.md §8: nas_folder_request 테이블 설계, CREATE TABLE, 플로우
+  - app/workers/folder_poller.py 신규: pending 조회 → contents_msg/cody_msg/cody_product_msg 기반 폴더명 조합 → mkdir (파일 삭제/수정 금지)
+  - docker-compose.yml: /volume1/★제품사진 ro → rw
+  - main.py: 60초 간격 _folder_poller_loop 백그라운드 등록
+  - tests/test_folder_poller.py 7건 추가
+  - 보고서: docs/reports/CUR-NASIMG-FEATURE-001-20260225.md
+- **P1 선행: NAS → 114서버(116 DB) MySQL 접속 테스트**
+  - 스크립트: `scripts/nas_mysql_114_connection_test.sh` (STEP 1~4: 포트 확인, Docker 내 mysql/pymysql 확인, TCP 테스트, 로그인 예시 안내)
+  - 보고서 템플릿: docs/reports/CUR-NASIMG-DB-CONN-001-20260225.md (실행 후 결과 기입, 비밀번호/접속 문자열 미포함)
+
+## 2026-02-24
+- **PIPELINE_PROCESS.md 신규 생성** — 전체 자동화 파이프라인 프로세스 정의 (AS-IS/TO-BE, P1~P6 상세, 로드맵, 기술 참조)
+- PLANNING.md: TO-BE 워크플로우를 PIPELINE_PROCESS와 동기화, Phase 3/4 로드맵 구체화 (P3~P6)
+- CONTEXT.md: 바로 다음 할 일에 P1(모델사진폴더 NAS 직접 생성) 추가, 참조 문서에 PIPELINE_PROCESS.md 추가
+- **QC 프리셋 등록 오류 수정 (BUG-FIX-001)**
+  - 증상: 등록 버튼 클릭 시 폼만 리셋되고 목록에 미등록
+  - 원인: 폼 기본 제출(native submit)으로 같은 페이지 GET 재로드 → API 미호출
+  - 수정: preset_register.html에 `onsubmit="return false;"`, `action="#"` 추가
+  - 부가: 수정 페이지용 `isEdit`/`presetId` 템플릿 주입, 목록 썸네일 fallback URL (`/api/preset/{id}/image`)
+  - 보강: API에서 `analyze_image()` 실패 시 400 + 한글 메시지 반환(stats_json NOT NULL 안전), Jinja2 필터 공백 정리
+  - 보고서: docs/reports/CUR-NASIMG-BUG-FIX-001-20260224.md
+
 ## 2026-02-23
+- DB 스키마 문서화 (docs/DATABASE.md) — 테이블 구조, 인덱스, 114서버 연동 참조
+- requirements.txt에 httpx 추가 (TestClient 의존성)
+- Docker 빌드 성공 (오프라인 pip-cache, libgl1 수정)
 - **소스 검수 개선사항 일괄 적용**
   - 톤 매칭 엔진 v2: 적응형 강도 차원별 정규화 가중치(ADAPTIVE_WEIGHTS), AB채널 보호 비율(ab_protection_ratio) 파라미터화, 피부 HSV(SKIN_HSV_*) config화, WhiteBalanceNormalizer 배경 제외(exclude_background) 옵션
   - 배치 파이프라인 리팩터링: PipelineConfig/PipelineResult dataclass, run_pipeline(source_path, config) 시그니처, HEIC 변환 convert_heic_to_jpg 유틸 분리
@@ -15,6 +80,9 @@
 - Windows PC → NAS SSH 키 인증 설정
 - NAS Git Server 설치
 - 문서 관리 체계 구축 (CONTEXT.md, CHANGELOG.md, .cursorrules)
+- Dockerfile 오프라인 빌드 전환: pip-cache/ 로컬 whl 설치 (NAS SSL 에러 대응)
+- .dockerignore 생성
+- 문서 보완: HANDOVER 테스트현황 갱신, 작업규칙 보완 (git경로 보고, 한국시간)
 
 ## 2026-02-22
 - 파일명 매핑 모듈 (7 tests)

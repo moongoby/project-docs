@@ -1,3 +1,5 @@
+// CUR-GO100-HOTFIX-003, 2026-02-23 — FAB SSR/Portal: mounted 후 createPortal 유지, 마운트 시 API 호출 없음
+// CUR-GO100-HOTFIX-002A, 2026-02-23 — ChatWidget FAB 미노출 수정 (클라이언트 마운트 후 body 포탈만 사용)
 // CUR-GO100-HOTFIX-002, 2026-02-23 — FAB Portal로 body 렌더링(ISS-008 전페이지 노출)
 // CUR-GO100-PHASE2-STABILIZE STEP1, 2026-02-23 — ISS-001: ChatWidget 표시 수정 (fixed/z-[9999] 확인)
 // CUR-GO100-HOTFIX-CRITICAL, 2026-02-23
@@ -35,6 +37,7 @@ function setStoredSessionId(id: string) {
 
 export function ChatWidget() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -42,6 +45,10 @@ export function ChatWidget() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setSessionId(getStoredSessionId());
@@ -91,7 +98,11 @@ export function ChatWidget() {
     router.push("/llm");
   }, [router]);
 
-  // CUR-GO100-HOTFIX-002: FAB를 document.body에 Portal로 렌더링해 부모 overflow/z-index 영향 제거(ISS-008)
+  // CUR-GO100-HOTFIX-002A: 클라이언트 마운트 후에만 FAB/패널 렌더. SSR 시 인라인 렌더로 인한 부모 overflow/z-index 미노출 방지.
+  if (!mounted || typeof document === "undefined") {
+    return null;
+  }
+
   const fab = (
     <button
       type="button"
@@ -104,105 +115,103 @@ export function ChatWidget() {
     </button>
   );
 
-  return (
-    <>
-      {typeof document !== "undefined" ? createPortal(fab, document.body) : fab}
+  const panel = open ? (
+    <div
+      ref={panelRef}
+      className={[
+        "fixed z-[9998] flex flex-col overflow-hidden bg-gray-900",
+        "inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-96 sm:h-[500px] sm:rounded-lg sm:border sm:border-gray-700 sm:shadow-2xl",
+      ].join(" ")}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-gray-700 px-3 py-2">
+        <span className="flex items-center gap-2 text-sm font-medium text-white">
+          🤖 백억이
+        </span>
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-gray-300 hover:text-white"
+            onClick={goFullscreen}
+            title="전체 화면"
+          >
+            <Maximize2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-gray-300 hover:text-white"
+            onClick={() => setOpen(false)}
+            title="닫기"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
 
-      {/* Panel: 모바일 전체화면, 데스크톱 우하단. z-[9998]. CUR-GO100-HOTFIX-CRITICAL */}
-      {open && (
-        <div
-          ref={panelRef}
-          className={[
-            "fixed z-[9998] flex flex-col overflow-hidden bg-gray-900",
-            "inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-96 sm:h-[500px] sm:rounded-lg sm:border sm:border-gray-700 sm:shadow-2xl",
-          ].join(" ")}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-700 px-3 py-2">
-            <span className="flex items-center gap-2 text-sm font-medium text-white">
-              🤖 백억이
-            </span>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 text-gray-300 hover:text-white"
-                onClick={goFullscreen}
-                title="전체 화면"
-              >
-                <Maximize2 className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 text-gray-300 hover:text-white"
-                onClick={() => setOpen(false)}
-                title="닫기"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
+        {messages.length === 0 && !loading && (
+          <p className="text-center text-sm text-gray-400 py-4">
+            전략에 대해 말씀해 주세요.
+          </p>
+        )}
+        {messages.map((m, i) => (
+          <ChatMessage
+            key={i}
+            role={m.role}
+            content={m.content}
+            className={
+              m.role === "user"
+                ? "[&>div]:bg-blue-600 [&>div]:text-white"
+                : "[&>div]:bg-gray-800 [&>div]:text-gray-100"
+            }
+          />
+        ))}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="rounded-2xl bg-gray-800 px-4 py-3 text-sm text-gray-300">
+              <span className="animate-pulse">...</span>
             </div>
           </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
-            {messages.length === 0 && !loading && (
-              <p className="text-center text-sm text-gray-400 py-4">
-                전략에 대해 말씀해 주세요.
-              </p>
-            )}
-            {messages.map((m, i) => (
-              <ChatMessage
-                key={i}
-                role={m.role}
-                content={m.content}
-                className={
-                  m.role === "user"
-                    ? "[&>div]:bg-blue-600 [&>div]:text-white"
-                    : "[&>div]:bg-gray-800 [&>div]:text-gray-100"
-                }
-              />
-            ))}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="rounded-2xl bg-gray-800 px-4 py-3 text-sm text-gray-300">
-                  <span className="animate-pulse">...</span>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+      {/* Input */}
+      <div className="border-t border-gray-700 p-2 flex gap-2">
+        <Textarea
+          placeholder="메시지 입력..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
+            }
+          }}
+          className="min-h-[40px] max-h-24 resize-none border-gray-600 bg-gray-800 text-white placeholder:text-gray-400"
+          rows={1}
+          disabled={loading}
+        />
+        <Button
+          size="icon"
+          className="h-10 w-10 shrink-0 bg-blue-600 hover:bg-blue-700"
+          onClick={sendMessage}
+          disabled={loading || !input.trim()}
+          title="전송"
+        >
+          <Send className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  ) : null;
 
-          {/* Input */}
-          <div className="border-t border-gray-700 p-2 flex gap-2">
-            <Textarea
-              placeholder="메시지 입력..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  sendMessage();
-                }
-              }}
-              className="min-h-[40px] max-h-24 resize-none border-gray-600 bg-gray-800 text-white placeholder:text-gray-400"
-              rows={1}
-              disabled={loading}
-            />
-            <Button
-              size="icon"
-              className="h-10 w-10 shrink-0 bg-blue-600 hover:bg-blue-700"
-              onClick={sendMessage}
-              disabled={loading || !input.trim()}
-              title="전송"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile: 배경 딤드 (패널이 전체화면이므로 패널 밖 터치 없음) */}
+  return (
+    <>
+      {createPortal(fab, document.body)}
+      {panel != null ? createPortal(panel, document.body) : null}
     </>
   );
 }

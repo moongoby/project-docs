@@ -55,7 +55,7 @@ if [ -z "$TASK_NAME" ]; then
     exit 1
 fi
 
-REPORT_FILE=$(find "$SRC_DIR" -name "*${TASK_NAME}*" -type f | sort | tail -1)
+REPORT_FILE=$(find "$SRC_DIR" -maxdepth 2 -name "*${TASK_NAME}*" -type f | sort | tail -1)
 
 if [ -z "$REPORT_FILE" ]; then
     echo "ERROR: '$TASK_NAME' 보고서를 찾을 수 없음"

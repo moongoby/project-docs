@@ -1,10 +1,28 @@
 # GO100 알려진 이슈
-> 최종 업데이트: 2026-02-23 | 문서 버전: v1.2
+> 최종 업데이트: 2026-02-24 | 문서 버전: v1.3
 
 ## 미해결
-(없음)
+### ISS-011: /go100/chat 리다이렉트 (컨텍스트 손실)
+- 현상: "AI 대화" 클릭 → /go100/chat → /llm 리다이렉트, GO100 사이드바 사라짐
+- 심각도: MEDIUM
+- 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [C-1]
+
+### ISS-012: ChatWidget 하드코딩 DEFAULT_USER_ID=1
+- 현상: 멀티유저 환경에서 전략이 모두 user_id=1로 생성
+- 심각도: HIGH
+- 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [C-3]
+
+### ISS-013: 백테스트 재시도 API 없음
+- 현상: 실패 시 재시도 불가, 새 전략 재생성 필요
+- 심각도: MEDIUM
+- 관련: GO100-STRATEGY-PROCESS-IMPROVEMENT-REPORT-20260224.md [H-2]
 
 ## 해결됨
+### ISS-C2: /go100/strategies/[id] 상세 페이지 미구현
+- 원인: 리다이렉트만 존재, 전용 상세 뷰 없음
+- 해결: CUR-GO100-DETAIL-PAGE (2026-02-24, 5bf98a68) — 전략 상세 페이지 모바일 최적화 구현
+- 검증: tsc PASS, npm run build PASS, 서비스 재시작 후 정상 접근 확인
+
 ### ISS-010: 전략카드 저장 500 재발 (브라우저 E2E)
 - 원인: get_effective_uid 예외 전파 또는 JSON 직렬화 실패
 - 해결: CUR-GO100-HOTFIX-002 (2026-02-23, 6c69a23a) — user_utils try/except, card_service _safe_json

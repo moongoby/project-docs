@@ -11,6 +11,10 @@ cp ${SRC}/architecture/system_architecture_v1.0.md ${DST}/architecture.md 2>/dev
 # cursorrules
 cp /data/shortflow/.cursorrules ${DST}/cursorrules.md 2>/dev/null
 
+# INDEX.md 동기화 (shortflow 루트)
+cp /data/shortflow/docs/reports/INDEX.md ${DST}/INDEX.md 2>/dev/null || true
+cp /data/shortflow/reports/INDEX.md ${DST}/INDEX.md 2>/dev/null || true
+
 # 인계서 (최신 3개)
 mkdir -p ${DST}/handover
 ls -t ${SRC}/handover/2*.md 2>/dev/null | head -3 | while read f; do cp "$f" ${DST}/handover/; done
