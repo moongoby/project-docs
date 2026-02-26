@@ -232,31 +232,6 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
    (재시작은 절대 금지 — CEO/지시서 명시 시에만)
 6. 보고서 작성: report/v41/{작업ID}-{YYYYMMDD}.md
 7. 보고서 동기화: bash /root/project-docs/scripts/sync_reports.sh
-8. 보고서를 project-docs 레포에 복사:
-   cp /root/kis-autotrade-v4/report/v41/{작업ID}-{YYYYMMDD}.md \
-      /root/project-docs/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
-9. project-docs 커밋 및 push:
-   cd /root/project-docs && git add -A && git commit -m "docs: {작업ID} 보고서 ({YYYYMMDD})" && git push origin master
-10. push 확인:
-    curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
-    → 200이 아니면 재시도 또는 사용자에게 보고
-
-## 보고서 push 필수 절차 (CEO 지시, 2026-02-23)
-
-### 작업 절차 추가 항목 (기존 7단계 이후)
-8. 보고서를 project-docs 레포에 복사:
-   cp /root/kis-autotrade-v4/report/v41/{작업ID}-{YYYYMMDD}.md \
-      /root/project-docs/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
-9. project-docs 커밋 및 push:
-   cd /root/project-docs && git add -A && git commit -m "docs: {작업ID} 보고서 ({YYYYMMDD})" && git push origin master
-10. push 확인:
-    curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{작업ID}-{YYYYMMDD}.md
-    → 200이 아니면 재시도 또는 사용자에게 보고
-
-### 지시서 작성 시 필수 포함 사항
-- 모든 커서 지시서 마지막에 위 8-10단계를 포함할 것
-- "코드 커밋 완료"와 "보고서 push 완료"를 별도 체크포인트로 기재
-- 보고서 push가 확인되지 않으면 태스크를 완료로 표기하지 않음
 
 ## 코드 검수 프로세스
 핵심 파일 수정 시:
@@ -289,6 +264,14 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 4. strategy_cards 61, 62 처리
 5. index_daily OHLC=0 재수집
 
+## 정적 프론트엔드 관리 규칙 (2026-02-26 CEO 지시)
+1. admin.html, backtest-dashboard.js, admin.css는 frontend/static/에서 git 관리
+2. /var/www/trading.newtalk.kr/ 직접 수정 절대 금지
+3. 수정 흐름: frontend/static/ 수정 → git 커밋 → bash scripts/deploy_static.sh
+4. frontend/static/ 파일 수정 시 CEO + Claude PM 사전 승인 필수
+5. deploy_static.sh는 배포 전 자동 백업 수행
+6. 위반 시 git checkout으로 즉시 롤백
+
 ## 공유 파일 주의사항 (GO100과 공유)
 아래 파일은 GO100 프로젝트와 공유됨. 수정 시 GO100 PM에게 알릴 것:
 - backend/app/services/trading/strategy_card_service.py
@@ -296,33 +279,3 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 - frontend/src/app/layout.tsx
 - frontend/src/app/backtest/page.tsx
 - frontend/src/app/strategy-cards/page.tsx
-
-## 실시간 시간 동기화
-
-Claude는 시스템 시계가 없으므로 시간 민감 작업 전 아래 API 호출:
-- URL: https://timeapi.io/api/time/current/zone?timeZone=Asia/Seoul
-- 응답: year, month, day, hour, minute, dayOfWeek
-- 장 상태 판단: MARKET-HOURS-KR.md 기준
-- 커서 지시서에 조회 시각 명시 필수
-
-## 필수 마감 단계: project-docs 보고서 push
-작업 완료 시 반드시 아래 절차 수행.
-```bash
-# === 필수 마감 단계: project-docs 보고서 push ===
-ls -la /root/project-docs/kis-autotrade-v4/reports/TOKEN-MANAGER*
-ls -la /root/project-docs/kis-autotrade-v4/reports/NXT-LIVE*
-cd /root/project-docs
-git add kis-autotrade-v4/
-git commit -m "docs: REPORT-PUSH-FIX 보고서 push (20260223)"
-git push origin master
-git log --oneline -1
-# 실패 시 재시도. 3회 실패 시 에러 보고.
-```
-
-## DB 스키마 변경 시 문서 동기화 규칙
-
-DB ALTER TABLE / CREATE TABLE / DROP TABLE 수행 시 반드시:
-
-1. `/root/project-docs/kis-autotrade-v4/database/DB-SCHEMA.md` 업데이트
-2. 변경 이력(섹션 9)에 날짜·변경내용 추가
-3. project-docs에 git add/commit/push
