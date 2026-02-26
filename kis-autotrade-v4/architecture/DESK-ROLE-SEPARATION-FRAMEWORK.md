@@ -1,13 +1,10 @@
-# DESK 발굴-전략 역할 분담 프레임워크 (범용)
+# DESK 발굴-전략 역할 분담 프레임워크
 
-**문서번호:** DESK2-ROLE-SEPARATION-001  
-**일자:** 2026-02-26  
-**버전:** 1.0  
-**대상:** CEO  
-**프로젝트:** KIS AutoTrade V4.1  
-**브랜치:** phase-2c-command-center  
-**적용 범위:** DESK2 즉시 적용, DESK1·3·4·5 참고 프레임워크  
-**저장 위치:** `/root/project-docs/kis-autotrade-v4/architecture/DESK-ROLE-SEPARATION-FRAMEWORK.md`
+> 문서번호: DESK-ROLE-SEPARATION-FRAMEWORK
+> 버전: 1.0
+> 일자: 2026-02-26
+> 적용 범위: 전 DESK (1~5)
+> 저자: Claude (CEO 지시)
 
 ---
 

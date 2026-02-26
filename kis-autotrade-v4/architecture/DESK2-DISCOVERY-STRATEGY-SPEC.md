@@ -1,10 +1,10 @@
-# DESK2 발굴-전략 구체 적용 명세
+# DESK2 발굴-전략 구체 적용 사양서
 
-**문서번호:** DESK2-ROLE-SEPARATION-001  
-**일자:** 2026-02-26  
-**버전:** 1.0  
-**관련 문서:** [DESK-ROLE-SEPARATION-FRAMEWORK.md](./DESK-ROLE-SEPARATION-FRAMEWORK.md) (Part A 범용 프레임워크)  
-**저장 위치:** `/root/project-docs/kis-autotrade-v4/architecture/DESK2-DISCOVERY-STRATEGY-SPEC.md`
+> 문서번호: DESK2-DISCOVERY-STRATEGY-SPEC
+> 버전: 1.0
+> 일자: 2026-02-26
+> 상위 문서: DESK-ROLE-SEPARATION-FRAMEWORK.md
+> 적용 범위: DESK2 단타
 
 ---
 
