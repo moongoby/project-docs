@@ -7,7 +7,7 @@
 | 작업명 | 카페24 API 연동 (OAuth, 상품 push/sync) |
 | 작업일 | 2026-02-25 KST |
 | 버전 | v2.0.0 (예정) |
-| 커밋 SHA | 520353b |
+| 커밋 SHA | d3c5b60 |
 | 상태 | 구현 완료 (실연동은 client_id/secret 설정 후) |
 
 ## 구현 기능
@@ -57,7 +57,7 @@
   - `app/Models/Cafe24ProductMapping.php` → No syntax errors detected.  
   (서버에서 `docker compose --env-file .env.docker exec app php -l <파일>` 실행으로 확인)
 - **마이그레이션**: `php artisan migrate:status | grep cafe24` → cafe24_connections, cafe24_product_mappings Run 상태 확인.
-- **라우트**: `php artisan route:list --path=cafe24` → 8개 라우트 확인 (connect, callback, status, products/push, products/{id}, products).
+- **라우트**: `php artisan route:list --path=cafe24` → 7개 라우트 확인 (connect, callback, status, products/push, products/{id}, products).
 - **V1 헬스**: **200** (`curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`)
 
 ## 비고
