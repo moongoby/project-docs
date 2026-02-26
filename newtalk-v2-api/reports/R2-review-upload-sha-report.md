@@ -19,7 +19,7 @@
   - `R2-FRONT-004_brand-api.ts` ← `frontend/src/lib/brand-api.ts`
   - `R2-FRONT-003_product-api.ts` ← `frontend/src/lib/product-api.ts`
 - 대상 디렉터리: `/data/project-docs/newtalk-v2-api/review/`
-- 민감정보: `[REDACTED]`, `[REDACTED]` → `[REDACTED]` 치환 후 검사 → **민감정보 없음 ✅**
+- 민감정보: `NewTalk2026!@#`, `Test2026!@#` → `[REDACTED]` 치환 후 검사 → **민감정보 없음 ✅**
 
 ### STEP 2 (보고서 Git SHA 보완)
 - **실제 SHA 미존재**로 docs 내 SHA는 갱신하지 않음.

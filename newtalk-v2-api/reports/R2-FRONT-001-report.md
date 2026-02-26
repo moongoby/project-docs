@@ -94,7 +94,7 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 
 | 항목 | 방법 | 기대 | 결과 |
 |------|------|------|------|
-| 로그인 | 브라우저 admin@newtalk.kr / [REDACTED] | 200, /admin/dashboard 리다이렉트 | frontend 기동 후 확인 |
+| 로그인 | 브라우저 admin@newtalk.kr / NewTalk2026!@# | 200, /admin/dashboard 리다이렉트 | frontend 기동 후 확인 |
 | 대시보드 KPI | /admin/dashboard 접속 | 카드 4개 데이터 표시 | 동일 |
 | 사입 대시보드 | /admin/purchasing 접속 | 요약·도매처·알림 표시 | 동일 |
 | 기존 API | curl POST .../api/auth/login | 200 | AuthController 반영 후 확인 |
