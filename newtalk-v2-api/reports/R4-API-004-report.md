@@ -59,7 +59,7 @@
 
 | 드라이버 | 파일 | 비고 |
 |---------|------|------|
-| Cafe24 | `App\Services\Channels\Cafe24Driver` | 기존 Cafe24ApiService 래핑, 실구현 |
+| Cafe24 | `App\Services\Channels\Cafe24Driver` | 기존 `Cafe24ApiService` 래핑, 실구현 |
 | Naver | `App\Services\Channels\NaverDriver` | 스텁, `NotImplementedException` |
 | Coupang | `App\Services\Channels\CoupangDriver` | 스텁 |
 | Elevenst | `App\Services\Channels\ElevenstDriver` | 스텁 |
