@@ -67,9 +67,9 @@ SELECT id, ShootingDate, MDName, ModelName, PlaceName FROM contents_msg WHERE id
 
 | id | ShootingDate | MDName | ModelName | PlaceName |
 |----|--------------|--------|-----------|-----------|
-| (116 서버에서 쿼리 실행 후 결과 붙여넣기) |
+| 670 | 2026-02-23 | 정다연 | 40 | 94 |
 
-※ 116 서버 SSH 접속 후 `mysql -u pigupuser -p autoda` 로 접속하여 위 쿼리를 실행한 결과를 위 표에 기입할 것. (비밀번호는 문서에 기재하지 않음.)
+※ 비밀번호는 문서에 기재하지 않음.
 
 ---
 
@@ -85,13 +85,15 @@ SELECT * FROM nas_folder_request WHERE shooting_id = 670;
 
 **실행 결과 (116 서버에서 실행 후 아래에 기록):**
 
-(전체 컬럼 결과를 그대로 붙여넣거나, 요약 표로 정리.)
+- **shooting_id=670:** Empty set (0 rows). 대표님 버튼 클릭으로 요청 생성 필요.
 
-| id | shooting_id | shooting_date | model_name | place_name | md_name | status | created_at | 기타 컬럼 |
-|----|-------------|---------------|------------|------------|---------|--------|------------|-----------|
-| (116 서버에서 쿼리 실행 후 결과 붙여넣기) |
+**참고: nas_folder_request 최근 5건** (쿼리: `SELECT * FROM nas_folder_request ORDER BY id DESC LIMIT 5;`)
 
-※ 116 서버에서 동일하게 `mysql -u pigupuser -p autoda` 접속 후 쿼리 실행하여 결과 기입.
+| id | shooting_id | shooting_date | model_name | place_name | md_name | status | created_at | processed_at |
+|----|-------------|---------------|------------|------------|---------|--------|------------|--------------|
+| 1 | 662 | 2026-02-26 | 임지영 | 팔마드 스튜디오 | NULL | completed | 2026-02-25 18:55:07 | 2026-02-25 18:55:24 |
+
+※ 비밀번호는 문서에 기재하지 않음.
 
 ---
 
