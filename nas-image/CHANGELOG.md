@@ -1,5 +1,12 @@
 # 변경 이력
 
+## 2026-02-26
+- **P2 cody_matcher 실제 DB 컬럼 반영**
+  - app/workers/cody_matcher.py: get_cody_by_product_code 쿼리를 실제 114 DB 컬럼에 맞게 수정 — codyProdCode = %s (정확 일치), 조인 codyCode + shooting_id, 반환 cody_number/cody_code/product_code 매핑 유지
+  - app/workers/folder_poller.py: md_name NULL 시 contents_msg.MDName fallback(_get_md_name_from_contents), 분류 시작 시 sort_status='processing' 설정
+  - requirements.txt: google-generativeai>=0.8.0 유지, NAS 오프라인 빌드용 pip-cache TODO 주석 추가
+  - tests/test_cody_matcher.py: mock 컬럼명(codyProdCode, codyCode, codyNumber) 및 정확 일치 인자 반영
+
 ## 2026-02-25
 - **P2 라벨감지 + OCR + 코디 자동분류 워커 (FEATURE-002)**
   - requirements.txt: google-generativeai>=0.8.0 추가

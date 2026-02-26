@@ -71,9 +71,12 @@
   - nas_folder_request: `sort_status`, `md_name` 컬럼 사용 확정 — 폴링에서 이미 반영됨.
   - cody_matcher.py: 실제 DB 컬럼명 반영 완료.
     - cody_msg: `codyCode`, `codyNumber`, `shooting_id`
-    - cody_product_msg: `codyCode`, `codyProdCode`, `codyProdName`, `shooting_id` (cody_id 없음)
-    - 조인: `cody_msg`와 `cody_product_msg`는 `codyCode + shooting_id`로 조인.
-- **pip-cache:** `pip download google-generativeai -d pip-cache/` (NAS 오프라인 빌드용)
+    - cody_product_msg: `codyCode`, `codyProdCode`, `codyProdName`, `shooting_id` (cody_id 없음) — ✅ codyProdCode 확정
+    - 조인: `cody_msg`와 `cody_product_msg`는 `codyCode + shooting_id`로 조인 — ✅ 조인 키 확정
+  - get_cody_by_product_code 쿼리: `WHERE cp.codyProdCode = %s AND c.shooting_id = %s` (정확 일치)
+- **md_name fallback:** nas_folder_request.md_name이 NULL이면 contents_msg.MDName으로 DB 조회 후 homes/{md_name}/ 사용.
+- **sort_status:** status='completed' AND sort_status='pending'만 분류 대상. 시작 시 'processing', 완료 시 'completed', 에러 시 'failed'.
+- **pip-cache:** `pip download google-generativeai -d pip-cache/` (NAS 오프라인 빌드용). 오프라인이면 별도 다운로드 필요 — TODO: requirements.txt에 주석 반영.
 
 ---
 
