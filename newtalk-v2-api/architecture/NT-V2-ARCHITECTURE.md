@@ -96,7 +96,7 @@ Next.js 16 App Router, Route Groups:
 (auth)/ (retail)/ (wholesale)/ (admin)/ (md)/ (purchaser)/
 
 ### 주요 라우트 (R4-FRONT-001 포함)
-- **소매**: /retail/feed, /retail/explore, /retail/cart, /retail/trade, /retail/trade/apply, /retail/stories, /retail/mypage, /retail/orders, /retail/messages, /retail/shorts, /brand/[slug]
+- **소매**: /retail/feed, /retail/explore, /retail/cart, /retail/trade, /retail/trade/apply, /retail/stories, /retail/trends, /retail/mypage, /retail/orders, /retail/messages, /retail/shorts, /brand/[slug]
 - **도매**: /wholesale/dashboard, /wholesale/orders, /wholesale/trade, /wholesale/trade/applications/[id], /wholesale/trade/partners/[id], /wholesale/stories, /wholesale/stories/new, /wholesale/content, /wholesale/messages, /wholesale/shorts
 - **관리자**: /admin/dashboard, /admin/trade, /admin/purchase, /admin/settlement, /admin/settings
 

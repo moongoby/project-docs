@@ -6,6 +6,17 @@
 
 ## [Unreleased]
 
+## [3.8.0] - 2026-02-26
+### Added (R4-FRONT-003 AI 추천 피드 UI + 소매 마이페이지)
+- **타입**: `frontend/src/types/recommendation.ts` — RecommendedProduct, TrendItem, UserInterest, TrendKeyword, TrendCategory
+- **API 클라이언트**: `frontend/src/lib/recommendation-api.ts` — getRecommendedProducts, getSimilarProducts, getMyInterests, getTrends, getTrendKeywords, getTrendCategories, getTrendingProducts (7함수)
+- **컴포넌트 12개**: recommendation/ — RecommendedProductsSection, SimilarProductsSection, TrendingKeywords, TrendingCategories, TrendingProducts, AIFeedBadge, InterestTags, index; mypage/ — RetailMyPage, ProfileCard, StatsGrid, RecentViewedProducts, index
+- **페이지 3개**: /retail/mypage (소매 마이페이지), /retail/trends (트렌드), /retail/explore (탐색 개편)
+- **피드**: FeedItem.is_recommended, FeedCard에 AIFeedBadge, 피드 중간 RecommendedProductsSection 삽입 (4건마다)
+- **상품 상세**: 하단 SimilarProductsSection, 최근 본 상품 로컬 스토리지 연동 (addRecentProduct)
+- **탐색**: 상단 TrendingKeywords, 트렌드 탭 → /retail/trends
+- **레이아웃**: retail-layout "트렌드" → /retail/trends
+
 ## [3.7.0] - 2026-02-26
 ### Added (R4-FRONT-002 스토리 UI)
 - **타입**: `frontend/src/types/story.ts` — Story, StoryView, StoryGroup, StoryFeedResponse
