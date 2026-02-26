@@ -6,6 +6,16 @@
 
 ## [Unreleased]
 
+## [2.10.0] - 2026-02-26
+### Added (R3-FRONT-005 Shorts UI)
+- 쇼츠 피드 (세로 스와이프, 자동재생, 무한스크롤)
+- /retail/shorts 소매 쇼츠 피드, /retail/shorts/[id] 쇼츠 상세
+- /wholesale/shorts 내 쇼츠 관리, /wholesale/shorts/new 업로드, /wholesale/shorts/[id]/edit 수정
+- 컴포넌트 12개: ShortsFeed, ShortCard, ShortVideoPlayer, ShortActions, ShortCommentSheet, CommentItem, ProductTagOverlay, ProductTagCard, ShortUploadPage, ShortEditPage, MyShortsPage, index
+- shorts-api.ts 11함수, types/shorts.ts
+- 댓글 시트, 상품태그 오버레이, 좋아요 애니메이션
+- retail/wholesale 레이아웃 쇼츠 메뉴 추가
+
 ## [2.8.0] - 2026-02-26
 ### Added (R3-FRONT-004 DM UI)
 - /retail/messages 대화 목록 (ConversationList, ConversationItem, UnreadBadge)

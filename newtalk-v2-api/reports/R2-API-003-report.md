@@ -59,7 +59,7 @@
 - **PHP Syntax**: app/Http/Controllers/Api/ContentController.php, MediaController.php, app/Models/Content.php, ContentFile.php, ContentProductTagLink.php — No syntax errors detected. (로컬 또는 서버 `php -l` 실행 결과)
 - **마이그레이션**: Run 상태 확인됨 (contents, contents_media, contents_product_tags). 서버에서 `php artisan migrate:status`로 재확인 가능.
 - **라우트**: route:list 확인됨 (content 관련). 서버에서 `php artisan route:list --path=content`로 재확인 가능.
-- **V1 헬스**: 200
+- **V1 헬스**: 200 (curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86)
 
 ## 보고서 완료 체크 (필수)
 - [x] 커밋 SHA가 실제 7자리 SHA임 (520353b)
