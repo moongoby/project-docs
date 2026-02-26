@@ -22,6 +22,7 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 ## Phase 진행률
 - Phase 1 (기본 이미지 처리): 100%
 - Phase 2 (톤 매칭 + QC UI): 85%
+- **P2 (라벨감지·OCR·자동분류):** 구현 완료 — 114 DB sort_status/md_name·cody_product_msg 컬럼 확정 후 연동
 - Phase 3 (배너/GIF/상세페이지): 미착수
 - Phase 4 (어드민 연동/DB 자동화): 미착수
 
@@ -43,8 +44,10 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - GitHub 연동, Windows PC SSH 키 인증
 - DB 스키마 문서화 (docs/DATABASE.md)
 - **NAS 폴더 자동생성 폴링 워커 (P1)** — **완료 (통합 테스트 통과)** — 116 DB nas_folder_request 폴링, mkdir, API /folder/requests
+- **P2 라벨감지·OCR·코디 자동분류** — label_detector(Gemini), cody_matcher(DB/폴더), photo_sorter(homes→★제품사진 복사), sort_status 폴링·API
 
-## 최근 완료 (2026-02-25 P1 폴더생성)
+## 최근 완료 (2026-02-25 P2 라벨·자동분류)
+- **P2 라벨감지 + OCR + 코디 자동분류 워커 (FEATURE-002)** — Gemini 라벨 판별·상품코드 추출, cody_product_msg/cody_msg 매칭, homes→★제품사진 복사(원본 보호), sort_status 폴링 5분, API /api/sort/*
 - **P1 통합 테스트 완료** — 2026-02-25 18:55 KST NAS 실행: shooting_id=662·폴더폴링 17초·NAS 폴더·API completed·PyMySQL 1.4.6·Docker·pick.newtalk.kr 정상 (§7.5 보고서)
 - **P1 모델사진폴더 NAS 직접생성 (FEATURE-001)**
   - requirements.txt에 PyMySQL 추가, config/.env.example에 116 DB 설정 (NEWTALK_DB_*)
@@ -66,9 +69,10 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 
 ## 바로 다음 할 일
 1. **[P3]** Gemini A-cut 선택 실험 (다음 단계)
-2. **[P1]** 모델사진폴더 NAS 직접 생성 — **완료 (통합 테스트 통과, 2026-02-25 18:55 KST)**
-3. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
-4. 실사진으로 톤 매칭/보정 검증
+2. **[P2]** 114 Cursor: nas_folder_request sort_status/md_name 컬럼 추가, cody_product_msg 컬럼명 확정 후 cody_matcher/폴링 연동
+3. **[P1]** 모델사진폴더 NAS 직접 생성 — **완료 (통합 테스트 통과, 2026-02-25 18:55 KST)**
+4. Docker 테스트 전체 통과 확인
+5. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항
 - mediapipe <0.10.31 고정 (solutions API 제거 이슈)
@@ -77,7 +81,8 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 - 114 danharoo 계정 SFTP만, nasync 계정 사용
 - SQLite 동시성: Phase 3-4에서 WAL 또는 PostgreSQL 검토
 
-## 테스트 현황 (96 passed, 4 skipped, 1 fail DB미초기화)
+## 테스트 현황 (96+19 passed, 4 skipped, 1 fail DB미초기화)
+- test_label_detector: 7p / test_cody_matcher: 6p / test_photo_sorter: 6p
 - test_folder_poller: 7p / test_filename_mapper: 7p / test_image_resize: 5p 1s / test_batch_pipeline: 4p 1f 1s / test_batch_pipeline_v2: 4p
 - test_e2e_pipeline: 2p 1s / test_auto_crop: 8p / test_qc_ui: 8p
 - test_tone_matcher: 12p / test_tone_matcher_v2: 4p / test_wb_adaptive: 12p
