@@ -58,18 +58,21 @@
 ## 6. 테스트 결과
 
 - **test_label_detector.py:** 프롬프트 구성, 상품코드 정규식, 괄호 제거 로직 — 7 passed
-- **test_cody_matcher.py:** find_shooting_folder, find_cody_folder 패턴 매칭 — 6 passed
+- **test_cody_matcher.py:** get_cody_by_product_code(DB 컬럼 매핑), find_shooting_folder, find_cody_folder — 8 passed
 - **test_photo_sorter.py:** 반환 구조, 다른 날짜 무시, HEIC 확장자, 원본 삭제 안 함, @eaDir 무시 — 6 passed  
 
-**총 19 passed** (2026-02-25 기준)
+**총 21 passed** (2026-02-25, P2 컬럼명 반영 후)
 
 ---
 
-## 7. 의존성 및 TODO
+## 7. 의존성 및 완료 사항
 
-- **114 Cursor 병렬 작업**
-  - nas_folder_request에 `sort_status`, `md_name` 컬럼 추가 시 폴링 자동 활성화
-  - cody_product_msg 상품코드 컬럼명(product_code / goods_code / item_code) 확정 후 cody_matcher.py 쿼리 조정
+- **114 Cursor DB 조사 반영 (2026-02-25)**
+  - nas_folder_request: `sort_status`, `md_name` 컬럼 사용 확정 — 폴링에서 이미 반영됨.
+  - cody_matcher.py: 실제 DB 컬럼명 반영 완료.
+    - cody_msg: `codyCode`, `codyNumber`, `shooting_id`
+    - cody_product_msg: `codyCode`, `codyProdCode`, `codyProdName`, `shooting_id` (cody_id 없음)
+    - 조인: `cody_msg`와 `cody_product_msg`는 `codyCode + shooting_id`로 조인.
 - **pip-cache:** `pip download google-generativeai -d pip-cache/` (NAS 오프라인 빌드용)
 
 ---

@@ -71,8 +71,8 @@ Python 3.11, FastAPI, OpenCV, Pillow, pillow-heif, numpy, mediapipe <0.10.31, SQ
 1. **[P3]** Gemini A-cut 선택 실험 (다음 단계)
 2. **[P2]** 114 Cursor: nas_folder_request sort_status/md_name 컬럼 추가, cody_product_msg 컬럼명 확정 후 cody_matcher/폴링 연동
 3. **[P1]** 모델사진폴더 NAS 직접 생성 — **완료 (통합 테스트 통과, 2026-02-25 18:55 KST)**
-4. Docker 테스트 전체 통과 확인
-5. 실사진으로 톤 매칭/보정 검증
+3. Docker 테스트 전체 통과 확인 (httpx 추가 후 재빌드)
+4. 실사진으로 톤 매칭/보정 검증
 
 ## 주의사항
 - mediapipe <0.10.31 고정 (solutions API 제거 이슈)
