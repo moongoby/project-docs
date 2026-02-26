@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.18.0
-**최종수정**: 2026-02-26 KST (R4-API-001 거래처 제도 API + R4-API-002 스토리 API 완료)
+**버전**: 2.13.0
+**최종수정**: 2026-02-26 KST (R3-API-005 Shorts API 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -24,11 +24,6 @@
 | 2.11.0 | 2026-02-25 | R3-FRONT-003 배송 UI: /retail/addresses, ShipmentCard·Timeline·TrackingInput, AddressSelectDialog·AddressList, shipping-api 11함수 |
 | 2.12.0 | 2026-02-26 | R3-API-004 DM API: conversations, messages, message_reads, ConversationController 6 EP, MessageController 4 EP |
 | 2.13.0 | 2026-02-26 | R3-API-005 Shorts API: shorts, short_product_tags, short_likes, short_comments, short_views, ShortController 11 EP |
-| 2.14.0 | 2026-02-26 | R3-FRONT-005 Shorts UI: 쇼츠 피드·상세·업로드·댓글·상품태그, 12컴포넌트, 5페이지 |
-| 2.15.0 | 2026-02-26 | R3-API-006 정산 API: settlements, settlement_items, settlement_logs, SettlementService, 9 EP |
-| 2.16.0 | 2026-02-26 | R3-FRONT-006 정산 UI: 관리자/도매 정산 목록·상세, 10컴포넌트, 4페이지 |
-| 3.1.0 | 2026-02-26 | R4-API-001 거래처 제도 API: trade_applications, trade_partnerships, trade_prices, TradeService 14메서드, 14 EP, orders.trade_partnership_id/commission_rate, 주문·배송 완료 연동 |
-| 2.17.0 | 2026-02-26 | R4-API-002 스토리 API: stories, story_views, StoryService 11메서드, 10 EP, 스케줄러 |
 
 ---
 
@@ -270,7 +265,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - 도매 주문 상세: 결제 상태 PaymentStatusBadge, 결제금액 표시
 - 컴포넌트 8개: PaymentMethodSelector, PaymentSummary, PaymentProcessing, PaymentResult, PaymentStatusBadge, PaymentDetail, PaymentCancelDialog, useTossPaymentRequest
 - payment-api.ts (5함수), types/payment.ts
-- Git SHA: b798049
+- Git SHA: REPLACE_SHA
 
 ### R3-API-003: 배송 API (v2.5.0)
 - shipments 테이블 alter: seller_id, buyer_id, type(direct/consignment), tracking_company, tracking_url, sender_*, receiver_*, returned_at, estimated_delivery, weight, note, softDeletes
@@ -280,7 +275,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - ShipmentController: POST/GET orders/{orderId}/shipment, GET/PUT shipments/{id}, PUT tracking, PUT status, GET tracking (6 EP)
 - ShippingAddressController: GET/POST/PUT/DELETE shipping-addresses, PUT default (5 EP)
 - Order::shipment(), Order::shipping_status accessor
-- Git SHA: b798049
+- Git SHA: REPLACE_SHA
 
 ### R3-FRONT-003: 배송 UI (v2.6.0)
 - /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
@@ -290,7 +285,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - retail-layout: 하단 메뉴 "배송지" 링크 (/retail/addresses)
 - 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
 - shipping-api.ts 11함수, types/shipping.ts
-- Git SHA: b798049
+- Git SHA: REPLACE_SHA
 
 ### R3-API-004: DM API (v2.7.0)
 - conversations, conversation_participants, messages, message_reads 테이블
@@ -300,7 +295,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - ConversationController: store, index, show, toggleMute, togglePin, leave (6 EP)
 - MessageController: index, store, markAsRead, destroy (4 EP)
 - 라우트: GET/POST /conversations, GET/PUT/DELETE /conversations/{id}, mute, pin, messages, read, DELETE /messages/{id}
-- Git SHA: b798049
+- Git SHA: REPLACE_SHA
 
 ### R3-FRONT-004: DM UI (v2.8.0)
 - /retail/messages 대화 목록, /retail/messages/[id] 대화방
@@ -317,25 +312,6 @@ docker compose --env-file .env.docker exec app composer {command}
 - 라우트: GET /shorts(피드), GET /shorts/{id}(상세), GET /shorts/mine(도매), POST /shorts, PUT/DELETE /shorts/{id}, POST /shorts/{id}/like, POST /shorts/{id}/view, GET /shorts/{id}/comments, POST /shorts/{id}/comments, DELETE /shorts/comments/{id}
 - 쇼츠 피드·상세·업로드·수정·삭제·좋아요·댓글·조회 기록·상품 태그
 
-### R3-FRONT-005: Shorts UI (v2.10.0)
-- /retail/shorts 쇼츠 피드 (ShortsFeed, 세로 스와이프, 자동재생, 3초 이상 시청 시 recordShortView)
-- /retail/shorts/[id] 쇼츠 상세 (ShortCard, 댓글 시트, 상품태그 오버레이)
-- /wholesale/shorts 내 쇼츠 관리 (MyShortsPage, 그리드, 수정/삭제)
-- /wholesale/shorts/new 쇼츠 업로드 (ShortUploadPage, 영상 100MB, 제목·설명·상품태그·공개범위)
-- /wholesale/shorts/[id]/edit 쇼츠 수정 (ShortEditPage, 삭제 확인 다이얼로그)
-- 컴포넌트 12개: ShortsFeed, ShortCard, ShortVideoPlayer, ShortActions, ShortCommentSheet, CommentItem, ProductTagOverlay, ProductTagCard, ShortUploadPage, ShortEditPage, MyShortsPage, index
-- shorts-api.ts 11함수, types/shorts.ts
-- retail 하단 메뉴 "쇼츠", wholesale 사이드바 "쇼츠 관리" 추가
-
-### R4-API-002: 스토리 API (v3.2.0)
-- stories, story_views 테이블 (24시간 만료, 조회·리액션)
-- Story, StoryView 모델 (scopeActive, scopeExpired, isViewedBy)
-- StoryService: create, getFeed, getUserStories, getMyStories, view, react, getViewers, delete, getHighlights, toggleHighlight, cleanupExpired (11 메서드)
-- StoryController 10 엔드포인트: store, feed, userStories, mine, show, destroy, recordView, react, viewers, toggleHighlight
-- 라우트: GET stories/feed, GET stories/mine, GET stories/user/{userId}, POST stories, GET/DELETE stories/{id}, POST view, POST react, GET viewers, PUT highlight
-- 스케줄러: 매시 만료 스토리 소프트삭제 (routes/console.php), Artisan story:cleanup-expired
-- 보고서: docs/reports/R4-API-002-report.md
-
 ---
 
 ## 5. 현재 진행 중인 작업
@@ -350,9 +326,8 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R4-API-001 | 거래처 제도 API 완료 (trade 3테이블, 14 EP, 주문·배송 연동) |
-| 2 | R4 계획 | 스토리 API 완료. AI 추천, 스토리 프론트, 라이브 등 — 대표 기획 확정 후 진행 |
-| 3 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
+| 1 | R3-FRONT-005 | Shorts UI |
+| 2 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
 
 ---
 
@@ -376,8 +351,7 @@ docker compose --env-file .env.docker exec app composer {command}
 │   │   ├── R2-FRONT-001-report.md
 │   │   ├── R2-API-001-report.md
 │   │   ├── R2-API-002-report.md
-│   │   ├── R2-FRONT-004-report.md
-│   │   └── R4-API-001-report.md
+│   │   └── R2-FRONT-004-report.md
 │   ├── v1-analysis/
 │   │   └── v1-purchasing-analysis.md
 │   ├── scripts/
