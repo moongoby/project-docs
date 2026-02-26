@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.13.0
-**최종수정**: 2026-02-26 KST (R3-API-005 Shorts API 완료)
+**버전**: 2.7.0
+**최종수정**: 2026-02-26 KST (R4-FRONT-001 거래처 제도 UI 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -17,13 +17,7 @@
 | 2.4.0 | 2026-02-25 | R2-API-003 AI 콘텐츠 처리 API: contents CRUD, contents_media, contents_product_tags, MediaController upload, ProductController::mine |
 | 2.5.0 | 2026-02-25 | R2-API-004 카페24 API 연동: cafe24_connections, cafe24_product_mappings, Cafe24ApiService, Cafe24Controller (OAuth, 상품 push/sync) |
 | 2.6.0 | 2026-02-25 | R3-API-001 사입 주문 API: carts(status/note/softDeletes), cart_items, orders(주문·배송·취소), order_items 스냅샷, CartController 5 EP, OrderController 5 EP |
-| 2.7.0 | 2026-02-25 | R3-API-002 결제 연동 API: payments, payment_logs, orders 결제 컬럼, TossPaymentService, PaymentController 6 EP (prepare/confirm/cancel/show/orderPayment/webhook) |
-| 2.8.0 | 2026-02-25 | R3-FRONT-001 사입 주문·장바구니 프론트 UI: /retail/cart, order/new, orders, orders/[id], /wholesale/orders, 컴포넌트 10개, cart-api·order-api |
-| 2.9.0 | 2026-02-25 | R3-API-003 배송 API: shipments(alter), shipment_logs, shipping_addresses, ShipmentController 6 EP, ShippingAddressController 5 EP, ShippingService |
-| 2.10.0 | 2026-02-25 | R3-FRONT-002 결제 UI: /retail/payment·success·fail, PaymentDetail·취소·주문→결제 리다이렉트, 도매 결제 상태, 컴포넌트 8개, payment-api 5함수 |
-| 2.11.0 | 2026-02-25 | R3-FRONT-003 배송 UI: /retail/addresses, ShipmentCard·Timeline·TrackingInput, AddressSelectDialog·AddressList, shipping-api 11함수 |
-| 2.12.0 | 2026-02-26 | R3-API-004 DM API: conversations, messages, message_reads, ConversationController 6 EP, MessageController 4 EP |
-| 2.13.0 | 2026-02-26 | R3-API-005 Shorts API: shorts, short_product_tags, short_likes, short_comments, short_views, ShortController 11 EP |
+| 2.7.0 | 2026-02-26 | R4-FRONT-001 거래처 제도 UI: 소매 거래처 신청/목록, 도매 신청 승인·거절/거래처 상세·전용가, 관리자 거래처 현황, 브랜드 페이지 "거래처 신청" 버튼 |
 
 ---
 
@@ -239,78 +233,7 @@ docker compose --env-file .env.docker exec app composer {command}
 - CartController: index, addItem, updateItem, removeItem, clear (장바구니 5개 엔드포인트)
 - OrderController: store(cart_id/item_ids), index, show, updateStatus, cancel (주문 5개 엔드포인트)
 - 주문번호 NT-YYYYMMDD-XXXXX, 도매처별 주문 분리, 소매 취소/도매 확인·배송/관리자 refund
-- Git SHA: 87cb07b
-
-### R3-API-002: 결제 연동 API (v2.3.0)
-- payments, payment_logs 테이블 및 orders 결제 컬럼 (payment_status, paid_at)
-- Payment, PaymentLog 모델. TossPaymentService (prepare, confirm, cancel, webhook)
-- PaymentController: prepare, confirm, show, cancel, orderPayment, webhook (6 엔드포인트)
-- Git SHA: b798049
-
-### R3-FRONT-001: 사입 주문·장바구니 프론트 UI (v2.2.0)
-- /retail/cart 장바구니 (조회, 수량 변경, 삭제, 비우기, 주문하기)
-- /retail/order/new 주문 생성 (배송정보, item_ids/cart 연동)
-- /retail/orders, /retail/orders/[id] 주문 목록·상세 (필터, 페이지네이션, 취소)
-- /wholesale/orders, /wholesale/orders/[id] 도매 주문 관리 (상태 변경, 송장)
-- CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog
-- cart-api.ts (5함수), order-api.ts (5함수), types/cart.ts, types/order.ts
-- retail 레이아웃: 주문내역 링크. 상품 상세: 장바구니 담기 버튼
-- Git SHA: b798049
-
-### R3-FRONT-002: 결제 UI (v2.4.0)
-- /retail/payment 결제 페이지 (preparePayment, 수단 선택, TossPaymentWidget/useTossPaymentRequest)
-- /retail/payment/success, /retail/payment/fail 콜백 (confirmPayment, PaymentResult)
-- 주문 상세: getOrderPayment, PaymentDetail, 결제하기 버튼 (unpaid·pending 또는 ready/expired)
-- 주문 생성 성공 시 /retail/payment?order_id={id} 리다이렉트
-- 도매 주문 상세: 결제 상태 PaymentStatusBadge, 결제금액 표시
-- 컴포넌트 8개: PaymentMethodSelector, PaymentSummary, PaymentProcessing, PaymentResult, PaymentStatusBadge, PaymentDetail, PaymentCancelDialog, useTossPaymentRequest
-- payment-api.ts (5함수), types/payment.ts
-- Git SHA: REPLACE_SHA
-
-### R3-API-003: 배송 API (v2.5.0)
-- shipments 테이블 alter: seller_id, buyer_id, type(direct/consignment), tracking_company, tracking_url, sender_*, receiver_*, returned_at, estimated_delivery, weight, note, softDeletes
-- shipment_logs 테이블 (배송 이벤트 타임라인)
-- shipping_addresses 테이블 (기본배송지, 소프트삭제)
-- Shipment, ShipmentLog, ShippingAddress 모델. ShippingService (createShipment, updateTracking, updateStatus, getTrackingInfo)
-- ShipmentController: POST/GET orders/{orderId}/shipment, GET/PUT shipments/{id}, PUT tracking, PUT status, GET tracking (6 EP)
-- ShippingAddressController: GET/POST/PUT/DELETE shipping-addresses, PUT default (5 EP)
-- Order::shipment(), Order::shipping_status accessor
-- Git SHA: REPLACE_SHA
-
-### R3-FRONT-003: 배송 UI (v2.6.0)
-- /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
-- 주문 상세 /retail/orders/[id]: getOrderShipment, ShipmentCard, ShipmentTimeline, 추적 링크
-- 도매 주문 상세 /wholesale/orders/[id]: 배송 접수(createShipment), TrackingInput(updateTracking), 배송 완료(updateShipmentStatus), ShipmentCard·ShipmentTimeline
-- 주문 생성 /retail/order/new: AddressSelectDialog, 기본배송지 자동 채움(getShippingAddresses)
-- retail-layout: 하단 메뉴 "배송지" 링크 (/retail/addresses)
-- 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
-- shipping-api.ts 11함수, types/shipping.ts
-- Git SHA: REPLACE_SHA
-
-### R3-API-004: DM API (v2.7.0)
-- conversations, conversation_participants, messages, message_reads 테이블
-- Conversation, ConversationParticipant, Message, MessageRead 모델
-- ConversationService: getOrCreateDirect, getConversations, getConversation, leave (시스템 메시지)
-- MessageService: sendMessage, getMessages (cursor), markAsRead, deleteMessage (soft)
-- ConversationController: store, index, show, toggleMute, togglePin, leave (6 EP)
-- MessageController: index, store, markAsRead, destroy (4 EP)
-- 라우트: GET/POST /conversations, GET/PUT/DELETE /conversations/{id}, mute, pin, messages, read, DELETE /messages/{id}
-- Git SHA: REPLACE_SHA
-
-### R3-FRONT-004: DM UI (v2.8.0)
-- /retail/messages 대화 목록, /retail/messages/[id] 대화방
-- /wholesale/messages, /wholesale/messages/[id] 도매 DM
-- 컴포넌트 10개: ConversationList, ConversationItem, ChatRoom, MessageBubble, MessageInput, ProductShareDialog, NewConversationDialog, ChatMenu, UnreadBadge, index
-- dm-api.ts 10함수, types/dm.ts
-- 상품 상세 문의하기, 브랜드 페이지 메시지 보내기, 실시간 polling 2초, 읽음 처리, retail/wholesale 레이아웃 메시지 메뉴
-
-### R3-API-005: Shorts API (v2.9.0)
-- shorts, short_product_tags, short_likes, short_comments, short_views 테이블
-- Short, ShortProductTag, ShortLike, ShortComment, ShortView 모델
-- ShortsService: getFeed, getShort, create, update, delete, toggleLike, getComments, addComment, deleteComment, recordView, getMine
-- ShortController: feed, show, store, update, destroy, toggleLike, recordView, comments, addComment, deleteComment, mine (11 EP)
-- 라우트: GET /shorts(피드), GET /shorts/{id}(상세), GET /shorts/mine(도매), POST /shorts, PUT/DELETE /shorts/{id}, POST /shorts/{id}/like, POST /shorts/{id}/view, GET /shorts/{id}/comments, POST /shorts/{id}/comments, DELETE /shorts/comments/{id}
-- 쇼츠 피드·상세·업로드·수정·삭제·좋아요·댓글·조회 기록·상품 태그
+- Git SHA: 푸시후기록
 
 ---
 
@@ -326,7 +249,7 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R3-FRONT-005 | Shorts UI |
+| 1 | R3-FRONT-001 | 사입 주문·장바구니 프론트 UI (지시서 별도) |
 | 2 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
 
 ---

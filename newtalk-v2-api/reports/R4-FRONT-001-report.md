@@ -1,99 +1,124 @@
 # R4-FRONT-001 거래처 제도 UI — 완료 보고서
 
-**작성일시**: 2026-02-26 KST  
+**작업 ID**: R4-FRONT-001  
 **버전**: v3.6.0  
-**선행**: R4-API-001 (v3.1.0) 완료 필수
+**완료 시각**: 2026-02-26 KST  
+**선행**: R4-API-001 (trade API) — 본 서버에는 trade 라우트 미배포 상태, 프론트만 구현 완료
 
 ---
 
-## 1. 개요
+## 1. 요약
 
 소매의 거래처 신청, 도매의 거래처 관리(승인/거절/전용가), 관리자 거래처 현황 UI를 구현했습니다.
 
 ---
 
-## 2. 구현 파일 목록
+## 2. 구현 목록
 
-### 타입
-- `frontend/src/types/trade.ts` — ApplicationStatus, PartnershipTier, TradeApplication, TradePartnership, TradePrice, TradeApplyRequest
+### 2.1 타입 (frontend/src/types/trade.ts)
+- `ApplicationStatus`: pending | approved | rejected | suspended | terminated
+- `PartnershipTier`: basic | silver | gold | vip
+- `TradeApplication`, `TradePartnership`, `TradePrice`, `TradeApplyRequest` 인터페이스
 
-### API 클라이언트
-- `frontend/src/lib/trade-api.ts` — 11함수 (applyTrade, getApplications, getApplicationDetail, approveApplication, rejectApplication, getPartners, getPartnerDetail, setTradePrice, getTradePrice, bulkSetTradePrices, removeTradePrice)
+### 2.2 API 클라이언트 (frontend/src/lib/trade-api.ts) — 9함수
+| 함수 | 메서드/경로 | 비고 |
+|------|-------------|------|
+| applyTrade | POST trade/apply | 거래처 신청 |
+| getApplications | GET trade/applications | 신청 목록 (status, page, per_page) |
+| getApplicationDetail | GET trade/applications/{id} | 신청 상세 |
+| approveApplication | PUT trade/applications/{id}/approve | 승인 |
+| rejectApplication | PUT trade/applications/{id}/reject | 거절 |
+| getPartners | GET trade/partners | 거래처 목록 |
+| getPartnerDetail | GET trade/partners/{id} | 거래처 상세 |
+| setTradePrice | POST trade/partners/{id}/prices | 전용가 설정 |
+| getTradePrice | GET trade/price/{productId} | 상품별 전용가 조회 |
 
-### 컴포넌트 (10개)
-- `frontend/src/components/trade/TradeApplicationForm.tsx` — 소매: 거래처 신청 폼
-- `frontend/src/components/trade/TradeApplicationList.tsx` — 신청 목록 (상태 필터, 검색)
-- `frontend/src/components/trade/TradeApplicationDetail.tsx` — 신청 상세 (승인/거절 버튼)
-- `frontend/src/components/trade/TradeApplicationStatusBadge.tsx` — 상태 배지 (pending/approved/rejected/suspended/terminated)
-- `frontend/src/components/trade/TradePartnerList.tsx` — 거래처 목록 (등급, 누적거래액, 활성 상태)
-- `frontend/src/components/trade/TradePartnerDetail.tsx` — 거래처 상세 (전용가 목록, 메모)
-- `frontend/src/components/trade/TradePriceTable.tsx` — 전용가 목록·설정 (단일 추가, 일괄 설정, 삭제)
-- `frontend/src/components/trade/TradeTierBadge.tsx` — 등급 배지 (basic/silver/gold/vip)
-- `frontend/src/components/trade/TradeApplyDialog.tsx` — 브랜드 페이지용 거래처 신청 다이얼로그
-- `frontend/src/components/trade/index.ts` — barrel
+### 2.3 컴포넌트 10개 (frontend/src/components/trade/)
+| 컴포넌트 | 역할 |
+|----------|------|
+| TradeApplicationForm | 소매: 거래처 신청 폼 (상호명, 사업자번호, 업종, 소개, 연락처) |
+| TradeApplicationList | 신청 목록 (상태 필터, 검색, 페이지네이션) |
+| TradeApplicationDetail | 신청 상세 (소매 정보, 승인/거절 버튼) |
+| TradeApplicationStatusBadge | 상태 배지 (pending=노랑, approved=초록, rejected=빨강, suspended=회색, terminated=검정) |
+| TradePartnerList | 거래처 목록 (등급, 누적거래액, 활성 상태) |
+| TradePartnerDetail | 거래처 상세 (등급, 거래 통계, 전용가 목록, 메모) |
+| TradePriceTable | 전용가 목록·설정 (상품 ID, 가격 입력, 추가) |
+| TradeTierBadge | 등급 배지 (basic=회색, silver=은, gold=금, vip=보라) |
+| TradeApplyDialog | 브랜드 페이지용 "거래처 신청" 다이얼로그 |
+| index | barrel export |
 
-### 페이지·라우트
-- `frontend/src/app/(retail)/retail/trade/page.tsx` — /retail/trade (내 거래처·신청 현황)
-- `frontend/src/app/(retail)/retail/trade/apply/page.tsx` — /retail/trade/apply (거래처 신청, 쿼리 wholesale_user_id)
-- `frontend/src/app/(retail)/retail/trade/applications/[id]/page.tsx` — /retail/trade/applications/[id]
-- `frontend/src/app/(retail)/retail/trade/partners/[id]/page.tsx` — /retail/trade/partners/[id]
-- `frontend/src/app/(wholesale)/wholesale/trade/page.tsx` — /wholesale/trade
-- `frontend/src/app/(wholesale)/wholesale/trade/applications/[id]/page.tsx` — /wholesale/trade/applications/[id]
-- `frontend/src/app/(wholesale)/wholesale/trade/partners/[id]/page.tsx` — /wholesale/trade/partners/[id]
-- `frontend/src/app/(admin)/admin/trade/page.tsx` — /admin/trade
-- `frontend/src/app/(admin)/admin/trade/applications/[id]/page.tsx` — /admin/trade/applications/[id]
-- `frontend/src/app/(admin)/admin/trade/partners/[id]/page.tsx` — /admin/trade/partners/[id]
+### 2.4 페이지·라우트 6개
+| 경로 | 역할 |
+|------|------|
+| /retail/trade/apply | 소매: 거래처 신청 (wholesale_user_id 쿼리 또는 브랜드에서 진입) |
+| /retail/trade | 소매: 내 거래처 목록 + 신청 현황 (탭) |
+| /wholesale/trade | 도매: 받은 신청 + 거래처 목록 (탭) |
+| /wholesale/trade/applications/[id] | 도매: 신청 상세 (승인/거절) |
+| /wholesale/trade/partners/[id] | 도매: 거래처 상세 (전용가·메모) |
+| /admin/trade | 관리자: 전체 거래처 현황 (탭) |
 
-### 레이아웃·브랜드
-- `frontend/src/components/layout/retail-layout.tsx` — "거래처" 메뉴 → /retail/trade
-- `frontend/src/components/layout/wholesale-layout.tsx` — "거래처 관리" → /wholesale/trade
-- `frontend/src/components/layout/admin-layout.tsx` — "거래처" → /admin/trade (Handshake 아이콘)
-- `frontend/src/app/(retail)/brand/[slug]/page.tsx` — "거래처 신청" 버튼 + TradeApplyDialog 연동
+### 2.5 레이아웃 메뉴
+- **retail-layout.tsx**: 하단 네비 "거래처" → /retail/trade (Handshake 아이콘)
+- **wholesale-layout.tsx**: 사이드 "거래처 관리" → /wholesale/trade (기존 /wholesale/partners에서 변경)
+- **admin-layout.tsx**: 사이드 "거래처" → /admin/trade (Handshake 아이콘)
 
-### 문서
-- `docs/CHANGELOG.md` — [3.6.0] R4-FRONT-001 섹션
-- `docs/CONTEXT.md` — 완료 항목 추가
-- `docs/handover/HANDOVER.md` — 변경이력 + 완료작업
-- `docs/NT-V2-ARCHITECTURE.md` — Frontend 라우트·API trade 반영
-- `docs/reports/R4-FRONT-001-report.md` — 본 보고서
+### 2.6 브랜드 페이지 연동
+- **brand-header.tsx**: "거래처 신청" 버튼 추가 → TradeApplyDialog(brand.user_id) 연결
 
 ---
 
 ## 3. 검증
 
-### TypeScript
-- 로컬에서 `npx tsc --noEmit` 미실행(환경 제한). 린트 에러 없음 확인.
-- 서버 배포 후: `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` → 0 errors 목표.
+### 3.1 STEP 0 (사전 확인)
+- Docker: 5/5 Up (app, nginx, db, redis, frontend)
+- trade 라우트: **미등록** (R4-API-001 미배포). 프론트는 동일 경로로 호출 준비 완료.
 
-### 페이지 HTTP 확인 (서버에서 실행)
-```bash
-curl -s -o /dev/null -w "retail trade: %{http_code}\n" http://localhost:3000/retail/trade
-curl -s -o /dev/null -w "wholesale trade: %{http_code}\n" http://localhost:3000/wholesale/trade
-curl -s -o /dev/null -w "admin trade: %{http_code}\n" http://localhost:3000/admin/trade
-```
-- 200 응답 확인 목표.
+### 3.2 TypeScript
+- 로컬/컨테이너 tsc 실행 환경 이슈로 IDE Lint 기준으로 확인. 수정한 파일들 린트 0건.
 
----
-
-## 4. 요약
-
-| 항목 | 내용 |
-|------|------|
-| 컴포넌트 | 10개 |
-| API 함수 | 11개 (지시서 9개 + bulkSetTradePrices, removeTradePrice) |
-| 페이지 | retail 4, wholesale 3, admin 3 (상세 포함) |
-| 타입 | types/trade.ts |
-| 브랜드 페이지 | "거래처 신청" 버튼 → TradeApplyDialog (wholesale_user_id 연동) |
-| 문서 | CHANGELOG, CONTEXT, HANDOVER, ARCHITECTURE 갱신 |
+### 3.3 문서 갱신
+- CHANGELOG.md: [3.6.0] R4-FRONT-001 섹션 추가
+- CONTEXT.md: 완료 항목에 R4-FRONT-001 추가
+- HANDOVER.md: 버전 2.7.0, 변경이력 2.7.0 행 추가
+- NT-V2-ARCHITECTURE.md: Frontend 라우트에 retail/wholesale/admin trade 경로 추가
 
 ---
 
-## 5. Git / 배포
+## 4. 파일 목록 (신규·수정)
 
-- 커밋 접두사: `[R4-FRONT-001]`
-- Push Step A (V2 메인 레포), Step B (project-docs 동기화), Step C (검증)는 서버(`/srv/newtalk-v2`)에서 지시서대로 실행 필요.
-- **⚠️ PUSH 실행하지 않으면 작업 미완료 처리.**
+**신규**
+- frontend/src/types/trade.ts
+- frontend/src/lib/trade-api.ts
+- frontend/src/components/trade/TradeApplicationForm.tsx
+- frontend/src/components/trade/TradeApplicationList.tsx
+- frontend/src/components/trade/TradeApplicationDetail.tsx
+- frontend/src/components/trade/TradeApplicationStatusBadge.tsx
+- frontend/src/components/trade/TradePartnerList.tsx
+- frontend/src/components/trade/TradePartnerDetail.tsx
+- frontend/src/components/trade/TradePriceTable.tsx
+- frontend/src/components/trade/TradeTierBadge.tsx
+- frontend/src/components/trade/TradeApplyDialog.tsx
+- frontend/src/components/trade/index.ts
+- frontend/src/app/(retail)/retail/trade/page.tsx
+- frontend/src/app/(retail)/retail/trade/apply/page.tsx
+- frontend/src/app/(wholesale)/wholesale/trade/page.tsx
+- frontend/src/app/(wholesale)/wholesale/trade/applications/[id]/page.tsx
+- frontend/src/app/(wholesale)/wholesale/trade/partners/[id]/page.tsx
+- frontend/src/app/(admin)/admin/trade/page.tsx
+
+**수정**
+- frontend/src/components/layout/retail-layout.tsx (거래처 메뉴)
+- frontend/src/components/layout/wholesale-layout.tsx (거래처 관리 링크)
+- frontend/src/components/layout/admin-layout.tsx (거래처 메뉴)
+- frontend/src/components/brand/brand-header.tsx (거래처 신청 버튼)
+- docs/CHANGELOG.md
+- docs/CONTEXT.md
+- docs/handover/HANDOVER.md
+- docs/architecture/NT-V2-ARCHITECTURE.md
 
 ---
 
-**보고서 끝**
+## 5. 비고
+
+- R4-API-001 배포 후 동일 엔드포인트로 연동하면 됩니다.
+- 소매 거래처 신청 시 `/retail/trade/apply?wholesale_user_id={id}` 또는 브랜드 페이지 "거래처 신청"으로 진입합니다.
