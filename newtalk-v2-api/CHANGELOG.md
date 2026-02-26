@@ -6,60 +6,17 @@
 
 ## [Unreleased]
 
-## [2.6.0] - 2026-02-25
-### Added (R3-FRONT-003 배송 UI)
-- /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
-- 주문 상세 배송 정보 (ShipmentCard, ShipmentTimeline, ShipmentStatusBadge)
-- 도매 주문 상세 송장 입력 (TrackingInput, updateTracking), 배송 접수·배송 완료 처리
-- 주문 생성 배송지 연동 (AddressSelectDialog, 기본배송지 자동 채움)
-- shipping-api.ts (배송 6함수 + 배송지 5함수 = 11함수), types/shipping.ts
-- 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
-- retail-layout 하단 메뉴 "배송지" 링크 추가
-
-## [2.5.0] - 2026-02-25
-### Added (R3-API-003 배송 API)
-- **shipments** 테이블 (alter): seller_id, buyer_id, type(direct/consignment), tracking_company, tracking_url, sender_*, receiver_*, returned_at, estimated_delivery, weight, note, softDeletes, index(order_id, status), index(tracking_company, tracking_number). 기존 carrier → tracking_company 이전 후 제거.
-- **shipment_logs** 테이블: shipment_id(cascadeDelete), status, location, description, logged_at, index(shipment_id, logged_at).
-- **shipping_addresses** 테이블: user_id, label, name, phone, postal_code, address, address_detail, is_default, softDeletes, index(user_id, is_default).
-- Shipment, ShipmentLog, ShippingAddress 모델. Shipment::SHIPPING_COMPANIES, TRACKING_URL_TEMPLATES, generateTrackingUrl(), updateStatus().
-- ShippingService: createShipment, updateTracking, updateStatus, getTrackingInfo.
-- ShipmentController: store, orderShipment, show, updateTracking, updateStatus, trackingInfo (6 EP).
-- ShippingAddressController: index, store, update, destroy, setDefault (5 EP).
-- Order::shipment(), Order::shipping_status accessor.
-
-## [2.4.0] - 2026-02-25
-### Added (R3-FRONT-002 결제 UI)
-- /retail/payment 결제 페이지 (토스 SDK, 수단 선택, 금액 확인, 결제하기)
-- /retail/payment/success, /retail/payment/fail 콜백 페이지 (confirmPayment, PaymentResult)
-- 주문 상세 결제 정보·취소 (PaymentDetail, PaymentCancelDialog), 주문 생성→결제 리다이렉트 (/retail/order/new → /retail/payment?order_id=)
-- 도매 주문 상세 결제 상태 표시 (PaymentStatusBadge, 결제금액)
-- 컴포넌트 8개: PaymentMethodSelector, PaymentSummary, PaymentProcessing, PaymentResult, PaymentStatusBadge, PaymentDetail, PaymentCancelDialog, useTossPaymentRequest (TossPaymentWidget)
-- payment-api.ts 5함수: preparePayment, confirmPayment, getPayment, cancelPayment, getOrderPayment
-- types/payment.ts (PaymentStatus, OrderPaymentStatus, Payment, PaymentLog, Request/Response 타입)
-- types/order.ts: OrderPaymentStatus, payment_status?, paid_at?
-
-## [2.2.0] - 2026-02-25
-### Added (R3-FRONT-001 사입 주문·장바구니 프론트 UI)
-- 장바구니 페이지 /retail/cart (조회, 수량 변경, 삭제, 비우기)
-- 주문 생성 /retail/order/new (배송정보, 확인, API 연동)
-- 주문 목록 /retail/orders (필터, 페이지네이션)
-- 주문 상세 /retail/orders/[id] (타임라인, 취소)
-- 도매 주문관리 /wholesale/orders, /wholesale/orders/[id] (상태 변경, tracking)
-- 컴포넌트 10개 (CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog)
-- API 클라이언트: cart-api.ts (5함수), order-api.ts (5함수)
-- 타입: cart.ts, order.ts
-- retail 레이아웃: 주문내역 링크 추가
-- 상품 상세: 장바구니 담기 버튼 (addCartItem)
-
-## [2.3.0] - 2026-02-25
-### Added (R3-API-002 결제 연동 API)
-- **payments** 테이블: 토스 결제 정보 (payment_key, order_number, method, status, amount, approved_amount, balance_amount, 카드/가상계좌 필드, raw_response), softDeletes.
-- **payment_logs** 테이블: 결제 이벤트 로그 (action: request, confirm, cancel, webhook, fail).
-- **orders** 테이블: payment_status (unpaid/paid/partial_refund/refunded), paid_at 컬럼 추가.
-- Payment, PaymentLog 모델. Order::payment(), Order::final_amount, Order::isPaid().
-- TossPaymentService: preparePayment, confirmPayment, cancelPayment, getPaymentByKey, handleWebhook.
-- PaymentController: prepare, confirm, show, cancel, orderPayment, webhook (6 엔드포인트).
-- config/services.php toss 섹션 (TOSS_CLIENT_KEY, TOSS_SECRET_KEY, TOSS_WEBHOOK_SECRET, base_url).
+## [2.7.0] - 2026-02-26
+### Added (R3-API-004 DM API)
+- **conversations** 테이블: type(direct/group), title, last_message_id, last_message_at, metadata, softDeletes
+- **conversation_participants** 테이블: conversation_id, user_id, role(owner/member), is_muted, is_pinned, last_read_at, joined_at, left_at
+- **messages** 테이블: conversation_id, sender_id, type(text/image/product/order/system), body, metadata, is_deleted
+- **message_reads** 테이블: message_id, user_id, read_at
+- Conversation, ConversationParticipant, Message, MessageRead 모델
+- ConversationService, MessageService
+- ConversationController 6 EP, MessageController 4 EP (총 10 엔드포인트)
+- 메시지 타입: text, image, product, order, system
+- 읽음 처리: participant.last_read_at + message_reads 이중 추적
 
 ## [2.1.0] - 2026-02-25
 ### Added (R3-API-001 사입 주문 API)

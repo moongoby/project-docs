@@ -55,25 +55,38 @@
 - routes/api.php (수정 — DELETE /cart, updateStatus 미들웨어 제거)
 
 ## API 테스트 결과 (curl 시나리오)
-| 시나리오 | 기대 HTTP 코드 | 비고 |
-|----------|----------------|------|
-| 10-0 로그인 (RETAIL_TOKEN) | 200 | 토큰 획득 |
-| 10-1 장바구니 상품 추가 POST /api/cart/items | 201 | product_id, quantity |
-| 10-2 장바구니 조회 GET /api/cart | 200 | items 배열 포함 |
-| 10-3 장바구니 수량 변경 PUT /api/cart/items/{id} | 200 | quantity=5 |
-| 10-4 주문 생성 POST /api/orders (cart_id, shipping_*) | 201 | order_number NT-YYYYMMDD-XXXXX |
-| 10-5 내 주문 목록 GET /api/orders | 200 | |
-| 10-6 주문 상세 GET /api/orders/{id} | 200 | orderItems 포함 |
-| 10-7 도매 주문 확인 PUT /api/orders/{id}/status (status=confirmed) | 200 | WHOLESALE_TOKEN |
-| 10-8 주문 취소 POST /api/orders/{id}/cancel (cancel_reason) | 200 | pending에서만 |
-| 10-9 V1 헬스 GET http://114.207.244.86 | 200 | |
-
-(서버에서 10-0~10-9 curl 실행 후 위 기대값과 일치하는지 확인. 불일치 시 원인 파악 후 수정·재테스트.)
+| 시나리오 | 기대 HTTP 코드 | 실제 결과 |
+|----------|----------------|----------|
+| 6-1 소매 로그인 | 200 | 200, 토큰 획득 |
+| 6-2 도매 로그인 | 200 | 200, 토큰 획득 |
+| 6-3 장바구니 상품 추가 POST /api/cart/items (product_id=2, quantity=2) | 201 | 201 |
+| 6-4 장바구니 조회 GET /api/cart | 200 | 200 |
+| 6-5 장바구니 수량 변경 PUT /api/cart/items/1 (quantity=5) | 200 | 200 |
+| 6-6 주문 생성 POST /api/orders (cart_id=1, shipping_*) | 201 | 201, order_number NT-20260225-00001 |
+| 6-7 내 주문 목록 GET /api/orders | 200 | 200 |
+| 6-8 주문 상세 GET /api/orders/1 | 200 | 200 |
+| 6-9 주문 상태 변경 PUT /api/orders/1/status (confirmed) | 200 | 관리자 토큰: 200. 도매 토큰: 403 (해당 주문 seller=admin) |
+| 6-10 V1 헬스 GET http://114.207.244.86 | 200 | 200 |
 
 ## 검수 결과
-- **PHP Syntax**: app/Models/Cart.php, CartItem.php, Order.php, CartController.php, OrderController.php — `php -l` 통과 (No syntax errors detected).
-- **마이그레이션**: `php artisan migrate` 실행 후 `migrate:status | tail -10` — carts, cart_items, orders, order_items 관련 migration Run 확인.
-- **라우트**: `php artisan route:list --path=cart` 및 `--path=orders` — cart 5개, orders 5개(store, index, show, updateStatus, cancel) 확인.
+- **PHP Syntax**:  
+  - `php -l app/Models/Cart.php` → No syntax errors detected.  
+  - `php -l app/Models/CartItem.php` → No syntax errors detected.  
+  - `php -l app/Models/Order.php` → No syntax errors detected.  
+  - `php -l app/Models/OrderItem.php` → No syntax errors detected.  
+  - `php -l app/Http/Controllers/Api/CartController.php` → No syntax errors detected.  
+  - `php -l app/Http/Controllers/Api/OrderController.php` → No syntax errors detected.
+- **마이그레이션**: `php artisan migrate` 실행 후 R3 관련 7개 모두 Run.  
+  - 2026_02_25_140001_create_carts_table … Ran  
+  - 2026_02_25_140002_create_cart_items_table … Ran  
+  - 2026_02_25_140003_add_r3_columns_to_orders_table … Ran  
+  - 2026_02_25_140004_add_r3_columns_to_order_items_table … Ran  
+  - 2026_02_25_150001_add_r3_status_note_to_carts_table … Ran  
+  - 2026_02_25_150002_add_order_status_timestamps_to_orders_table … Ran  
+  - 2026_02_25_150003_add_note_to_cart_items_table … Ran
+- **라우트**:  
+  - `route:list --path=cart` → 5개 (GET/POST/PUT/DELETE cart, DELETE cart/items/{id}).  
+  - `route:list --path=orders` → orders 관련 5개 (POST/GET/GET/PUT/POST store, index, show, updateStatus, cancel).
 - **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200.
 
 ## 비고
