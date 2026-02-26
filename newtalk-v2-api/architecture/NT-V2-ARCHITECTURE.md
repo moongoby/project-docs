@@ -79,11 +79,13 @@
 
 ### R3 추가 테이블
 - **주문·장바구니**: carts (status, note, unique user_id+status), cart_items
-- **주문**: orders (buyer_id, seller_id, order_number NT-YYYYMMDD-XXXXX, payment_status, paid_at), order_items (스냅샷)
+- **주문**: orders (buyer_id, seller_id, **trade_partnership_id**, order_number NT-YYYYMMDD-XXXXX, payment_status, **commission_rate**, paid_at), order_items (스냅샷)
 - **결제**: payments (payment_key, method, status, amount), payment_logs
 - **배송**: shipments (seller_id, buyer_id, type, tracking_company, tracking_number), shipment_logs, shipping_addresses
 - **DM**: conversations (type, last_message_id/at), conversation_participants, messages (type text/image/product/order/system), message_reads
 - **쇼츠**: shorts (video_url, status, visibility, view_count), short_product_tags, short_likes, short_comments, short_views
+- **거래처(R4-API-001)**: trade_applications (소매→도매 신청), trade_partnerships (승인 관계·등급·수수료율), trade_prices (전용가)
+- **스토리(R4)**: stories (media_url, expires_at 24h, is_highlight), story_views (viewed_at, reaction)
 
 주요 관계: users ↔ carts ↔ cart_items ↔ products; orders ↔ order_items; orders ↔ payments ↔ payment_logs; orders ↔ shipments ↔ shipment_logs; conversations ↔ conversation_participants ↔ messages ↔ message_reads; shorts ↔ short_product_tags, short_likes, short_comments, short_views.
 
@@ -128,8 +130,10 @@
 - **DM 대화**: 6 — GET/POST conversations, GET/PUT/DELETE conversations/{id}, mute, pin, leave
 - **DM 메시지**: 4 — GET/POST conversations/{id}/messages, POST read, DELETE messages/{id}
 - **쇼츠**: 11 — GET shorts(피드), GET shorts/{id}, GET shorts/mine, POST shorts, PUT/DELETE shorts/{id}, POST like, POST view, GET comments, POST addComment, DELETE comments/{id}
+- **거래처(R4-API-001)**: 14 — POST apply, GET price/{productId}, GET applications, GET applications/{id}, PUT approve/reject, GET partners, GET partners/{id}, PUT suspend/terminate, POST partners/{id}/prices, POST partners/{id}/prices/bulk, DELETE prices/{id}, PUT partners/{id}/commission
+- **스토리(R4)**: 10 — GET stories/feed, GET stories/mine, GET stories/user/{userId}, POST stories, GET/DELETE stories/{id}, POST view, POST react, GET viewers, PUT highlight
 
-**총 엔드포인트 수**: 100개 이상 (공개·인증·역할별 그룹 포함).
+**총 엔드포인트 수**: 114개 이상 (공개·인증·역할별 그룹 포함).
 
 ---
 

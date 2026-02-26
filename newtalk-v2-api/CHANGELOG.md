@@ -6,6 +6,48 @@
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-02-26
+### Added (R4-API-001 거래처 제도 API)
+- **trade_applications** 테이블: 소매→도매 거래처 신청 (status: pending/approved/rejected/suspended/terminated), business_name/number/type, introduction, phone, reject_reason, approved_at/rejected_at
+- **trade_partnerships** 테이블: 승인된 거래 관계, tier(basic/silver/gold/vip), discount_rate, commission_rate(경로 B 1~2%), total_orders/total_amount, wholesale_memo/retail_memo
+- **trade_prices** 테이블: 거래처 전용가 (partnership_id, product_id, product_option_id, trade_price, original_price)
+- **orders**: trade_partnership_id, commission_rate 컬럼 추가
+- TradeApplication, TradePartnership, TradePrice 모델 (상태 전이, 할인가, 누적 통계, 자동 등급 업그레이드)
+- TradeService 14 메서드: apply, approve, reject, suspend, terminate, getApplications, getPartners, getPartnerDetail, setTradePrice, removeTradePrice, bulkSetTradePrices, getTradePrice, updatePartnershipTier, updateCommissionRate
+- TradeController 14 엔드포인트: 소매(신청/적용가), 도매(승인/거절/전용가/일시중지/종료), 공용(신청·거래처 목록/상세), 관리자(수수료율)
+- 주문 생성 시 거래처 적용가·수수료 반영, 배송 완료 시 거래처 누적 통계·등급 갱신
+
+## [3.2.0] - 2026-02-26
+### Added (R4-API-002 스토리 API)
+- **stories** 테이블: user_id, media_type(image|video), media_url, thumbnail_url, caption, link_url, link_type(product|brand|external|none), link_id, view_count, reply_count, is_highlight, expires_at(생성+24h), softDeletes
+- **story_views** 테이블: story_id, user_id, viewed_at, reaction(none|like|fire|clap|wow|sad), unique(story_id, user_id)
+- Story, StoryView 모델 (scopeActive, scopeExpired, isExpired, isViewedBy)
+- StoryService 11 메서드: create, getFeed, getUserStories, getMyStories, view, react, getViewers, delete, getHighlights, toggleHighlight, cleanupExpired
+- StoryController 10 엔드포인트: store, feed, userStories, mine, show, destroy, recordView, react, viewers, toggleHighlight
+- 라우트: auth:sanctum 내 /api/stories (feed, mine, user/{userId}, CRUD, view, react, viewers, highlight)
+- 스케줄러: 매시 만료 스토리 소프트삭제 (routes/console.php), Artisan story:cleanup-expired
+
+## [2.12.0] - 2026-02-26
+### Added (R3-FRONT-006 정산 UI)
+- /admin/settlements 관리자 정산 목록 (필터, 검색, 생성)
+- /admin/settlements/[id] 관리자 정산 상세 (상태변경, 항목관리, 재계산)
+- /wholesale/settlements 도매 정산 목록
+- /wholesale/settlements/[id] 도매 정산 상세 (은행정보, 메모)
+- 컴포넌트 10개: SettlementList, SettlementDetail, SettlementStatusBadge, SettlementSummaryCard, SettlementItemTable, SettlementTimeline, SettlementCreateDialog, SettlementStatusChangeDialog, BankInfoForm, index
+- settlement-api.ts 9함수, types/settlement.ts
+- admin/wholesale 레이아웃 정산 메뉴 추가
+
+## [2.11.0] - 2026-02-26
+### Added (R3-API-006 정산 API)
+- **settlements** 테이블: seller_id, settlement_number(ST-YYYYMMDD-XXXXX), status(pending/confirmed/processing/completed/cancelled), period_type(weekly/biweekly/monthly), period_start/end, order_count, total_sales, total_shipping_fee, platform_fee, platform_fee_rate, deductions, net_amount, bank_name/account/holder, confirmed_at, paid_at, admin_memo, seller_memo, softDeletes
+- **settlement_items** 테이블: settlement_id, order_id, payment_id, order_number(스냅샷), order_amount, shipping_fee, commission, commission_rate, deduction, net_amount, status(included/excluded/refunded), note
+- **settlement_logs** 테이블: settlement_id, user_id, action(created/confirmed/processing/completed/cancelled/memo/recalculated), from_status, to_status, description, metadata
+- Settlement, SettlementItem, SettlementLog 모델
+- SettlementService: create, updateStatus, list, getDetail, recalculate, updateItemStatus, preview, updateBankInfo
+- SettlementController 9 엔드포인트: preview, store, index, show, updateStatus, recalculate, updateBankInfo, updateItemStatus, addMemo
+- Order::settlementItems() 관계 추가
+- 정산번호 자동생성, 상태 전이 규칙, 금액 자동 재계산
+
 ## [2.10.0] - 2026-02-26
 ### Added (R3-FRONT-005 Shorts UI)
 - 쇼츠 피드 (세로 스와이프, 자동재생, 무한스크롤)
