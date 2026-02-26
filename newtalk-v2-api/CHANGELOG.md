@@ -6,6 +6,16 @@
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-02-25
+### Added (R3-FRONT-003 배송 UI)
+- /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
+- 주문 상세 배송 정보 (ShipmentCard, ShipmentTimeline, ShipmentStatusBadge)
+- 도매 주문 상세 송장 입력 (TrackingInput, updateTracking), 배송 접수·배송 완료 처리
+- 주문 생성 배송지 연동 (AddressSelectDialog, 기본배송지 자동 채움)
+- shipping-api.ts (배송 6함수 + 배송지 5함수 = 11함수), types/shipping.ts
+- 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
+- retail-layout 하단 메뉴 "배송지" 링크 추가
+
 ## [2.5.0] - 2026-02-25
 ### Added (R3-API-003 배송 API)
 - **shipments** 테이블 (alter): seller_id, buyer_id, type(direct/consignment), tracking_company, tracking_url, sender_*, receiver_*, returned_at, estimated_delivery, weight, note, softDeletes, index(order_id, status), index(tracking_company, tracking_number). 기존 carrier → tracking_company 이전 후 제거.

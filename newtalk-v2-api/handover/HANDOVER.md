@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 2.10.0
-**최종수정**: 2026-02-25 KST (R3-FRONT-002 결제 UI 완료)
+**버전**: 2.11.0
+**최종수정**: 2026-02-25 KST (R3-FRONT-003 배송 UI 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -21,6 +21,7 @@
 | 2.8.0 | 2026-02-25 | R3-FRONT-001 사입 주문·장바구니 프론트 UI: /retail/cart, order/new, orders, orders/[id], /wholesale/orders, 컴포넌트 10개, cart-api·order-api |
 | 2.9.0 | 2026-02-25 | R3-API-003 배송 API: shipments(alter), shipment_logs, shipping_addresses, ShipmentController 6 EP, ShippingAddressController 5 EP, ShippingService |
 | 2.10.0 | 2026-02-25 | R3-FRONT-002 결제 UI: /retail/payment·success·fail, PaymentDetail·취소·주문→결제 리다이렉트, 도매 결제 상태, 컴포넌트 8개, payment-api 5함수 |
+| 2.11.0 | 2026-02-25 | R3-FRONT-003 배송 UI: /retail/addresses, ShipmentCard·Timeline·TrackingInput, AddressSelectDialog·AddressList, shipping-api 11함수 |
 
 ---
 
@@ -274,6 +275,16 @@ docker compose --env-file .env.docker exec app composer {command}
 - Order::shipment(), Order::shipping_status accessor
 - Git SHA: (서버 main 푸시 후 기입)
 
+### R3-FRONT-003: 배송 UI (v2.6.0)
+- /retail/addresses 배송지 관리 (목록, 추가, 수정, 삭제, 기본설정)
+- 주문 상세 /retail/orders/[id]: getOrderShipment, ShipmentCard, ShipmentTimeline, 추적 링크
+- 도매 주문 상세 /wholesale/orders/[id]: 배송 접수(createShipment), TrackingInput(updateTracking), 배송 완료(updateShipmentStatus), ShipmentCard·ShipmentTimeline
+- 주문 생성 /retail/order/new: AddressSelectDialog, 기본배송지 자동 채움(getShippingAddresses)
+- retail-layout: 하단 메뉴 "배송지" 링크 (/retail/addresses)
+- 컴포넌트: ShipmentTimeline, ShipmentStatusBadge, ShipmentDetail, TrackingInput, ShipmentCard, AddressCard, AddressForm, AddressSelectDialog, AddressList
+- shipping-api.ts 11함수, types/shipping.ts
+- Git SHA: (서버 main 푸시 후 기입)
+
 ---
 
 ## 5. 현재 진행 중인 작업
@@ -288,8 +299,8 @@ docker compose --env-file .env.docker exec app composer {command}
 
 | 순서 | Task ID | 설명 |
 |------|---------|------|
-| 1 | R3-FRONT-003 | 배송 UI (R3-API-003 완료 후) |
-| 2 | R3-API-004 | DM API |
+| 1 | R3-API-004 | DM API |
+| 2 | R3-FRONT-004 | DM UI (R3-API-004 완료 후) |
 | 3 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
 
 ---
