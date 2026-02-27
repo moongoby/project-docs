@@ -98,4 +98,4 @@
 - [x] get_my_preferences, update_my_preferences 도구 추가 및 실행
 - [x] screen_stocks 개인화, personalize_response 적용
 - [x] 테스트 스크립트 실행 통과
-- [ ] project-docs 보고서 push 완료
+- [x] project-docs 보고서 push 완료

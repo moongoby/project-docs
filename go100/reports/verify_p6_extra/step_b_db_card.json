@@ -1,0 +1,18 @@
+[
+  {
+    "go100_card_id": 39,
+    "strategy_name": "CEO 신고가 돌파 모멘텀",
+    "card_status": "DRAFT",
+    "entry_rules": [
+      {
+        "type": "new_high_52w"
+      }
+    ],
+    "exit_rules": [
+      {
+        "pct": -3,
+        "type": "stop_loss"
+      }
+    ]
+  }
+]

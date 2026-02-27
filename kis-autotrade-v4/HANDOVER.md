@@ -32,6 +32,19 @@
 
 ---
 
+### SUPER-ANT-STUDY-001 (2026-02-27)
+- 한국 슈퍼개미 7인 심층 조사 완료
+- 조사 대상: 김정환, 남석관, 이정윤, 홍인기, 시간여행TV, 배진한, 세력주 매매 그룹
+- 핵심 발견:
+  - 글로벌 대가 전략과 90%+ 수렴 확인
+  - 한국 고유 알파: 테마 반복성, 소형주 세력 패턴, 정치/계절 사이클, 동반수급 실시간 추적
+  - P0 변수 4개 도출: THEME_CYCLE, SMALL_CAP_QUALITY, DUAL_FLOW, SEC_LEADER_FLAG v2
+  - P1 변수 3개: MKT_SEASON, FORCE_ACC, D_D1_D2_ENTRY
+  - P2 변수 2개: BJ_SCORE, KJH_CYCLE
+- CEO 지시서: D-008-KR로 등록 완료
+
+---
+
 ## 3. 진행 중 작업
 
 | Task ID | 상태 | 내용 |
@@ -72,6 +85,21 @@
 - **Wyckoff/VCP 패턴: 급등 초기 종목에 부적합 (발생률 ~0%)**
 - **CAN SLIM 펀더멘털: 판별력 미약 (AUC < 0.6)**
 - **SEC_LEADER_FLAG (AUC 0.838) = NEW 종목 발굴 핵심 신규 변수**
+
+- **한국 슈퍼개미 공통 원리**: 거래량/수급이 최강 변수(글로벌 동일), 테마 반복성이 한국 고유 알파, 소형주(700억 이하)+흑자+테마 조합이 급등 공식, 대장주 1등만 매매(2등 금지), 세력 매집→보합(120일선 수렴)→돌파가 Wyckoff+VCP와 동일 구조, 사계절론(Q2 공격/Q4 방어)이 시장 방향 M 변수와 연결
+- **SEC_LEADER_FLAG AUC 0.838** → v2로 업그레이드 시 거래대금 1위+최초 돌파 조건 추가 예정
+- **DUAL_FLOW**: 기관+외국인 동시 순매수가 한국 시장 최강 수급 신호 (이정윤 3년 100억 전략의 핵심)
+
+### 다음 단계 (D-008-KR)
+- [ ] P0: feature_engine.py에 THEME_CYCLE_100B_COUNT, THEME_CYCLE_UL_COUNT 추가
+- [ ] P0: universe_builder.py에 SMALL_CAP_QUALITY 플래그 추가
+- [ ] P0: feature_engine.py에 DUAL_FLOW_5D, DUAL_FLOW_20D 추가
+- [ ] P0: SEC_LEADER_FLAG를 v2로 업그레이드 (거래대금 1위 + 최초 돌파)
+- [ ] P1: MKT_SEASON 분기별 공격도 가중치 구현
+- [ ] P1: FORCE_ACC (120일선 수렴도 + 급등봉 횟수 + 갭상승) 추가
+- [ ] P1: strategy_card에 "대장주 장대양봉 D+1" 카드 추가
+- [ ] P2: BJ_SCORE 100점 스코어카드 구현
+- [ ] P2: KJH_CYCLE (5년 우상향 + PER 밴드) 구현
 
 ### 진입
 - Birth Point + 1min WR 95.3%
@@ -144,3 +172,4 @@
 | v1.0 | 2026-02-28 | 웹Claude | 초판 – Phase 1~2E 현황 |
 | v1.1 | 2026-02-28 | Opus4.6 | 2E 완료, VALIDATION-ENGINE-001 완료, Precision 6.9% |
 | v1.2 | 2026-02-28 | Opus4.6 | VE-002 완료, Precision 90.3% 달성, L3=0 발견, 118변수, NEW/REPEAT 분리 |
+| v1.3 | 2026-02-27 | — | 한국 슈퍼개미 7인 전략 통합, D-008-KR 등록, P0 변수 4개·P1 3개·P2 2개 도출, 글로벌 대가 90%+ 수렴 확인 |
