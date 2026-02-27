@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v1.7 — 테마/업종 데이터 점검 완료)
+> 최종 업데이트: 2026-02-28 (v1.8 — VE-003 Phase A+B 완료, 전략 포트폴리오 확정)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -31,7 +31,8 @@
 | VALIDATION-ENGINE-002 | 02-28 | 57b6de5f | 200 | **Precision 6.9%→90.3% 달성**, 118변수, 20핵심, L3=0 발견 |
 | P6-EXTRA-VERIFY (GO100) | 02-27 | (보고서 push) | 200 | 신고가 돌파 Agent Chat E2E 검증 PARTIAL, execute_buy/sell 스텁 추가 |
 | VE-003-PHASE-B | 02-28 | 4211890 | 200 | D1 FAIL, D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21), RSI 30~50 최강 필터 |
-| THEME-SECTOR-AUDIT | 02-28 | (본 커밋) | — | 4개 분류체계 점검, 테마 중복제거·일별성과·활동성 조치, 자동반영 확인 |
+| THEME-SECTOR-AUDIT | 02-28 | 09e5ca3 | 200 | 4개 분류체계 점검, 테마 중복제거·일별성과·활동성 조치, 자동반영 확인 |
+| VE-003-PHASE-A | 02-28 | (본 커밋) | — | D4 CONDITIONAL(PF1.88), **D6 PASS(PF13.63)**, D7 CONDITIONAL(PF1.98), 전략포트폴리오 확정 |
 
 ---
 
@@ -60,7 +61,9 @@
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| (현재 없음) | | |
+| D2-IMPROVE | 대기 | RSI 30~50 + 10선 우선 필터 재검증 |
+| D5-EXPAND | 대기 | 후발주 포함 표본 확대 |
+| VE-003-PHASE-C | 대기 | D3/S1/S2 테마 그룹핑 검증 |
 
 ---
 
@@ -107,12 +110,23 @@
 - **종가배팅(D7)이 시간 효율 대비 가장 높은 기대수익 전략 (교차 검증)**
 
 ### VE-003 Phase B 결과 (2026-02-28)
-- **D1 시초가진입 FAIL**: 681건, 승률 36.9%, PF 0.89 — 단독 사용 불가
-- **D2 3분봉눌림 CONDITIONAL**: 1,038건, 승률 39.8%, PF 1.57 — 비대칭 수익(승+3.36%/패-1.41%)
-- **D5 뉴스급등 CONDITIONAL**: 85건, 승률 36.5%, PF 4.21 — 극도 비대칭(승+3.99%/패-0.54%)
-- **RSI 30~50이 단독 최강 필터**: 77.3% 승률, +3.11% 평균 (CEO 직관 확인)
-- **MA 정배열은 단독 역효과**: 전체(73.9%) > MA정배열(72.5%)
-- **비대칭 수익이 핵심**: 승률 40%대에도 PF>1.5 가능 = 실전 슈퍼개미 수익 구조
+- **D1 시초가 단독 FAIL** — 09:03~08 진입은 장 초반 변동성 과다, PF 0.89 순손실
+- **D2 3분봉 눌림 비대칭 수익 확인** — 승률 39.8%에도 PF 1.57, 승평균(+3.36%) >> 패평균(-1.41%)
+- **D5 뉴스급등 PF 4.21** — "1파 놓치고 2파 타라"의 정량 검증, 승(+3.99%) vs 패(-0.54%) = 7.4배
+- **RSI 30~50 = 09:20 시점 단독 최강 필터** — 77.3% 승률, +3.11% 평균, max loss -1.31%
+- **MA 정배열은 급등종목에서 역효과** — 전체 73.9% > MA정배열 72.5%
+- **10선 눌림 > 5선 눌림** — 40.7%(+0.83%) vs 39.7%(+0.44%)
+- **비대칭 수익 > 승률** — 실전 슈퍼개미 수익 구조 데이터로 확인
+- **CEO 직관 "RSI 30~40 반등+VP≥120=진입" 데이터로 입증**
+
+### VE-003 Phase A 결과 (2026-02-28)
+- **D6 상따→갭 PASS** — 36건, 승률 77.8%, PF 13.63, 평균 +4.84% — **6개 전략 유일 PASS**
+- **D7 종가배팅 CONDITIONAL** — 380건(최다), 승률 53.4%, PF 1.98 — 시간효율 최고
+- **D4 전상눌림 CONDITIONAL** — 71건, 승률 28.2%, PF 1.88 — 비대칭 4.8배
+- **오전 상한가(10시 전) > 오후**: 80.0%/+5.64% vs 75.0%/+3.84%
+- **전일조건 전략(A) > 장중 전략(B)**: 평균 PF 5.83 vs 2.22
+- **Phase B 교훈 적용 효과**: D1→D4에서 09:20 진입+RSI 필터로 PF 0.89→1.88
+- **전략 포트폴리오 확정**: D6(30%) > D7(40%) > D5+D4+D2(30%)
 
 ### 테마/업종 데이터 점검 결과 (2026-02-28)
 - **4개 분류 체계 확인**: WICS(29섹터/2,770종목), KRX(24업종/4,225), KSIC(157산업/3,844), 키움테마(141/647)
@@ -131,7 +145,7 @@
 - [ ] P1: strategy_card에 "대장주 장대양봉 D+1" 카드 추가
 - [ ] P2: BJ_SCORE 100점 스코어카드 구현
 - [ ] P2: KJH_CYCLE (5년 우상향 + PER 밴드) 구현
-- [ ] VE-003 Phase A: D4/D6/D7 1분봉 백테스트 (2일)
+- [x] VE-003 Phase A: D4/D6/D7 1분봉 백테스트 → D6 PASS(PF13.63), D4/D7 CONDITIONAL
 - [x] VE-003 Phase B: D1/D2/D5 3분봉 리샘플링 시뮬레이션 → D1 FAIL, D2/D5 CONDITIONAL
 - [ ] VE-003 Phase C: D3/S1/S2 테마 그룹핑 검증 (2일)
 - [ ] VE-003 Phase D: NEW 종목 장중 탐지 역추적 (1일)
@@ -157,25 +171,24 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-02-28, VE-002 완료)
-- VALIDATION-ENGINE-002 완료: **Pipeline Precision 6.9% → 90.3% 달성**
-- 118개 변수 (97 기존 + 21 신규), 10-Axis 107조건 검증
-- Scorecard 기반 필터링: AUC≥0.75, 20변수, P92 임계값
-- Walk-Forward 안정: Mean 87.3% ± 0.8%, Min 86.5%
-- **핵심 발견: L3=0 for ALL NEW stocks — NEW/REPEAT 분리 필수**
-- 코드 수정: `feature_engine.py`(+Wyckoff/VCP/OBV/CANSLIM/Sector), `universe_builder.py`(+assign_control_dates)
+### 최신 상태 (2026-02-28, VE-003 Phase A+B 완료)
+- VE-003 Phase A 완료: **D6 PASS(PF13.63)**, D4 CONDITIONAL(PF1.88), D7 CONDITIONAL(PF1.98)
+- VE-003 Phase B 완료: D1 FAIL(PF0.89), D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21)
+- **6개 전략 포트폴리오 확정**: D6(30%)→D7(40%)→D5+D4+D2(30%), D1 보류
+- 전일조건 전략(Phase A) > 장중 전략(Phase B): 평균 PF 5.83 vs 2.22
+- 테마/업종 데이터 점검 완료: 4개 분류체계, 활동성 HOT/WARM/COLD 산출
 
 ### 웹 Claude가 해야 할 일
-1. **발굴 방식 확정**: Scorecard P92 (90.3%) 기반 발굴 vs 추가 최적화
-2. **NEW vs REPEAT 분리 설계**: NEW(scorecard) + REPEAT(L3+X9) 통합 파이프라인
-3. **Phase 2 진입최적화 시작**: scorecard 통과 종목에 Birth Point 진입 구현
-4. 기획서 v3.1 업데이트: Precision 90.3%, NEW/REPEAT 분리, 20변수 scorecard 반영
-5. CEO-DIRECTIVES에 D-008(NEW/REPEAT 분리), T-005(Scorecard 풀 필터) 추가 검토
+1. **전략 포트폴리오 자금 배분 최적화**: D6(30%)/D7(40%)/장중(30%) 시뮬레이션
+2. **D2 개선 검증**: RSI 30~50 + 10선 눌림 필터 적용 재실행
+3. Phase C (D3/S1/S2) 테마 그룹핑 검증 실행
+4. Phase D (NEW 종목 장중 탐지) 역추적 실행
+5. D6/D7 오버나이트 전략 → strategy_card 등록 설계
 
 ### 대표님 확인 필요 사항
-- Scorecard P92 (Pool 93, Recall 62%) vs P95 (Pool 55, Recall 38%) 선택
-- NEW vs REPEAT 분리 전략 승인
-- Phase 2 진입최적화 착수 시점
+- 전략 포트폴리오 자금 배분(D6:30%/D7:40%/장중:30%) 승인
+- Phase C/D 착수 시점
+- D6/D7 자동매매 구현 우선순위
 
 ### 주의사항
 - CEO "단순 사고 금지" 원칙 (D-001)
@@ -215,3 +228,4 @@
 | v1.5 | 2026-02-27 | Cursor | GO100 P6-EXTRA-VERIFY E2E 검증 완료 (PARTIAL), 보고서 push, tool_executors 스텁 추가 |
 | v1.6 | 2026-02-28 | Opus4.6 | VE-003 Phase B 완료: D1 FAIL, D2/D5 CONDITIONAL, RSI 30~50 최강 필터, 비대칭 수익 구조 확인 |
 | v1.7 | 2026-02-28 | Opus4.6 | 테마/업종 데이터 점검: 4개 분류체계 확인, 중복제거·일별성과·활동성 조치, 자동반영/제거 분석 |
+| v1.8 | 2026-02-28 | Opus4.6 | VE-003 Phase A 완료: D6 PASS(PF13.63), D4/D7 CONDITIONAL, 전략 포트폴리오 확정 |
