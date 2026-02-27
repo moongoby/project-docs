@@ -127,8 +127,8 @@
 ## 5. 체크리스트
 
 - [x] 코드 레포(kis-autotrade-v4) 반영
-- [ ] project-docs 보고서 push (본 문서)
-- [ ] HANDOVER.md 업데이트 (완료 시)
+- [x] project-docs 보고서 push (본 문서)
+- [ ] HANDOVER.md 업데이트 (필요 시)
 
 ---
 

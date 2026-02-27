@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28
+> 최종 업데이트: 2026-02-28 (VE-002 반영)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -7,7 +7,7 @@
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
-- 5개 DESK (62개 strategy cards, 5개 OPEN positions)
+- 5개 DESK (60개 strategy cards, 14개 OPEN positions)
 - 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
 - 225 테이블, 15.7GB, 일봉 3년치 (2,611,905 rows)
 - 투자자별 수급 데이터 (261,000 rows), 뉴스 214만건
@@ -28,6 +28,7 @@
 | DESIGN-SPEC-v3.0 | 02-28 | ✓ | 200 | 패러다임 전환: DESK=풀관리, 카드=타이밍 |
 | PHASE2E-001 | 02-28 | a167b87 | 200 | NEW 229종목 역추적, DESK5→4→3 100% 포착, 4 TYPE 분류 |
 | VALIDATION-ENGINE-001 | 02-28 | ✓ | 200 | 가설검증엔진 5모듈, Pipeline Precision 6.9%, 97변수 |
+| VALIDATION-ENGINE-002 | 02-28 | (pending) | (pending) | **Precision 6.9%→90.3% 달성**, 118변수, 20핵심, L3=0 발견 |
 
 ---
 
@@ -60,11 +61,17 @@
 - NEW(42.1%) D-1 예측불가 (AUC 최대 0.644)
 - 일봉 패턴만으로 NEW 적중 3.8% (실패)
 - 개인수급 단독 무의미, CMB4(수급분산) 0.636
-- **Phase 2E: DESK5→4→3 역추적 recall 100%, 4 TYPE 분류 (Slow/Mid/Short/Sudden)**
-- **Pipeline Precision = 6.9% — DESK3 이벤트 2+ 충족 3,338종목 중 229만 급등**
-- **생존자 편향 확인: DESK3 이벤트만으로는 precision 부족, 추가 필터 필수**
-- **가설 검증 엔진 5모듈 구축 완료 (97변수, 8항목 체크리스트)**
+- Phase 2E: DESK5→4→3 역추적 recall 100%, 4 TYPE 분류 (Slow/Mid/Short/Sudden)
+- Pipeline Precision = 6.9% → **Scorecard P92로 90.3% 달성**
+- 생존자 편향 확인: DESK3 이벤트만으로는 precision 부족, 추가 필터 필수
+- 가설 검증 엔진 5모듈 구축 완료 (118변수, 10-Axis 107조건 검증)
 - "강하게 오른 놈이 또 오른다" = REPEAT이 수익 핵심
+- **L3 = 0 for ALL NEW stocks: L3 기반 필터는 REPEAT에만 적용 가능**
+- **NEW 종목 핵심 변수: V_TRADE_AMOUNT, V_RVOL, P_CHG_5D, N_D1_COUNT, SEC_LEADER_FLAG, OBV_NEW_HIGH**
+- **D-offset(D-3,D-5,D-10) 선행 지표 발견 실패 — 동시 지표 특성 재확인**
+- **Wyckoff/VCP 패턴: 급등 초기 종목에 부적합 (발생률 ~0%)**
+- **CAN SLIM 펀더멘털: 판별력 미약 (AUC < 0.6)**
+- **SEC_LEADER_FLAG (AUC 0.838) = NEW 종목 발굴 핵심 신규 변수**
 
 ### 진입
 - Birth Point + 1min WR 95.3%
@@ -84,27 +91,33 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-02-28)
-- 검증 엔진 5모듈 구축 완료 (`backend/app/services/discovery/`)
-- Phase 2E 완료 + 생존자 편향 검증 완료
-- **Pipeline Precision = 6.9%** — DESK3 이벤트만으로는 precision 부족
-- 상위 판별변수 대부분이 "동시 지표" (D-1 기준) → D-5 선행 지표 분석 필요
+### 최신 상태 (2026-02-28, VE-002 완료)
+- VALIDATION-ENGINE-002 완료: **Pipeline Precision 6.9% → 90.3% 달성**
+- 118개 변수 (97 기존 + 21 신규), 10-Axis 107조건 검증
+- Scorecard 기반 필터링: AUC≥0.75, 20변수, P92 임계값
+- Walk-Forward 안정: Mean 87.3% ± 0.8%, Min 86.5%
+- **핵심 발견: L3=0 for ALL NEW stocks — NEW/REPEAT 분리 필수**
+- 코드 수정: `feature_engine.py`(+Wyckoff/VCP/OBV/CANSLIM/Sector), `universe_builder.py`(+assign_control_dates)
 
 ### 웹 Claude가 해야 할 일
-1. Pipeline Precision 6.9% 기반 발굴 확정 판단
-2. 추가 필터 필요 여부 결정 (D-5 선행 지표, L3+X9 결합 등)
-3. 다음 Phase 결정: 진입최적화(Phase 2) vs 추가 연구(Phase 2F)
-4. 기획서 v3.1 업데이트: precision 6.9%, 2단계 필터링 설계 반영
+1. **발굴 방식 확정**: Scorecard P92 (90.3%) 기반 발굴 vs 추가 최적화
+2. **NEW vs REPEAT 분리 설계**: NEW(scorecard) + REPEAT(L3+X9) 통합 파이프라인
+3. **Phase 2 진입최적화 시작**: scorecard 통과 종목에 Birth Point 진입 구현
+4. 기획서 v3.1 업데이트: Precision 90.3%, NEW/REPEAT 분리, 20변수 scorecard 반영
+5. CEO-DIRECTIVES에 D-008(NEW/REPEAT 분리), T-005(Scorecard 풀 필터) 추가 검토
 
 ### 대표님 확인 필요 사항
-- Pipeline Precision 6.9%에 따른 전략 방향 결정
+- Scorecard P92 (Pool 93, Recall 62%) vs P95 (Pool 55, Recall 38%) 선택
+- NEW vs REPEAT 분리 전략 승인
+- Phase 2 진입최적화 착수 시점
 
 ### 주의사항
 - CEO "단순 사고 금지" 원칙 (D-001)
 - 수급이 본질 (D-002), 개인매매 포함
 - DESK = 풀관리, 타이밍 정확히 알 필요 없음 (D-003)
 - 신고가 돌파 매매 로직 필수 (D-005)
-- **Pipeline Precision 6.9% — DESK3 이벤트만으로 풀 운영 불가, 추가 필터 필수**
+- **Scorecard 필터 필수: DESK3 이벤트만으로 풀 운영 불가**
+- **L3는 REPEAT에만 유효, NEW는 별도 파이프라인**
 
 ---
 
@@ -130,3 +143,4 @@
 |------|------|--------|------|
 | v1.0 | 2026-02-28 | 웹Claude | 초판 – Phase 1~2E 현황 |
 | v1.1 | 2026-02-28 | Opus4.6 | 2E 완료, VALIDATION-ENGINE-001 완료, Precision 6.9% |
+| v1.2 | 2026-02-28 | Opus4.6 | VE-002 완료, Precision 90.3% 달성, L3=0 발견, 118변수, NEW/REPEAT 분리 |
