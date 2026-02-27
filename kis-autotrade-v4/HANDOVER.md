@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v1.6 — VE-003 Phase B 완료)
+> 최종 업데이트: 2026-02-28 (v1.7 — 테마/업종 데이터 점검 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -30,7 +30,8 @@
 | VALIDATION-ENGINE-001 | 02-28 | ✓ | 200 | 가설검증엔진 5모듈, Pipeline Precision 6.9%, 97변수 |
 | VALIDATION-ENGINE-002 | 02-28 | 57b6de5f | 200 | **Precision 6.9%→90.3% 달성**, 118변수, 20핵심, L3=0 발견 |
 | P6-EXTRA-VERIFY (GO100) | 02-27 | (보고서 push) | 200 | 신고가 돌파 Agent Chat E2E 검증 PARTIAL, execute_buy/sell 스텁 추가 |
-| VE-003-PHASE-B | 02-28 | (push 예정) | — | D1 FAIL, D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21), RSI 30~50 최강 필터 |
+| VE-003-PHASE-B | 02-28 | 4211890 | 200 | D1 FAIL, D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21), RSI 30~50 최강 필터 |
+| THEME-SECTOR-AUDIT | 02-28 | (본 커밋) | — | 4개 분류체계 점검, 테마 중복제거·일별성과·활동성 조치, 자동반영 확인 |
 
 ---
 
@@ -112,6 +113,13 @@
 - **RSI 30~50이 단독 최강 필터**: 77.3% 승률, +3.11% 평균 (CEO 직관 확인)
 - **MA 정배열은 단독 역효과**: 전체(73.9%) > MA정배열(72.5%)
 - **비대칭 수익이 핵심**: 승률 40%대에도 PF>1.5 가능 = 실전 슈퍼개미 수익 구조
+
+### 테마/업종 데이터 점검 결과 (2026-02-28)
+- **4개 분류 체계 확인**: WICS(29섹터/2,770종목), KRX(24업종/4,225), KSIC(157산업/3,844), 키움테마(141/647)
+- **테마 데이터 조치**: 중복 제거(2,106→905), 일별성과 34,122건 생성, 대장주 141개 설정, 활동성(HOT/WARM/COLD) 34,122건 생성
+- **다중 테마 지원 확인**: 최대 6개/종목, 평균 1.4개 — N:M 관계 정상
+- **자동 수집 확인**: Cron 평일 17:00, 신규 편입 자동 반영 중 (2/26→27: +613건 편입, -227건 제거)
+- **개선 필요**: 수집 커버리지 71%(100/141), 제거 알림 미구축, is_active 플래그 없음
 
 ### 다음 단계 (D-008-KR)
 - [ ] P0: feature_engine.py에 THEME_CYCLE_100B_COUNT, THEME_CYCLE_UL_COUNT 추가
@@ -206,3 +214,4 @@
 | v1.4 | 2026-02-27 | — | STUDY-002 + D-009 + VE-003 설계 + P0/P1/P2 확장 (8/7/5) |
 | v1.5 | 2026-02-27 | Cursor | GO100 P6-EXTRA-VERIFY E2E 검증 완료 (PARTIAL), 보고서 push, tool_executors 스텁 추가 |
 | v1.6 | 2026-02-28 | Opus4.6 | VE-003 Phase B 완료: D1 FAIL, D2/D5 CONDITIONAL, RSI 30~50 최강 필터, 비대칭 수익 구조 확인 |
+| v1.7 | 2026-02-28 | Opus4.6 | 테마/업종 데이터 점검: 4개 분류체계 확인, 중복제거·일별성과·활동성 조치, 자동반영/제거 분석 |
