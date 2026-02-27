@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-27 (v1.4 — STUDY-002, D-009, VE-003)
+> 최종 업데이트: 2026-02-28 (v1.6 — VE-003 Phase B 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -30,6 +30,7 @@
 | VALIDATION-ENGINE-001 | 02-28 | ✓ | 200 | 가설검증엔진 5모듈, Pipeline Precision 6.9%, 97변수 |
 | VALIDATION-ENGINE-002 | 02-28 | 57b6de5f | 200 | **Precision 6.9%→90.3% 달성**, 118변수, 20핵심, L3=0 발견 |
 | P6-EXTRA-VERIFY (GO100) | 02-27 | (보고서 push) | 200 | 신고가 돌파 Agent Chat E2E 검증 PARTIAL, execute_buy/sell 스텁 추가 |
+| VE-003-PHASE-B | 02-28 | (push 예정) | — | D1 FAIL, D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21), RSI 30~50 최강 필터 |
 
 ---
 
@@ -104,6 +105,14 @@
 - **NEW 종목은 일봉 불가, 장중 1분봉 복합 조건으로 탐지 가능**
 - **종가배팅(D7)이 시간 효율 대비 가장 높은 기대수익 전략 (교차 검증)**
 
+### VE-003 Phase B 결과 (2026-02-28)
+- **D1 시초가진입 FAIL**: 681건, 승률 36.9%, PF 0.89 — 단독 사용 불가
+- **D2 3분봉눌림 CONDITIONAL**: 1,038건, 승률 39.8%, PF 1.57 — 비대칭 수익(승+3.36%/패-1.41%)
+- **D5 뉴스급등 CONDITIONAL**: 85건, 승률 36.5%, PF 4.21 — 극도 비대칭(승+3.99%/패-0.54%)
+- **RSI 30~50이 단독 최강 필터**: 77.3% 승률, +3.11% 평균 (CEO 직관 확인)
+- **MA 정배열은 단독 역효과**: 전체(73.9%) > MA정배열(72.5%)
+- **비대칭 수익이 핵심**: 승률 40%대에도 PF>1.5 가능 = 실전 슈퍼개미 수익 구조
+
 ### 다음 단계 (D-008-KR)
 - [ ] P0: feature_engine.py에 THEME_CYCLE_100B_COUNT, THEME_CYCLE_UL_COUNT 추가
 - [ ] P0: universe_builder.py에 SMALL_CAP_QUALITY 플래그 추가
@@ -115,7 +124,7 @@
 - [ ] P2: BJ_SCORE 100점 스코어카드 구현
 - [ ] P2: KJH_CYCLE (5년 우상향 + PER 밴드) 구현
 - [ ] VE-003 Phase A: D4/D6/D7 1분봉 백테스트 (2일)
-- [ ] VE-003 Phase B: D1/D2/D5 3분봉 리샘플링 시뮬레이션 (2일)
+- [x] VE-003 Phase B: D1/D2/D5 3분봉 리샘플링 시뮬레이션 → D1 FAIL, D2/D5 CONDITIONAL
 - [ ] VE-003 Phase C: D3/S1/S2 테마 그룹핑 검증 (2일)
 - [ ] VE-003 Phase D: NEW 종목 장중 탐지 역추적 (1일)
 - [ ] P0 변수 8개 feature_engine.py 구현
@@ -196,3 +205,4 @@
 | v1.3 | 2026-02-27 | — | 한국 슈퍼개미 7인 전략 통합, D-008-KR 등록, P0 변수 4개·P1 3개·P2 2개 도출, 글로벌 대가 90%+ 수렴 확인 |
 | v1.4 | 2026-02-27 | — | STUDY-002 + D-009 + VE-003 설계 + P0/P1/P2 확장 (8/7/5) |
 | v1.5 | 2026-02-27 | Cursor | GO100 P6-EXTRA-VERIFY E2E 검증 완료 (PARTIAL), 보고서 push, tool_executors 스텁 추가 |
+| v1.6 | 2026-02-28 | Opus4.6 | VE-003 Phase B 완료: D1 FAIL, D2/D5 CONDITIONAL, RSI 30~50 최강 필터, 비대칭 수익 구조 확인 |
