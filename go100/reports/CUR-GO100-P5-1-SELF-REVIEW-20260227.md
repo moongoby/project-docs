@@ -97,4 +97,4 @@
 ## 5. 체크리스트
 
 - [x] 코드 레포 반영 (kis-autotrade-v4)
-- [ ] project-docs 보고서 push (본 문서)
+- [x] project-docs 보고서 push (본 문서)
