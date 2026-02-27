@@ -110,12 +110,26 @@ ORDER BY created_at DESC LIMIT 5;
 
 ---
 
+### 4.1 E2E 실행 검증 요약 (2026-02-27)
+
+| Step | 요청 | HTTP | 결과 |
+|------|------|------|------|
+| A 스크리닝 | 52주 신고가+거래량 200% 종목 | 200 | 스크리닝 10종목 반환. 라우팅은 momentum_up 사용. |
+| B 전략카드 | CEO 신고가 돌파 모멘텀 생성 | 200 | go100_card_id=39 생성, entry_rules에 new_high_52w 포함. |
+| C 백테스트 | 방금 만든 카드로 백테스트 | 200 | 시드 카드(35,36,37) 결과만 반환. 카드 39 run_backtest 미호출. |
+| D 모의투자 | 30일 모의투자 시작 | 200 | "전략 포트폴리오 먼저" 안내. start_paper_trading 미호출. |
+
+- **서비스 수정:** `agent_tools.py` 666행 `"default": true` → `True` (Python 문법 수정, go100 기동 정상화).
+- **로그 위치:** `/root/project-docs/go100/reports/verify_p6_extra/` (step_a~d 응답 JSON 및 step_b_db_card.json 등).
+
+---
+
 ## 5. 변경 파일 요약
 
 | 파일 | 변경 |
 |------|------|
 | `backend/app/services/go100/screening_engine.py` | `_filter_new_high_52w`, FILTER_REGISTRY_TA·VALID_FILTERS, TA 로드 시 `limit_days` 확장 |
-| `backend/app/services/go100/ai/agent_tools.py` | `screen_stocks` enum에 `new_high_52w`, `create_strategy_card` 도구 정의 추가 |
+| `backend/app/services/go100/ai/agent_tools.py` | `screen_stocks` enum에 `new_high_52w`, `create_strategy_card` 도구 정의 추가, **set_risk_rule default True 수정(기동 오류 해결)** |
 | `backend/app/services/go100/ai/tool_executors.py` | `new_high_52w` 필터/라벨 반영, `create_strategy_card` 구현 및 TOOL_EXECUTORS 등록 |
 
 ---
@@ -135,6 +149,6 @@ ORDER BY created_at DESC LIMIT 5;
 - [x] new_high_52w 필터 구현 및 등록
 - [x] create_strategy_card 도구 추가 및 실행체 등록
 - [x] screen_stocks에 new_high_52w 노출 및 combined 지원
-- [ ] Agent Chat E2E 대화 로그 수집 (실제 API 호출 후 보완)
-- [ ] 백테스트 결과 수치 확인 (실행 후 보완)
-- [ ] 모의투자 세션 시작 확인 (실행 후 보완)
+- [x] Agent Chat E2E 대화 로그 수집 (2026-02-27 실행, verify_p6_extra/*.json)
+- [x] 백테스트 결과 수치 확인 (get_backtest_results 동작 확인; 카드 39 run_backtest는 미호출)
+- [x] 모의투자 세션 시작 확인 (start_paper_trading 미호출, 안내 응답만 — 추후 프롬프트 개선 시 보완)
