@@ -310,7 +310,136 @@ Layer 0 데이터(PostgreSQL) → Layer 1 지표계산(pandas-ta/TA-Lib) → Lay
 
 ---
 
-## 10. 새 대화창 즉시 투입 체크리스트
+## 10. 필수 참고 문서 전체 목록
+
+### 10.1 서버 내 규칙 파일 (작업 전 반드시 읽기)
+| 파일 | 경로 | 용도 |
+|------|------|------|
+| .cursorrules | /root/kis-autotrade-v4/.cursorrules | Cursor AI 서비스 경계 규칙 (V4.1/GO100 구분) |
+| CLAUDE.md | /root/kis-autotrade-v4/CLAUDE.md | Claude Code용 동일 규칙 |
+| SERVICE_BOUNDARY.md (3곳) | backend/app/routers/go100/, backend/app/services/go100/, scripts/go100/ | 디렉토리 소속 명시 |
+| .env | /root/kis-autotrade-v4/.env | 환경변수 (GO100_AGENT_MODE, TELEGRAM, DB 등) |
+
+### 10.2 프로젝트 공통 문서 (project-docs 루트)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| README.md | 레포 소개, 구조 설명 | ★★ |
+| ONBOARDING.md | 새 작업자 온보딩 가이드 | ★★★ |
+| DOCUMENT-NAMING-CONVENTION.md | 문서 명명 규칙 (CUR-, RPT- 등) | ★★ |
+
+### 10.3 공통 템플릿/규칙 (common/)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| common/CONTEXT_TEMPLATE.md | AI 컨텍스트 전달 템플릿 | ★★ |
+| common/CURSORRULES_TEMPLATE.md | .cursorrules 작성 템플릿 | ★★ |
+| common/GIT_CONVENTION.md | Git 커밋 규칙 ([V4.1]/[GO100]/[SHARED]) | ★★★ |
+| common/HANDOVER_TEMPLATE.md | 인계서 작성 템플릿 | ★★ |
+| common/REPORT_TEMPLATE.md | 보고서 작성 템플릿 | ★★ |
+| common/SECURITY_RULES.md | 보안 규칙 (API키, 토큰 등) | ★★★ |
+| common/SYNC_GUIDE.md | 문서-코드 동기화 가이드 | ★★ |
+
+### 10.4 GO100 핵심 문서 (go100/)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| go100/ARCHITECTURE.md | 시스템 아키텍처 v1.0 (서버, 스택, 라우터) | ★★★ |
+| go100/DB_SCHEMA.md | DB 테이블 상세 스키마 | ★★★ |
+| go100/API_SPEC.md | API 엔드포인트 명세 | ★★ |
+| go100/CONTEXT.md | GO100 프로젝트 컨텍스트 | ★★ |
+| go100/CURSORRULES.md | GO100 전용 Cursor 규칙 | ★★ |
+| go100/CHANGELOG.md | 변경 이력 | ★★ |
+| go100/ISSUES.md | 알려진 이슈 목록 | ★★ |
+| go100/PLANNING.md | 단기 계획 | ★★ |
+| go100/ROADMAP.md | 장기 로드맵 | ★★ |
+
+### 10.5 인수인계서 히스토리 (go100/ — 최신순으로 읽기)
+| 파일 | 날짜 | 핵심 내용 | 우선순위 |
+|------|------|----------|---------|
+| HANDOVER-20260227-V6-SESSION2.md | 02-27 | **★ 이 문서. 전체 통합 인계 (세션메모리, 조건검색, 병렬5작업)** | ★★★ |
+| HANDOVER-20260225-V6.md | 02-25 | Phase 1-10 완료, Agent Core 설계 착수 | ★★★ |
+| HANDOVER-20260225-V5.md | 02-25 | Phase 1-10, Agentic Architecture 상세 설계 | ★★★ |
+| HANDOVER-20260225-V4.md | 02-25 | 백테스트 최적화, 리스크 관리 | ★★ |
+| HANDOVER-20260225-V3.md | 02-25 | 데이터 수집, 전략 카드 시스템 | ★★ |
+| GO100-HANDOVER-V3-PLANNING-20260226.md | 02-26 | **v2→v4 로드맵, 데이터 갭 분석, KPI** | ★★★ |
+| HANDOVER-CLAUDE-SESSION-FULL-20260226.md | 02-26 | Claude 세션 전체 인계 | ★★ |
+| HANDOVER-V3-UPGRADE-20260226.md | 02-26 | V3 업그레이드 세부 계획 | ★★ |
+| HANDOVER-20260226-WAVE3-MAIN.md | 02-26 | Wave 3 메인 작업 내역 | ★★ |
+| HANDOVER-20260226-WAVE2.md | 02-26 | Wave 2 작업 내역 | ★ |
+| HANDOVER-20260224-V2.md | 02-24 | 초기 인프라 구축 | ★ |
+| HANDOVER-20260223.md | 02-23 | 프로젝트 시작 | ★ |
+| HANDOVER.md | - | 인계서 기본 프레임 | ★ |
+| HANDOVER-INDEX.md | - | 인계서 버전 인덱스 | ★★★ |
+
+### 10.6 기술 설계 문서 (go100/docs/)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| docs/OPUS-LLM-AI-v1-FULL-SPEC.md | **LLM AI 전체 스펙 (64KB, 가장 상세)** | ★★★ |
+| docs/go100-architecture-v1.1.md | 아키텍처 v1.1 상세 (33KB) | ★★★ |
+| docs/GO100-LLM-ARCHITECTURE-v2.0.md | LLM 아키텍처 v2.0 (3-Layer Dispatcher) | ★★★ |
+| docs/BAEKEOGI-TECH-SPEC.md | 백억이 기술 스펙 상세 | ★★★ |
+| docs/SERVER-INFRASTRUCTURE.md | 서버 인프라 상세 | ★★ |
+| docs/CURSOR-FULL-DATA-COLLECTION-20260226.md | 데이터 수집 파이프라인 전체 명세 (34KB) | ★★★ |
+| docs/DB-SCHEMA-GO100.md | GO100 전용 DB 스키마 상세 | ★★ |
+
+### 10.7 기획/전략 보고서 (go100/)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| RPT-GO100-BAEKOGI-V3-GENIUS-TRADER-PLAN-20260226.md | **천재 트레이더 마스터플랜 (24KB)** | ★★★ |
+| RPT-GO100-BAEKOGI-V3-MASTER-PLAN-20260226.md | V3 마스터플랜 (13KB) | ★★★ |
+| GO100-BETA-TEST-CHECKLIST.md | 베타 테스트 체크리스트 | ★★ |
+
+### 10.8 작업 보고서 (go100/reports/ — 최신순 핵심만)
+| 파일 | 용도 | 우선순위 |
+|------|------|---------|
+| CUR-GO100-PARALLEL-4-TASKS-20260227.md | 병렬 4작업 완료 (무결성/레짐/Agent/텔레그램) | ★★★ |
+| CUR-GO100-AUTO-HEALER-20260227.md | 자율 복구 엔진 | ★★★ |
+| CUR-GO100-AGENT-CORE-V2-20260227.md | Agent Core v2 (21도구) | ★★★ |
+| CUR-CRON-REALTIME-OPTIMIZATION-20260227.md | 크론 최적화 (19:30→17:30) | ★★★ |
+| CUR-GO100-ADMIN-DATA-DASHBOARD-20260227.md | 관리자 데이터 대시보드 | ★★ |
+| CUR-GO100-ADMIN-LOGIN-NGINX-FIX-20260226.md | Nginx 인증 수정 | ★ |
+| BAEKOGI-AI-TECH-DOCS-REPORT-20260225.md | AI 기술 문서 정리 보고 | ★★ |
+| BAEKOGI-V2-PLANNING-20260224.md | V2 기획 보고서 (36KB) | ★★★ |
+| CUR-GO100-BACKTEST-OPT-PHASE1-001-20260225.md | 백테스트 최적화 Phase 1 | ★★ |
+| CUR-GO100-BACKTEST-REALISTIC-001-REPORT-20260225.md | 현실적 백테스트 보고 | ★★ |
+| CUR-GO100-BACKTEST-DB-AUDIT-001-20260224.md | 백테스트 DB 감사 | ★★ |
+| CUR-GO100-ALARM-SYSTEM-CHECK-20260224.md | 알림 시스템 점검 | ★ |
+| CUR-GO100-AUTH-REFRESH-v1-20260224.md | 인증 토큰 리프레시 | ★ |
+| CUR-GO100-BACKFILL-DASHBOARD-001-20260220.md | 대시보드 백필 | ★ |
+| CUR-GO100-AUDIT-ACTION-001-20260223.md | 감사 액션 | ★ |
+| CUR-GO100-AI-BACKTEST-OPT-001-20260224.md | AI 백테스트 최적화 | ★ |
+| CUR-GO100-BACKTEST-CARD-LIST-FIX-001-20260224.md | 카드 리스트 수정 | ★ |
+| CUR-GO100-BACKTEST-SAVE-FIX-001-20260224.md | 백테스트 저장 수정 | ★ |
+| CUR-GO100-BACKTEST-PERF-VERIFY-001-20260225.md | 성능 검증 | ★ |
+| 20260223-HOTFIX-SAVE-500.md | 핫픽스 저장 500에러 | ★ |
+| 20260223-PHASE2-STABILIZE.md | Phase 2 안정화 | ★ |
+
+### 10.9 소스 덤프 (go100/_source-dump/) — 디버깅 참고용
+| 파일 | 용도 |
+|------|------|
+| DOC-RECOVERY-LOG.txt | 문서 복구 로그 (80KB) |
+| HANDOVER-001-LOG.txt | 최초 인계 로그 |
+| BE_ERROR_LOG.txt | 백엔드 에러 로그 |
+| FE_ChatWidget.tsx | 프론트엔드 채팅 위젯 소스 |
+| FE_ProtectedLayoutClient.tsx | 프론트 레이아웃 소스 |
+| NGINX_CONFIG.txt | Nginx 설정 덤프 |
+| DB_CONSTRAINTS.txt | DB 제약조건 덤프 |
+| E2E-VERIFY.txt | E2E 검증 로그 |
+| DIAG-013.txt | 진단 로그 |
+
+### 10.10 읽기 순서 (새 작업자 권장)
+1. **이 인계서** (HANDOVER-20260227-V6-SESSION2.md) — 전체 현황 파악
+2. **.cursorrules** — 서비스 경계 규칙 숙지
+3. **common/GIT_CONVENTION.md** + **common/SECURITY_RULES.md** — 작업 규칙
+4. **go100/ARCHITECTURE.md** + **go100/DB_SCHEMA.md** — 시스템 구조
+5. **docs/GO100-LLM-ARCHITECTURE-v2.0.md** — LLM 3-Layer Dispatcher
+6. **docs/CURSOR-FULL-DATA-COLLECTION-20260226.md** — 데이터 파이프라인
+7. **GO100-HANDOVER-V3-PLANNING-20260226.md** — v2→v4 로드맵/KPI
+8. **RPT-GO100-BAEKOGI-V3-GENIUS-TRADER-PLAN-20260226.md** — 천재 트레이더 플랜
+9. 최신 작업 보고서 3건 (PARALLEL-4-TASKS, AUTO-HEALER, AGENT-CORE-V2)
+10. **ONBOARDING.md** — 온보딩 가이드
+
+---
+
+## 11. 새 대화창 즉시 투입 체크리스트
 
 1. 이 문서 읽기 완료
 2. /root/kis-autotrade-v4/.cursorrules 읽기
@@ -350,7 +479,7 @@ grep GO100 /root/kis-autotrade-v4/.env
 
 ---
 
-## 11. 핵심 설계 판단 이력 (Why 기록)
+## 12. 핵심 설계 판단 이력 (Why 기록)
 
 | 판단 | 이유 |
 |------|------|
@@ -364,7 +493,7 @@ grep GO100 /root/kis-autotrade-v4/.env
 
 ---
 
-## 12. 연락처 및 접근 정보
+## 13. 연락처 및 접근 정보
 
 - **서버**: SSH (IP/포트는 .env 참조)
 - **DB**: PostgreSQL kisautotrade / kis_admin / localhost:5432
