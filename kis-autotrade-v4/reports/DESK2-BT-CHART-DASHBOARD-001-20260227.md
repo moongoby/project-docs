@@ -81,8 +81,8 @@ cp -r /tmp/desk2_charts/ /var/www/trading.newtalk.kr/desk2-charts/
 | 파일 | 설명 |
 |------|------|
 | `frontend/static/desk2-backtest.html` | 대시보드 페이지 구조(헤더, 툴바, 요약 카드, 세션/거래 테이블, 차트 영역) |
-| `frontend/static/desk2-backtest.js` | API 호출, 테이블 렌더링, Plotly.js 캔들+마커 차트 |
-| `frontend/static/desk2-backtest.css` | admin 스타일 통일(보라 그라데이션 카드, 흰색 배경) |
+| `frontend/static/js/desk2-backtest.js` | API 호출, 테이블 렌더링, Plotly.js 캔들+마커 차트 |
+| `frontend/static/css/desk2-backtest.css` | admin 스타일 통일(보라 그라데이션 카드, 흰색 배경) |
 
 - 차트: Plotly.js CDN (`https://cdn.plot.ly/plotly-2.27.0.min.js`).
 
@@ -110,8 +110,8 @@ bash scripts/deploy_static.sh
 | `backend/app/api/v4_desk2_backtest.py` | 신규 |
 | `backend/app/main.py` | import 1줄, include_router 1줄 추가 |
 | `frontend/static/desk2-backtest.html` | 신규 |
-| `frontend/static/desk2-backtest.js` | 신규 |
-| `frontend/static/desk2-backtest.css` | 신규 |
+| `frontend/static/js/desk2-backtest.js` | 신규 |
+| `frontend/static/css/desk2-backtest.css` | 신규 |
 | `scripts/deploy_static.sh` | desk2-backtest 관련 복사/백업/검증 추가 |
 
 ---
