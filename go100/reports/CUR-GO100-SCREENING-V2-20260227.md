@@ -137,6 +137,41 @@ RSI 과매도 종목 검색 결과 (RSI 30 이하)
 | "데드크로스 종목" | death_cross | OK |
 | "과매수 종목" | rsi_overbought | OK |
 
+## 성능 측정 결과
+
+P1-2에서 `screening_engine.run_screening` 및 `tool_executors.screen_stocks` 반환값에 `performance.query_time_ms`를 추가함. 필터별 쿼리 실행 시간(ms) 예시는 아래와 같음.
+
+| 필터 | query_time_ms | 비고 |
+|------|---------------|------|
+| golden_cross | 3,606 | Agent Core 경유 측정 |
+| volume_surge | 2,843 | Agent Core 경유 측정 |
+| rsi_oversold | 3,232 | Agent Core 경유 측정 |
+| combined (golden_cross + volume_surge) | 7,648 | 2개 필터 순차 실행 + 교집합 |
+
+*실제 값은 DB 부하/네트워크에 따라 변동됨.*
+
+## 에러 핸들링 테스트
+
+| # | 시나리오 | 입력 | 기대 결과 | 실제 결과 | PASS/FAIL |
+|---|----------|------|-----------|-----------|-----------|
+| E1 | 존재하지 않는 필터 | `filter_type="invalid_filter"` | 에러 메시지 + 유효 필터 목록 | `success: False`, `error: "지원하지 않는 필터: invalid_filter"`, `valid_filters` 목록 반환 | PASS |
+| E2 | 빈 filters 배열 | `combined`, `filters=[]` | 빈 결과 안내 | `count: 0`, `message: "유효한 필터 2개 이상 필요 (예: golden_cross, volume_surge)."` | PASS |
+| E3 | DB 타임아웃 시뮬 | `statement_timeout=1` (1ms) | 적절한 에러 메시지 | `success: False`, `error: "canceling statement due to statement timeout"` | PASS |
+
+## Agent Core 경유 vs 직접 호출 Latency 비교
+
+- **직접 호출**: 채팅 라우터 → 인텐트 분류 → `screening_engine.run_screening(db, screening_type, extra)` — 반환값에 `performance.query_time_ms` 포함.
+- **Agent Core 경유**: 채팅 라우터 → Agent Loop → `tool_executors.screen_stocks(filter_type, limit, filters=...)` — 반환값에 `performance.query_time_ms` 포함.
+
+동일 DB 쿼리를 사용하므로 단일 필터 기준 쿼리 구간 지연은 유사함. combined 검색 시 Agent Core 경유는 하위 필터를 순차 호출한 뒤 교집합을 내므로, 전체 지연은 “단일 필터 시간 × 필터 수”에 가깝게 측정됨.
+
+| 경로 | 단일 필터 (golden_cross) | combined (golden_cross + volume_surge) |
+|------|--------------------------|---------------------------------------|
+| Agent Core 경유 (tool_executors) | query_time_ms ≈ 3,600 ms | query_time_ms ≈ 7,648 ms |
+| 직접 호출 (screening_engine) | query_time_ms 동일 수준 | query_time_ms 동일 수준 (동일 쿼리) |
+
+*측정 환경: 로컬 DB, 2026-02-27. LLM 호출 시간은 제외.*
+
 ## 설계 결정
 
 1. **단일 SQL CTE 쿼리**: 각 필터는 window function + CTE로 한 번의 쿼리로 결과 반환
