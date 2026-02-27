@@ -6,6 +6,19 @@
 
 ## [Unreleased]
 
+## [3.15.0] - 2026-02-27
+### Fixed (DOCS-FIX-009 R4 최종 문서 정합성 복구)
+- CONTEXT.md v3.15.0: R4-FRONT-004·007 완료 반영, 다음 작업 정리, 완료 45건
+- CHANGELOG.md v3.15.0: 누락 엔트리 복원
+- HANDOVER.md v3.0.1: R4-FRONT-004·005·007 완료 상세 추가, 다음 작업 큐 정리
+
+### Added (R4-FRONT-007 위탁배송·드롭십 UI)
+- **타입**: frontend/src/types/fulfillment.ts — DropshipStatus, ReturnType/Status/Reason, FulfillmentTaskType/Status, DropshipOrder, ReturnRequest, FulfillmentTask, FulfillmentDashboard
+- **API 클라이언트**: frontend/src/lib/fulfillment-api.ts — 20함수 (드롭십 7 + 반품 7 + 풀필먼트 6)
+- **컴포넌트 14개** (frontend/src/components/fulfillment/): DropshipStatusBadge, DropshipOrderCard, DropshipOrderList, DropshipOrderDetail, DropshipCreateDialog, ReturnStatusBadge, ReturnRequestList, ReturnRequestDetail, ReturnCreateDialog, FulfillmentTaskStatusBadge, FulfillmentTaskCard, FulfillmentTaskList, FulfillmentTaskDetail, FulfillmentDashboardWidget, index
+- **페이지**: /retail/dropship, /retail/dropship/[id], /retail/returns, /retail/returns/[id], /wholesale/dropship, /wholesale/dropship/[id], /admin/fulfillment, /admin/fulfillment/[id], /admin/returns, /admin/returns/[id]
+- **레이아웃**: retail 드롭십·반품, wholesale 드롭십 관리, admin 풀필먼트·반품 메뉴 추가
+
 ## [3.14.0] - 2026-02-26
 ### Added (R4-FRONT-006 콘텐츠 파이프라인 UI)
 - **타입**: frontend/src/types/pipeline.ts — PipelineStatus(12단계), PipelinePriority, PipelineGrade, PipelineContentType, PipelineMediaStage, ContentPipelineJob, PipelineLog, PipelineMedia, PipelineDashboard, PipelineCreateRequest, PipelineListResponse, PipelineStatistics
@@ -23,6 +36,14 @@
 - **페이지**: /wholesale/sns (계정 목록 + 게시물 목록 탭), /wholesale/sns/new (게시물 작성), /wholesale/sns/[id] (게시물 상세 + 성과), /wholesale/sns/analytics (SNS 성과 대시보드)
 - **레이아웃**: wholesale-layout "SNS 관리" → /wholesale/sns (Share2 아이콘)
 - 인스타그램·틱톡·페이스북·유튜브 연결·해제, 즉시/예약/다채널 일괄 게시, AI 해시태그 추천, 최적 게시 시간 위젯
+
+## [3.12.0] - 2026-02-26
+### Added (R4-FRONT-004 셀러 채널 관리 UI)
+- **타입**: frontend/src/types/channel.ts — ChannelPlatform, ChannelStatus, SyncStatus, ChannelConnection, ChannelProductMapping
+- **API 클라이언트**: frontend/src/lib/channel-api.ts — 13함수 (getChannels, connectChannel, getAuthUrl, getChannelDetail, disconnectChannel, updateChannelSettings, pushProduct, pushBulk, deleteChannelProduct, syncChannel, getMappings, refreshToken, getProductChannels)
+- **컴포넌트 10개** (frontend/src/components/channel/): ChannelList, ChannelCard, ChannelConnectDialog, ChannelDetail, ChannelStatusBadge, ChannelMappingTable, ChannelPushDialog, ChannelSettingsForm, ProductChannelBadges, index
+- **페이지**: /wholesale/channels, /wholesale/channels/[id], /admin/channels, /admin/channels/[id], /wholesale/products/[id]/channels
+- **레이아웃**: wholesale "채널 관리", admin "채널" 메뉴 추가
 
 ## [3.11.0] - 2026-02-26
 ### Fixed (DOCS-FIX-008 4대 핵심 문서 정합성 복구)
