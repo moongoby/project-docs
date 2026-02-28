@@ -630,4 +630,4 @@ cum_amount ≥ 90%: 강제 청산 (2.5% → 사실상 장 종료)
 
 ---
 
-HANDOVER.md 업데이트 완료: (별도 커밋)
+HANDOVER.md 업데이트 완료: 8dd37a6
