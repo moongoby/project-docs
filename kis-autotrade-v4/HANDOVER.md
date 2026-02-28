@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v3.1 — 파동 외부 10과제 완료, 교차종목+370%, 전조AUC0.64, 전략간섭100%중복, 비용PF-37%)
+> 최종 업데이트: 2026-02-28 (v3.2 — 급등원인분석+D-20전조추출 20과제 완료, 원인8분류, 전조조합P=76.7%, DESK승격정량화, Leader AUC0.712)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -56,6 +56,7 @@
 | WAVE-OUTER-RESEARCH-001 | 02-28 | cac9ef0 | — | **파동 외부 10과제(R15~R24)**: PASS2/COND5/FAIL3, 교차종목+370%, 전조AUC0.64, 뉴스χ²=249, 전략간섭100%중복, 비용PF-37%, 재앙3패턴 |
 | DEV-HAV-001 | 02-28 | (본 커밋) | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
 | CODE-ANALYSIS-CROSS-ENTRY-001 | 02-28 | (보고서 push) | 200 | 교차종목 진입 코드 갭 분석, 이미있음7건/수정4건/신규4건 |
+| SURGE-CAUSE-ANALYSIS-001 | 02-28 | (본 커밋) | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
 
 ---
 
