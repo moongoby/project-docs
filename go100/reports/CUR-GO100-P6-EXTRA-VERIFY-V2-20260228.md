@@ -99,3 +99,5 @@ CEO 지시 적용: D-005 신고가 돌파 매매, 전략 생성·백테스트·�
 
 - **보고서 push:**  
   `cd /root/project-docs && git add -A && git commit -m "[GO100] P6-EXTRA-VERIFY-V2: intent routing 수정 + E2E 4단계 재검증 (20260228)" && git push origin master`
+- **project-docs push 완료:** `a7cca9c`
+- **코드 레포 커밋 (kis-autotrade-v4):** `30e525fa` (branch: phase-2c-command-center)
