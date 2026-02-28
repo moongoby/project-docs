@@ -195,6 +195,15 @@ cd /root/project-docs
 2. go100/CEO-DIRECTIVES.md 섹션 4
 3. kis-autotrade-v4/CEO-DIRECTIVES.md 섹션 4
 
+## 7-3. CEO 보고 규칙 (REPORT-001)
+
+CEO에게 보고할 때 서버 로컬 경로가 아닌 GitHub 브라우저 URL로 보고한다.
+- 보고서: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/reports/{파일명}
+- 커밋: https://github.com/moongoby/project-docs/commit/{SHA}
+- HANDOVER: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/HANDOVER.md
+
+push 미완료 상태에서 보고하면 미완료 처리. 상세 규칙은 각 프로젝트 CEO-DIRECTIVES.md PATH-001 섹션 4-9 참조.
+
 ---
 
 ## 7. 변경 이력
@@ -203,3 +212,4 @@ cd /root/project-docs
 |------|------|
 | 2026-02-24 | 최초 작성 (CUR-GO100-DOCS-NAMING-RULE-001) |
 | 2026-02-28 | 셀프 검증 의무화, CEO-DIRECTIVES 연동, 저장 정보 블록 필수 |
+| 2026-02-28 | REPORT-001 CEO 보고 규칙 추가 (GitHub URL 필수, 7-3·PATH-001 4-9) |

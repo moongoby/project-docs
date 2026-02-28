@@ -90,6 +90,7 @@
 6. 작업 완료 시 HANDOVER.md 업데이트 필수
 7. 보고서 GitHub push + HTTP 200 확인 필수
 8. 경로 규칙(PATH-001) 준수 필수 — 아래 섹션 4 참조
+9. 보고 시 반드시 GitHub 브라우저 URL로 보고 (REPORT-001) — 아래 섹션 4-9 참조
 
 ---
 
@@ -218,6 +219,37 @@ echo "curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/m
 ```
 
 본문에 적은 경로와 실제 push 경로가 다르면 작업 미완료 처리.
+
+### 4-9. CEO 보고 규칙 (REPORT-001) — 위반 시 미보고 처리
+
+작업 완료 후 CEO에게 보고할 때:
+
+1. **반드시 git push 먼저 완료**한다
+2. **서버 로컬 경로로 보고하지 않는다**
+   - ❌ "보고서: /root/project-docs/go100/reports/CUR-GO100-P5-3-..."
+   - ❌ "저장 완료했습니다"
+   - ❌ "/root/project-docs에 push 했습니다"
+3. **반드시 GitHub 브라우저 URL로 보고한다**
+   - ✅ https://github.com/moongoby/project-docs/blob/master/go100/reports/CUR-GO100-P5-3-PORTFOLIO-OPTIMIZER-001-20260227.md
+   - ✅ https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/DESK2-VALIDATION-ENGINE-001-20260228.md
+
+4. **보고 형식 (필수)**:
+
+보고서: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/reports/{파일명}  
+커밋: https://github.com/moongoby/project-docs/commit/{SHA}  
+HANDOVER: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/HANDOVER.md  
+HTTP: 200 확인 완료
+
+5. **URL이 실제로 접근 가능한지 확인 후 보고**:
+```bash
+# push 후 반드시 실행
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  "https://raw.githubusercontent.com/moongoby/project-docs/master/{프로젝트}/reports/{파일명}")
+echo "HTTP: $HTTP_CODE"
+# 200이 아니면 보고하지 말고 원인 파악
+```
+- push 안 하고 "작성 완료"로 보고하면 미완료 처리
+- 서버 경로만 적고 GitHub URL 없으면 미보고 처리
 
 ---
 
