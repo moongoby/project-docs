@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v2.0 — Phase C/D/F 완료, VE-003 전 Phase 백테스트 종결)
+> 최종 업데이트: 2026-02-28 (v2.1 — DESK2 최종설계서, D-011 시그널매칭+60분청산, VE-003 전Phase 종결)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -33,11 +33,12 @@
 | VE-003-PHASE-B | 02-28 | 4211890 | 200 | D1 FAIL, D2 CONDITIONAL(PF1.57), D5 CONDITIONAL(PF4.21), RSI 30~50 최강 필터 |
 | THEME-SECTOR-AUDIT | 02-28 | 09e5ca3 | 200 | 4개 분류체계 점검, 테마 중복제거·일별성과·활동성 조치, 자동반영 확인 |
 | VE-003-PHASE-A | 02-28 | 8fd5653 | 200 | D4 CONDITIONAL(PF1.88), **D6 PASS(PF13.63)**, D7 CONDITIONAL(PF1.98), 전략포트폴리오 확정 |
-| DESK2-HYPOTHESIS | 02-28 | (본 커밋) | — | 7가설(H-001~007), 7컨디션(C1~C7), 5축마스크, DCS평가, A/B/C등급, D-010 등록 |
+| DESK2-HYPOTHESIS | 02-28 | 4656085 | 200 | 7가설(H-001~007), 7컨디션(C1~C7), 5축마스크, DCS평가, A/B/C등급, D-010 등록 |
 | VE-003-PHASE-E | 02-28 | 4656085 | 200 | 5축 분해, 마스크 D4 PF1.88→2.43, D7 PF1.98→2.12, D1 부활불가, DCS 등급A(4.30%/70%) |
 | VE-003-PHASE-F | 02-28 | (본 커밋) | — | **18신호분석**: TS-B4(PF3.23) > TS-C1(PF2.80) > TS-B1(PF2.72), 60분 보유 최적, 상한가 부스트 확인 |
 | VE-003-PHASE-C | 02-28 | (본 커밋) | — | D3 FAIL(PF1.17), **S1 CONDITIONAL(PF1.44/WR58.7%)**, S2 전체 FAIL(MA7 PF1.27 최고) |
 | VE-003-PHASE-D | 02-28 | (본 커밋) | — | NEW 254종목 6조건: VP120 88.5%, RSI 88.1%, MA정배열 87.7%, **3개+ 동시 87.7%**, 10시전 82.1% |
+| DESK2-FINAL-SPEC | 02-28 | (본 커밋) | — | 6-Layer 아키텍처, 6전략+1탐지, 60분 청산 전환, 18시그널 매칭, D-011 등록 |
 
 ---
 
@@ -273,3 +274,4 @@
 | v1.8 | 2026-02-28 | Opus4.6 | VE-003 Phase A 완료: D6 PASS(PF13.63), D4/D7 CONDITIONAL, 전략 포트폴리오 확정 |
 | v1.9 | 2026-02-28 | Opus4.6 | Phase E 5축마스크(D4 PF2.43/D7 PF2.12), D-010 멀티컨디션 가설, DCS 등급A, D1 최종폐기 |
 | v2.0 | 2026-02-28 | Opus4.6 | Phase C/D/F 완료: 18신호(TS-B4 PF3.23), S1 CONDITIONAL(PF1.44), NEW 87.7% 탐지, VE-003 전Phase 종결 |
+| v2.1 | 2026-02-28 | Opus4.6 | DESK2 최종설계서 + D-011(60분 청산/시그널매칭/D1·D3·S2 폐기), CEO-DIRECTIVES v1.4 |
