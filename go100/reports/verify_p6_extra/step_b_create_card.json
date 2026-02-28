@@ -2,8 +2,8 @@
   "request": "이 조건으로 전략카드 만들어줘. 이름은 'CEO 신고가 돌파 모멘텀'. 진입: 52주 신고가 돌파 + 거래량 200% + 정배열. 손절 3%, 트레일링 7%, 익절 15%, 최대 보유 15일.",
   "status_code": 200,
   "response": {
-    "agent_name": "UNDERSTAND",
-    "reply_to_user": "전략을 설계하고 있습니다. 잠시만 기다려 주세요...",
+    "agent_name": "GOAL",
+    "reply_to_user": "전략 포트폴리오를 설계하고 있습니다. 잠시만 기다려 주세요...",
     "user_intent": null,
     "strategy_design": null,
     "needs_more_info": false,
@@ -15,7 +15,7 @@
     "evaluation": null,
     "optimization_history": [],
     "data": {
-      "task_id": "dfa8f91f"
+      "task_id": "cf1f7ee2"
     }
   }
 }
