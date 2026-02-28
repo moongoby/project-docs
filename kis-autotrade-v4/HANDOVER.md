@@ -57,6 +57,7 @@
 | DEV-HAV-001 | 02-28 | (본 커밋) | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
 | CODE-ANALYSIS-CROSS-ENTRY-001 | 02-28 | (보고서 push) | 200 | 교차종목 진입 코드 갭 분석, 이미있음7건/수정4건/신규4건 |
 | SURGE-CAUSE-ANALYSIS-001 | 02-28 | (본 커밋) | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
+| HANDOVER-PULLBACK-CONFIRM | 02-28 | (본 커밋) | 200 | **눌림확인매매 인계서**: 과제 A~D(이평선분류/반등신호검증/대기비용/관통반등), 19,225건 기반, 새 세션 즉시 착수 가이드 |
 
 ---
 
@@ -300,6 +301,7 @@
 
 ### 최신 상태 (2026-02-28, 파동 자본순환 14과제 완료)
 - VE-003 Phase A~F + H-1/H-2 전부 완료
+- **HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228 등록**: 눌림확인매매 심층연구 + DESK2 전략최적화 세션 인계. **새 세션은 반드시 [인계서](https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228.md) PART 5 과제 A~D를 최우선 수행** (이평선 기준 눌림 분류, 반등 확인 신호 검증, 확인 대기 비용, 관통 후 반등 패턴).
 - **PULLBACK-ANATOMY-001 완료**: 19,225건 전수조사, 2파율 73.9%, 모드3 0% 원인 규명
 - **WAVE-CAPITAL-CYCLE-001 완료**: 3,000건 ZigZag 14과제 종합분석
   - W1 30% / W2 100% 최적 청산, Dynamic 스톱(PF17.98/WR70.87%)
@@ -379,3 +381,4 @@
 | v2.6 | 2026-02-28 | Opus4.6 | 장중 복리 자본 순환 연구: 부분청산→재투입 자본풀(3.1x 효율), 모드3+D9 이중수익, IntraDayCapitalPool 설계 |
 | v2.5 | 2026-02-28 | Opus4.6 | 연구 3건: 타이트손절(-1% 시스템 PF1.4) + 커버리지(D8/D9 신설로 전구간 커버) + 릴레이(청산→재진입 연쇄맵) |
 | v2.4 | 2026-02-28 | Opus4.6 | Phase H-1(C1~C7 반등률, C2 PF2.16) + H-2(가격프로파일, C3 MFE/MAE 1.19x) + D6/D7 cron 운영 |
+| v3.1 | 2026-03-01 | Cursor | HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228 등록(눌림확인매매 과제 A~D 인계), 섹션6 링크 추가 |
