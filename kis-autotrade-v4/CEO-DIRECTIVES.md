@@ -294,6 +294,89 @@ D6(PF13.63) > D5(PF4.21) > D4(PF2.43) > D7(PF2.12) > D2(PF1.57) > S1(PF1.44) —
 
 ---
 
+## 4. 경로 규칙 (PATH-001) — 위반 시 보고서 미제출 처리
+
+> 이 규칙은 GO100 CEO-DIRECTIVES.md 섹션 4와 동일하며, 양쪽 프로젝트에 공통 적용된다.
+
+### 4-1. 프로젝트별 저장 경로 (교차 저장 금지)
+
+| 프로젝트 | 보고서 경로 (서버) | GitHub 경로 |
+|---------|-------------------|-------------|
+| GO100 | /root/project-docs/go100/reports/ | go100/reports/ |
+| V4.1 | /root/project-docs/kis-autotrade-v4/reports/ | kis-autotrade-v4/reports/ |
+
+GO100 보고서를 kis-autotrade-v4/reports/에 넣거나, V4.1 보고서를 go100/reports/에 넣으면 무효.
+
+### 4-2. 파일명 규칙
+
+```
+CUR-{PROJECT}-{TASK_NAME}-{SEQ}-{YYYYMMDD}.md
+```
+
+| 구분 | GO100 | V4.1 |
+|------|-------|------|
+| PROJECT | GO100 | V41 |
+| 예시 | CUR-GO100-P5-3-PORTFOLIO-OPTIMIZER-001-20260227.md | CUR-V41-ARCHITECTURE-SCAN-001-20260223.md |
+
+V4.1 DESK 계열 보고서는 `DESK2-{TASK}-{SEQ}-{YYYYMMDD}.md`도 허용.
+
+**금지 패턴:**
+- `20260223-HOTFIX-SAVE-500.md` (날짜 선행, prefix 없음)
+- `report.md` (식별 불가)
+- `HOTFIX-001.md` (날짜 없음)
+
+### 4-3. 날짜 규칙
+
+파일명 YYYYMMDD = 작업 완료일 (KST 기준).
+
+### 4-4. HANDOVER.md 단일 파일 규칙
+
+| 프로젝트 | 최신 인계서 (항상 이 파일이 최신) |
+|---------|-------------------------------|
+| GO100 | go100/HANDOVER.md |
+| V4.1 | kis-autotrade-v4/HANDOVER.md |
+
+새 세션 AI는 HANDOVER.md 하나만 읽으면 최신 상태 파악 가능해야 한다.
+
+### 4-5. 커밋 메시지 prefix
+
+| 프로젝트 | prefix |
+|---------|--------|
+| GO100 | [GO100] |
+| V4.1 | [V4.1] |
+| 공유 | [SHARED] |
+| 문서 | [DOCS] |
+
+### 4-6. push 전 셀프 검증 (필수)
+
+작업 완료 후 git add 전에 반드시 실행:
+
+```bash
+# 1) 보고서가 올바른 프로젝트 폴더에 있는가?
+# 2) 파일명이 CUR-{PROJECT}-TASK-SEQ-DATE.md 형식인가?
+# 3) 교차 저장 없는가? → git diff --cached --name-only로 확인
+# 4) HANDOVER.md 업데이트 했는가?
+# 5) push 후 HTTP 200 확인
+```
+
+스크립트: /root/project-docs/scripts/path_check.sh 실행
+
+### 4-7. 보고서 본문 하단 필수 기재
+
+```markdown
+---
+## 저장 정보
+- 서버 경로: /root/project-docs/{프로젝트}/reports/{파일명}
+- GitHub: https://github.com/moongoby/project-docs/blob/master/{경로}/{파일명}
+- 커밋: {SHA}
+- HTTP 확인: {200|미확인}
+- HANDOVER 업데이트: {완료|미완료}
+```
+
+본문에 적은 경로와 실제 push 경로가 다르면 작업 미완료 처리.
+
+---
+
 ## 버전 이력
 | 버전 | 날짜 | 변경 |
 |------|------|------|
@@ -302,3 +385,4 @@ D6(PF13.63) > D5(PF4.21) > D4(PF2.43) > D7(PF2.12) > D2(PF1.57) > S1(PF1.44) —
 | v1.2 | 2026-02-27 | D-009 CEO 실전 전략 3층 구조 + 장중 NEW 탐지 통합 |
 | v1.3 | 2026-02-28 | D-010 DESK2 멀티컨디션 엔진 + 7가설 + 5축 마스크 + DCS 평가 |
 | v1.4 | 2026-02-28 | D-011 기술적 시그널 매칭 + 60분 청산 전환 + D1/D3/S2 폐기 확정 |
+| v1.5 | 2026-02-28 | PATH-001 경로 규칙 추가 — 교차 저장 금지, 파일명 규칙, 셀프 검증 스크립트, 보고서 하단 저장 정보 필수 |

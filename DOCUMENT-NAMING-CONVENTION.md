@@ -165,8 +165,41 @@ project-docs/  ← repo 루트
 
 ---
 
+## 7-1. 셀프 검증 의무화 (2026-02-28 추가)
+
+**모든 보고서 push 전에 셀프 검증 스크립트 실행 필수:**
+
+```bash
+cd /root/project-docs
+./scripts/path_check.sh <보고서파일명>
+```
+
+검증 항목: 프로젝트 경로, 파일명 규칙, 교차 저장, HANDOVER 업데이트, HTTP 200.
+
+**보고서 본문 하단에 저장 정보 블록 필수:**
+
+```markdown
+---
+## 저장 정보
+- 서버 경로: /root/project-docs/{프로젝트}/reports/{파일명}
+- GitHub: https://github.com/moongoby/project-docs/blob/master/{경로}/{파일명}
+- 커밋: {SHA}
+- HTTP 확인: {200|미확인}
+- HANDOVER 업데이트: {완료|미완료}
+```
+
+## 7-2. CEO-DIRECTIVES.md 연동
+
+이 문서의 파일명·경로 규칙은 각 프로젝트 CEO-DIRECTIVES.md의 PATH-001 섹션에도 동일하게 기재되어 있다. 규칙 변경 시 세 곳 동시 갱신:
+1. DOCUMENT-NAMING-CONVENTION.md (마스터)
+2. go100/CEO-DIRECTIVES.md 섹션 4
+3. kis-autotrade-v4/CEO-DIRECTIVES.md 섹션 4
+
+---
+
 ## 7. 변경 이력
 
 | 일자 | 내용 |
 |------|------|
 | 2026-02-24 | 최초 작성 (CUR-GO100-DOCS-NAMING-RULE-001) |
+| 2026-02-28 | 셀프 검증 의무화, CEO-DIRECTIVES 연동, 저장 정보 블록 필수 |
