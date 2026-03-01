@@ -52,9 +52,9 @@
 
 ---
 
-## 2. 현재 상태 (2026-02-28 기준)
+## 2. 현재 상태 (2026-03-01 기준)
 
-### 진행률: **85%** (천재 100% 기준, v9 72% → 85%)
+### 진행률: **88%** (천재 100% 기준, Batch 7 85% → Phase 4 AI 인프라 구축 반영)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -70,6 +70,11 @@
 | P6-2 KIS 게이트웨이 | 완료 — go100_live_orders, 모의투자 주문/잔고 (마이그레이션 047) |
 | P6-EXTRA-VERIFY | Agent Chat E2E 4단계 검증 (보고서 확인) |
 | P7-1 QA | 종합 판정 (보고서 확인) |
+
+### Batch 8 결과 (2026-03-01)
+| 항목 | 비고 |
+|------|------|
+| Phase 4 AI Feature Pipeline | PASS — feature_engine.py + feature_store.py 구축, E2E 5종목 PASS |
 
 ### 완료 작업 테이블 (Batch 1~7 요약)
 
@@ -157,6 +162,11 @@
 
 ## 3. 다음 작업
 
+- **Phase 4 AI 피처 확장 (P1)**
+  - `FORCE_ACC` 세력 매집 패턴 (120일선 수렴도 + 급등봉)
+  - `D_D1_D2_ENTRY` 홍인기 장대양봉 타점
+  - `MKT_SEASON` DESK2 가중치 연동 (Q2 ×1.2, Q4 ×0.7)
+  - 과거 1년치 배치 빌드 크론 스크립트 (`run_feature_pipeline.sh`)
 - **Phase 7 나머지**
   - 30일 모의투자 1사이클 완주
   - 소액 실매매 3일 검증
@@ -175,6 +185,8 @@
 - 자기리뷰: 주간/월간 자동 성과 평가 + 개선안 생성
 - DB migration 035~047 (12개 테이블)
 - 크론 63+ 라인 활성
+- AI Feature Pipeline: DUAL_FLOW_20D, SMALL_CAP_QUALITY, THEME_CYCLE, MarketRegimeEncoder(Q1~Q4) 구현
+- Parquet Feature Store: data/go100/features/ 경로, 20개 피처 + 3개 라벨
 
 ---
 
@@ -211,6 +223,10 @@
 | 리스크·주문 | backend/app/services/go100/risk_engine.py, kis_order_gateway.py |
 | 마이그레이션 | backend/migrations/035_* ~ 047_* |
 | 검증 스크립트 | scripts/go100/test_risk_engine_p6_1.py, test_kis_order_gateway.py |
+| AI Feature Engine | backend/app/services/go100/ai/feature_engine.py |
+| AI Feature Store | backend/app/services/go100/ai/feature_store.py |
+| Feature Pipeline 테스트 | scripts/go100/test_feature_pipeline.py |
+| Feature 데이터셋 | data/go100/features/ai_dataset_YYYYMMDD.parquet |
 
 ---
 
