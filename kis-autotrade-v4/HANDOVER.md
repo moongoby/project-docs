@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v4.7 — **CTE 풀 백테스트 + 3-Fold WF**: 7전략 포트폴리오 PF_net=2.368/Sharpe=8.685/MDD=-2.43%, 3-Fold Test PF 평균 1.907, OOS/IS 3/3 PASS, CEO Go/No-Go = **GO**, 60일 페이퍼 트레이딩 단계 진입; v4.6 — GO100 AI Feature Store v2)
+> 최종 업데이트: 2026-03-01 (v4.8 — **Cursor #20 EQS LAG1 + D4 ATR + CTE 페이퍼 활성화**; v4.7 — CTE 풀 백테스트 + 3-Fold WF, GO)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -94,6 +94,7 @@
 | **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | (본 커밋) | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
 | **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규. Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
 | **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | (본 커밋) | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
+| **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | (본 커밋) | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
 
 ---
 
@@ -122,9 +123,7 @@
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| **60일 페이퍼 트레이딩** | **즉시 시작** | CEO Go/No-Go = GO 확정. D6/D7 PAPER_LIVE 이미 가동. CTE 파이프라인 연동 페이퍼 실행 03-02~ 시작. 03-31 중간 점검, 04-30 최종 판정 |
-| **EQS LAG1 구현** | **필수** | PRICE_POSITION → t-1분 partial H/L로 재계산. 실배포 전 필수 |
-| **D4 ATR 재조정** | **필수** | D4가 ATR NetR:R 조건으로 전량 차단(0건). sl_mult 또는 tp_mult 재조정 |
+| **60일 페이퍼 트레이딩** | **진행** | CEO Go/No-Go = GO. D6/D7 PAPER_LIVE 가동. **CTE 파이프라인 연동 페이퍼 03-02 08:50 첫 실행 준비 완료** (live_paper_cte.py + monitor_paper_cte.py) |
 | LIVE-PAPER-D6D7 | 진행 중 | D6(#42)+D7(#43) PAPER_LIVE. D7 핫픽스 적용완료(≥0.80+Top10) |
 | **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
 | **DESK5/4/3 구현** | **착수** | 프랙탈 추세추종 v2.0: Task 0 데이터 검증 완료. 스크립트 실행 후 결과 반영 |
@@ -136,6 +135,8 @@
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
+| **DESK5/4/3 보류** | **한국 KOSDAQ 시장 특성상 일봉 추세추종 유효성 미실증. 재개 조건: 60일 페이퍼 데이터 축적 후, DESK2 미포착 종목 역추적 ≥30% 시 착수.** | — |
+| 문서 구조 마이그레이션 (Option B) | #20 이후 | 다음 |
 | Phase 2 진입최적화 | 2E 완료 후 발굴확정 | 다음 |
 | Phase 3 청산최적화 | Phase 2 완료 | 그다음 |
 | Phase 4 DESK3-5 확장 | Phase 3 완료 | 후순위 |
@@ -529,3 +530,4 @@
 | v4.4 | 2026-03-01 | Sonnet4.6 | **Cursor #17~#19 Phase B+C CTE 통합 파이프라인 + 백테스트 완료**: cte_pipeline.py(6-Layer+CS L3.5+EQS L4.5)/vwap_engine.py(5변수)/atr_dynamic_exit.py(NetR:R≥2.0+트레일링)/limit_1tick_exit.py(지정가-1틱+60초 마켓폴백) — 단위테스트 53케이스 PASS; CTE_FULL 5,000건/243일 백테스트: PF_net=6.901/MDD=12.5%/Sharpe=7.251/WR=75.9%, Walk-Forward 3-fold OOS/IS=1.300(과적합없음), Go/No-Go 7/8 GO — 보고서 push: CUR-V41-CTE-FULLBACKTEST-CEO-REPORT-001-20260301 |
 | v4.5 | 2026-03-01 | Opus4.6 | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신, 코드커밋 67602428 |
 | v4.6 | 2026-03-01 | Opus4.6 | **GO100 AI Feature Store v2 배치 빌드**: 19→34컬럼(Track A 7+Track B 2+뉴스1+라벨3+valid_label), NaN라벨보존+LABEL_ Z-score제외 결함수정, 263,450rows/12parquet/26.24MB, REGIME_SEASON 경고0건, valid_label 99.03% |
+| v4.8 | 2026-03-01 | Cursor | **#20 EQS LAG1 + D4 ATR + CTE 페이퍼**: execution_quality_score LAG1(PRICE_POSITION t-1/ORDERBOOK 8점), atr_dynamic_exit D4 A안(1.0/5.0), live_paper_cte.py+monitor_paper_cte.py, 테스트 70 PASS |
