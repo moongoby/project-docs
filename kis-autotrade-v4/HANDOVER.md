@@ -92,6 +92,7 @@
 | **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
 | **CUR-V41-VWAP-ATR-ENGINE-001** | 03-01 | e84ac1b9 | 200 | **Cursor #18 VWAP 엔진 + ATR 동적청산**: vwap_engine.py(5변수+TREND 선형회귀), atr_dynamic_exit.py(전략별 멀티플라이어/COST_ROUNDTRIP=0.47%/TRAILING_MA5), cte_pipeline.py(L3.2 VWAP지지체크+ATR_NETRR 차단), test_vwap_atr.py **25/25 PASS**, 기존 33테스트 비파괴 유지 |
 | **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | (본 커밋) | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
+| **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | (본 커밋) | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
 
 ---
 
@@ -128,6 +129,7 @@
 | S1-IMPROVE | 대기 | S1 폭발+눌림 PF1.44→1.5+ 필터 강화 |
 | **EQS LAG1 구현** | **필수** | PRICE_POSITION → t-1분 partial H/L로 재계산. ORDERBOOK_BALANCE → 2025-03~12 구간 대리변수 공식화 |
 | **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
+| **DESK5/4/3 구현** | **착수** | 프랙탈 추세추종 v2.0: Task 0 데이터 검증 완료. Task 1(DESK5)·2(DESK4)·3(DESK3)·4(이중수확) 실증 스크립트 실행 후 결과 반영 |
 | **반등확인 게이트 5전략 배포** | **다음** | OOS Walk-Forward PASS(avg PF 2.683). 2/3 충족 기본 버전으로 배포 |
 | **VWAP SUPPORT_COUNT ≥ 2 조건** | **다음** | D2/D5 우선 적용. 4,218건 기준 WR 67.4% 확인 |
 
