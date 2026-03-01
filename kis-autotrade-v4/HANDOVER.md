@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.9 — **Session D 분봉 리플레이 백테스트 전환**: v4_ohlcv_minute 83.5M rows 실분봉 리플레이 엔진 구축, 6전략 242거래일 1,929건 BT 완료, Portfolio PF=0.834(통계BT 1.258 대비 현실화), D6만 PF>1.0(1.144); v5.8 — 전체 데이터 수집 점검+백필 완료)
+> 최종 업데이트: 2026-03-02 (v5.10 — **Session G 서버 실증 검증**: 137테스트 ALL PASS, 9서비스 정상, Triple Guard 확인, 즉시조치 1건(로그경로); v5.9 — Session D 분봉 리플레이 BT 전환 1,929건; v5.8 — 전체 데이터 수집 점검+백필 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -9,7 +9,7 @@
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
 - 5개 DESK (60개 strategy cards, 14개 OPEN positions)
 - 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
-- 225 테이블, 15.7GB, 일봉 3년치 (2,611,905 rows)
+- 254 테이블, 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
 - 투자자별 수급 데이터 (261,000 rows), 뉴스 214만건
 
 ---
@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | (push後) | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
 | **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
 | **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/global_market/scalping_universe 전수 정상화 |
 | **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
