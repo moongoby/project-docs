@@ -176,7 +176,7 @@ V4.1 ↔ GO100 브릿지 E2E 검증
 
 **커밋 (코드)**: `2fd7ac29` — `kis-autotrade-v4` 레포 (branch: phase-2c-command-center)
 
-**커밋 (문서)**: *{DOCS_SHA}* — `project-docs` 레포
+**커밋 (문서)**: `eba0e52` — `project-docs` 레포 (branch: master)
 
 **HANDOVER**: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER.md
 
