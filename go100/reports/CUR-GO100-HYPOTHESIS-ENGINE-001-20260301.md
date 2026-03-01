@@ -279,4 +279,4 @@ run_hypothesis_backtest.py
 
 ---
 
-HANDOVER.md 업데이트 완료: (커밋 후 기재)
+HANDOVER.md 업데이트 완료: 3026a4f
