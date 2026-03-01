@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.10 — **Session G 서버 실증 검증**: 137테스트 ALL PASS, 9서비스 정상, Triple Guard 확인, 즉시조치 1건(로그경로); v5.9 — Session D 분봉 리플레이 BT 전환 1,929건; v5.8 — 전체 데이터 수집 점검+백필 완료)
+> 최종 업데이트: 2026-03-02 (v5.11 — **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체AUC<0.55(분봉만으론 한계), 전략별D7 AUC=0.66/D4=0.63 특화신호, Anti-Pattern 5개 도출, PF 0.667→0.709 필터효과, 수급/VP 통합 필요 확인; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환 1,929건)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-SESSION-E1-MINUTE-PATTERN-001** | 03-02 | — | — | **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체 AUC<0.55(단일변수 구분불가), 전략별 D7(AUC=0.66)+D4(AUC=0.63) 특화신호, Anti-Pattern 5개(장후반+거래량급감 PF=0.062), 2-변수 PF≥1.3 조합 4개, 필터 PF 0.667→0.709(+6.3%), 수급/VP 통합 필요 확인 |
 | **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | 440edb0 | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
 | **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
 | **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/global_market/scalping_universe 전수 정상화 |
