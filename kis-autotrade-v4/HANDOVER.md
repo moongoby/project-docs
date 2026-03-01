@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v6.0 — **Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그, 자동최신화 cron(06:00), HANDOVER 문서-현실 5건 정정; v5.12 — Session E-2B 수급 데이터 통합 탐사(VP_STRENGTH_D1 AUC=0.6535 #1, CEO D-002 실증); v5.11 — Session E-1 분봉 패턴 탐사; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환)
+> 최종 업데이트: 2026-03-02 (v6.2 — **Session F-Pre: 03-03 Virtual Run 사전 점검 ALL PASS**: Cron 4건 확인(07:55/08:50/*/1 9-15/15:30), unified_engine.log 기록중(07:55 premarket 실행완료), DB 4테이블 02-27 데이터 완비(ohlcv 3839/investor 3839/regime 1/minute max=02-27), Mock API HTTP 200+access_token OK, 서비스 4개 all running, Swap 66.6%/Disk 77% PASS, import OK → **03-03 Virtual Run GO**; v6.1 — **Session E-2B 수급 데이터 통합 탐사 재실행**: 1,929건×14수급+19분봉=33변수 통합, CLOSE_POSITION_5D AUC=0.682(#1), 수급 상위3 AUC=0.624 vs 분봉 0.540, CEO D-002 실증(외인 p=0.014★), 종가위치>0.7 PF=1.991(+139%), TRAJECTORY=3 PF=1.841, DUAL_FLOW≥3 PF=1.692, 외인연속매수≥1d PF=2.343, D6+외인 PF=5.054, L3.3 SupplyDemandGate 설계; v6.0 — Session G 조치 완료+DB 카탈로그; v5.11 — E-1 분봉 탐사; v5.10 — G 서버 검증; v5.9 — D 리플레이 BT)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -10,7 +10,7 @@
 - 5개 DESK (60개 strategy cards, 14개 OPEN positions)
 - 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
 - 246 테이블 + 8 뷰 = 254 DB 객체 (Session G-3 실증 2026-03-02), 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
-- 투자자별 수급 데이터 (261,000 rows), 뉴스 214만건
+- 투자자별 수급 데이터 (275,846 rows, 3,943종목, 2010~2026), 체결강도 (231,307 rows, 2025-11~), 뉴스 214만건
 
 ---
 
@@ -18,8 +18,9 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-SESSION-F-PRE-VIRTUAL-CHECK-001** | 03-02 | (이 커밋) | 200 | **Session F-Pre 03-03 Virtual Run 사전 점검**: Cron 4건 ALL OK(07:55/08:50/*/1 9-15/15:30), log 기록중, DB 4테이블 02-27 완비, Mock API HTTP 200+token OK, 4서비스 running, Swap 66.6%/Disk 77% PASS, UnifiedEngine import OK, 07:55 premarket 실행 실증 → 29/29 ALL PASS, 03-03 Virtual Run GO |
 | **CUR-V41-SESSION-E1-MINUTE-PATTERN-001** | 03-02 | — | — | **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체 AUC<0.55(단일변수 구분불가), 전략별 D7(AUC=0.66)+D4(AUC=0.63) 특화신호, Anti-Pattern 5개(장후반+거래량급감 PF=0.062), 2-변수 PF≥1.3 조합 4개, 필터 PF 0.667→0.709(+6.3%), 수급/VP 통합 필요 확인 |
-| **CUR-V41-SESSION-E2B-SUPPLY-DEMAND-001** | 03-02 | — | — | **Session E-2B 수급 데이터 통합 탐사**: 1,929건×18수급변수+19분봉변수=37변수 통합분석, **VP_STRENGTH_D1 AUC=0.6535(#1, FDR p=0.0004)**, 수급변수 평균AUC 2.37× > 분봉변수, CEO D-002 "본질은 수급" 실증(외인연속매수≥1d PF=2.409), 49조합 PF≥1.3(VP_HIGH+INST 조합 PF=7.48), 필터 PF 0.834→1.143(+37.1%), Walk-Forward 2/3 PASS(PF 1.1→1.28), VP 3개월 한정(24.7%) 전기간수집 권고 |
+| **CUR-V41-SESSION-E2B-SUPPLY-DEMAND-001** | 03-02 | — | — | **Session E-2B 수급 데이터 통합 탐사**: 1,929건×14수급+19분봉=33변수, **CLOSE_POSITION_5D AUC=0.682(#1, d=0.612, FDR<0.001)**, 수급 상위3 AUC=0.624 vs 분봉 0.540, CEO D-002 "본질은 수급" 실증(외인5일누적 p=0.014★, 외인연속매수≥1d PF=2.343), 종가위치>0.7 PF=1.991(+139%), TRAJECTORY=3 PF=1.841, DUAL_FLOW≥3 PF=1.692, 23조합 PF≥1.3(종가위치H×VWAP_TOUCH_L PF=3.055), D6+외인 PF=5.054(+342%), L3.3 SupplyDemandGate 설계 |
 | **CUR-SHARED-DB-SCHEMA-CATALOG-001** | 03-02 | 69487c0 | 200 | **Session G-2/G-3 조치 완료 + DB 스키마 카탈로그 통합**: 3중수집기→1개(CEO직접조치), Swap 6.0→5.9G(점진감소), HANDOVER 문서-현실 불일치 5건 정정(테이블명 go100_global_market/v4_scalping_universe 정정, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254 명시), DB 스키마 카탈로그 통합 구축(246테이블+8뷰 전수 스키마, 프로젝트별 V4.1:124/GO100:65/공통:57, 자동최신화 cron 매일 06:00, shared/DB-SCHEMA-CATALOG.md), 22개 test collection error HANDOVER 기록(시스템 Python pip 미설치, 서비스 무관) |
 | **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | 440edb0 | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
 | **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
