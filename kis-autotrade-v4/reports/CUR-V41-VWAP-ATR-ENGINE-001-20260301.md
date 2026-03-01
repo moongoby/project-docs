@@ -216,6 +216,6 @@ EXIT-SLIPPAGE 확정표에서 D2/D4/D5 트레일링의 SL을 -3%로 명시. ATR 
 - 서버 경로: `/root/project-docs/kis-autotrade-v4/reports/CUR-V41-VWAP-ATR-ENGINE-001-20260301.md`
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-VWAP-ATR-ENGINE-001-20260301.md
 - 코드 커밋: `e84ac1b9` (phase-2c-command-center, moongoby/go100)
-- 문서 커밋: {DOCS-SHA — 푸시 후 기재}
-- HTTP 확인: {200 확인 예정}
+- 문서 커밋: `48f3bf9` (master, moongoby/project-docs)
+- HTTP 확인: 200 ✓
 - HANDOVER 업데이트: v4.6 (본 보고서에서 완료)
