@@ -19,8 +19,8 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | SESSION-A-HOTFIX-001 | 03-02 | cdc73d5 | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine), PnL계산+비용0.47%, D7필터 0.80+Top10, 31 PASS |
-| **CUR-V41-SESSION-C-DEPLOY-001** | 03-02 | (본 커밋) | 200 | **Session C Mock 배포**: run_unified_engine.py 신규(--mode backtest/virtual), BT PF=1.258(미래정보is_winner 제거, 기존 2.368→-47%), 101건 ALL PASS(CTE 70+분봉 31), v4_mock_trades 생성, KIS Mock HTTP 200, Cron 4건(premarket/signal/monitor/close), HAV tasks.json+backtest_runs id=25, 03-03 Virtual 자동 가동 준비 |
-| **CUR-V41-SESSION-B-UNIFIED-ENGINE-001** | 03-02 | (본 커밋) | — | **Session B 통합엔진 코어 구축**: unified_engine 패키지(9모듈 — config/engine/adapters×3/core×4), SlippageAnalyzer 3계층(spread/depth/latency), AI Scorer Fail-Open(_ai_reevaluate cs_ai≥70→hold/cs_ai<50→exit/예외→None), DD Decelerator 5레벨(0.0~1.0×), DCS Grade(VWAP30+RSI25+Vol25+MA20), GO100 episodic/backtest_runs 연동, FORBIDDEN_ACCOUNT_IDS {5,6} 3중guard, 신규 24건+기존 31건 ALL PASS |
+| **CUR-V41-SESSION-C-DEPLOY-001** | 03-02 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Session C Mock 배포**: run_unified_engine.py 신규(--mode backtest/virtual), BT PF=1.258(미래정보is_winner 제거, 기존 2.368→-47%), 101건 ALL PASS(CTE 70+분봉 31), v4_mock_trades 생성, KIS Mock HTTP 200, Cron 4건(premarket/signal/monitor/close), HAV tasks.json+backtest_runs id=25, 03-03 Virtual 자동 가동 준비 |
+| **CUR-V41-SESSION-B-UNIFIED-ENGINE-001** | 03-02 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Session B 통합엔진 코어 구축**: unified_engine 패키지(9모듈 — config/engine/adapters×3/core×4), SlippageAnalyzer 3계층(spread/depth/latency), AI Scorer Fail-Open(_ai_reevaluate cs_ai≥70→hold/cs_ai<50→exit/예외→None), DD Decelerator 5레벨(0.0~1.0×), DCS Grade(VWAP30+RSI25+Vol25+MA20), GO100 episodic/backtest_runs 연동, FORBIDDEN_ACCOUNT_IDS {5,6} 3중guard, 신규 24건+기존 31건 ALL PASS |
 | PHASE1-001 | 02-27 | ✓ | 200 | TOP-20 WR 78.7%, 누적 +785%, 생애주기 4클러스터 |
 | PHASE2-001 | 02-28 | ✓ | 200 | 11변수, OOS 정밀도 76%, TREND WR 67.7% |
 | PHASE2B-001 | 02-28 | 93e67ae | 200 | L3+X9 정밀도 90%, Birth+1min WR 95.3%, X9 AUC 0.851 |
@@ -38,12 +38,12 @@
 | VE-003-PHASE-A | 02-28 | 8fd5653 | 200 | D4 CONDITIONAL(PF1.88), **D6 PASS(PF13.63)**, D7 CONDITIONAL(PF1.98), 전략포트폴리오 확정 |
 | DESK2-HYPOTHESIS | 02-28 | 4656085 | 200 | 7가설(H-001~007), 7컨디션(C1~C7), 5축마스크, DCS평가, A/B/C등급, D-010 등록 |
 | VE-003-PHASE-E | 02-28 | 4656085 | 200 | 5축 분해, 마스크 D4 PF1.88→2.43, D7 PF1.98→2.12, D1 부활불가, DCS 등급A(4.30%/70%) |
-| VE-003-PHASE-F | 02-28 | (본 커밋) | — | **18신호분석**: TS-B4(PF3.23) > TS-C1(PF2.80) > TS-B1(PF2.72), 60분 보유 최적, 상한가 부스트 확인 |
-| VE-003-PHASE-C | 02-28 | (본 커밋) | — | D3 FAIL(PF1.17), **S1 CONDITIONAL(PF1.44/WR58.7%)**, S2 전체 FAIL(MA7 PF1.27 최고) |
-| VE-003-PHASE-D | 02-28 | (본 커밋) | — | NEW 254종목 6조건: VP120 88.5%, RSI 88.1%, MA정배열 87.7%, **3개+ 동시 87.7%**, 10시전 82.1% |
+| VE-003-PHASE-F | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **18신호분석**: TS-B4(PF3.23) > TS-C1(PF2.80) > TS-B1(PF2.72), 60분 보유 최적, 상한가 부스트 확인 |
+| VE-003-PHASE-C | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | D3 FAIL(PF1.17), **S1 CONDITIONAL(PF1.44/WR58.7%)**, S2 전체 FAIL(MA7 PF1.27 최고) |
+| VE-003-PHASE-D | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | NEW 254종목 6조건: VP120 88.5%, RSI 88.1%, MA정배열 87.7%, **3개+ 동시 87.7%**, 10시전 82.1% |
 | DESK2-FINAL-SPEC | 02-28 | 7293aed | 200 | 6-Layer 아키텍처, 6전략+1탐지, 60분 청산 전환, 18시그널 매칭, D-011 등록 |
 | HOTFIX-001+002 (GO100) | 02-28 | 6cc363b6 | 200 | tool_executors 스텁→실제 래퍼 교체 + risk_engine ::jsonb→CAST 수정, 6단계검증 PASS |
-| DESK2-FINAL-SPEC-v2 | 02-28 | (본 커밋) | — | 능동청산(트레일링+부분청산)+분할매수+AI자동진화+모의실매매 추가 |
+| DESK2-FINAL-SPEC-v2 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 능동청산(트레일링+부분청산)+분할매수+AI자동진화+모의실매매 추가 |
 | VE-003-PHASE-H1 | 02-28 | d1234182 | — | C1~C7 반등률 전수조사: C2 PF2.16/WR55.1%/시초+8.32% 압도적 1위, C7 PF1.59 |
 | VE-003-PHASE-H2 | 02-28 | 41cd179d | — | 시간별 가격 프로파일: C3 MFE/MAE 1.19x 최고 비대칭, C2 MFE+9.02% 최대 |
 | LIVE-PAPER-D6D7-DOC | 02-28 | 1e4ab233 | — | D6/D7 모의매매 스크립트 문서화 + cron 등록 확인 (50 8 * * 1-5) |
@@ -54,55 +54,55 @@
 | RESEARCH-ADAPTIVE-EXIT | 02-28 | 11ff636 | 200 | 적응형 청산 5모드 아키텍처: 즉시익절/부분익절/파동전환/트레일링강화/강제이탈, 의사결정트리 |
 | VE003-P4-ADAPTIVE-EXIT | 02-28 | bd32b1f | 200 | **5모드 검증(22,406건)**: PF 1.32→1.34, 모드2 전략 최적, 모드3 2파 0%→재조정필요, 일일손실 -174%→-74% |
 | RESEARCH-PULLBACK-SPEC | 02-28 | 8ae3e2f | 200 | 눌림 전수조사 설계서: 15개 차원, 10개 가설(H-PB-1~10), 4단계 실행계획, 모드3 재설계 목표 |
-| PULLBACK-ANATOMY-001 | 02-28 | (본 커밋) | 200 | **눌림 전수조사 19,225건**, 2파 발생률 73.9%, 모드3 0%원인=RSI범위+MA20미형성(충족률0.26%), 재설계 안D 권고 |
-| WAVE-CAPITAL-CYCLE-001 | 02-28 | (본 커밋) | — | **파동 자본순환 14과제**: W1 30%/W2 100% 청산, Dynamic스톱(PF17.98), 거래대금50%소진필터, VP 2분선행, 시스템효율17.7%→50% 로드맵 |
+| PULLBACK-ANATOMY-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **눌림 전수조사 19,225건**, 2파 발생률 73.9%, 모드3 0%원인=RSI범위+MA20미형성(충족률0.26%), 재설계 안D 권고 |
+| WAVE-CAPITAL-CYCLE-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **파동 자본순환 14과제**: W1 30%/W2 100% 청산, Dynamic스톱(PF17.98), 거래대금50%소진필터, VP 2분선행, 시스템효율17.7%→50% 로드맵 |
 | WAVE-OUTER-RESEARCH-001 | 02-28 | cac9ef0 | — | **파동 외부 10과제(R15~R24)**: PASS2/COND5/FAIL3, 교차종목+370%, 전조AUC0.64, 뉴스χ²=249, 전략간섭100%중복, 비용PF-37%, 재앙3패턴 |
-| DEV-HAV-001 | 02-28 | (본 커밋) | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
+| DEV-HAV-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
 | CODE-ANALYSIS-CROSS-ENTRY-001 | 02-28 | (보고서 push) | 200 | 교차종목 진입 코드 갭 분석, 이미있음7건/수정4건/신규4건 |
-| SURGE-CAUSE-ANALYSIS-001 | 02-28 | (본 커밋) | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
-| HANDOVER-PULLBACK-CONFIRM | 02-28 | (본 커밋) | 200 | **눌림확인매매 인계서**: 과제 A~D(이평선분류/반등신호검증/대기비용/관통반등), 19,225건 기반, 새 세션 즉시 착수 가이드 |
-| PULLBACK-CONFIRMATION-001 | 03-01 | (본 커밋) | — | **눌림확인 심층연구**: 17,155건 5버킷(B2/B3 골든존 승률95%), 8신호(VWAP 73.7%최강), 관통>터치(PF26>11), 조건대기>시간대기, SIG3+SIG6 실용최적 |
-| CS-EQS-MATRIX-001 | 03-01 | (본 커밋) | — | **CS+EQS+매트릭스 설계**: CS 5요소(≥65 PF1.55), EQS 5요소(≥70 PF8.43비용후), 9×9 매트릭스(금지18/시너지8), Layer 3.5/4.5 삽입 |
-| DD-VWAP-GATE-001 | 03-01 | (본 커밋) | — | **DD+VWAP+게이트+ATR 설계**: DD 5레벨(maxDD-75%), VWAP 5변수, 5전략 반등확인게이트, ATR 동적TP/SL, NetR:R≥2.0 강제 |
-| CTE-COMPARE-ARCH | 03-01 | (본 커밋) | — | CTE vs DESK 7축 비교, 흡수12개, 통합아키텍처 |
-| SYSTEM-ARCH-FLOW | 03-01 | (본 커밋) | — | 시스템 아키텍처 흐름도 8개 |
-| HANDOVER-CTE-INT | 03-01 | (본 커밋) | — | CTE 통합 세션 인계서, 지시서5개 발행, 후속작업큐 |
-| PULLBACK-CONFIRM-001 | 03-01 | (본 커밋) | — | **17,155건 눌림확인 심층연구**: 5버킷분류, 8신호검증, VWAP지지 승률73.7%, 관통반등>터치반등(PF26.36>11.15) |
-| CS-EQS-MATRIX-001 | 03-01 | (본 커밋) | — | **CS 5요소 설계+시뮬**: CS≥80 PF 2.383(+57%), EQS 5요소 설계, 9×9 매트릭스 81셀, 18금지/8시너지 규칙 |
-| DD-VWAP-GATE-001 | 03-01 | (본 커밋) | — | **DD Decelerator 5단계**: maxDD -45.66%→-11.42%, VWAP 5변수, 5전략 반등확인게이트, ATR TP/SL NetR:R≥2.0 |
+| SURGE-CAUSE-ANALYSIS-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
+| HANDOVER-PULLBACK-CONFIRM | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **눌림확인매매 인계서**: 과제 A~D(이평선분류/반등신호검증/대기비용/관통반등), 19,225건 기반, 새 세션 즉시 착수 가이드 |
+| PULLBACK-CONFIRMATION-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **눌림확인 심층연구**: 17,155건 5버킷(B2/B3 골든존 승률95%), 8신호(VWAP 73.7%최강), 관통>터치(PF26>11), 조건대기>시간대기, SIG3+SIG6 실용최적 |
+| CS-EQS-MATRIX-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **CS+EQS+매트릭스 설계**: CS 5요소(≥65 PF1.55), EQS 5요소(≥70 PF8.43비용후), 9×9 매트릭스(금지18/시너지8), Layer 3.5/4.5 삽입 |
+| DD-VWAP-GATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DD+VWAP+게이트+ATR 설계**: DD 5레벨(maxDD-75%), VWAP 5변수, 5전략 반등확인게이트, ATR 동적TP/SL, NetR:R≥2.0 강제 |
+| CTE-COMPARE-ARCH | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | CTE vs DESK 7축 비교, 흡수12개, 통합아키텍처 |
+| SYSTEM-ARCH-FLOW | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 시스템 아키텍처 흐름도 8개 |
+| HANDOVER-CTE-INT | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | CTE 통합 세션 인계서, 지시서5개 발행, 후속작업큐 |
+| PULLBACK-CONFIRM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **17,155건 눌림확인 심층연구**: 5버킷분류, 8신호검증, VWAP지지 승률73.7%, 관통반등>터치반등(PF26.36>11.15) |
+| CS-EQS-MATRIX-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **CS 5요소 설계+시뮬**: CS≥80 PF 2.383(+57%), EQS 5요소 설계, 9×9 매트릭스 81셀, 18금지/8시너지 규칙 |
+| DD-VWAP-GATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DD Decelerator 5단계**: maxDD -45.66%→-11.42%, VWAP 5변수, 5전략 반등확인게이트, ATR TP/SL NetR:R≥2.0 |
 | MOMENTUM-TACTICS-001 | 03-01 | cc9069d | 200 | **A1(ORB) PASS(PF_ac=2.23)**, A3(1파) FAIL(PF_ac=0.60), C3(마이크로풀백) FAIL(PF_ac=0.47), ORB 5분+Top20 최적 |
-| TIME-TACTICS-BULLFLAG-001 | 03-01 | (본 커밋) | — | 7×7 시간매트릭스, T_EARLY 모멘텀갭 확인, 불플래그 전체 FAIL(PF_ac=0.99) 단 T_PM_PB PASS(PF_ac=2.64) |
-| EXIT-RULE-FINALIZE-001 | 03-01 | (본 커밋) | — | **D6 현행 D+1시초가 유지(PF13.63), D7 현행 유지(PF1.98), 갭리스크 D6=16.7%/D7=43.4%, D2/D4/D5 트레일링 전환 권고** |
-| HAV-EXTEND-35VAR-001 | 03-01 | (본 커밋) | — | **27→35변수 확장 준비, 백업 완료, 8변수 솔로테스트 ALL 유효(PF1.0~2.71), coarse 유지+Bayesian 탐색 권고** |
-| SLIPPAGE-SIM-001 | 03-01 | (본 커밋) | — | **60분 슬리피지 미미(0.01~0.03%), 고정60분 실효수익0.336% > 트레일링0.079%, 지정가-1틱 권고** |
-| LIVE-PAPER-PRECHECK-001 | 03-01 | (본 커밋) | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
-| EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | (본 커밋) | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
-| V41-GO100-INTEGRATION-ARCH | 03-01 | (본 커밋) | 200 | **V4.1×GO100 통합 브릿지 아키텍처 기획서 v1.0**: 3대 브릿지(자본/리스크/메모리), 3대 안전수칙, Mermaid 데이터플로우, Phase1~3 마일스톤 |
+| TIME-TACTICS-BULLFLAG-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 7×7 시간매트릭스, T_EARLY 모멘텀갭 확인, 불플래그 전체 FAIL(PF_ac=0.99) 단 T_PM_PB PASS(PF_ac=2.64) |
+| EXIT-RULE-FINALIZE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **D6 현행 D+1시초가 유지(PF13.63), D7 현행 유지(PF1.98), 갭리스크 D6=16.7%/D7=43.4%, D2/D4/D5 트레일링 전환 권고** |
+| HAV-EXTEND-35VAR-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **27→35변수 확장 준비, 백업 완료, 8변수 솔로테스트 ALL 유효(PF1.0~2.71), coarse 유지+Bayesian 탐색 권고** |
+| SLIPPAGE-SIM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **60분 슬리피지 미미(0.01~0.03%), 고정60분 실효수익0.336% > 트레일링0.079%, 지정가-1틱 권고** |
+| LIVE-PAPER-PRECHECK-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
+| EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
+| V41-GO100-INTEGRATION-ARCH | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **V4.1×GO100 통합 브릿지 아키텍처 기획서 v1.0**: 3대 브릿지(자본/리스크/메모리), 3대 안전수칙, Mermaid 데이터플로우, Phase1~3 마일스톤 |
 | V41-GO100-BRIDGE-DESIGN-001 | 03-01 | 2fd7ac29 | 200 | **V4.1↔GO100 안전 브릿지 Phase 1 구현**: Go100BridgeClient(3메서드) + bridge.py 라우터(IP차단/Append-Only) + E2E 4건 PASS, V4.1_DESK_AGENT 독립 네임스페이스 확인 |
-| ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
-| HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
-| BOUNCE-GATE-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #14 Phase A-1**: BounceConfirmationGate(D2/D4/D5/S1/D7) + PullbackClassifier(B1~B6+25셀) + ConfirmationSignalEngine(8신호+SIG3+SIG6 권고), 단위 96케이스 전체PASS |
-| DD-RISK-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #15 Phase A-2**: DDDecelerator(5레벨S1) + FiveLayerRiskManager(L1~L5) + DisasterPatternDetector(릴레이/집중도/과잉포지션), 단위 29케이스 전체PASS |
-| CS-EQS-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #16 Phase A-3**: ConvictionScoreEngine(CS 100점) + ExecutionQualityScoreEngine(EQS 100점, ORDERBOOK 프록시) + TriggerTacticMatrix(81셀/금지18/시너지18), 단위 45케이스 전체PASS |
-| CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
-| EQS-BIAS-CROSS-FILTER-001 | 03-01 | (본 커밋) | — | **EQS look-ahead 확인: PRICE_POSITION 당일H/L→LAG1(t-1 partial H/L) 교정. HIGH WR 85.2%→72.1%(-13.1%p), CS65_EQS65 최적조합(연550건, PF_net 2.499)** |
-| GATE-OOS-WALKFORWARD-001 | 03-01 | (본 커밋) | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
-| VWAP-RECONCILE-001 | 03-01 | (본 커밋) | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
-| PF-NORMALIZE-COST-ADJUST-001 | 03-01 | (본 커밋) | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
+| ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
+| HAV-DRYRUN-DRIFT-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
+| BOUNCE-GATE-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #14 Phase A-1**: BounceConfirmationGate(D2/D4/D5/S1/D7) + PullbackClassifier(B1~B6+25셀) + ConfirmationSignalEngine(8신호+SIG3+SIG6 권고), 단위 96케이스 전체PASS |
+| DD-RISK-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #15 Phase A-2**: DDDecelerator(5레벨S1) + FiveLayerRiskManager(L1~L5) + DisasterPatternDetector(릴레이/집중도/과잉포지션), 단위 29케이스 전체PASS |
+| CS-EQS-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #16 Phase A-3**: ConvictionScoreEngine(CS 100점) + ExecutionQualityScoreEngine(EQS 100점, ORDERBOOK 프록시) + TriggerTacticMatrix(81셀/금지18/시너지18), 단위 45케이스 전체PASS |
+| CROSS-RELAY-PRESIM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
+| EQS-BIAS-CROSS-FILTER-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **EQS look-ahead 확인: PRICE_POSITION 당일H/L→LAG1(t-1 partial H/L) 교정. HIGH WR 85.2%→72.1%(-13.1%p), CS65_EQS65 최적조합(연550건, PF_net 2.499)** |
+| GATE-OOS-WALKFORWARD-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
+| VWAP-RECONCILE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
+| PF-NORMALIZE-COST-ADJUST-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
 | **CUR-V41-GO100-BRIDGE-PHASE2-001** | 03-01 | 1226fda3 | 200 | **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 전 PASS. 시나리오1=킬스위치OFF→메모리 적재(memory_id 4,5), 시나리오2=킬스위치Mock(True)→전종목 Halt 확인. backtest_engine_v2 스텁(삽입점 A/B) 비파괴 추가. Phase 3(실거래 활성화) 대기 |
 | **CUR-V41-GO100-BRIDGE-PHASE3-001** | 03-01 | 85945058 | 200 | **GO100 브릿지 Phase 3 완료(포트폴리오 최적화 연동)**: `_run_entry_signals()` async 전환, 삽입점C(포트폴리오최적화 비중 기반 자본 동적 배분), weights=0 Skip, BridgeError→균등분배 Fallback 구현. `enable_go100_bridge=True` 기본값 활성화. `test_bridge_phase3_optimizer.py` 8건 전 PASS (Mock비중 66/16/9주 동적배분 증명) |
-| **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | (본 커밋) | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
+| **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
 | **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
 | **CUR-V41-VWAP-ATR-ENGINE-001** | 03-01 | e84ac1b9 | 200 | **Cursor #18 VWAP 엔진 + ATR 동적청산**: vwap_engine.py(5변수+TREND 선형회귀), atr_dynamic_exit.py(전략별 멀티플라이어/COST_ROUNDTRIP=0.47%/TRAILING_MA5), cte_pipeline.py(L3.2 VWAP지지체크+ATR_NETRR 차단), test_vwap_atr.py **25/25 PASS**, 기존 33테스트 비파괴 유지 |
-| **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | (본 커밋) | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
+| **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
 | **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규. Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
-| **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | (본 커밋) | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
-| **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | (본 커밋) | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
+| **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
+| **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
 | **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
-| **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
+| **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
 | **CUR-GO100-HYPOTHESIS-ENGINE-001** | 03-01 | 3806a54b | — | **GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(Haiku/Sonnet 서킷브레이커), HypothesisEngine(L1 판정→L2 가설생성→L3 HAV큐 등록), 야간 배치 백테스트(22:00), 아침 리포트 자동생성, cron 2개 등록, 통합 테스트 13/13 PASS |
 | **DESK543-FRACTAL-IMPL-001** | 03-01 | da997c4 | 200 | DESK5/4/3 프랙탈 엔진 코드 구현: 3테이블+10모듈+단위테스트, D-013/D-014 반영, 241일 백테스트 스크립트 제공 |
-| **CUR-V41-19STRATEGY-TRIGGER-MINUTE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21-R v3 — 19전략 분봉 멀티TF 자동검증엔진**: 4모듈 신규(minute_feature_engine/minute_trade_simulator/trigger_hypothesis/minute_validation_runner), 단위테스트 31/31 PASS, 19가설 전수검증(H-12 PASS PF=181/H-13 PASS PF=5.09/H-17 CONDITIONAL PF=1.46/나머지 FAIL), PASS 포트폴리오: PF=6.617/WR=76.1%/Sharpe=10.30/누적+303.98%/MDD=-16.57%, D6 압도적 우위 재확인 |
+| **CUR-V41-19STRATEGY-TRIGGER-MINUTE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Cursor #21-R v3 — 19전략 분봉 멀티TF 자동검증엔진**: 4모듈 신규(minute_feature_engine/minute_trade_simulator/trigger_hypothesis/minute_validation_runner), 단위테스트 31/31 PASS, 19가설 전수검증(H-12 PASS PF=181/H-13 PASS PF=5.09/H-17 CONDITIONAL PF=1.46/나머지 FAIL), PASS 포트폴리오: PF=6.617/WR=76.1%/Sharpe=10.30/누적+303.98%/MDD=-16.57%, D6 압도적 우위 재확인 |
 
 ---
 
