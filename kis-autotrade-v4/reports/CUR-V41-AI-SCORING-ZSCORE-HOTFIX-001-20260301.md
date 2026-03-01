@@ -166,5 +166,10 @@ OK — 7/7 PASS
 
 ## 체크포인트
 
-- [x] 코드 레포 커밋 완료 (SHA: 799e33ee)
-- [ ] project-docs 보고서 push 완료 (진행 중)
+- [x] 코드 레포 커밋 완료 (SHA: 799e33ee, kis-autotrade-v4)
+- [x] project-docs 보고서 push 완료 (SHA: fe4289d, GitHub raw URL HTTP 200 확인)
+
+---
+
+HANDOVER.md 업데이트 완료: fe4289d
+GitHub: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001-20260301.md
