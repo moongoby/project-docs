@@ -18,7 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
-| SESSION-A-HOTFIX-001 | 03-02 | (push 후) | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine), PnL계산+비용0.47%, D7필터 0.80+Top10, 31 PASS |
+| SESSION-A-HOTFIX-001 | 03-02 | cdc73d5 | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine), PnL계산+비용0.47%, D7필터 0.80+Top10, 31 PASS |
 | PHASE1-001 | 02-27 | ✓ | 200 | TOP-20 WR 78.7%, 누적 +785%, 생애주기 4클러스터 |
 | PHASE2-001 | 02-28 | ✓ | 200 | 11변수, OOS 정밀도 76%, TREND WR 67.7% |
 | PHASE2B-001 | 02-28 | 93e67ae | 200 | L3+X9 정밀도 90%, Birth+1min WR 95.3%, X9 AUC 0.851 |
