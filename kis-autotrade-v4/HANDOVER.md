@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v4.9 — **Cursor #21 6전략 전수조사 + TP/SL 최적화**; v4.8 — Cursor #20 EQS LAG1 + D4 ATR + CTE 페이퍼 활성화; v4.7 — CTE 풀 백테스트 + 3-Fold WF, GO)
+> 최종 업데이트: 2026-03-01 (v5.0 — **GO100 AI 가설검증 파이프라인 L1~L3 통합 (HYPOTHESIS-ENGINE-001)**; v4.9a — Z-score 핫픽스; v4.9 — Cursor #21 6전략 전수조사 + TP/SL 최적화)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -97,6 +97,7 @@
 | **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | (본 커밋) | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
 | **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
 | **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
+| **CUR-GO100-HYPOTHESIS-ENGINE-001** | 03-01 | 3806a54b | — | **GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(Haiku/Sonnet 서킷브레이커), HypothesisEngine(L1 판정→L2 가설생성→L3 HAV큐 등록), 야간 배치 백테스트(22:00), 아침 리포트 자동생성, cron 2개 등록, 통합 테스트 13/13 PASS |
 
 ---
 
@@ -553,3 +554,4 @@
 | v4.8 | 2026-03-01 | Cursor | **#20 EQS LAG1 + D4 ATR + CTE 페이퍼**: execution_quality_score LAG1(PRICE_POSITION t-1/ORDERBOOK 8점), atr_dynamic_exit D4 A안(1.0/5.0), live_paper_cte.py+monitor_paper_cte.py, 테스트 70 PASS |
 | v4.9 | 2026-03-01 | Sonnet4.6 | **[V41-AI-SCORING-INTEGRATION-001] AI Scorer Step A MVP 완료**: ai_scorer.py(4모델+TTLCache+Z-score+Bounds), bridge.py(+/score /score/batch), go100_bridge_client.py(+ScoreUnavailableError+메서드2개), scoring_engine.py(Fail-Open+Shadow w=0.15), 테스트 7/7 PASS, feature_stats.json(263,450행) — Step B 강화 항목 11개 실측 기반 선별 예정 |
 | v4.9a | 2026-03-01 | Sonnet4.6 | **[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스**: Case A 확정(Parquet Z-score+stats Z통계), feature_stats.json 원시 기준 재생성(CLOSE:0→66413/RSI:0→53.59/등 12개), cs_ai 100→65/61/45(종목별 차별화), 7/7 PASS, 커밋 799e33ee |
+| v5.0 | 2026-03-01 | Sonnet4.6 | **[CUR-GO100-HYPOTHESIS-ENGINE-001] GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(일일 $1/50회 서킷브레이커), HypothesisEngine(L1 Haiku 판정+L2 Sonnet 가설+L3 HAV큐), 야간 배치 백테스트+아침 리포트, cron 등록(15:40/22:00), 13/13 PASS, 커밋 3806a54b |
