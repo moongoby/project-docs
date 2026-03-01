@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v4.4 — **Cursor #17~#19 CTE 통합 파이프라인 + 백테스트 완료**: CTE_FULL GO 7/8, PF_net=6.901/MDD=12.5%/Sharpe=7.251, WF OOS/IS=1.300; v4.2 — **GO100 브릿지 Phase 3 포트폴리오 최적화 완전 활성화**: `_run_entry_signals()` async·삽입점C 구현, 최적비중 동적 자본배분(Mock: 66/16/9주), Fallback 균등분배, enable_go100_bridge=True 기본값, E2E 8건 PASS; v4.1 — Phase 3 초기 삽입점 A/B/C 스텁 실 활성화; v4.0 — Phase 2 완료; v3.9 — EQS look-ahead 편향 검증·LAG1 수정, 게이트 OOS Walk-Forward 5전략 PASS, VWAP 모순 해소·통일정의, PF 극단치 정규화·비용 차감 일괄 재산출)
+> 최종 업데이트: 2026-03-01 (v4.5 — **CTE 파이프라인 통합 + D7 갭다운 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 진입금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신; v4.4 — CTE_FULL GO 7/8, PF_net=6.901/MDD=12.5%/Sharpe=7.251, WF OOS/IS=1.300)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -89,6 +89,7 @@
 | **CUR-V41-GO100-BRIDGE-PHASE2-001** | 03-01 | 1226fda3 | 200 | **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 전 PASS. 시나리오1=킬스위치OFF→메모리 적재(memory_id 4,5), 시나리오2=킬스위치Mock(True)→전종목 Halt 확인. backtest_engine_v2 스텁(삽입점 A/B) 비파괴 추가. Phase 3(실거래 활성화) 대기 |
 | **CUR-V41-GO100-BRIDGE-PHASE3-001** | 03-01 | 85945058 | 200 | **GO100 브릿지 Phase 3 완료(포트폴리오 최적화 연동)**: `_run_entry_signals()` async 전환, 삽입점C(포트폴리오최적화 비중 기반 자본 동적 배분), weights=0 Skip, BridgeError→균등분배 Fallback 구현. `enable_go100_bridge=True` 기본값 활성화. `test_bridge_phase3_optimizer.py` 8건 전 PASS (Mock비중 66/16/9주 동적배분 증명) |
 | **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | (본 커밋) | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
+| **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
 
 ---
 
@@ -118,7 +119,7 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | VE-003-PHASE-G | 착수 | 능동적 청산 4방식 비교 + 분할매수 + 트레일링 파라미터 최적화 |
-| LIVE-PAPER-D6D7 | **월요일 첫실행** | 03-02(월) 08:50 KST 첫 실행 예정. 사전점검 PASS. D6(#42)+D7(#43) PAPER_LIVE. |
+| LIVE-PAPER-D6D7 | **월요일 첫실행** | 03-02(월) 08:50 KST 첫 실행 예정. 사전점검 PASS. D6(#42)+D7(#43) PAPER_LIVE. **D7 핫픽스 적용완료(≥0.80+Top10)** |
 | AI-EVOLUTION | 착수 | 자동 발굴→검증→실전→개선 4단계 엔진 |
 | D2-IMPROVE | 대기 | RSI 30~50 + 10선 우선 필터 재검증 |
 | D5-EXPAND | 대기 | 후발주 포함 표본 확대 |
@@ -380,9 +381,17 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-01, V4.1↔GO100 브릿지 Phase 1 구현 — v4.0)
+### 최신 상태 (2026-03-01, CTE 파이프라인 통합 + D7 핫픽스 — v4.5)
 
-#### ★ 오늘 완료된 작업 요약 (v3.9 → v4.0)
+#### ★ 오늘 완료된 작업 요약 (v4.4 → v4.5)
+
+**[CUR-V41-CTE-PIPELINE-INTEGRATE-001] CTE 파이프라인 통합 + D7 핫픽스**
+- `strategy_params.py` 신규: D2 avg_win 3.36%(실측) 교정 → EV +0.49%, B4/B6 진입금지, concurrent=5, PF우선 슬롯 배정
+- `test_cte_pipeline.py` 신규: 통합 테스트 33케이스 전체 PASS
+- D7 갭다운 핫픽스: `live_paper_d6_d7.py` 종가위치 ≥0.80 + Top10 반영, DB #43 entry_condition 갱신
+- 코드 커밋: `67602428` (branch: phase-2c-command-center)
+
+#### ★ 직전 완료 (v3.9 → v4.0)
 
 **[V41-GO100-BRIDGE-DESIGN-001] 안전 브릿지 Phase 1 구현 — E2E 4건 PASS**
 - `backend/app/services/v41/go100_bridge_client.py`: Go100BridgeClient (3 async 메서드)
@@ -435,13 +444,14 @@
 ### 웹 Claude / 다음 세션이 해야 할 일
 1. **D-ORB C8 컨디션 DESK2-FINAL-SPEC에 공식 추가**: C1~C8 컨디션 목록 업데이트
 2. **live_paper_d6_d7.py에 D6/D7 중복방지 로직 추가** (check_d7_allowed 함수)
-3. **⚠️ D7 갭다운 필터 코드 업그레이드**: L523 `close_pos < 0.70` → `< 0.80` + `rank > 10` 조건 추가 (EXIT-SLIPPAGE-INTEGRATE-001 확정, CEO 승인 후)
+3. ~~**⚠️ D7 갭다운 필터 코드 업그레이드**~~ → ✅ **완료** (CTE-PIPELINE-INTEGRATE-001, 커밋 67602428)
 4. **HAV coarse_grid.py에 variable_config_test.yaml 연결**: 03-02 일요일 실행 확인
-5. **D2/D4/D5 trailing 파라미터 코드 반영**: start=+5%, retrace=20%, order=limit_1tick
+5. **D2/D4/D5 trailing 파라미터 코드 반영**: start=+5%, retrace=20%, order=limit_1tick (strategy_params.py에 D2_PARAMS 정의 완료, 실행 코드 반영 대기)
 6. 03-02(월) D6/D7 페이퍼트레이딩 첫 실행 로그 확인: `tail -f /var/log/d6d7_paper.log`
 7. 03-07(토) 첫 주 결과 수집 → `python scripts/monitor_paper_d6d7.py --week` → CUR-V41-PAPER-D6D7-WEEK1-001 완성
 8. 파라미터 재교정 후 CROSS-RELAY-PRESIM 재시뮬 → CROSS-RELAY-MAXIMIZE 진행
 9. 20거래일 페이퍼트레이딩 후 실전 전환 CEO 승인 요청
+10. **strategy_params.py를 실제 DESK2 실행 흐름에 연결**: orchestrator.py가 strategy_params 임포트하여 EV 검증, 버킷 차단, 신호 조합 강제 적용
 
 ### 대표님 확인 필요 사항
 - **스톱로스 모드**: Dynamic(PF↑WR↑, 권고) vs Hybrid(총PnL↑)
@@ -516,3 +526,4 @@
 | v4.2 | 2026-03-01 | Sonnet4.6 | **Cursor #20 페이퍼 트레이딩 모니터링 준비**: D6#42/D7#43 PAPER_LIVE 활성 확인, v4_paper_trades 미존재(첫실행 자동생성), cron `50 8 * * 1-5` 확인, monitor_paper_d6d7.py 신규, D7 갭다운 필터 이슈(0.70 vs 0.80) 발견, 보고서 프레임 CUR-V41-PAPER-D6D7-WEEK1-001 작성 |
 | v4.3 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 9모듈 완전 구현 완료**: bounce_gate(5전략 게이트)/pullback_classifier(25셀)/confirmation_signals(8신호)/dd_decelerator(5레벨S1)/risk_layer_manager(5-Layer)/disaster_detector(3패턴)/trigger_tactic_matrix(81셀)/conviction_score(CS100점)/execution_quality_score(EQS100점) — 단위테스트 총 120케이스 전부PASS, D2 100건 스모크(통과율76%/PF1.38), 221일 DD시뮬(MaxDD-5.5%/PF2.36/DD감축77%), 2838건 역산출(EQS평균67.8 ≈ 기대65.6±2 ✅) — 보고서 3건 push: BOUNCE-GATE-IMPL/DD-RISK-IMPL/CS-EQS-IMPL |
 | v4.4 | 2026-03-01 | Sonnet4.6 | **Cursor #17~#19 Phase B+C CTE 통합 파이프라인 + 백테스트 완료**: cte_pipeline.py(6-Layer+CS L3.5+EQS L4.5)/vwap_engine.py(5변수)/atr_dynamic_exit.py(NetR:R≥2.0+트레일링)/limit_1tick_exit.py(지정가-1틱+60초 마켓폴백) — 단위테스트 53케이스 PASS; CTE_FULL 5,000건/243일 백테스트: PF_net=6.901/MDD=12.5%/Sharpe=7.251/WR=75.9%, Walk-Forward 3-fold OOS/IS=1.300(과적합없음), Go/No-Go 7/8 GO — 보고서 push: CUR-V41-CTE-FULLBACKTEST-CEO-REPORT-001-20260301 |
+| v4.5 | 2026-03-01 | Opus4.6 | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신, 코드커밋 67602428 |
