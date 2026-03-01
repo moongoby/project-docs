@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.8 — **전체 데이터 수집 점검+백필 완료**: VKOSPI end_date 수정/크론 개선, global_market 4지표 추가, scalping_universe 크론 등록, v4_market_regime_daily 15개월 갭 백필(843→1,116건), 설명불가 갭 0건; v5.7 — FiveLayerRiskManager Hotfix)
+> 최종 업데이트: 2026-03-02 (v5.9 — **Session D 분봉 리플레이 백테스트 전환**: v4_ohlcv_minute 83.5M rows 실분봉 리플레이 엔진 구축, 6전략 242거래일 1,929건 BT 완료, Portfolio PF=0.834(통계BT 1.258 대비 현실화), D6만 PF>1.0(1.144); v5.8 — 전체 데이터 수집 점검+백필 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
 | **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/global_market/scalping_universe 전수 정상화 |
 | **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
 | **CUR-V41-VKOSPI-FIX-001** | 03-02 | bc5fac1c | 200 | **VKOSPI 수집 복구**: end_date yesterday→today(3분기 전체), 크론 --days 5→7, 임시 재시도 크론(9/12/15시) 추가, 레짐 동기화 정상(54.67) |
