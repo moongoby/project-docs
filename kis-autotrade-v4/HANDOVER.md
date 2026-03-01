@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v3.2 — 급등원인분석+D-20전조추출 20과제 완료, 원인8분류, 전조조합P=76.7%, DESK승격정량화, Leader AUC0.712)
+> 최종 업데이트: 2026-03-01 (v3.3 — CTE vs DESK 비교우위 아키텍처·시스템 흐름도·인계서 저장, 지시서 #0 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -58,6 +58,9 @@
 | CODE-ANALYSIS-CROSS-ENTRY-001 | 02-28 | (보고서 push) | 200 | 교차종목 진입 코드 갭 분석, 이미있음7건/수정4건/신규4건 |
 | SURGE-CAUSE-ANALYSIS-001 | 02-28 | (본 커밋) | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
 | HANDOVER-PULLBACK-CONFIRM | 02-28 | (본 커밋) | 200 | **눌림확인매매 인계서**: 과제 A~D(이평선분류/반등신호검증/대기비용/관통반등), 19,225건 기반, 새 세션 즉시 착수 가이드 |
+| CTE-COMPARE-ARCH | 03-01 | (본 커밋) | — | CTE vs DESK 7축 비교, 흡수12개, 통합아키텍처 |
+| SYSTEM-ARCH-FLOW | 03-01 | (본 커밋) | — | 시스템 아키텍처 흐름도 8개 |
+| HANDOVER-CTE-INT | 03-01 | (본 커밋) | — | CTE 통합 세션 인계서, 지시서5개 발행, 후속작업큐 |
 
 ---
 
@@ -382,3 +385,4 @@
 | v2.5 | 2026-02-28 | Opus4.6 | 연구 3건: 타이트손절(-1% 시스템 PF1.4) + 커버리지(D8/D9 신설로 전구간 커버) + 릴레이(청산→재진입 연쇄맵) |
 | v2.4 | 2026-02-28 | Opus4.6 | Phase H-1(C1~C7 반등률, C2 PF2.16) + H-2(가격프로파일, C3 MFE/MAE 1.19x) + D6/D7 cron 운영 |
 | v3.1 | 2026-03-01 | Cursor | HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228 등록(눌림확인매매 과제 A~D 인계), 섹션6 링크 추가 |
+| v3.3 | 2026-03-01 | Cursor | CTE vs DESK 비교우위 아키텍처+시스템 흐름도+인계서 3문서 저장, HANDOVER 항목 3건 추가(CTE-COMPARE-ARCH, SYSTEM-ARCH-FLOW, HANDOVER-CTE-INT) |
