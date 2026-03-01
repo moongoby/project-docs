@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.3 — **Session A 긴급 핫픽스 완료**: 실계좌 하드블록/PnL계산/D7필터 0.80/Top10 — 03-02 08:50 D6/D7 CTE 페이퍼 트레이딩 가동 준비 완료; v5.2 — 19전략 분봉 재검증 H-13 PASS PF=6.292)
+> 최종 업데이트: 2026-03-02 (v5.5 — **Session B 통합엔진 코어 완료**: unified_engine 패키지(9모듈), SlippageAnalyzer 3계층, AI Scorer Fail-Open, DD Decelerator 5레벨, DCS Grade, GO100 episodic 연동, 24건 ALL PASS; v5.4 — Session C Mock 배포 완료; v5.3 — Session A 핫픽스 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -19,6 +19,8 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | SESSION-A-HOTFIX-001 | 03-02 | cdc73d5 | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine), PnL계산+비용0.47%, D7필터 0.80+Top10, 31 PASS |
+| **CUR-V41-SESSION-C-DEPLOY-001** | 03-02 | (본 커밋) | 200 | **Session C Mock 배포**: run_unified_engine.py 신규(--mode backtest/virtual), BT PF=1.258(미래정보is_winner 제거, 기존 2.368→-47%), 101건 ALL PASS(CTE 70+분봉 31), v4_mock_trades 생성, KIS Mock HTTP 200, Cron 4건(premarket/signal/monitor/close), HAV tasks.json+backtest_runs id=25, 03-03 Virtual 자동 가동 준비 |
+| **CUR-V41-SESSION-B-UNIFIED-ENGINE-001** | 03-02 | (본 커밋) | — | **Session B 통합엔진 코어 구축**: unified_engine 패키지(9모듈 — config/engine/adapters×3/core×4), SlippageAnalyzer 3계층(spread/depth/latency), AI Scorer Fail-Open(_ai_reevaluate cs_ai≥70→hold/cs_ai<50→exit/예외→None), DD Decelerator 5레벨(0.0~1.0×), DCS Grade(VWAP30+RSI25+Vol25+MA20), GO100 episodic/backtest_runs 연동, FORBIDDEN_ACCOUNT_IDS {5,6} 3중guard, 신규 24건+기존 31건 ALL PASS |
 | PHASE1-001 | 02-27 | ✓ | 200 | TOP-20 WR 78.7%, 누적 +785%, 생애주기 4클러스터 |
 | PHASE2-001 | 02-28 | ✓ | 200 | 11변수, OOS 정밀도 76%, TREND WR 67.7% |
 | PHASE2B-001 | 02-28 | 93e67ae | 200 | L3+X9 정밀도 90%, Birth+1min WR 95.3%, X9 AUC 0.851 |
@@ -129,8 +131,9 @@
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| **60일 페이퍼 트레이딩** | **진행** | CEO Go/No-Go = GO. D6/D7 PAPER_LIVE 가동. **CTE 파이프라인 연동 페이퍼 03-02 08:50 첫 실행 준비 완료** (live_paper_cte.py + monitor_paper_cte.py) |
-| LIVE-PAPER-D6D7 | 진행 중 | D6(#42)+D7(#43) PAPER_LIVE. D7 핫픽스 적용완료(≥0.80+Top10) |
+| **Virtual KIS Mock 자동 가동** | **03-03(화) 자동 시작** | Session C 배포 완료. run_unified_engine.py Virtual 모드. 55:07 premarket → 50:08 signal → */1 09-15 monitor → 30:15 close. v4_mock_trades 기록 |
+| **60일 페이퍼 트레이딩** | **진행** | CEO Go/No-Go = GO. D6/D7 PAPER_LIVE 가동. live_paper_d6_d7 → unified_engine Virtual 모드로 통합됨 |
+| LIVE-PAPER-D6D7 | 통합 완료 | D6(#42)+D7(#43) PAPER_LIVE. D7 핫픽스 적용완료(≥0.80+Top10). unified_engine Virtual에 흡수됨 |
 | **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
 | **DESK5/4/3 구현** | **완료** | 프랙탈 추세추종 v3.0 코드 구현: 3테이블+desk_engine 10모듈+단위테스트+241일 백테스트 스크립트 (DESK543-FRACTAL-IMPL-001) |
 | **D4 긴급 교체** | **CEO 승인 대기** | 09:20 양봉(PF 0.73 손실) → 눌림확인(09:00~09:30, -1~3% 깊이) 진입으로 전환. 전수조사 242건 근거. PF 13.3 예상 |
