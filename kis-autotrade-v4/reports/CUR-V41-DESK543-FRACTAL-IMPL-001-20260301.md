@@ -107,6 +107,6 @@ DESK5/4/3 프랙탈 추세추종 엔진을 코드로 구현. 트리거=매수신
 
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-DESK543-FRACTAL-IMPL-001-20260301.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-DESK543-FRACTAL-IMPL-001-20260301.md
-- 커밋: (push 후 기입)
-- HTTP 확인: (push 후 200 확인)
+- 커밋: da997c4
+- HTTP 확인: 200
 - HANDOVER 업데이트: 완료

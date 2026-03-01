@@ -98,7 +98,7 @@
 | **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
 | **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
 | **CUR-GO100-HYPOTHESIS-ENGINE-001** | 03-01 | 3806a54b | — | **GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(Haiku/Sonnet 서킷브레이커), HypothesisEngine(L1 판정→L2 가설생성→L3 HAV큐 등록), 야간 배치 백테스트(22:00), 아침 리포트 자동생성, cron 2개 등록, 통합 테스트 13/13 PASS |
-| **DESK543-FRACTAL-IMPL-001** | 03-01 | (커밋SHA) | 200 | DESK5/4/3 프랙탈 엔진 코드 구현: 3테이블+10모듈+단위테스트, D-013/D-014 반영, 241일 백테스트 스크립트 제공 |
+| **DESK543-FRACTAL-IMPL-001** | 03-01 | da997c4 | 200 | DESK5/4/3 프랙탈 엔진 코드 구현: 3테이블+10모듈+단위테스트, D-013/D-014 반영, 241일 백테스트 스크립트 제공 |
 
 ---
 
