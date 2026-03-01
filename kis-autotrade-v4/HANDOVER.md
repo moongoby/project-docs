@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v3.8 — EXIT-SLIPPAGE 통합 청산파라미터 확정, A1(ORB) DESK2 통합+D6D7 중복방지, HAV 35변수 Dry-run Go 판정, 241거래일 통합 시뮬 Conditional Go)
+> 최종 업데이트: 2026-03-01 (v3.9 — EQS look-ahead 편향 검증·LAG1 수정, 게이트 OOS Walk-Forward 5전략 PASS, VWAP 모순 해소·통일정의, PF 극단치 정규화·비용 차감 일괄 재산출)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -77,6 +77,10 @@
 | ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
 | HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
 | CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
+| EQS-BIAS-CROSS-FILTER-001 | 03-01 | (본 커밋) | — | **EQS look-ahead 확인: PRICE_POSITION 당일H/L→LAG1(t-1 partial H/L) 교정. HIGH WR 85.2%→72.1%(-13.1%p), CS65_EQS65 최적조합(연550건, PF_net 2.499)** |
+| GATE-OOS-WALKFORWARD-001 | 03-01 | (본 커밋) | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
+| VWAP-RECONCILE-001 | 03-01 | (본 커밋) | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
+| PF-NORMALIZE-COST-ADJUST-001 | 03-01 | (본 커밋) | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
 
 ---
 
@@ -111,6 +115,10 @@
 | D2-IMPROVE | 대기 | RSI 30~50 + 10선 우선 필터 재검증 |
 | D5-EXPAND | 대기 | 후발주 포함 표본 확대 |
 | S1-IMPROVE | 대기 | S1 폭발+눌림 PF1.44→1.5+ 필터 강화 |
+| **EQS LAG1 구현** | **필수** | PRICE_POSITION → t-1분 partial H/L로 재계산. ORDERBOOK_BALANCE → 2025-03~12 구간 대리변수 공식화 |
+| **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
+| **반등확인 게이트 5전략 배포** | **다음** | OOS Walk-Forward PASS(avg PF 2.683). 2/3 충족 기본 버전으로 배포 |
+| **VWAP SUPPORT_COUNT ≥ 2 조건** | **다음** | D2/D5 우선 적용. 4,218건 기준 WR 67.4% 확인 |
 
 ---
 
