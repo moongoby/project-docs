@@ -74,6 +74,7 @@
 | SLIPPAGE-SIM-001 | 03-01 | (본 커밋) | — | **60분 슬리피지 미미(0.01~0.03%), 고정60분 실효수익0.336% > 트레일링0.079%, 지정가-1틱 권고** |
 | LIVE-PAPER-PRECHECK-001 | 03-01 | (본 커밋) | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
 | EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | (본 커밋) | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
+| V41-GO100-INTEGRATION-ARCH | 03-01 | (본 커밋) | 200 | **V4.1×GO100 통합 브릿지 아키텍처 기획서 v1.0**: 3대 브릿지(자본/리스크/메모리), 3대 안전수칙, Mermaid 데이터플로우, Phase1~3 마일스톤 |
 | ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
 | HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
 | CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
@@ -372,9 +373,17 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-01, 작업 #6~#9 완료 — v3.8)
+### 최신 상태 (2026-03-01, V4.1×GO100 통합 기획서 추가 — v3.9)
 
-#### ★ 오늘 완료된 4개 작업 요약
+#### ★ 오늘 완료된 작업 요약 (v3.8 → v3.9 추가)
+
+**[V41-GO100-INTEGRATION-ARCH] 통합 브릿지 아키텍처 기획서 v1.0**
+- 3대 연동 브릿지 정의: 자본 컨트롤 / 리스크·킬스위치 / 에피소드 메모리
+- 핵심 안전 수칙 3개: 코드 침범 금지 / Read-Only·Append-Only / 독립 페르소나(`V4.1_DESK_AGENT`)
+- Mermaid 데이터 플로우 다이어그램 + Phase 1~3 마일스톤
+- 저장 경로: `design/V41-GO100-INTEGRATION-ARCHITECTURE-v1.0.md`
+
+#### ★ 직전 완료된 4개 작업 요약 (v3.8)
 
 **[작업#6] EXIT-SLIPPAGE-INTEGRATE-001 — 청산 파라미터 최종 확정**
 - 트레일링 vs 고정60분 상충 → **지정가-1틱으로 해소** (스프레드 94% 감소)
@@ -478,3 +487,4 @@
 | v3.6 | 2026-03-01 | Opus4.6 | **CS-EQS-MATRIX-DESIGN-001**: CS 5요소(100점) CS≥65 PF1.55, EQS 5요소(100점) EQS≥70 PF8.43, 9×9 매트릭스 81셀(금지18/시너지8), 트리거태깅 tmp_trigger_mapping 설계 |
 | v3.7 | 2026-03-01 | Opus4.6 | **DD-VWAP-GATE-DESIGN-001**: DD Decelerator 5레벨(S1 maxDD -75%감소), 5-Layer리스크 재구조화, VWAP 5변수(D1전술 NOT VIABLE), 반등확인게이트 5전략, ATR 동적TP/SL+NetR:R≥2.0 |
 | v3.8 | 2026-03-01 | Sonnet4.6 | **#6~#9 4개 병렬 완료**: 청산파라미터 확정(트레일링+지정가-1틱, D7갭다운24%), D-ORB DESK2 통합(C8/15%/PF2.8), HAV 35변수 Go(drift_detector 수정불필요), 241일 통합시뮬 CONDITIONAL GO |
+| v3.9 | 2026-03-01 | Sonnet4.6 | **V4.1×GO100 통합 아키텍처 기획서 v1.0 추가**: 3대 연동 브릿지(자본/리스크/에피소드메모리), Loose Coupling REST API 브릿지 방식, V4.1_DESK_AGENT 독립 페르소나, Phase1~3 로드맵 |
