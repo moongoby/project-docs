@@ -75,6 +75,7 @@
 | LIVE-PAPER-PRECHECK-001 | 03-01 | (본 커밋) | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
 | EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | (본 커밋) | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
 | V41-GO100-INTEGRATION-ARCH | 03-01 | (본 커밋) | 200 | **V4.1×GO100 통합 브릿지 아키텍처 기획서 v1.0**: 3대 브릿지(자본/리스크/메모리), 3대 안전수칙, Mermaid 데이터플로우, Phase1~3 마일스톤 |
+| V41-GO100-BRIDGE-DESIGN-001 | 03-01 | 2fd7ac29 | 200 | **V4.1↔GO100 안전 브릿지 Phase 1 구현**: Go100BridgeClient(3메서드) + bridge.py 라우터(IP차단/Append-Only) + E2E 4건 PASS, V4.1_DESK_AGENT 독립 네임스페이스 확인 |
 | ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
 | HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
 | CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
@@ -373,9 +374,23 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-01, V4.1×GO100 통합 기획서 추가 — v3.9)
+### 최신 상태 (2026-03-01, V4.1↔GO100 브릿지 Phase 1 구현 — v4.0)
 
-#### ★ 오늘 완료된 작업 요약 (v3.8 → v3.9 추가)
+#### ★ 오늘 완료된 작업 요약 (v3.9 → v4.0)
+
+**[V41-GO100-BRIDGE-DESIGN-001] 안전 브릿지 Phase 1 구현 — E2E 4건 PASS**
+- `backend/app/services/v41/go100_bridge_client.py`: Go100BridgeClient (3 async 메서드)
+  - `get_risk_status()` → 킬스위치 상태 조회 (PASS: kill_switch_active=false 확인)
+  - `request_portfolio_optimization()` → MARKOWITZ/RISK_PARITY/EQUAL_WEIGHT 비중 요청
+  - `log_episodic_memory()` → V4.1_DESK_AGENT 독립 네임스페이스 Append-Only 적재
+- `backend/app/api/go100/bridge.py`: GO100 수신 브릿지 라우터 (루프백 IP 전용)
+  - IP 차단 미들웨어, agent_id 검증, 3 엔드포인트
+- `scripts/v41/test_go100_bridge.py`: E2E 4건 전원 PASS
+  - memory_id=3 확인(재검증), agent_id 오류 시 HTTP 400 확인
+- `main.py`: go100_bridge_router 등록 완료, go100 서비스 재시작 PASS
+- **코드 커밋**: `2fd7ac29` (branch: phase-2c-command-center)
+
+#### ★ 직전 완료 (v3.9)
 
 **[V41-GO100-INTEGRATION-ARCH] 통합 브릿지 아키텍처 기획서 v1.0**
 - 3대 연동 브릿지 정의: 자본 컨트롤 / 리스크·킬스위치 / 에피소드 메모리
@@ -488,3 +503,4 @@
 | v3.7 | 2026-03-01 | Opus4.6 | **DD-VWAP-GATE-DESIGN-001**: DD Decelerator 5레벨(S1 maxDD -75%감소), 5-Layer리스크 재구조화, VWAP 5변수(D1전술 NOT VIABLE), 반등확인게이트 5전략, ATR 동적TP/SL+NetR:R≥2.0 |
 | v3.8 | 2026-03-01 | Sonnet4.6 | **#6~#9 4개 병렬 완료**: 청산파라미터 확정(트레일링+지정가-1틱, D7갭다운24%), D-ORB DESK2 통합(C8/15%/PF2.8), HAV 35변수 Go(drift_detector 수정불필요), 241일 통합시뮬 CONDITIONAL GO |
 | v3.9 | 2026-03-01 | Sonnet4.6 | **V4.1×GO100 통합 아키텍처 기획서 v1.0 추가**: 3대 연동 브릿지(자본/리스크/에피소드메모리), Loose Coupling REST API 브릿지 방식, V4.1_DESK_AGENT 독립 페르소나, Phase1~3 로드맵 |
+| v4.0 | 2026-03-01 | Sonnet4.6 | **V4.1↔GO100 브릿지 Phase 1 구현(코드:2fd7ac29)**: Go100BridgeClient 3메서드, bridge.py 라우터(루프백IP차단+Append-Only), E2E 4건 PASS, memory_id=3 적재 확인(2차 검증) |
