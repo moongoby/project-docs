@@ -181,6 +181,6 @@ DESK5/4/3 프랙탈 추세추종 — **일봉 트리거 실증 연구** 1차 결
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-DESK543-FRACTAL-RESEARCH-001-20260301.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-DESK543-FRACTAL-RESEARCH-001-20260301.md
-- 커밋: 0fe52ec
+- 커밋: 1218831 (Task 1~4 결과 반영)
 - HTTP 확인: 200
 - HANDOVER 업데이트: 완료
