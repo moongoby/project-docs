@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v4.8 — **Cursor #20 EQS LAG1 + D4 ATR + CTE 페이퍼 활성화**; v4.7 — CTE 풀 백테스트 + 3-Fold WF, GO)
+> 최종 업데이트: 2026-03-01 (v4.9 — **Cursor #21 6전략 전수조사 + TP/SL 최적화**; v4.8 — Cursor #20 EQS LAG1 + D4 ATR + CTE 페이퍼 활성화; v4.7 — CTE 풀 백테스트 + 3-Fold WF, GO)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -95,6 +95,7 @@
 | **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규. Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
 | **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | (본 커밋) | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
 | **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | (본 커밋) | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
+| **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
 
 ---
 
@@ -127,6 +128,9 @@
 | LIVE-PAPER-D6D7 | 진행 중 | D6(#42)+D7(#43) PAPER_LIVE. D7 핫픽스 적용완료(≥0.80+Top10) |
 | **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
 | **DESK5/4/3 구현** | **착수** | 프랙탈 추세추종 v2.0: Task 0 데이터 검증 완료. 스크립트 실행 후 결과 반영 |
+| **D4 긴급 교체** | **CEO 승인 대기** | 09:20 양봉(PF 0.73 손실) → 눌림확인(09:00~09:30, -1~3% 깊이) 진입으로 전환. 전수조사 242건 근거. PF 13.3 예상 |
+| **D2 TP/SL 변경** | **CEO 승인 대기** | trail-20% → SL-3%+trail-10%. 605건 그리드서치. PF 1.57→4.41 |
+| **S1 필터 강화** | **CEO 승인 대기** | 갭+3%→갭+5%+양봉첫봉. 667건 분석. PF 1.44→2.52 |
 | **반등확인 게이트 5전략 배포** | **다음** | OOS Walk-Forward PASS(avg PF 2.683). 2/3 충족 기본 버전으로 배포 |
 
 ---
