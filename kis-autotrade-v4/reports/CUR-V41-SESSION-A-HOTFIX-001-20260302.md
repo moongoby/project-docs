@@ -208,6 +208,7 @@ E   fixture 'method' not found
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-SESSION-A-HOTFIX-001-20260302.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-SESSION-A-HOTFIX-001-20260302.md
-- 커밋: cdc73d5
+- 커밋: cdc73d5 (초안), 갱신 push (bounce_gate 로직 + auto_trade_engine 이중가드 반영)
+- 코드 커밋 (kis-autotrade-v4): 66a1cbd8 ([V4.1] Session A hotfix — 실계좌 하드블록 + D7 필터 확정값 적용)
 - HTTP 확인: 200
 - HANDOVER 업데이트: 완료
