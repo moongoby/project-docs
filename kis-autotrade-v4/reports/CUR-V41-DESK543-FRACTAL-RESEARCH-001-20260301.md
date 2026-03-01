@@ -2,7 +2,7 @@
 
 **문서 ID**: CUR-V41-DESK543-FRACTAL-RESEARCH-001  
 **작성일**: 2026-03-01  
-**상태**: Task 0 완료, Task 1~4 스크립트 준비  
+**상태**: Task 0~4 실행 완료 (60일 샘플)  
 **선행 문서**: HANDOVER.md, CEO-DIRECTIVES.md, DESK-FRACTAL-ARCHITECTURE-v2.0-20260301.md  
 
 ---
@@ -58,38 +58,88 @@ DESK5/4/3 프랙탈 추세추종 — **일봉 트리거 실증 연구** 1차 결
 
 ---
 
-## 3. Task 1~4 스크립트 및 실행 가이드
+## 3. Task 1~4 실행 결과 (60일 샘플)
 
-분석 스크립트는 **backend 수정 없이** `/tmp/` 또는 `scripts/research/`에만 배치.
+**실행 환경**: SIM_DAYS=60, DB 연동(환경변수 DATABASE_URL_SYNC/DATABASE_URL).
 
 ### 3.1 Task 1 — DESK5 트리거 실증
 
-- **스크립트**: `/tmp/task1_desk5_empirical.py`
-- **출력**: `/tmp/task1_desk5_results.json`
-- **내용**: T5-1(Vol MA60>MA120), T5-2(기관/외인 15/20일), T5-3(52주 하위 30%+BB 스퀴즈) → 2조건 충족 시 진입, D+20/D+40/D+60/D+90/D+120 수익률·승률·False Positive·풀 크기 분포.
-- **실행**:  
-  `DATABASE_URL_SYNC=... python3 /tmp/task1_desk5_empirical.py`  
-  ※ 241일×전종목 기준 쿼리 부하로 **실행 시간 다소 소요**(수십 분 단위 가능). 단축이 필요하면 스크립트 내 `sim_dates`를 60일 등으로 축소 후 테스트 권장.
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `/tmp/task1_desk5_bulk.py` (벌크 최적화) |
+| 출력 | `/tmp/task1_desk5_results.json` |
+| 시뮬 거래일 | 60일 |
+| 진입 건수 | 9,958 |
+| 일평균 풀 크기 | 166 (목표 10~20 초과) |
+| D+20 승률 | 23.0% |
+| D+40 승률 | 36.0% |
+| D+60/D+90/D+120 | 60일 샘플 한계로 미측정(n=0) |
+| False Positive | — |
+| **PASS** | **미판정** (D+60 데이터 부재로 241일 전수 실행 필요) |
+
+→ 60일만으로는 D+60 기준(승률≥40%, 중앙값≥15%) 검증 불가. **241일 실행 권장.**
 
 ### 3.2 Task 2 — DESK4 트리거 실증
 
-- T4-1~T4-4 조건 및 SEC_LEADER_FLAG 산출 로직을 **본 Task에서 직접 구현**하여 스캔·추매 효과·피라미딩 시뮬 필요.
-- 스크립트는 `/tmp/task2_desk4_empirical.py` (추가 작성 예정).
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `/tmp/task2_desk4_empirical.py` |
+| 출력 | `/tmp/task2_desk4_results.json` |
+| 시뮬 거래일 | 60일 |
+| 진입 건수 | 53,136 |
+| 일평균 풀 크기 | 885.6 (목표 20~30 대비 과다) |
+| D+20 승률 | 11.5% |
+| D+40 승률 | 28.0% |
+| **PASS** | **FAIL** (D+20 승률 45% 미달) |
+
+→ 풀 크기·조건 완화 필요 시 T4-1~T4-4 중 3개 충족 등 **조건 강화 검토.**
 
 ### 3.3 Task 3 — DESK3 트리거 실증
 
-- T3-1(L3 TOP-20 30일 내 ≥2회), T3-2(전일 기준 동일 WICS·테마 TOP-20 ≥2종목), T3-3+T3-6 통합, T3-4, T3-5 조건 및 3단계 피라미딩·DESK2 먹이감 효과·T3 상관행렬.
-- 스크립트는 `/tmp/task3_desk3_empirical.py` (추가 작성 예정).
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `/tmp/task3_desk3_empirical.py` |
+| 출력 | `/tmp/task3_desk3_results.json` |
+| 시뮬 거래일 | 60일 |
+| 진입 건수 | 2,747 |
+| 일평균 풀 크기 | 45.8 |
+| D+5 승률 | 0.6% |
+| D+10 승률 | 0.4% |
+| **PASS** | **FAIL** (D+5 승률 55% 미달) |
+
+→ T3-3/T3-6(뉴스) 미적용·T3-5 단순화 적용. **뉴스 조건 및 진입 필터 재검토 권장.**
 
 ### 3.4 Task 4 — 이중 수확 시뮬레이션
 
-- 일봉 보유 수익(DESK5/4/3) + 분봉 수확(DESK2) 합산, 자본 단계별 복리(Stage 1/2/3).
-- CROSS-RELAY-PRESIM 241거래일 데이터 활용.
-- 스크립트는 `/tmp/task4_dual_harvest.py` (추가 작성 예정).
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `/tmp/task4_dual_harvest.py` |
+| 출력 | `/tmp/task4_dual_harvest_results.json` |
+| DESK2 241일 | 수익 +1.5%, MDD 7.8% (CROSS-RELAY-PRESIM 기준) |
+| Stage1 연수익(근사) | 2.27% (DESK2만) |
+| Stage2 연수익(근사) | 5.31% (D2 60%+D3 30%+D4 10%) |
+| Stage3 연수익(근사) | 13.52% (전 DESK) |
+| **PASS** | **PASS** (Stage2 > Stage1×1.3) |
+
+→ 자본 단계별 이중 수확 구조(Stage2 > Stage1×1.3) **충족.**
 
 ---
 
-## 4. PASS 기준 종합표
+## 4. Task 1~4 스크립트 및 재실행 가이드
+
+분석 스크립트는 **backend 수정 없이** `/tmp/` 에 배치.
+
+| Task | 스크립트 | 결과 JSON | 비고 |
+|------|----------|-----------|------|
+| 0 | `/tmp/task0_data_validation.py` | `/tmp/task0_data_validation.json` | 사전 검증 |
+| 1 | `/tmp/task1_desk5_bulk.py` | `/tmp/task1_desk5_results.json` | SIM_DAYS=60 또는 241 |
+| 2 | `/tmp/task2_desk4_empirical.py` | `/tmp/task2_desk4_results.json` | SIM_DAYS=60 |
+| 3 | `/tmp/task3_desk3_empirical.py` | `/tmp/task3_desk3_results.json` | SIM_DAYS=60 |
+| 4 | `/tmp/task4_dual_harvest.py` | `/tmp/task4_dual_harvest_results.json` | Task 1~3 결과 의존 |
+
+---
+
+## 5. PASS 기준 종합표
 
 | DESK | 측정 | 기준 | 의미 |
 |------|------|------|------|
@@ -102,19 +152,29 @@ DESK5/4/3 프랙탈 추세추종 — **일봉 트리거 실증 연구** 1차 결
 | DESK3 | 피라미딩 Sharpe | ≥ 1.5 | 3단계 피라미딩 유효 |
 | 이중수확 | Stage2 > Stage1×1.3 | 연수익 비교 | 일봉+분봉 이중구조 우위 |
 
+### 60일 샘플 판정 요약
+
+| Task | PASS 기준 | 60일 결과 | 판정 |
+|------|----------|----------|------|
+| Task 1 DESK5 | D+60 승률≥40%, 중앙값≥15% | D+60 미측정 | 미판정 |
+| Task 2 DESK4 | D+20 승률≥45% | 11.5% | FAIL |
+| Task 3 DESK3 | D+5 승률≥55% | 0.6% | FAIL |
+| Task 4 이중수확 | Stage2 > Stage1×1.3 | 5.31% > 2.95% | **PASS** |
+
 ---
 
-## 5. Task 0 산출물 요약
+## 6. Task 0 산출물 요약
 
 - `/tmp/task0_data_validation.json`: v4_investor_daily·go100_news_items·ohlcv_daily 검증 결과, pass=true, fail_reasons=null.
 
 ---
 
-## 6. 다음 단계
+## 7. 다음 단계
 
-1. **Task 1 완료**: `task1_desk5_empirical.py`를 241거래일(또는 60일 샘플)로 실행 후 `/tmp/task1_desk5_results.json` 확인, PASS 기준 적용.
-2. **Task 2~4**: 위 3.2~3.4 스크립트 작성·실행 후 본 보고서에 결과 통합.
-3. **Task 5**: 최종 보고서 갱신, CEO-DIRECTIVES D-012 반영, HANDOVER 업데이트, 커밋 및 push.
+1. **Task 1 241일 전수 실행**: `SIM_DAYS=241 python3 /tmp/task1_desk5_bulk.py` 로 D+60 승률·중앙값·False Positive 확정.
+2. **Task 2 조건 강화**: T4 4개 중 3개 충족 또는 풀 크기 20~30 목표에 맞게 필터 조정 후 재실행.
+3. **Task 3 뉴스·필터**: T3-3/T3-6(go100_news_items) 연동 및 T3-5 정교화 후 D+5 승률 재측정.
+4. **Task 5**: 본 보고서 갱신분 커밋·push (이미 D-012·HANDOVER 반영 완료).
 
 ---
 
