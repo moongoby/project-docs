@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v3.9 — EQS look-ahead 편향 검증·LAG1 수정, 게이트 OOS Walk-Forward 5전략 PASS, VWAP 모순 해소·통일정의, PF 극단치 정규화·비용 차감 일괄 재산출)
+> 최종 업데이트: 2026-03-01 (v4.0 — **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 PASS, 킬스위치 차단 검증, backtest_engine_v2 스텁 삽입점 A/B 확정; v3.9 — EQS look-ahead 편향 검증·LAG1 수정, 게이트 OOS Walk-Forward 5전략 PASS, VWAP 모순 해소·통일정의, PF 극단치 정규화·비용 차감 일괄 재산출)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -86,6 +86,7 @@
 | GATE-OOS-WALKFORWARD-001 | 03-01 | (본 커밋) | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
 | VWAP-RECONCILE-001 | 03-01 | (본 커밋) | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
 | PF-NORMALIZE-COST-ADJUST-001 | 03-01 | (본 커밋) | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
+| **CUR-V41-GO100-BRIDGE-PHASE2-001** | 03-01 | 1226fda3 | 200 | **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 전 PASS. 시나리오1=킬스위치OFF→메모리 적재(memory_id 4,5), 시나리오2=킬스위치Mock(True)→전종목 Halt 확인. backtest_engine_v2 스텁(삽입점 A/B) 비파괴 추가. Phase 3(실거래 활성화) 대기 |
 
 ---
 
