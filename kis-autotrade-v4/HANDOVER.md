@@ -95,6 +95,7 @@
 | **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규. Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
 | **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | (본 커밋) | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
 | **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | (본 커밋) | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
+| **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
 | **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | (본 커밋) | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
 
 ---
@@ -387,9 +388,24 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-01, CTE 파이프라인 통합 + D7 핫픽스 — v4.5)
+### 최신 상태 (2026-03-01, AI Scorer Z-score 핫픽스 — v4.9)
 
-#### ★ 오늘 완료된 작업 요약 (v4.4 → v4.5)
+#### ★ 오늘 완료된 작업 요약 (v4.8 → v4.9)
+
+**[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스 완료**
+- **원인 진단**: Case A 확정 — v2 Parquet(_zscore_batch_v2)에서 Z-score 저장 후
+  feature_stats.json이 Z-score된 통계(mean≈0, std≈1) 보유 → ai_scorer Stage 2에서 재차 적용
+  → z=(raw-0)/1=raw(identity transform) → 모델이 학습 분포와 불일치한 극단값 수신 → cs_ai=100 편향
+- **수정**: `data/go100/models/go100_brain_v2_feature_stats.json` 원시 피처 기준 재생성
+  - CLOSE: mean=0→66413, RSI_14: mean=0→53.59, BB_WIDTH: mean=0→10.77, 외 9개 피처
+  - 백업: `go100_brain_v2_feature_stats.json.bak_20260301`
+- **검증**: 삼성전자 cs_ai 100→65, SK하이닉스 100→61, NAVER 100→45 (종목별 차별화 정상)
+- **테스트**: 7/7 PASS (test_ai_scoring_bridge.py)
+- **커밋**: `799e33ee`
+
+#### ★ 직전 완료 (v4.5)
+
+**[CUR-V41-CTE-PIPELINE-INTEGRATE-001] CTE 파이프라인 통합 + D7 핫픽스**
 
 **[CUR-V41-CTE-PIPELINE-INTEGRATE-001] CTE 파이프라인 통합 + D7 핫픽스**
 - `strategy_params.py` 신규: D2 avg_win 3.36%(실측) 교정 → EV +0.49%, B4/B6 진입금지, concurrent=5, PF우선 슬롯 배정
@@ -536,3 +552,4 @@
 | v4.6 | 2026-03-01 | Opus4.6 | **GO100 AI Feature Store v2 배치 빌드**: 19→34컬럼(Track A 7+Track B 2+뉴스1+라벨3+valid_label), NaN라벨보존+LABEL_ Z-score제외 결함수정, 263,450rows/12parquet/26.24MB, REGIME_SEASON 경고0건, valid_label 99.03% |
 | v4.8 | 2026-03-01 | Cursor | **#20 EQS LAG1 + D4 ATR + CTE 페이퍼**: execution_quality_score LAG1(PRICE_POSITION t-1/ORDERBOOK 8점), atr_dynamic_exit D4 A안(1.0/5.0), live_paper_cte.py+monitor_paper_cte.py, 테스트 70 PASS |
 | v4.9 | 2026-03-01 | Sonnet4.6 | **[V41-AI-SCORING-INTEGRATION-001] AI Scorer Step A MVP 완료**: ai_scorer.py(4모델+TTLCache+Z-score+Bounds), bridge.py(+/score /score/batch), go100_bridge_client.py(+ScoreUnavailableError+메서드2개), scoring_engine.py(Fail-Open+Shadow w=0.15), 테스트 7/7 PASS, feature_stats.json(263,450행) — Step B 강화 항목 11개 실측 기반 선별 예정 |
+| v4.9a | 2026-03-01 | Sonnet4.6 | **[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스**: Case A 확정(Parquet Z-score+stats Z통계), feature_stats.json 원시 기준 재생성(CLOSE:0→66413/RSI:0→53.59/등 12개), cs_ai 100→65/61/45(종목별 차별화), 7/7 PASS, 커밋 799e33ee |
