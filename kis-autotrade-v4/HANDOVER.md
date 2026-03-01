@@ -78,6 +78,9 @@
 | V41-GO100-BRIDGE-DESIGN-001 | 03-01 | 2fd7ac29 | 200 | **V4.1↔GO100 안전 브릿지 Phase 1 구현**: Go100BridgeClient(3메서드) + bridge.py 라우터(IP차단/Append-Only) + E2E 4건 PASS, V4.1_DESK_AGENT 독립 네임스페이스 확인 |
 | ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
 | HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
+| BOUNCE-GATE-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #14 Phase A-1**: BounceConfirmationGate(D2/D4/D5/S1/D7) + PullbackClassifier(B1~B6+25셀) + ConfirmationSignalEngine(8신호+SIG3+SIG6 권고), 단위 96케이스 전체PASS |
+| DD-RISK-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #15 Phase A-2**: DDDecelerator(5레벨S1) + FiveLayerRiskManager(L1~L5) + DisasterPatternDetector(릴레이/집중도/과잉포지션), 단위 29케이스 전체PASS |
+| CS-EQS-IMPL-001 | 03-01 | (본 커밋) | — | **Cursor #16 Phase A-3**: ConvictionScoreEngine(CS 100점) + ExecutionQualityScoreEngine(EQS 100점, ORDERBOOK 프록시) + TriggerTacticMatrix(81셀/금지18/시너지18), 단위 45케이스 전체PASS |
 | CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
 | EQS-BIAS-CROSS-FILTER-001 | 03-01 | (본 커밋) | — | **EQS look-ahead 확인: PRICE_POSITION 당일H/L→LAG1(t-1 partial H/L) 교정. HIGH WR 85.2%→72.1%(-13.1%p), CS65_EQS65 최적조합(연550건, PF_net 2.499)** |
 | GATE-OOS-WALKFORWARD-001 | 03-01 | (본 커밋) | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
@@ -504,3 +507,4 @@
 | v3.8 | 2026-03-01 | Sonnet4.6 | **#6~#9 4개 병렬 완료**: 청산파라미터 확정(트레일링+지정가-1틱, D7갭다운24%), D-ORB DESK2 통합(C8/15%/PF2.8), HAV 35변수 Go(drift_detector 수정불필요), 241일 통합시뮬 CONDITIONAL GO |
 | v3.9 | 2026-03-01 | Sonnet4.6 | **V4.1×GO100 통합 아키텍처 기획서 v1.0 추가**: 3대 연동 브릿지(자본/리스크/에피소드메모리), Loose Coupling REST API 브릿지 방식, V4.1_DESK_AGENT 독립 페르소나, Phase1~3 로드맵 |
 | v4.0 | 2026-03-01 | Sonnet4.6 | **V4.1↔GO100 브릿지 Phase 1 구현(코드:2fd7ac29)**: Go100BridgeClient 3메서드, bridge.py 라우터(루프백IP차단+Append-Only), E2E 4건 PASS, memory_id=3 적재 확인(2차 검증) |
+| v4.1 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 7모듈 구현**: bounce_gate/pullback_classifier/confirmation_signals/dd_decelerator/risk_layer_manager/disaster_detector/conviction_score/execution_quality_score/trigger_tactic_matrix — 단위 170케이스 전체PASS, 스모크 3건 완료 |
