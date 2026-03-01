@@ -1,6 +1,6 @@
 # CUR-V41-SESSION-B-UNIFIED-ENGINE-001-20260302
 
-**작성일**: 2026-03-02
+**작성일**: 2026-03-02 (v1.1 — CLI 분기 버그 수정 + DCS 가중치 근거 추가)
 **작성자**: Claude Sonnet 4.6 (Session B)
 **대상 브랜치**: phase-2c-command-center
 **완료 조건 충족**: ✅ 24건 PASS / 기존 31건 유지
@@ -254,7 +254,34 @@ tests/ (--ignore=test_unified_engine.py,test_api_endpoints.py) — 31 PASSED in 
 
 ---
 
-## 6. CLI 사용법
+## 6. DCS 가중치 설계 근거
+
+> **v1.1 추가**: 가중치 설정의 연구 근거 명시.
+
+DCSCalculator의 4개 지표 가중치(합계 100점)는 기존 연구 결과를 기반으로 한 **초기 설계값(휴리스틱)**이다.
+백테스트로 최적화된 값이 아니며, 60일 페이퍼 트레이딩 이후 재조정이 필요하다.
+
+| 지표 | 가중치 | 설계 근거 |
+|---|---|---|
+| **VWAP 지지 여부** | 30점 (최대) | `PULLBACK-CONFIRMATION-001`: VWAP 지지 신호 WR 73.7% — 8개 신호 중 **압도적 1위**. 관통>터치(PF 26.36>11.15). `VWAP-RECONCILE-001`: ±0.3% 지지 기준 WR 67.4% vs 무조건 52.3%. |
+| **RSI 30~50 구간** | 25점 | `VE-003-PHASE-B`: RSI 30~50 = **최강 필터**로 명시. B3_SIG6(RSI30~50) PF 2.43. `CS-EQS-MATRIX-001`: RSI_14 CS 구성 요소 포함, ≥65 조합 PF 1.55. |
+| **거래량 추세** | 25점 | `CUR-GO100-AI-FEATURE-BATCH-V2-001`: V_RVOL(거래량 상대비율) Track A 7피처 중 포함. `GATE-OOS-WALKFORWARD-001`: 5전략 공통 조건으로 거래량 조건 적용. RSI와 동등 가중치는 장중 수급 모멘텀 확인에 필수라는 실전 판단. |
+| **일봉 MA 정렬(MA5>MA20)** | 20점 (최소) | `VE-003-PHASE-D`: NEW 254종목 6조건 중 MA정배열 87.7%. `GATE-OOS-WALKFORWARD-001`: MA 정배열이 5전략 게이트 공통 조건. 일봉 컨텍스트는 분봉 실시간 신호보다 참고적 성격이므로 최소 가중치. |
+
+**등급 경계값 설정 근거:**
+- A(≥80): 4개 지표 거의 전부 충족 → 강한 진입 신호
+- B(≥60): VWAP+RSI or VWAP+거래량 동시 충족
+- C(≥40): 2개 이하 충족 → 중립
+- D(≥20): 1개 미만 → 약한 신호
+- F(<20): 전부 미충족 → 진입 금지
+
+**향후 튜닝 방향**: 60일 페이퍼 트레이딩 데이터 축적 후, 등급별 실제 진입 성공률을 역추적하여 가중치 및 경계값 재조정 예정. DCS는 CS/EQS와 별개 개념(진입 시점 장중 모멘텀)이므로 CS-EQS 매트릭스와 충돌하지 않음.
+
+---
+
+## 7. CLI 사용법 (v1.1 수정)
+
+> **v1.1 수정**: `--data-source` choices를 `["db", "file"]`에서 `["db", "kis-mock"]`으로 교정. `_run_unified_engine_async()` 내부에서 `args.data_source`를 반영하도록 분기 추가.
 
 ```bash
 # Virtual 모드 — DB 데이터소스 — 전체 실행
@@ -263,17 +290,30 @@ python scripts/run_unified_engine.py \
     --data-source db \
     --action full
 
+# Virtual 모드 — KIS Mock API 데이터소스 — 전체 실행
+python scripts/run_unified_engine.py \
+    --mode virtual \
+    --data-source kis-mock \
+    --action full
+
 # Backtest 모드 — 날짜 지정
 python scripts/run_unified_engine.py \
     --mode backtest \
-    --start-date 2026-01-01 \
-    --end-date 2026-01-31 \
     --action full
 ```
 
+**data-source 분기 요약:**
+
+| --data-source | DataSource | OrderExecutor | PositionStore |
+|---|---|---|---|
+| `db` | DBDataSource (asyncpg) | VirtualExecutor | PaperStore → v4_paper_trades |
+| `kis-mock` | KISMockDataSource (KIS REST) | KISMockExecutor (VTTC0802U/01U) | MockStore → v4_mock_trades |
+
+> **통합 실행 검증**: `--mode virtual --data-source db --action full` 통합 실행은 Session C-1에서 실 DB 연결 후 최종 검증 예정.
+
 ---
 
-## 7. 다음 단계 (Session C 이후)
+## 9. 다음 단계 (Session C 이후)
 
 - [ ] `--mode live` 실구현 (KISLiveExecutor 완성, 실계좌 승인 프로세스)
 - [ ] DCS Grade → CTE cs_dcs 필드 실측 검증
