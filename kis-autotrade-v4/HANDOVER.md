@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v3.6 — 눌림확인 심층연구, CS/EQS/매트릭스 설계, DD Decelerator+VWAP+게이트+ATR 설계 완료)
+> 최종 업데이트: 2026-03-01 (v3.8 — EXIT-SLIPPAGE 통합 청산파라미터 확정, A1(ORB) DESK2 통합+D6D7 중복방지, HAV 35변수 Dry-run Go 판정, 241거래일 통합 시뮬 Conditional Go)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -73,6 +73,10 @@
 | HAV-EXTEND-35VAR-001 | 03-01 | (본 커밋) | — | **27→35변수 확장 준비, 백업 완료, 8변수 솔로테스트 ALL 유효(PF1.0~2.71), coarse 유지+Bayesian 탐색 권고** |
 | SLIPPAGE-SIM-001 | 03-01 | (본 커밋) | — | **60분 슬리피지 미미(0.01~0.03%), 고정60분 실효수익0.336% > 트레일링0.079%, 지정가-1틱 권고** |
 | LIVE-PAPER-PRECHECK-001 | 03-01 | (본 커밋) | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
+| EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | (본 커밋) | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
+| ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | (본 커밋) | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
+| HAV-DRYRUN-DRIFT-001 | 03-01 | (본 커밋) | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
+| CROSS-RELAY-PRESIM-001 | 03-01 | (본 커밋) | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
 
 ---
 
@@ -360,28 +364,45 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-02-28, 파동 자본순환 14과제 완료)
-- VE-003 Phase A~F + H-1/H-2 전부 완료
-- **HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228 등록**: 눌림확인매매 심층연구 + DESK2 전략최적화 세션 인계. **새 세션은 반드시 [인계서](https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228.md) PART 5 과제 A~D를 최우선 수행** (이평선 기준 눌림 분류, 반등 확인 신호 검증, 확인 대기 비용, 관통 후 반등 패턴).
-- **PULLBACK-ANATOMY-001 완료**: 19,225건 전수조사, 2파율 73.9%, 모드3 0% 원인 규명
-- **WAVE-CAPITAL-CYCLE-001 완료**: 3,000건 ZigZag 14과제 종합분석
-  - W1 30% / W2 100% 최적 청산, Dynamic 스톱(PF17.98/WR70.87%)
-  - 거래대금 50% 소진 시 신규진입 차단 (다음 파동 27.7%)
-  - VP 2분 선행성 확인 (SIGNAL_ADD), D7 필터 PF 106.39
-  - 시스템 효율 17.7% → 50% 로드맵 제시
-- D6/D7 모의매매 cron 등록 완료 (50 8 * * 1-5), 03-02(월) 자동 시작
-- Phase G(능동청산) 착수 중
-- AI Self-Evolution Engine 설계 완료, 구현 착수
+### 최신 상태 (2026-03-01, 작업 #6~#9 완료 — v3.8)
 
-### 웹 Claude가 해야 할 일
-1. **WCC-001 파라미터를 DESK2 adaptive_exit에 반영**: W1_EXIT=30%, W2_EXIT=100%, STOPLOSS=Dynamic, TRAIL=20%retrace/5%start
-2. **R08 VP_DIVERGENCE 시그널을 feature_engine.py에 추가**: VP 하락 + 가격 신고가 = 청산 경고
-3. **R10 VOLUME_EXHAUST_PCT 필터를 feature_engine.py에 추가**: 50% 경고, 70% 차단, 90% 강제청산
-4. **R09 D7 필터 적용**: wave_type IN (Type-C/D) AND pos_1430 >= 0.70
-5. **R05 v2 재학습**: up_wave_count 제거 후 4-feature 모델 (pnl_3m, vol_ratio, rsi, bull_bar)
-6. 03-02(월) D6/D7 모의실매매 로그 확인: `tail /var/log/d6d7_paper.log`
-7. **R12 v2**: 테마 기반(go100_theme_stocks) 섹터 동기화 재분석
-8. 20거래일 모의 운영 후 실전 전환 판단
+#### ★ 오늘 완료된 4개 작업 요약
+
+**[작업#6] EXIT-SLIPPAGE-INTEGRATE-001 — 청산 파라미터 최종 확정**
+- 트레일링 vs 고정60분 상충 → **지정가-1틱으로 해소** (스프레드 94% 감소)
+- D2/D4/D5: 트레일링(start+5%,retrace20%) + 지정가-1틱 매도 **확정**
+- D2 PF 31.15 → **과적합 확정**, 현실적 목표 PF **2.0~2.5**
+- D7: 종가위치≥0.80+Top10 필터 → 갭다운 43.4%→**24.1%** (목표 달성)
+
+**[작업#7] ORB-INTEGRATE-OVERLAP-GUARD-001 — A1 통합 + 중복방지**
+- D-ORB 전략: **C8 신규 컨디션**, 09:05~09:30 전용, 자본 15%, 일평균 2.5건
+- D6/D7 중복: 36건 D6 중 **28건(77.8%)이 D7 조건 동시 충족**
+- 방지 로직: `daily_d6_positions set()` → D6>D7>ORB 우선순위
+- 7전략 포트폴리오 v2: D6 25%/D7 25%/D-ORB 15%/D5 15%, 예상 PF **2.8**
+
+**[작업#8] HAV-DRYRUN-DRIFT-001 — 35변수 Go 판정**
+- YAML 파싱: 오류 0건, 35변수 정상 인식 **PASS**
+- Coarse Grid 100건: PF 12.26→12.24(±0.02) **PASS**
+- Bayesian 8변수: 유효 3개(body_size_pct/atr_pct/bb_width_pct) 식별
+- **★ drift_detector.py 수정 불필요**: 변수 목록 동적 로드, 4개 시장지표만 감시
+- **03-02(일) 06:00 cron: GO** ✅
+
+**[작업#9] CROSS-RELAY-PRESIM-001 — 241거래일 통합 시뮬**
+- 6전략 단리: 4,000만→**4,061만원** (+1.5%), MDD **7.8%**, Sharpe 0.25
+- *주의: 보수적 파라미터 기준. 역사적 PF 반영 시 연수익 15~25% 예상*
+- 동시 종목 **5개** 최적 (수익/MDD 균형)
+- PF우선 정책 권고 (D6 PF13.63이 포트폴리오 견인)
+- **CONDITIONAL GO** (Sharpe/연수익 재교정 후 재판정 필요)
+
+### 웹 Claude / 다음 세션이 해야 할 일
+1. **D-ORB C8 컨디션 DESK2-FINAL-SPEC에 공식 추가**: C1~C8 컨디션 목록 업데이트
+2. **live_paper_d6_d7.py에 D6/D7 중복방지 로직 추가** (check_d7_allowed 함수)
+3. **D7 갭다운 필터 코드화**: close_pos_ratio ≥ 0.80 AND vol_rank ≤ 10
+4. **HAV coarse_grid.py에 variable_config_test.yaml 연결**: 03-02 일요일 실행 확인
+5. **D2/D4/D5 trailing 파라미터 코드 반영**: start=+5%, retrace=20%, order=limit_1tick
+6. 03-02(월) D6/D7 페이퍼트레이딩 첫 실행 로그 확인: `tail /var/log/d6d7_paper.log`
+7. 파라미터 재교정 후 CROSS-RELAY-PRESIM 재시뮬 → CROSS-RELAY-MAXIMIZE 진행
+8. 20거래일 페이퍼트레이딩 후 실전 전환 CEO 승인 요청
 
 ### 대표님 확인 필요 사항
 - **스톱로스 모드**: Dynamic(PF↑WR↑, 권고) vs Hybrid(총PnL↑)
@@ -448,3 +469,4 @@
 | v3.5 | 2026-03-01 | Opus4.6 | **PULLBACK-CONFIRMATION-001**: 17,155건 눌림 5버킷 분류(B2/B3 승률95%+골든존), VWAP지지 73.7% 최강필터, SIG3+SIG6 조합 승률77.4%, 관통>터치(PF26.36>11.15), B4 깊이3%이하 권고 |
 | v3.6 | 2026-03-01 | Opus4.6 | **CS-EQS-MATRIX-DESIGN-001**: CS 5요소(100점) CS≥65 PF1.55, EQS 5요소(100점) EQS≥70 PF8.43, 9×9 매트릭스 81셀(금지18/시너지8), 트리거태깅 tmp_trigger_mapping 설계 |
 | v3.7 | 2026-03-01 | Opus4.6 | **DD-VWAP-GATE-DESIGN-001**: DD Decelerator 5레벨(S1 maxDD -75%감소), 5-Layer리스크 재구조화, VWAP 5변수(D1전술 NOT VIABLE), 반등확인게이트 5전략, ATR 동적TP/SL+NetR:R≥2.0 |
+| v3.8 | 2026-03-01 | Sonnet4.6 | **#6~#9 4개 병렬 완료**: 청산파라미터 확정(트레일링+지정가-1틱, D7갭다운24%), D-ORB DESK2 통합(C8/15%/PF2.8), HAV 35변수 Go(drift_detector 수정불필요), 241일 통합시뮬 CONDITIONAL GO |
