@@ -103,6 +103,7 @@
 | P6-2 KIS 게이트웨이 | 7 | 02-28 | PASS | ✓ | 200 | migration 047, 모의 주문 4건 |
 | P6-EXTRA-VERIFY | 7 | — | 보류 | — | — | 보고서 미제출 |
 | P7-1 QA | 7 | — | 보류 | — | — | 보고서 미제출 |
+| CUR-SHARED-DB-SCHEMA-CATALOG-001 | — | 03-02 | PASS | ✓ | 200 | DB 스키마 카탈로그 GO100+V4.1 통합: 246테이블+8뷰=254 전수 스키마, go100_* 65테이블 포함, 자동최신화 cron(매일06:00), 참조: shared/DB-SCHEMA-CATALOG.md |
 
 ### Phase 6 게이트 검증 결과 (2026-02-28 확인)
 
@@ -308,4 +309,5 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.0 | 02-28 | Batch 6·7 반영, 진행률 85% |
 | v10.1 | 02-28 | 단일 파일 통합, 테이블 표준화, 핵심 발견·보류·웹 Claude 절차·버전 이력 추가 |
 | v10.2 | 03-01 | Batch 8 AI LightGBM V2 학습 반영, 모델 경로·다음 작업 추가 |
+| v10.4 | 03-02 | [SHARED] DB 스키마 카탈로그 통합(246테이블+8뷰=254, go100_* 65개 포함), 자동최신화 cron |
 | v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |

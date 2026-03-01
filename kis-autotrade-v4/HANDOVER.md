@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.11 — **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체AUC<0.55(분봉만으론 한계), 전략별D7 AUC=0.66/D4=0.63 특화신호, Anti-Pattern 5개 도출, PF 0.667→0.709 필터효과, 수급/VP 통합 필요 확인; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환 1,929건)
+> 최종 업데이트: 2026-03-02 (v6.0 — **Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그, 자동최신화 cron(06:00), HANDOVER 문서-현실 5건 정정; v5.11 — Session E-1 분봉 패턴 탐사; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -9,7 +9,7 @@
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
 - 5개 DESK (60개 strategy cards, 14개 OPEN positions)
 - 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
-- 254 테이블, 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
+- 246 테이블 + 8 뷰 = 254 DB 객체 (Session G-3 실증 2026-03-02), 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
 - 투자자별 수급 데이터 (261,000 rows), 뉴스 214만건
 
 ---
@@ -19,10 +19,11 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | **CUR-V41-SESSION-E1-MINUTE-PATTERN-001** | 03-02 | — | — | **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체 AUC<0.55(단일변수 구분불가), 전략별 D7(AUC=0.66)+D4(AUC=0.63) 특화신호, Anti-Pattern 5개(장후반+거래량급감 PF=0.062), 2-변수 PF≥1.3 조합 4개, 필터 PF 0.667→0.709(+6.3%), 수급/VP 통합 필요 확인 |
+| **CUR-SHARED-DB-SCHEMA-CATALOG-001** | 03-02 | {SHA} | 200 | **Session G-2/G-3 조치 완료 + DB 스키마 카탈로그 통합**: 3중수집기→1개(CEO직접조치), Swap 6.0→5.9G(점진감소), HANDOVER 문서-현실 불일치 5건 정정(테이블명 go100_global_market/v4_scalping_universe 정정, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254 명시), DB 스키마 카탈로그 통합 구축(246테이블+8뷰 전수 스키마, 프로젝트별 V4.1:124/GO100:65/공통:57, 자동최신화 cron 매일 06:00, shared/DB-SCHEMA-CATALOG.md), 22개 test collection error HANDOVER 기록(시스템 Python pip 미설치, 서비스 무관) |
 | **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | 440edb0 | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
 | **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
-| **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/global_market/scalping_universe 전수 정상화 |
-| **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
+| **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/go100_global_market/v4_scalping_universe 전수 정상화 |
+| **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: go100_global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), v4_scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
 | **CUR-V41-VKOSPI-FIX-001** | 03-02 | bc5fac1c | 200 | **VKOSPI 수집 복구**: end_date yesterday→today(3분기 전체), 크론 --days 5→7, 임시 재시도 크론(9/12/15시) 추가, 레짐 동기화 정상(54.67) |
 | **CUR-V41-VKOSPI-COLLECTION-FAILURE-001** | 03-02 | f105bb0 | 200 | **VKOSPI 수집 장애 원인 조사**: API T+1~T+2 지연(외부)+end_date=yesterday 설계결함+numeric overflow(VKOSPI=2885.49 과거 일시오류) 3가지 확인 |
 | **CUR-V41-FIVELAYER-HOTFIX-001** | 03-02 | 74ec682b | — | **FiveLayerRiskManager 2건 버그 수정**: ①임포트five_layer_risk→risk_layer_manager, ②L2쿨다운 실시간TS버그(loss_count=0+cooldown_until.clear), 재BT PF=1.119/CONDITIONAL GO(5/7), L2차단 60건→0건 |
@@ -103,7 +104,7 @@
 | **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
 | **CUR-V41-VWAP-ATR-ENGINE-001** | 03-01 | e84ac1b9 | 200 | **Cursor #18 VWAP 엔진 + ATR 동적청산**: vwap_engine.py(5변수+TREND 선형회귀), atr_dynamic_exit.py(전략별 멀티플라이어/COST_ROUNDTRIP=0.47%/TRAILING_MA5), cte_pipeline.py(L3.2 VWAP지지체크+ATR_NETRR 차단), test_vwap_atr.py **25/25 PASS**, 기존 33테스트 비파괴 유지 |
 | **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
-| **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규. Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
+| **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규 (Session G 확인: 스크립트 3개 서버 미존재 — Session D replay 엔진으로 대체, 재현 시 replay 사용). Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
 | **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
 | **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
 | **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
@@ -595,3 +596,4 @@
 | v5.1 | 2026-03-01 | Sonnet4.6 | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001] 19전략 분봉 멀티TF 자동검증엔진 완료**: 4엔진 모듈+단위테스트31 PASS, 19가설 전수(H-12/H-13 PASS 포트폴리오 PF=6.617/Sharpe=10.30/+303.98%), D6 상한가 체인 분봉에서도 독보적 우위 재확인 |
 | v5.2 | 2026-03-02 | Claude Code (Sonnet4.6) | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301] Cursor #21-R 19전략 분봉 전수재검증 (직접 SQL)**: v4_ohlcv_minute 74.5M rows 직접 검증, PASS 1개 — **H-13 D6(오전상한가→D+1시초가) WR=75.5%/PF=6.292/Sharpe=12.54/불안정월0%/5기준전부충족**, FAIL 18개(MA계열 WR13~24% 분봉노이즈, D4 갭업후반등구조약점, NEWS표본N=17), 포트폴리오 H-13단독 최적, 커버리지49.3%(목표80%), 기존CTE재설계 필요 |
 | v5.8 | 2026-03-02 | Claude Code (Sonnet4.6) | **전체 데이터 수집 완결(4개 Task)**: VKOSPI 원인조사(API T+1~T+2지연)+end_date수정(bc5fac1c)+크론개선, global_market WTI/SOX/CSI300/copper 추가(e273038d), scalping_universe 크론등록+646→1354건, v4_market_regime_daily 15개월갭 백필(843→1,116건, index_daily yfinance소급546건), 설명불가갭 0건, 보고서 4건 push(f61fa22) |
+| v6.0 | 2026-03-02 | Claude Code (Opus4.6) | **[CUR-SHARED-DB-SCHEMA-CATALOG-001] Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그(프로젝트별 V4.1:124/GO100:65/공통:57, 10카테고리 분류), generate_db_catalog.py+update_db_catalog.sh 신규, cron 매일 06:00 자동갱신+변경감지+자동push, HANDOVER 문서-현실 5건 정정(테이블명 go100_global_market/v4_scalping_universe, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254, 22개 test error 기록), shared/DB-SCHEMA-CATALOG.md 7,646줄 |
