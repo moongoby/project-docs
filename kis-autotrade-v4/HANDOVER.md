@@ -87,6 +87,7 @@
 | VWAP-RECONCILE-001 | 03-01 | (본 커밋) | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
 | PF-NORMALIZE-COST-ADJUST-001 | 03-01 | (본 커밋) | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
 | **CUR-V41-GO100-BRIDGE-PHASE2-001** | 03-01 | 1226fda3 | 200 | **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 전 PASS. 시나리오1=킬스위치OFF→메모리 적재(memory_id 4,5), 시나리오2=킬스위치Mock(True)→전종목 Halt 확인. backtest_engine_v2 스텁(삽입점 A/B) 비파괴 추가. Phase 3(실거래 활성화) 대기 |
+| **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | (본 커밋) | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
 
 ---
 
@@ -433,12 +434,13 @@
 ### 웹 Claude / 다음 세션이 해야 할 일
 1. **D-ORB C8 컨디션 DESK2-FINAL-SPEC에 공식 추가**: C1~C8 컨디션 목록 업데이트
 2. **live_paper_d6_d7.py에 D6/D7 중복방지 로직 추가** (check_d7_allowed 함수)
-3. **D7 갭다운 필터 코드화**: close_pos_ratio ≥ 0.80 AND vol_rank ≤ 10
+3. **⚠️ D7 갭다운 필터 코드 업그레이드**: L523 `close_pos < 0.70` → `< 0.80` + `rank > 10` 조건 추가 (EXIT-SLIPPAGE-INTEGRATE-001 확정, CEO 승인 후)
 4. **HAV coarse_grid.py에 variable_config_test.yaml 연결**: 03-02 일요일 실행 확인
 5. **D2/D4/D5 trailing 파라미터 코드 반영**: start=+5%, retrace=20%, order=limit_1tick
-6. 03-02(월) D6/D7 페이퍼트레이딩 첫 실행 로그 확인: `tail /var/log/d6d7_paper.log`
-7. 파라미터 재교정 후 CROSS-RELAY-PRESIM 재시뮬 → CROSS-RELAY-MAXIMIZE 진행
-8. 20거래일 페이퍼트레이딩 후 실전 전환 CEO 승인 요청
+6. 03-02(월) D6/D7 페이퍼트레이딩 첫 실행 로그 확인: `tail -f /var/log/d6d7_paper.log`
+7. 03-07(토) 첫 주 결과 수집 → `python scripts/monitor_paper_d6d7.py --week` → CUR-V41-PAPER-D6D7-WEEK1-001 완성
+8. 파라미터 재교정 후 CROSS-RELAY-PRESIM 재시뮬 → CROSS-RELAY-MAXIMIZE 진행
+9. 20거래일 페이퍼트레이딩 후 실전 전환 CEO 승인 요청
 
 ### 대표님 확인 필요 사항
 - **스톱로스 모드**: Dynamic(PF↑WR↑, 권고) vs Hybrid(총PnL↑)
@@ -509,3 +511,5 @@
 | v3.9 | 2026-03-01 | Sonnet4.6 | **V4.1×GO100 통합 아키텍처 기획서 v1.0 추가**: 3대 연동 브릿지(자본/리스크/에피소드메모리), Loose Coupling REST API 브릿지 방식, V4.1_DESK_AGENT 독립 페르소나, Phase1~3 로드맵 |
 | v4.0 | 2026-03-01 | Sonnet4.6 | **V4.1↔GO100 브릿지 Phase 1 구현(코드:2fd7ac29)**: Go100BridgeClient 3메서드, bridge.py 라우터(루프백IP차단+Append-Only), E2E 4건 PASS, memory_id=3 적재 확인(2차 검증) |
 | v4.1 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 7모듈 구현**: bounce_gate/pullback_classifier/confirmation_signals/dd_decelerator/risk_layer_manager/disaster_detector/conviction_score/execution_quality_score/trigger_tactic_matrix — 단위 170케이스 전체PASS, 스모크 3건 완료 |
+| v4.1 | 2026-03-01 | Sonnet4.6 | **#14~#16 Phase A-1~A-3 구현 완료**: CTE 모듈 7개 신규(bounce_gate/pullback_classifier/confirmation_signals/dd_decelerator/risk_layer_manager/disaster_detector/trigger_tactic_matrix/conviction_score/execution_quality_score), 단위테스트 총 120케이스 PASS, D2 100건 스모크·221일 시뮬·2838건 역산출 완료 |
+| v4.2 | 2026-03-01 | Sonnet4.6 | **Cursor #20 페이퍼 트레이딩 모니터링 준비**: D6#42/D7#43 PAPER_LIVE 활성 확인, v4_paper_trades 미존재(첫실행 자동생성), cron `50 8 * * 1-5` 확인, monitor_paper_d6d7.py 신규, D7 갭다운 필터 이슈(0.70 vs 0.80) 발견, 보고서 프레임 CUR-V41-PAPER-D6D7-WEEK1-001 작성 |
