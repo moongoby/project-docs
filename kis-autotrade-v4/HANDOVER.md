@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.2 — **19전략 분봉 재검증 Cursor #21-R (CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301): H-13 PASS PF=6.292/WR=75.5%/Sharpe=12.54, 나머지 FAIL**; v5.1 — 19전략 분봉 멀티TF 자동검증엔진; v5.0 — GO100 AI 가설검증 파이프라인)
+> 최종 업데이트: 2026-03-02 (v5.3 — **Session A 긴급 핫픽스 완료**: 실계좌 하드블록/PnL계산/D7필터 0.80/Top10 — 03-02 08:50 D6/D7 CTE 페이퍼 트레이딩 가동 준비 완료; v5.2 — 19전략 분봉 재검증 H-13 PASS PF=6.292)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| SESSION-A-HOTFIX-001 | 03-02 | (push 후) | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine), PnL계산+비용0.47%, D7필터 0.80+Top10, 31 PASS |
 | PHASE1-001 | 02-27 | ✓ | 200 | TOP-20 WR 78.7%, 누적 +785%, 생애주기 4클러스터 |
 | PHASE2-001 | 02-28 | ✓ | 200 | 11변수, OOS 정밀도 76%, TREND WR 67.7% |
 | PHASE2B-001 | 02-28 | 93e67ae | 200 | L3+X9 정밀도 90%, Birth+1min WR 95.3%, X9 AUC 0.851 |
