@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v5.1 — **19전략 분봉 멀티TF 자동검증엔진 완료 (CUR-V41-19STRATEGY-TRIGGER-MINUTE-001)**; v5.0 — GO100 AI 가설검증 파이프라인; v4.9 — Cursor #21 6전략 전수조사)
+> 최종 업데이트: 2026-03-02 (v5.2 — **19전략 분봉 재검증 Cursor #21-R (CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301): H-13 PASS PF=6.292/WR=75.5%/Sharpe=12.54, 나머지 FAIL**; v5.1 — 19전략 분봉 멀티TF 자동검증엔진; v5.0 — GO100 AI 가설검증 파이프라인)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -560,3 +560,4 @@
 | v4.9a | 2026-03-01 | Sonnet4.6 | **[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스**: Case A 확정(Parquet Z-score+stats Z통계), feature_stats.json 원시 기준 재생성(CLOSE:0→66413/RSI:0→53.59/등 12개), cs_ai 100→65/61/45(종목별 차별화), 7/7 PASS, 커밋 799e33ee |
 | v5.0 | 2026-03-01 | Sonnet4.6 | **[CUR-GO100-HYPOTHESIS-ENGINE-001] GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(일일 $1/50회 서킷브레이커), HypothesisEngine(L1 Haiku 판정+L2 Sonnet 가설+L3 HAV큐), 야간 배치 백테스트+아침 리포트, cron 등록(15:40/22:00), 13/13 PASS, 커밋 3806a54b |
 | v5.1 | 2026-03-01 | Sonnet4.6 | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001] 19전략 분봉 멀티TF 자동검증엔진 완료**: 4엔진 모듈+단위테스트31 PASS, 19가설 전수(H-12/H-13 PASS 포트폴리오 PF=6.617/Sharpe=10.30/+303.98%), D6 상한가 체인 분봉에서도 독보적 우위 재확인 |
+| v5.2 | 2026-03-02 | Claude Code (Sonnet4.6) | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301] Cursor #21-R 19전략 분봉 전수재검증 (직접 SQL)**: v4_ohlcv_minute 74.5M rows 직접 검증, PASS 1개 — **H-13 D6(오전상한가→D+1시초가) WR=75.5%/PF=6.292/Sharpe=12.54/불안정월0%/5기준전부충족**, FAIL 18개(MA계열 WR13~24% 분봉노이즈, D4 갭업후반등구조약점, NEWS표본N=17), 포트폴리오 H-13단독 최적, 커버리지49.3%(목표80%), 기존CTE재설계 필요 |
