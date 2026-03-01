@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v6.0 — **Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그, 자동최신화 cron(06:00), HANDOVER 문서-현실 5건 정정; v5.11 — Session E-1 분봉 패턴 탐사; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환)
+> 최종 업데이트: 2026-03-02 (v6.0 — **Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그, 자동최신화 cron(06:00), HANDOVER 문서-현실 5건 정정; v5.12 — Session E-2B 수급 데이터 통합 탐사(VP_STRENGTH_D1 AUC=0.6535 #1, CEO D-002 실증); v5.11 — Session E-1 분봉 패턴 탐사; v5.10 — Session G 서버 실증 검증; v5.9 — Session D 분봉 리플레이 BT 전환)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -19,6 +19,7 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | **CUR-V41-SESSION-E1-MINUTE-PATTERN-001** | 03-02 | — | — | **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체 AUC<0.55(단일변수 구분불가), 전략별 D7(AUC=0.66)+D4(AUC=0.63) 특화신호, Anti-Pattern 5개(장후반+거래량급감 PF=0.062), 2-변수 PF≥1.3 조합 4개, 필터 PF 0.667→0.709(+6.3%), 수급/VP 통합 필요 확인 |
+| **CUR-V41-SESSION-E2B-SUPPLY-DEMAND-001** | 03-02 | — | — | **Session E-2B 수급 데이터 통합 탐사**: 1,929건×18수급변수+19분봉변수=37변수 통합분석, **VP_STRENGTH_D1 AUC=0.6535(#1, FDR p=0.0004)**, 수급변수 평균AUC 2.37× > 분봉변수, CEO D-002 "본질은 수급" 실증(외인연속매수≥1d PF=2.409), 49조합 PF≥1.3(VP_HIGH+INST 조합 PF=7.48), 필터 PF 0.834→1.143(+37.1%), Walk-Forward 2/3 PASS(PF 1.1→1.28), VP 3개월 한정(24.7%) 전기간수집 권고 |
 | **CUR-SHARED-DB-SCHEMA-CATALOG-001** | 03-02 | 69487c0 | 200 | **Session G-2/G-3 조치 완료 + DB 스키마 카탈로그 통합**: 3중수집기→1개(CEO직접조치), Swap 6.0→5.9G(점진감소), HANDOVER 문서-현실 불일치 5건 정정(테이블명 go100_global_market/v4_scalping_universe 정정, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254 명시), DB 스키마 카탈로그 통합 구축(246테이블+8뷰 전수 스키마, 프로젝트별 V4.1:124/GO100:65/공통:57, 자동최신화 cron 매일 06:00, shared/DB-SCHEMA-CATALOG.md), 22개 test collection error HANDOVER 기록(시스템 Python pip 미설치, 서비스 무관) |
 | **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | 440edb0 | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
 | **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
@@ -195,6 +196,15 @@
 - **체결강도 120% 이상 = 매수세 우위의 정량적 임계값**
 - **NEW 종목은 일봉 불가, 장중 1분봉 복합 조건으로 탐지 가능**
 - **종가배팅(D7)이 시간 효율 대비 가장 높은 기대수익 전략 (교차 검증)**
+
+### Session E-2B 수급 통합 탐사 (2026-03-02)
+- **VP_STRENGTH_D1(체결강도) = #1 변수**: AUC 0.6535, FDR p=0.0004 — 37변수 중 유일 AUC≥0.55 & FDR<0.05 동시 충족
+- **수급 > 분봉**: 수급변수 평균 AUC 0.5352 vs 분봉변수 0.5148 (2.37배 강력)
+- **CEO D-002 "본질은 수급이다" 실증**: 외인연속매수≥1일 PF=2.409, 기관연속매수≥3일 PF=1.887
+- **VP 3개월 한정(24.7%)이지만 #1**: 전기간(12개월+) 수집 시 AUC 추가 상승 기대
+- **49조합 PF≥1.3 발견**: VP_HIGH+INST_NET_BUY_D1(PF 7.48), VP_HIGH+FOR_CONSEC≥1(PF 6.13)
+- **필터 적용**: 포트폴리오 PF 0.834→1.143(+37.1%), D6 PF 1.144→2.115(+85%)
+- **Walk-Forward 3-Fold**: Fold 2/3 PASS(PF>1.0), Fold 1 FAIL(VP 미수집 기간)
 
 ### P4 적응형 청산 5모드 검증 (2026-02-28)
 - **22,406건 거래 시뮬레이션**: 기존 PF 1.32 → 적응형 PF 1.34 (+1.5% 개선)
