@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-02 (v5.7 — **FiveLayerRiskManager Hotfix**: 임포트 five_layer_risk→risk_layer_manager 수정, L2 쿨다운 실시간타임스탬프 버그 fix(loss_count=0+cooldown_until.clear), 재BT PF=1.119/CONDITIONAL GO, 커밋 74ec682b; v5.6 — Session A 보완; v5.5 — Session B 통합엔진 코어; v5.4 — Session C Mock 배포)
+> 최종 업데이트: 2026-03-02 (v5.8 — **전체 데이터 수집 점검+백필 완료**: VKOSPI end_date 수정/크론 개선, global_market 4지표 추가, scalping_universe 크론 등록, v4_market_regime_daily 15개월 갭 백필(843→1,116건), 설명불가 갭 0건; v5.7 — FiveLayerRiskManager Hotfix)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -18,6 +18,10 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/global_market/scalping_universe 전수 정상화 |
+| **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
+| **CUR-V41-VKOSPI-FIX-001** | 03-02 | bc5fac1c | 200 | **VKOSPI 수집 복구**: end_date yesterday→today(3분기 전체), 크론 --days 5→7, 임시 재시도 크론(9/12/15시) 추가, 레짐 동기화 정상(54.67) |
+| **CUR-V41-VKOSPI-COLLECTION-FAILURE-001** | 03-02 | f105bb0 | 200 | **VKOSPI 수집 장애 원인 조사**: API T+1~T+2 지연(외부)+end_date=yesterday 설계결함+numeric overflow(VKOSPI=2885.49 과거 일시오류) 3가지 확인 |
 | **CUR-V41-FIVELAYER-HOTFIX-001** | 03-02 | 74ec682b | — | **FiveLayerRiskManager 2건 버그 수정**: ①임포트five_layer_risk→risk_layer_manager, ②L2쿨다운 실시간TS버그(loss_count=0+cooldown_until.clear), 재BT PF=1.119/CONDITIONAL GO(5/7), L2차단 60건→0건 |
 | SESSION-A-HOTFIX-001 | 03-02 | cdc73d5/66a1cbd8 | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine 이중가드), PnL계산+비용0.47%, D7필터 0.80+Top10(게이트 로직 반영), 31 PASS |
 | **CUR-V41-SESSION-C-DEPLOY-001** | 03-02 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Session C Mock 배포**: run_unified_engine.py 신규(--mode backtest/virtual), BT PF=1.258(미래정보is_winner 제거, 기존 2.368→-47%), 101건 ALL PASS(CTE 70+분봉 31), v4_mock_trades 생성, KIS Mock HTTP 200, Cron 4건(premarket/signal/monitor/close), HAV tasks.json+backtest_runs id=25, 03-03 Virtual 자동 가동 준비 |
@@ -398,9 +402,30 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-01, AI Scorer Z-score 핫픽스 — v4.9)
+### 최신 상태 (2026-03-02, 전체 데이터 수집 완결 — v5.8)
 
-#### ★ 오늘 완료된 작업 요약 (v4.8 → v4.9)
+#### ★ 오늘 완료된 작업 요약 (v5.7 → v5.8): 전체 데이터 수집 완결
+
+**[CUR-V41-HISTORICAL-DATA-COMPLETE-001] v4_market_regime_daily 15개월 갭 백필 완료**
+- **문제**: 2023-01-18 ~ 2024-04-08 약 300거래일 누락. `index_daily` 최초일이 2024-02-13이어서 backfill 불가였음.
+- **해결 1차**: yfinance `^KS11`/`^KQ11`로 2023-01-02~2024-02-12 index_daily 546건 삽입
+- **해결 2차**: `backfill_regime_history.py --from 20230102 --to 20240212` → 254건 삽입
+- **해결 3차**: `--from 20240213 --to 20240311` (33일 잔여 갭) → 19건 삽입
+- **결과**: `v4_market_regime_daily` 843건 → **1,116건**, 설명 불가 갭 **0건** (잔여 갭 전부 공휴일)
+- **커밋/보고서**: f61fa22 (project-docs), HTTP 200
+
+**[CUR-V41-DATA-COLLECTION-STATUS-001] 전체 수집 현황 점검 + 3건 조치**
+- go100_global_market WTI/SOX/CSI300/copper 4지표 추가 수집 (커밋 e273038d)
+- v4_scalping_universe 크론 미등록 → 등록 + 수동 갱신 646→1,354건
+- VKOSPI end_date yesterday→today 수정 (커밋 bc5fac1c)
+- 커밋/보고서: f545aec (project-docs), HTTP 200
+
+**오늘 추가된 크론 스케줄**:
+- `10 16 * * 1-5` — `scalping_universe_builder.py` (신규 등록)
+- `0 9,12,15 2 3 *` — VKOSPI 임시 재시도 (오늘만)
+- `50 15 * * 1-5` → `--days 7` 확장 (기존 5일)
+
+#### ★ 직전 완료 (v4.8 → v4.9): AI Scorer Z-score 핫픽스
 
 **[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스 완료**
 - **원인 진단**: Case A 확정 — v2 Parquet(_zscore_batch_v2)에서 Z-score 저장 후
@@ -566,3 +591,4 @@
 | v5.0 | 2026-03-01 | Sonnet4.6 | **[CUR-GO100-HYPOTHESIS-ENGINE-001] GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(일일 $1/50회 서킷브레이커), HypothesisEngine(L1 Haiku 판정+L2 Sonnet 가설+L3 HAV큐), 야간 배치 백테스트+아침 리포트, cron 등록(15:40/22:00), 13/13 PASS, 커밋 3806a54b |
 | v5.1 | 2026-03-01 | Sonnet4.6 | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001] 19전략 분봉 멀티TF 자동검증엔진 완료**: 4엔진 모듈+단위테스트31 PASS, 19가설 전수(H-12/H-13 PASS 포트폴리오 PF=6.617/Sharpe=10.30/+303.98%), D6 상한가 체인 분봉에서도 독보적 우위 재확인 |
 | v5.2 | 2026-03-02 | Claude Code (Sonnet4.6) | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301] Cursor #21-R 19전략 분봉 전수재검증 (직접 SQL)**: v4_ohlcv_minute 74.5M rows 직접 검증, PASS 1개 — **H-13 D6(오전상한가→D+1시초가) WR=75.5%/PF=6.292/Sharpe=12.54/불안정월0%/5기준전부충족**, FAIL 18개(MA계열 WR13~24% 분봉노이즈, D4 갭업후반등구조약점, NEWS표본N=17), 포트폴리오 H-13단독 최적, 커버리지49.3%(목표80%), 기존CTE재설계 필요 |
+| v5.8 | 2026-03-02 | Claude Code (Sonnet4.6) | **전체 데이터 수집 완결(4개 Task)**: VKOSPI 원인조사(API T+1~T+2지연)+end_date수정(bc5fac1c)+크론개선, global_market WTI/SOX/CSI300/copper 추가(e273038d), scalping_universe 크론등록+646→1354건, v4_market_regime_daily 15개월갭 백필(843→1,116건, index_daily yfinance소급546건), 설명불가갭 0건, 보고서 4건 push(f61fa22) |
