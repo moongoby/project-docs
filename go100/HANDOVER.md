@@ -76,6 +76,7 @@
 |------|------|
 | Phase 4 AI Feature Pipeline | PASS — feature_engine.py + feature_store.py 구축, E2E 5종목 PASS |
 | Phase 4 AI Feature Batch Build | PASS — 263,450 레코드, 월별 Parquet 12개, 15.13MB, 오류 0건, 306.7s |
+| Phase 4 AI LightGBM V2 학습 | PASS — Walk-Forward, Train 231,394 / Test 29,503, AUC 0.5349, F1 0.5095, Best iter 27 |
 
 ### 완료 작업 테이블 (Batch 1~7 요약)
 
@@ -163,6 +164,11 @@
 
 ## 3. 다음 작업
 
+- **Phase 4 AI 모델 고도화 (P2)**
+  - 멀티타겟: LABEL_MFE_3D 추가 타겟 실험
+  - BB_WIDTH × RSI_14 교차 피처, SEC_LEADER × V_RVOL 조합
+  - Regime 조건부 모델 분리 (Q2/Q4)
+  - predict_proba threshold 최적화 (Precision 우선)
 - **Phase 4 AI 피처 확장 (P1)**
   - `FORCE_ACC` 세력 매집 패턴 (120일선 수렴도 + 급등봉)
   - `D_D1_D2_ENTRY` 홍인기 장대양봉 타점
@@ -190,6 +196,7 @@
 - Parquet Feature Store: data/go100/features/ 경로, 20개 피처 + 3개 라벨
 - 1년치 배치 빌드 완료: 263,450 rows / 12개 월별 Parquet / 15.13MB / 오류 0건 / 306.7s
 - 벌크 최적화: 1.8M 쿼리 → ~980 쿼리 (1,880배 절감)
+- LightGBM V2 베이스라인: Walk-Forward AUC 0.5349, F1 0.5095 / BB_WIDTH·RSI_14 V2 신규 Top 3 진입 / `data/go100/models/go100_brain_v2_lightgbm.joblib` 저장
 
 ---
 
@@ -229,7 +236,9 @@
 | AI Feature Engine | backend/app/services/go100/ai/feature_engine.py |
 | AI Feature Store | backend/app/services/go100/ai/feature_store.py |
 | Feature Pipeline 테스트 | scripts/go100/test_feature_pipeline.py |
-| Feature 데이터셋 | data/go100/features/ai_dataset_YYYYMMDD.parquet |
+| Feature 데이터셋 | data/go100/features/v2/ai_dataset_v2_YYYYMM.parquet |
+| AI 학습 스크립트 | scripts/go100/train_ai_model_v2.py |
+| AI 모델 | data/go100/models/go100_brain_v2_lightgbm.joblib |
 
 ---
 
@@ -298,3 +307,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v9.0 | 02-28 | Batch 4·5 완료, 진행률 72% |
 | v10.0 | 02-28 | Batch 6·7 반영, 진행률 85% |
 | v10.1 | 02-28 | 단일 파일 통합, 테이블 표준화, 핵심 발견·보류·웹 Claude 절차·버전 이력 추가 |
+| v10.2 | 03-01 | Batch 8 AI LightGBM V2 학습 반영, 모델 경로·다음 작업 추가 |
