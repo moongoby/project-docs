@@ -76,7 +76,7 @@
 |------|------|
 | Phase 4 AI Feature Pipeline | PASS — feature_engine.py + feature_store.py 구축, E2E 5종목 PASS |
 | Phase 4 AI Feature Batch Build | PASS — 263,450 레코드, 월별 Parquet 12개, 15.13MB, 오류 0건, 306.7s |
-| Phase 4 AI LightGBM V2 학습 | PASS — Walk-Forward, Train 231,394 / Test 29,503, AUC 0.5349, F1 0.5095, Best iter 27 |
+| Phase 4 AI LightGBM V2 학습 | PASS — 3-Fold Walk-Forward, AUC 0.5406±0.0055, MFE_60MIN R²=0.58 (실전수준), 모델 4종 저장 |
 
 ### 완료 작업 테이블 (Batch 1~7 요약)
 
@@ -196,7 +196,7 @@
 - Parquet Feature Store: data/go100/features/ 경로, 20개 피처 + 3개 라벨
 - 1년치 배치 빌드 완료: 263,450 rows / 12개 월별 Parquet / 15.13MB / 오류 0건 / 306.7s
 - 벌크 최적화: 1.8M 쿼리 → ~980 쿼리 (1,880배 절감)
-- LightGBM V2 베이스라인: Walk-Forward AUC 0.5349, F1 0.5095 / BB_WIDTH·RSI_14 V2 신규 Top 3 진입 / `data/go100/models/go100_brain_v2_lightgbm.joblib` 저장
+- LightGBM V2 보완: 3-Fold AUC 0.5406±0.0055, MFE_60MIN R²=0.58·Corr=0.78(실전투입 가능), BB_WIDTH 전 모델 1위, 분류+회귀 4모델 저장, 메타데이터 JSON 포함
 
 ---
 
@@ -308,3 +308,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.0 | 02-28 | Batch 6·7 반영, 진행률 85% |
 | v10.1 | 02-28 | 단일 파일 통합, 테이블 표준화, 핵심 발견·보류·웹 Claude 절차·버전 이력 추가 |
 | v10.2 | 03-01 | Batch 8 AI LightGBM V2 학습 반영, 모델 경로·다음 작업 추가 |
+| v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |
