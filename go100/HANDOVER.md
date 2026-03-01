@@ -75,6 +75,7 @@
 | 항목 | 비고 |
 |------|------|
 | Phase 4 AI Feature Pipeline | PASS — feature_engine.py + feature_store.py 구축, E2E 5종목 PASS |
+| Phase 4 AI Feature Batch Build | PASS — 263,450 레코드, 월별 Parquet 12개, 15.13MB, 오류 0건, 306.7s |
 
 ### 완료 작업 테이블 (Batch 1~7 요약)
 
@@ -187,6 +188,8 @@
 - 크론 63+ 라인 활성
 - AI Feature Pipeline: DUAL_FLOW_20D, SMALL_CAP_QUALITY, THEME_CYCLE, MarketRegimeEncoder(Q1~Q4) 구현
 - Parquet Feature Store: data/go100/features/ 경로, 20개 피처 + 3개 라벨
+- 1년치 배치 빌드 완료: 263,450 rows / 12개 월별 Parquet / 15.13MB / 오류 0건 / 306.7s
+- 벌크 최적화: 1.8M 쿼리 → ~980 쿼리 (1,880배 절감)
 
 ---
 
