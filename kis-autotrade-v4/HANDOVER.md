@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-01 (v4.5 — **CTE 파이프라인 통합 + D7 갭다운 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 진입금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신; v4.4 — CTE_FULL GO 7/8, PF_net=6.901/MDD=12.5%/Sharpe=7.251, WF OOS/IS=1.300)
+> 최종 업데이트: 2026-03-01 (v4.6 — **GO100 AI Feature Store v2**: 19→34컬럼, Track A(RSI/BB/OBV/RVOL/MA정렬) + Track B(VWAP) + 뉴스 + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D), NaN보존+Z-score제외 결함수정, 263K rows/26MB; v4.5 — CTE 통합 + D7 핫픽스)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -91,6 +91,7 @@
 | **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | (본 커밋) | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
 | **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
 | **CUR-V41-VWAP-ATR-ENGINE-001** | 03-01 | e84ac1b9 | 200 | **Cursor #18 VWAP 엔진 + ATR 동적청산**: vwap_engine.py(5변수+TREND 선형회귀), atr_dynamic_exit.py(전략별 멀티플라이어/COST_ROUNDTRIP=0.47%/TRAILING_MA5), cte_pipeline.py(L3.2 VWAP지지체크+ATR_NETRR 차단), test_vwap_atr.py **25/25 PASS**, 기존 33테스트 비파괴 유지 |
+| **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | (본 커밋) | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
 
 ---
 
@@ -528,3 +529,4 @@
 | v4.3 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 9모듈 완전 구현 완료**: bounce_gate(5전략 게이트)/pullback_classifier(25셀)/confirmation_signals(8신호)/dd_decelerator(5레벨S1)/risk_layer_manager(5-Layer)/disaster_detector(3패턴)/trigger_tactic_matrix(81셀)/conviction_score(CS100점)/execution_quality_score(EQS100점) — 단위테스트 총 120케이스 전부PASS, D2 100건 스모크(통과율76%/PF1.38), 221일 DD시뮬(MaxDD-5.5%/PF2.36/DD감축77%), 2838건 역산출(EQS평균67.8 ≈ 기대65.6±2 ✅) — 보고서 3건 push: BOUNCE-GATE-IMPL/DD-RISK-IMPL/CS-EQS-IMPL |
 | v4.4 | 2026-03-01 | Sonnet4.6 | **Cursor #17~#19 Phase B+C CTE 통합 파이프라인 + 백테스트 완료**: cte_pipeline.py(6-Layer+CS L3.5+EQS L4.5)/vwap_engine.py(5변수)/atr_dynamic_exit.py(NetR:R≥2.0+트레일링)/limit_1tick_exit.py(지정가-1틱+60초 마켓폴백) — 단위테스트 53케이스 PASS; CTE_FULL 5,000건/243일 백테스트: PF_net=6.901/MDD=12.5%/Sharpe=7.251/WR=75.9%, Walk-Forward 3-fold OOS/IS=1.300(과적합없음), Go/No-Go 7/8 GO — 보고서 push: CUR-V41-CTE-FULLBACKTEST-CEO-REPORT-001-20260301 |
 | v4.5 | 2026-03-01 | Opus4.6 | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신, 코드커밋 67602428 |
+| v4.6 | 2026-03-01 | Opus4.6 | **GO100 AI Feature Store v2 배치 빌드**: 19→34컬럼(Track A 7+Track B 2+뉴스1+라벨3+valid_label), NaN라벨보존+LABEL_ Z-score제외 결함수정, 263,450rows/12parquet/26.24MB, REGIME_SEASON 경고0건, valid_label 99.03% |
