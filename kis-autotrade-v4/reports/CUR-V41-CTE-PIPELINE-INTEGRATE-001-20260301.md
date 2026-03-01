@@ -182,6 +182,6 @@ D2_PARAMS = D2Params(
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-CTE-PIPELINE-INTEGRATE-001-20260301.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-CTE-PIPELINE-INTEGRATE-001-20260301.md
-- 커밋: {SHA}
-- HTTP 확인: {확인예정}
-- HANDOVER 업데이트: {완료예정}
+- 커밋: 85b1f32
+- HTTP 확인: 200
+- HANDOVER 업데이트: 완료 (v4.5, 85b1f32)
