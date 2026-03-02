@@ -36,6 +36,74 @@ PERIODIC_REPORT_INTERVAL_SEC = 1800  # 30분 간격 정기 보고
 IDLE_WAIT_SEC = 120  # 2분 대기 후 지시 요청 메시지 전송
 CHAT_MSG_DIR = BASE_DIR / "directives" / "chat_messages"  # done_watcher → bridge 메시지 큐
 
+# -------------------------------------------------------------------
+# CEO 승인 큐 설정
+# -------------------------------------------------------------------
+APPROVAL_QUEUE_FILE = BASE_DIR / "approval_queue.json"
+APPROVED_DIR = BASE_DIR / "approved"          # CEO 승인된 지시 실행 대기 폴더
+DIRECTIVES_PENDING_DIR = BASE_DIR / "directives" / "pending"
+PENDING_DIR = DIRECTIVES_PENDING_DIR          # 통합 별칭 (기존 코드 호환)
+DONE_DIR    = BASE_DIR / "directives" / "done"
+RUNNING_DIR = BASE_DIR / "directives" / "running"
+for _d in (APPROVED_DIR, DIRECTIVES_PENDING_DIR, DONE_DIR, RUNNING_DIR):
+    _d.mkdir(parents=True, exist_ok=True)
+
+
+def _load_approval_queue() -> dict:
+    """approval_queue.json 로드 (없으면 초기화)"""
+    if APPROVAL_QUEUE_FILE.exists():
+        try:
+            import json as _json
+            return _json.loads(APPROVAL_QUEUE_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {"next_id": 1, "queue": []}
+
+
+def _save_approval_queue(data: dict) -> None:
+    """approval_queue.json 저장 (atomic write)"""
+    import json as _json
+    tmp = APPROVAL_QUEUE_FILE.with_suffix(".tmp")
+    tmp.write_text(_json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(APPROVAL_QUEUE_FILE)
+
+
+def add_to_approval_queue(project: str, directive: str) -> int:
+    """승인 큐에 추가 → 승인 ID 반환"""
+    import re as _re
+    data = _load_approval_queue()
+    approval_id = data["next_id"]
+    data["next_id"] += 1
+    # task_id 추출: 'CUR-XXX-...' 또는 'ACTION: ...' 첫 줄
+    first_line = directive.strip().split("\n")[0].strip()[:80]
+    task_id = first_line
+    now_str = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
+    item = {
+        "id": approval_id,
+        "project": project,
+        "task_id": task_id,
+        "directive": directive,
+        "status": "pending",
+        "created_at": now_str,
+    }
+    data["queue"].append(item)
+    _save_approval_queue(data)
+    return approval_id
+
+
+def format_approval_message(approval_id: int, project: str, cursor_prefix: str, directive: str) -> str:
+    """CEO 승인 대기 메시지 포맷 (승인번호 포함)"""
+    now_str = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
+    first_line = directive.strip().split("\n")[0].strip()[:80]
+    return (
+        f"📋 {cursor_prefix} CEO 승인 대기 (#{approval_id})\n"
+        f"Task: {first_line}\n"
+        f"작성 시각: {now_str}\n"
+        f"\n---\n지시 내용:\n{directive[:1200]}\n---\n\n"
+        f'승인: "#{approval_id} 승인"\n'
+        f'반려: "#{approval_id} 반려 — 사유: ..."'
+    )
+
 
 def _load_project_config() -> dict:
     """PROJECTS 설정 — .env에서 채팅 URL 및 SSH 명령 로드"""
@@ -620,6 +688,33 @@ async def polling_loop(test_once: bool = False, project_filter: str | None = Non
                         except Exception as e:
                             logger.error("[%s] chat_msg 전송 실패: %s — %s", proj_key, msg_file.name, e)
 
+                    # ── approved/ 폴더 감시 — CEO 승인된 지시 실행 ──────────────────
+                    # 파일명: {PROJECT}_{approval_id}.txt (telegram_url_watcher가 생성)
+                    for apv_file in sorted(APPROVED_DIR.glob(f"{proj_key}_*.txt")):
+                        try:
+                            import json as _json
+                            apv_data = _json.loads(apv_file.read_text(encoding="utf-8"))
+                            approval_id = apv_data.get("id")
+                            apv_directive = apv_data.get("directive", "")
+                            logger.info("[%s] CEO 승인 지시 실행: #%s", proj_key, approval_id)
+                            # 화이트리스트 바이패스로 실행
+                            result_summary = execute_whitelist_directive(apv_directive)
+                            report = (
+                                f"{cursor_prefix} ✅ CEO 승인 #%d 실행 완료\n"
+                                f"결과: {result_summary}"
+                            ) % approval_id
+                            await _send_chat_message(page, report, project=tag)
+                            # 큐 상태 업데이트 → approved
+                            q = _load_approval_queue()
+                            for item in q["queue"]:
+                                if item["id"] == approval_id:
+                                    item["status"] = "executed"
+                            _save_approval_queue(q)
+                            apv_file.unlink(missing_ok=True)
+                            logger.info("[%s] 승인 지시 #%d 실행 완료", proj_key, approval_id)
+                        except Exception as e:
+                            logger.error("[%s] 승인 지시 실행 실패: %s — %s", proj_key, apv_file.name, e)
+
                     # ── 대화창 초기화 파일 감지 (telegram_url_watcher가 새 URL 감지 시 생성) ──
                     # 파일: /root/.genspark/init_chat_{tag}.json
                     init_file = INIT_CHAT_DIR / f"init_chat_{proj_key.lower()}.json"
@@ -709,10 +804,10 @@ async def polling_loop(test_once: bool = False, project_filter: str | None = Non
                                     proj_key, CEO_APPROVAL_COOLDOWN_SEC - elapsed
                                 )
                                 continue
-                        # 지시 내용 첫 줄만 발췌 (줄바꿈 이후 생략)
-                        directive_preview = directive.split("\n")[0].strip()[:80]
-                        msg = f"{cursor_prefix} CEO 승인 대기 — {directive_preview}"
-                        logger.warning("[%s] whitelist 외 작업 — 승인 대기 메시지 전송", proj_key)
+                        # 승인 큐에 추가 + 번호 부여
+                        approval_id = add_to_approval_queue(proj_key, directive)
+                        msg = format_approval_message(approval_id, proj_key, cursor_prefix, directive)
+                        logger.warning("[%s] whitelist 외 — 승인 큐 #%d 등록", proj_key, approval_id)
                         await _send_chat_message(page, msg, project=tag)
                         last_ceo_approval_sent[proj_key] = now_dt
                         continue
