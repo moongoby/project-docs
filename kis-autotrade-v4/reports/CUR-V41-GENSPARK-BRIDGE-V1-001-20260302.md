@@ -73,8 +73,8 @@
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-GENSPARK-BRIDGE-V1-001-20260302.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-GENSPARK-BRIDGE-V1-001-20260302.md
-- 커밋: (push 후 갱신)
-- HTTP 확인: (push 후 갱신)
+- 커밋: a04d803
+- HTTP 확인: 200
 - HANDOVER 업데이트: 완료
 
 *Cursor — Genspark 브릿지 V1 구축 완료*
