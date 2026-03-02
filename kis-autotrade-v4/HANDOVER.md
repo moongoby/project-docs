@@ -8,7 +8,7 @@
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
 - 5개 DESK (60개 strategy cards, 14개 OPEN positions)
-- 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
+- 서버: root@[SERVER-IP], DB: PostgreSQL kisautotrade
 - 246 테이블 + 8 뷰 = 254 DB 객체 (Session G-3 실증 2026-03-02), 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
 - 투자자별 수급 데이터 (275,846 rows, 3,943종목, 2010~2026), 체결강도 (231,307 rows, 2025-11~), 뉴스 214만건
 
@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-GENSPARK-BRIDGE-001** | 03-03 | 3a0f0e4 | 200 | **Genspark 자동 대화 브릿지 구축**: Playwright POC(로그인·채팅 셀렉터), create_5_chats.py·genspark_common.py, verify.sh·path_check 5프로젝트 확장, setup_full.sh 삭제·SYNC_GUIDE 마스킹·SECURITY_RULES IP마스킹, 루트 보고서 이동 |
 | **CUR-V41-SESSION-H-ENGINE-SYNC-001** | 03-02 | (이 커밋) | 200 | **Session H 통합엔진 L3.3 연동 + 아키텍처 동기화**: 아키텍처 진단 GAP 6건(L3.3미활성/exit Generic/D2 trail10%/HARD_TP없음/Anti-Pattern/Timeout). Method A(CTE경유) 채택 — signal_generator.py SupplyDemandGate.evaluate()+pool전파+Fail-Open, exit_manager.py 전략별 STRATEGY_EXIT_PARAMS(6전략 동기화)+HARD_TP D4, D2 trail_start 10%→3%, run_unified_engine.py 합성SupplyGateResult. **137테스트 ALL PASS**, GAP G-1~G-4 해소, 잔여 G-5(P2)/G-6(P2), **03-03 Virtual Run L3.3 GO** |
 | **CUR-V41-SESSION-E3-SUPPLY-GATE-VALIDATION-001** | 03-02 | (이 커밋) | 200 | **Session E-3 수급 게이트 다층 검증 + L3.3 구현**: CEO 승인 3건 기반, Phase 1(Tasks 1-6) 다층검증 — 전 레짐 PF>1.5(BEAR 최고 2.549), 완전패턴(4/4) PF=1.364, W/L비율 1.60→2.73, 신고가 PF=13.483, 외인4일+ 20d +9.9%, 5일 AUC=0.680 최적. Phase 2 Walk-Forward 3-Fold ALL PASS — 채택 0.7+FRGN(min PF=1.455). Phase 3 구현 — supply_demand_gate.py(MUST: CLOSE>0.7+FRGN>0, 보너스 6개, ALLOW/CONDITIONAL/BLOCK 3등급) + test 24건 PASS + cte_pipeline.py L3.3 삽입(L3→L3.3→L3.2). Phase 4 통합리플레이 — **Baseline PF=0.834→D_Full PF=2.727(+227%)**, WR 34.3%→51.1%, 331건 품질필터링. CEO D-002 "본질은 수급" 최종 실증 완료 |
 | **CUR-V41-SESSION-E2A-ANTIPATTERN-APPLY-001** | 03-02 | 36324cc | 200 | **Session E-2A Anti-Pattern 3건 차단 + CEO 승인 3건 적용**: exit_simulator D2 trail_start 0.02→0.10/D4 sl 0.025→0.010+tp 0.050+HARD_TP모드, entry_detector _is_anti_pattern(역배열+VWAP하회+거래량감소 446건차단)/_is_absolute_forbidden(장후반+급감 29건차단)/D5 13시차단/D4 09:25~10:00창, candidate_scanner D7 close_pos≥0.30/S1 gap 5%. 재검증 E-2A: PF=0.826(E-1 0.834→소폭악화), Walk-Forward Fold3 PF=1.096, D2 trail_start=10% 역효과(TIMEOUT 86%) → E-3 재검토필요 |
