@@ -1,5 +1,5 @@
 # HANDOVER – ShortFlow YouTube Shorts 자동화 SaaS
-> 최종 업데이트: 2026-03-02 (v1.1 — V4-BATCH/CRON/DELETE 완료)
+> 최종 업데이트: 2026-03-02 (v1.2 — ALERT-CRON 완료)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -54,6 +54,7 @@
 | V4-BATCH | 03-02 | v4 전편 6편 합성(ffprobe 전편 통과) + 비공개 업로드 성공 (economy 3편, health 3편) |
 | V4-CRON | 03-02 | cron 스케줄러 v4 파이프라인(run_v4_pipeline.py)으로 교체, 구 scheduled_upload.sh 비활성화 |
 | OLD-VIDEO-DELETE | 03-02 | v1 10편 + v3 6편 + UPLOAD-TEST 2편 YouTube 삭제 완료 (총 18건, 실패 0건) |
+| ALERT-CRON | 03-02 | send_alert_email.py → alert_on_error.sh(Python 우선) + daily_report.sh(이상감지 알림) + run_v4_pipeline.py(단계별 실패 알림) 연동 완료 |
 
 ---
 
@@ -62,8 +63,8 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | HISTORY-TOKEN | 대기 | history 채널 OAuth 토큰 발급 (CEO 채널ID/이메일 필요) |
-| ALERT-CRON | 대기 | send_alert_email.py를 cron/daily_report에 연동 |
 | V4-PUBLIC | 대기 | v4 영상 비공개→공개 전환 (CEO 승인 후) |
+| ALERT-ACTIVATE | 대기 | .env에 ALERT_EMAIL_PASSWORD 설정 후 알림 활성화 (Gmail App Password 필요) |
 
 ---
 
@@ -101,6 +102,7 @@
 - 디스크: 79% (649GB/875GB), shortflow ~1.5GB
 - Docker: shortflow-saas-dashboard 정상 가동 (HTTP 200)
 - 크론: economy 09/13/18시, health +10분 등록 (v4 파이프라인 run_v4_pipeline.py로 교체 완료 03-02)
+- 알림: alert_on_error.sh(09:25/13:25/18:25 Python 우선), daily_report.sh(23:30 이상감지), run_v4_pipeline.py 실패 즉시 알림 연동 완료 (ALERT_EMAIL_PASSWORD 설정 시 활성화)
 - 보안: .env, youtube_token_*.json, venv/ 모두 .gitignore 등록
 - Cloudflare: shotflow 레코드 Proxied 상태 복원 완료
 
@@ -126,7 +128,7 @@
 ### 6-2. 웹 Claude가 해야 할 일
 1. v4 영상 CEO 품질 확인 후 공개 전환 승인 요청
 2. CEO에게 history 채널 정보(채널ID, 이메일) 확인 요청
-3. ALERT-CRON: send_alert_email.py cron/daily_report 연동
+3. CEO에게 Gmail App Password 확인 → .env에 ALERT_EMAIL_PASSWORD 설정 (알림 활성화)
 4. HISTORY-TOKEN: history 채널 OAuth 토큰 발급 (CEO 정보 확인 후)
 
 ### 6-3. 대표님 확인 필요 사항
@@ -158,3 +160,4 @@
 |------|------|------|
 | v1.0 | 2026-02-28 | 초판 – 전체 대화 내역 + 최종 보고서 기반 작성 |
 | v1.1 | 2026-03-02 | V4-BATCH/CRON/DELETE 완료, IP/이메일 마스킹, 섹션 6 갱신 |
+| v1.2 | 2026-03-02 | ALERT-CRON 완료 (alert_on_error.sh Python 우선, daily_report.sh 이상감지, run_v4_pipeline.py 에러핸들러) |
