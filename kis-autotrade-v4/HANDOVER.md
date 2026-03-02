@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-GENSPARK-BRIDGE-V1-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 V1 구축**: BRIDGE-DESIGN-V1.md, genspark_bridge.py(260줄), genspark-bridge.service 등록(start 미실행), 통합 테스트 PASS(MCP 경유), Cloudflare headless 차단 발견 |
 | **CUR-V41-CEO-DIRECTIVE-CONFIRM-001** | 03-02 | 8335faa | 200 | **CEO 통합지휘소 지시 확인 + 19STRATEGY DB IP 마스킹**: 보고 검토·보고 완료, DIRECTIVE-CONFIRM 보고서·저장정보 블록 보완, HANDOVER 갱신 |
 | **CUR-V41-GENSPARK-BRIDGE-001** | 03-03 | 3a0f0e4 | 200 | **Genspark 자동 대화 브릿지 구축**: Playwright POC(로그인·채팅 셀렉터), create_5_chats.py·genspark_common.py, verify.sh·path_check 5프로젝트 확장, setup_full.sh 삭제·SYNC_GUIDE 마스킹·SECURITY_RULES IP마스킹, 루트 보고서 이동 |
 | **CUR-V41-SESSION-H-ENGINE-SYNC-001** | 03-02 | (이 커밋) | 200 | **Session H 통합엔진 L3.3 연동 + 아키텍처 동기화**: 아키텍처 진단 GAP 6건(L3.3미활성/exit Generic/D2 trail10%/HARD_TP없음/Anti-Pattern/Timeout). Method A(CTE경유) 채택 — signal_generator.py SupplyDemandGate.evaluate()+pool전파+Fail-Open, exit_manager.py 전략별 STRATEGY_EXIT_PARAMS(6전략 동기화)+HARD_TP D4, D2 trail_start 10%→3%, run_unified_engine.py 합성SupplyGateResult. **137테스트 ALL PASS**, GAP G-1~G-4 해소, 잔여 G-5(P2)/G-6(P2), **03-03 Virtual Run L3.3 GO** |
