@@ -539,7 +539,7 @@
 2. **[완료] D4 Shadow Mode**: SHADOW_STRATEGIES={'D4'} 활성화, 11개필드 JSONL 기록, daily_report Section7 추가
 3. **03-03 Virtual Run 결과 모니터링**: D4 Shadow 신호 수집 + L3.3 비율 확인
 4. **10거래일 후 (03-17)**: shadow_d4_*.jsonl 분봉 리플레이 검증 (D4 PF≥1.3 & WR≥30%)
-5. **CEO ATR 1.5 승인 시**: `atr_dynamic_exit.py:42` NET_RR_RATIO 2.0→1.5 즉시 적용
+5. **[완료] CEO ATR 1.5 승인**: `atr_dynamic_exit.py:42` NET_RR_RATIO 2.0→1.5 적용 완료 (커밋 96b7407b, 19:20)
 
 **Step 4 사전 시뮬 결과 요약 (v8.0 추가)**
 - D4 활성화 가능 (SIG3+SIG6): 83건 (ATR 2.0 시), 55건 (ATR 1.5 시)
@@ -601,6 +601,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v8.2 | 2026-03-02 | Cursor | CEO ATR 1.5 승인 즉시 적용 + D4 GATE 오분류 수정 (96b7407b, 8d47bbd2) |
 | v8.1 | 2026-03-02 | Cursor | WF-Step1 적용 + D4 Shadow Mode 구현 (9f17b8c5) |
 | v8.0 | 2026-03-02 | Cursor | Step4 시뮬 결과 + 매니저 DIRECTIVE 반영 (WF-Step1/2 큐, 커밋 65557fd2) |
 | v7.0 | 2026-03-02 | Cursor | D4 EQS PULLBACK 버그 수정 (e274411a) + SIGNAL_COMBO 사전분석 |
