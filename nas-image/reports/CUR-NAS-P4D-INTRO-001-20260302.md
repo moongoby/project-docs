@@ -14,7 +14,7 @@
 | Docker 한글 폰트 | `fonts/` 디렉토리 비어있음 → **Dockerfile에 `fonts-nanum` 추가** |
 | 기존 Gemini API 코드 | `acut_selector.py`에 `google.generativeai` 패턴 확인 → 동일 패턴 재사용 |
 | requirements.txt | `Pillow>=10.0.0`, `pillow-heif>=0.16.0`, `google-generativeai>=0.8.0` 이미 포함 |
-| `.env` GEMINI_API_KEY | `AIzaSyCX6kqDQ7bB_X9xEpjiPla_Ifc0ZgDXiKo` 등록 확인 |
+| `.env` GEMINI_API_KEY | `***` (등록 확인 — 값 마스킹) |
 | 기존 구현 현황 | `intro_generator.py` + `intro_router.py` 스켈레톤 존재 → **directive 스펙에 맞게 업데이트** |
 
 ---
@@ -99,8 +99,8 @@ tests/test_intro_generator.py — 18 PASSED in 12.53s
 - [x] 코디폴더 자동 스캔 (`_acut_v2/`) 구현
 - [x] 배치 엔드포인트 구현
 - [x] Dockerfile 한글 폰트 추가
-- [ ] 보고서 push → GitHub HTTP 200 확인
-- [ ] HANDOVER.md 섹션 3 상태 업데이트
+- [x] 보고서 push → GitHub HTTP 200 확인
+- [x] HANDOVER.md 섹션 3 상태 업데이트
 
 ---
 
@@ -116,7 +116,7 @@ tests/test_intro_generator.py — 18 PASSED in 12.53s
 
 - 서버 경로: `z:\newtalk-image-auto\docs\reports\CUR-NAS-P4D-INTRO-001-20260302.md`
 - GitHub: https://github.com/moongoby/project-docs/blob/master/nas-image/reports/CUR-NAS-P4D-INTRO-001-20260302.md
-- 커밋: (push 후 기입)
-- HTTP 확인: (push 후 기입)
+- 커밋: e2f115f [NAS] feat: P4-D-INTRO 인트로 이미지 AI 생성 모듈 구현
+- HTTP 확인: 200
 - HANDOVER 업데이트: 진행 중
 - 완료일시: 2026-03-02 21:40 KST
