@@ -1,4 +1,4 @@
-# GO100 인수인계서 v10.6 — 단일 파일 통합 (V10 기반)
+# GO100 인수인계서 v10.7 — 단일 파일 통합 (V10 기반)
 > 작성: 2026-02-28 | 최종 업데이트: 2026-03-02 | 대상: 다음 세션 AI  
 > 이전 문서: HANDOVER-20260228-V10.md (본 파일로 통합)
 
@@ -107,6 +107,7 @@
 | CUR-GO100-BRIDGE-BUG-FIX-001 | — | 03-02 | PASS | ✓ | 200 | genspark_bridge.py 3종 버그 수정: parse_directive 줄바꿈 필터(false positive 차단), CEO 승인 대기 30분 쿨다운(루프 방지), pressSequentially 입력방식 교체(React 호환) |
 | CUR-GO100-P6-EXTRA-VERIFY-001 | — | 03-02 | PASS | ✓ | 200 | Agent Chat E2E 4단계 검증 PASS: screen_stocks new_high_52w, execute_buy/sell, 리스크 pre-trade, Agent Loop 5라운드. risk_engine async_generator 버그 수정 포함 |
 | CUR-GO100-P7-1-FULL-QA-001 | — | 03-02 | PASS(조건부) | ✓ | 200 | 전체 QA 종합 판정 95/100: 서비스 정상, DB 70테이블, Agent도구 52개, 크론 31라인, Kill Switch E2E, KIS Mock주문 전 항목 PASS |
+| CUR-GO100-P4-AI-ENHANCE-DESIGN-001 | — | 03-02 | PASS | ✓ | 200 | Phase 4 AI 모델 고도화 설계안 완료: As-Is 기준선(AUC 0.5406, MFE_3D R²=0.0784), To-Be 4개 축(교차피처, 멀티타겟, Regime 분리, Threshold), 구현 12일, 리스크 분석, 모의투자 연동 설계 포함. CEO 승인 대기 |
 
 ### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
@@ -214,7 +215,7 @@
 | ~~P6-EXTRA-VERIFY~~ | ~~보고서 push~~ | **완료 (2026-03-02)** |
 | ~~P7-1 전체 QA~~ | ~~보고서 push~~ | **완료 (2026-03-02)** |
 | 30일 모의투자 1사이클 | 장 개장 (화요일) | 다음 |
-| Phase 4 AI 고도화 설계안 | 설계만 먼저 보고 | 다음 |
+| ~~Phase 4 AI 고도화 설계안~~ | ~~설계만 먼저 보고~~ | **완료 (2026-03-02) — CEO 승인 대기** |
 | 소액 실매매 3일 | 모의투자 완주 + CEO 승인 | 그다음 |
 | SaaS 준비 | 실매매 검증 | 후순위 |
 
@@ -320,3 +321,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |
 | v10.5 | 03-02 | genspark_bridge.py 3종 버그 수정, 백억이 총괄매니저 세션 시작 보고 완료 |
 | v10.6 | 03-02 | P6-EXTRA-VERIFY PASS + P7-1 QA PASS(95/100): risk_engine async_generator 버그 수정, E2E 검증 완료, Agent도구 52개 확인, Phase 6 게이트 완전 통과, 진행률 90% |
+| v10.7 | 03-02 | Phase 4 AI 모델 고도화 설계안 완료(CUR-GO100-P4-AI-ENHANCE-DESIGN-001): 4개 축 설계(교차피처/멀티타겟/Regime분리/Threshold최적화), 구현 12일 계획, CEO 승인 대기 |
