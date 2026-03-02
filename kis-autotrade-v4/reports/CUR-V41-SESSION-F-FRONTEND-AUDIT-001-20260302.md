@@ -267,18 +267,20 @@
 
 ## I. GAP 분석 (미구현·미연결·주의 항목)
 
+> **검증 업데이트 (2026-03-02 Session F 재실행)**: G-03, G-04, G-07 → 직접 코드 확인으로 해소됨. G-05 실제 경로 불일치 확인.
+
 | # | 항목 | 현재 상태 | 영향 | 우선순위 |
 |---|------|---------|------|---------|
-| G-01 | **`/api/v4/backtest/analysis`** 라우팅 불일치 | Next.js는 go100.newtalk.kr에서 동작 → 8002로 요청. bt_analysis_router는 8002 main.py에 등록됨 | ✅ 정상 (8002에 등록 확인) | — |
+| G-01 | **`/api/v4/backtest/analysis`** 라우팅 | bt_analysis_router는 8002 main.py에 등록됨 (line 369) | ✅ 정상 | — |
 | G-02 | `backtest-chart.ts` vs `backtestChartApi.ts` 중복 | 같은 `/api/v1/backtest/chart` 경로를 두 파일에서 구현 | 중복 코드, 혼란 | LOW |
-| G-03 | `/api/v1/reports/*` 백엔드 존재 여부 | `reports.ts` 프론트 파일 존재, 백엔드 `reports_router` 확인 필요 | `/reports` 페이지 동작 불확실 | **HIGH** |
-| G-04 | `/api/v1/monitoring/*` 백엔드 라우터 | `monitoring_router` include_router 등록됨(line 394), prefix 확인 필요 | `/monitoring` 페이지 정상 여부 | MEDIUM |
-| G-05 | V4.1 WebSocket(`/ws/`) 서버 구현 | nginx는 `/ws/` → 8003 프록시 설정됨, 8003의 WS 핸들러 존재 여부 미확인 | 실시간 거래 피드 미작동 가능 | **HIGH** |
-| G-06 | GO100 일부 라우터 prefix 없이 등록 | `go100_portfolio_router`, `go100_strategy_router` 등 — prefix 없음 → 자체 내부 prefix 사용 | 경로 불명확 (go100_strategy_router는 내부에 `/api/go100/strategy-cards` 정의) | LOW |
-| G-07 | `accounts_router.py:154` POST `/{id}/sync` | 프론트 `accountSync.ts`의 `/api/v1/account/sync-now` vs 백엔드 `/api/v1/accounts/{id}/sync` 경로 불일치 의심 | 계좌 동기화 실패 가능 | **MEDIUM** |
-| G-08 | V4.1 정적 프론트의 API_BASE_URL | `config.js`가 `window.location.origin`을 사용 → trading41에서는 동일 오리진 nginx로 라우팅 (의도된 설계) | — | — |
-| G-09 | `desk2-backtest.html` / `desk2-live.html` | D2 전용 소형 페이지, 데이터 JSON 파일(desk2-bt-data.json 171KB) 직접 로드 | 백엔드 미연결 상태 | MEDIUM |
-| G-10 | admin.html vs `/admin` (Next.js) | 두 가지 어드민 인터페이스 병존 (V4.1 정적 + GO100 Next.js) | 관리 이중화 | LOW |
+| G-03 | ~~`/api/v1/reports/*` 백엔드 존재 여부~~ | ✅ **해소됨**: `report_router`(prefix="/reports") + main.py prefix="/api/v1" → `/api/v1/reports/*` 완전 일치. go100_reports_router (prefix="/api/go100/reports"), v4_reports.router (prefix="/api/v4/reports") 모두 등록 확인 | ✅ 정상 연결 | **RESOLVED** |
+| G-04 | ~~`/api/v1/monitoring/*` 백엔드 prefix 확인 필요~~ | ✅ **해소됨**: `monitoring_router`의 `APIRouter(prefix="/api/v1/monitoring")` 직접 확인. 프론트 `monitoring.ts` BASE와 정확 일치 | ✅ 정상 | **RESOLVED** |
+| G-05 | **V4.1 WebSocket(`/ws/`) 서버-nginx 불일치** | nginx `/ws/` → 8003 라우팅, 실제 WebSocket 핸들러(`/ws/live-trade`, `/ws/ticks`)는 **8002** main.py에 등록됨 (v4_websocket.router). 8003에 WS 핸들러 없음. 단, 현재 Next.js/V4.1 프론트에서 WebSocket 호출 코드 없음 (SSE만 사용) → 잠재적 구성 오류 | nginx→8003 WS 연결 시 404/502 발생 (미사용이므로 현재 무영향) | **MEDIUM** (향후 WS 사용 시 수정 필요) |
+| G-06 | GO100 일부 라우터 prefix 없이 등록 | 자체 내부 prefix 사용 (go100_strategy_router → `/api/go100/strategy-cards`) | ✅ 경로 정상 | LOW |
+| G-07 | ~~account sync 경로 불일치 의심~~ | ✅ **해소됨**: `account_sync_router`(prefix="/account") + main.py prefix="/api/v1" → `/api/v1/account/*`. 프론트 `accountSync.ts`의 `BASE="/api/v1/account"` + `/holdings`, `/sync-status`, `/sync-now`, `/sync-log` 모두 정확 일치 | ✅ 정상 | **RESOLVED** |
+| G-08 | V4.1 정적 프론트의 API_BASE_URL | `config.js`가 `window.location.origin` → trading41에서 nginx로 라우팅 (의도된 설계) | — | — |
+| G-09 | `desk2-backtest.html` / `desk2-live.html` | D2 전용 페이지, JSON 파일(desk2-bt-data.json) 직접 로드 | 백엔드 미연결 상태 | MEDIUM |
+| G-10 | admin.html vs `/admin` (Next.js) | 두 가지 어드민 인터페이스 병존 | 관리 이중화 | LOW |
 
 ---
 
@@ -309,12 +311,12 @@
 
 ### 즉시 조치 (P0)
 
-1. **G-03 `/reports` 페이지 확인**: `reports_router` 백엔드 존재·prefix 확인 후 연결 검증 필요
-2. **G-05 V4.1 WebSocket 서버**: 8003에서 `/ws/` WebSocket 핸들러 구현 여부 확인. 현재 nginx 설정은 있으나 서버 미구현이면 실시간 거래 피드 미작동
+1. ~~**G-03 `/reports` 페이지 확인**~~ → **✅ RESOLVED**: 직접 확인 완료, 정상 연결됨
+2. **G-05 V4.1 WebSocket nginx 불일치**: nginx `/ws/` → 8003, WebSocket 핸들러는 8002에 있음. 현재 프론트가 WS를 사용하지 않으므로 무영향이나, 향후 실시간 거래 피드 구현 시 nginx 설정 수정(`8003` → `8002`) 또는 핸들러를 8003으로 이전 필요
 
 ### 단기 개선 (P1)
 
-3. **G-07 account sync 경로**: `accountSync.ts`의 `/api/v1/account/sync-now` vs `accounts_router`의 `/{id}/sync` — 경로 정렬 확인
+3. ~~**G-07 account sync 경로**~~ → **✅ RESOLVED**: 직접 확인 완료, 경로 완전 일치
 4. **G-09 desk2 JSON 직접 로드**: desk2-live.html, desk2-backtest.html이 실시간 데이터 대신 정적 JSON 사용 — 백엔드 연결 필요
 
 ### 중기 개선 (P2)
@@ -329,14 +331,14 @@
 | 범주 | 판정 | 커버리지 |
 |------|------|---------|
 | 인증/회원 시스템 | **COMPLETE** | 100% |
-| Next.js 페이지 연결 | **COMPLETE** | ~90% (reports/monitoring 일부 미확인) |
+| Next.js 페이지 연결 | **COMPLETE** | **97%** (G-03/G-04/G-07 해소, G-09 desk2만 잔여) |
 | V4.1 정적 페이지 | **COMPLETE** | 80% (desk2-live 미연결) |
 | GO100 서비스 (Next.js) | **COMPLETE** | 95% |
-| 실시간 SSE | **COMPLETE** | 100% |
-| 실시간 WebSocket (V4.1) | **PARTIAL** | 50% (서버 확인 필요) |
+| 실시간 SSE | **COMPLETE** | 100% (알림·LLM 2채널) |
+| 실시간 WebSocket (V4.1) | **PARTIAL** | **nginx→8003 불일치 확인됨, 프론트 미사용으로 현재 무영향** |
 | 인증 보안 (JWT refresh) | **COMPLETE** | 100% |
-| Nginx 라우팅 | **COMPLETE** | 100% |
-| API 클라이언트 ↔ 백엔드 | **COMPLETE** | ~93% (GAP 2건 확인 필요) |
+| Nginx 라우팅 | **COMPLETE** | 100% (WS nginx 불일치 제외) |
+| API 클라이언트 ↔ 백엔드 | **COMPLETE** | **97%** (G-03/G-04/G-07 모두 정상, G-05 잠재적 WS 오류만 잔여) |
 
 ---
 
