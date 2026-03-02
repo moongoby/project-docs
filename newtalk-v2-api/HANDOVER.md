@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.0.0
-**최종수정**: 2026-02-28 KST (DOCS-SETUP-001 표준 8섹션 전환)
+**버전**: 4.1.0
+**최종수정**: 2026-03-02 KST (CODE-FIX-001 완료, V1-FIX-001 진행중)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -137,8 +137,10 @@ outsource@newtalk.kr (외주)
 | R4-FRONT-007 | 2026-02-26 | v3.15.0 | — | 위탁배송·드롭십 UI |
 | DOCS-FIX-007 | 2026-02-26 | — | — | SHA 교체 + ARCHITECTURE 재작성 |
 | DOCS-FIX-008 | 2026-02-26 | v3.11.0 | — | 4대 핵심 문서 정합성 복구 |
-| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | — | R4 최종 문서 정합성 복구 (로컬 커밋 완료, push 미완료) |
+| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | 770ae91 | R4 최종 문서 정합성 복구 (push 완료) |
 | DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환, .cursorrules 인계서 규칙 추가 |
+| CODE-REVIEW-001 | 2026-02-28 | — | 946c57e | R1~R4 코드 검수 보고서 push |
+| CODE-FIX-001 | 2026-03-02 | — | e594850 | BUG-001·002·003 수정 + TS 에러 0건 달성 (frontend 빌드 정상) |
 
 ---
 
@@ -146,9 +148,7 @@ outsource@newtalk.kr (외주)
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| V1-FIX-001 | 지시서 전달 | V1 이미지 URL DO→newtalk.kr 치환 |
-| DOCS-FIX-009 | push 미완료 | R4 문서 정합성 (로컬 커밋 완료, 원격 push 미완료) |
-| CODE-REVIEW-001 | 보고서 확인 대기 | R1~R4 코드 검수 |
+| V1-FIX-001 | Phase 1 완료, Phase 2 대기 | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행) |
 
 ---
 
@@ -156,10 +156,8 @@ outsource@newtalk.kr (외주)
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
-| DOCS-FIX-009 push | force-with-lease 실행 | P0 즉시 |
-| V1-FIX-001 실행 | Cursor 실행 | P0 즉시 |
-| CODE-REVIEW-001 확인 | 보고서 push | P1 단기 |
-| R5 기획 | 코드 검수 완료 | P2 중기 |
+| V1-FIX-001 Phase 2 (DB 조사·치환) | CEO 승인 + Cursor 실행 | P0 즉시 |
+| R5 기획 | CEO 범위 확정 | P2 중기 |
 
 ---
 
@@ -178,23 +176,21 @@ outsource@newtalk.kr (외주)
 
 ## 6. 웹 Claude 인수인계 사항
 
-### 최신 상태 (2026-02-28)
-- R4 라운드: 코드 46건 완료 (R0~R4 API+FRONT+DOCS-FIX)
-- DOCS-SETUP-001 완료: CEO-DIRECTIVES.md v1.0 생성, HANDOVER.md v4.0.0 (8섹션 표준), .cursorrules 인계서 규칙 추가
-- DOCS-FIX-009: 로컬 커밋 완료, 원격 push 미완료 (non-fast-forward)
-- V1-FIX-001: 이미지 URL 치환 지시서 전달, Cursor 실행 대기
-- CODE-REVIEW-001: 서버 로컬에 보고서 존재, push/내용 미확인
+### 최신 상태 (2026-03-02)
+- CODE-FIX-001 완료: BUG-001·002·003 수정, TS 에러 0건, frontend 재빌드 완료 (e594850, 2026-03-02)
+- CODE-REVIEW-001 완료: R1~R4 코드 검수 보고서 push (946c57e, 2026-02-28)
+- DOCS-FIX-009 완료: R4 최종 문서 정합성 push 완료 (770ae91, 2026-02-27)
+- DOCS-SETUP-001 완료: CEO-DIRECTIVES.md v1.0, HANDOVER.md v4.0.0 (8섹션 표준)
+- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2(DB 조사·치환) 미실행
 
 ### 웹 Claude가 해야 할 일
-1. V1-FIX-001 실행 보고 수신 → Phase 1(조사) 결과 검증 → Phase 2~4 진행 판단
-2. CODE-REVIEW-001 보고서 push 확인 → 내용 교차검증 → 이슈 분류 → R-FIX 지시서 작성
-3. DOCS-FIX-009 push 완료 확인 (force-with-lease)
-4. R5 기획 착수 (CEO 확정 후)
+1. V1-FIX-001 Phase 2 실행 승인 → DB 조사 결과 검증 → Phase 3(UPDATE) 진행 판단
+2. CODE-REVIEW-001 내용 교차검증 → 발견 이슈 분류 → R-FIX 지시서 작성 (P1)
+3. R5 기획 착수 (CEO 확정 후, P2)
 
 ### 대표님 확인 필요 사항
-1. V1-FIX-001: newtalk.kr/img/YYYYMM/ 경로 구조가 DO Spaces와 동일한지
-2. CODE-REVIEW-001: 발견 이슈 중 긴급 수정 필요 건 우선순위 결정
-3. R5 기획 범위·일정 확정
+1. V1-FIX-001 Phase 2 승인: V1 DB goods_detail 테이블 DO URL 치환 진행 여부
+2. R5 기획 범위·일정 확정
 
 ### 주의사항
 - Cursor가 git push를 건너뛰는 패턴이 반복됨 → 모든 지시서에 push 단계 명시 필수
@@ -247,3 +243,4 @@ outsource@newtalk.kr (외주)
 | 3.0.0 | 2026-02-26 | DOCS-FIX-008: 완료 항목 정합성 복구; R4-FRONT-006 콘텐츠 파이프라인 UI 완료 반영 |
 | 3.0.1 | 2026-02-27 | DOCS-FIX-009: R4-FRONT-004·005·007 완료 반영, R4 라운드 종결 |
 | 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
+| 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
