@@ -19,6 +19,7 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | **CUR-V41-SESSION-K-MONITORING-SETUP-001** | 03-02 | (이 커밋) | 200 | **Session K 03-03 Virtual Run 자동 모니터링**: monitor_virtual_run.py 5액션(premarket/signal/periodic/close/daily_report), cron 6건(07:58~16:00), L3.3 비율+거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 보고서 자동생성, dry-run ALL PASS, 방안B(CEO 확인 후 push) |
+| **CUR-V41-GENSPARK-BRIDGE-STEALTH-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 Cloudflare 차단 우회**: playwright-stealth 적용, headed+Xvfb 전환, --test-once 플래그, 직접 로그인 session.json 저장, 통합 테스트 PASS (13523자+메시지전송) |
 | **CUR-V41-GENSPARK-BRIDGE-V1-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 V1 구축**: BRIDGE-DESIGN-V1.md, genspark_bridge.py(260줄), genspark-bridge.service 등록(start 미실행), 통합 테스트 PASS(MCP 경유), Cloudflare headless 차단 발견 |
 | **CUR-V41-CEO-DIRECTIVE-CONFIRM-001** | 03-02 | 8335faa | 200 | **CEO 통합지휘소 지시 확인 + 19STRATEGY DB IP 마스킹**: 보고 검토·보고 완료, DIRECTIVE-CONFIRM 보고서·저장정보 블록 보완, HANDOVER 갱신 |
 | **CUR-V41-GENSPARK-BRIDGE-001** | 03-03 | 3a0f0e4 | 200 | **Genspark 자동 대화 브릿지 구축**: Playwright POC(로그인·채팅 셀렉터), create_5_chats.py·genspark_common.py, verify.sh·path_check 5프로젝트 확장, setup_full.sh 삭제·SYNC_GUIDE 마스킹·SECURITY_RULES IP마스킹, 루트 보고서 이동 |
