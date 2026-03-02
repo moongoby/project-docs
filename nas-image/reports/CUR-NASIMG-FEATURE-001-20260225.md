@@ -114,7 +114,7 @@
 
 ### 7.2 미완료 시 즉시 실행 (NAS 기준)
 
-- **.env에 MYSQL 정보 없음** → `MYSQL_HOST=[SERVER-IP]`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=***` 추가 (비밀번호는 server116 `application/config/database.php` 참조)
+- **.env에 MYSQL 정보 없음** → `MYSQL_HOST=[SERVER-IP]`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=[MASKED]` 추가 (비밀번호는 server116 `application/config/database.php` 참조)
 - **.env에 GEMINI_API_KEY 없음** → 114서버 ShortFlow `.env`에서 복사: `cat /data/shortflow/.env | grep GEMINI_API_KEY`
 - **Docker 미빌드** → `sudo docker-compose build --no-cache && sudo docker-compose up -d`
 - **pip-cache (오프라인)** → `pip download PyMySQL>=1.1.0 -d pip-cache/`
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS nas_folder_request (
 | STEP | 항목 | 결과 | 비고 |
 |------|------|------|------|
 | 0 | NAS 경로 이동 | ✅ (원격 시도 시 확인) | find로 /volume1/뉴톡/newtalk-image-auto 진입 |
-| 1 | .env MYSQL/GEMINI 키 | ✅ MYSQL_PASSWORD=*** 존재 | 원격 실행 시 확인됨 |
+| 1 | .env MYSQL/GEMINI 키 | ✅ MYSQL_PASSWORD=[MASKED] 존재 | 원격 실행 시 확인됨 |
 | 1 | pip-cache PyMySQL | ⚠️ whl 없음 → wget 시도 | Docker 단계 전에 중단되어 wget 결과 미확인 |
 | 2 | git pull | ✅ Already up to date | |
 | 2 | Docker 재빌드/기동 | ❌ 중단 | sudo 비밀번호 필요 (NAS에서 직접 실행 시 입력 후 진행) |

@@ -72,7 +72,8 @@ fi
 DBURLS=$(grep -rni 'DATABASE_URL.*://.*:.*@\|postgresql.*://.*:.*@' \
   "$REPO_DIR" --include="*.md" --include="*.sh" --include="*.py" \
   | grep -v "\.git/" \
-  | grep -v "\[DB-PASSWORD\]\|\[REDACTED\]")
+  | grep -v "scripts/security_scan\.sh" \
+  | grep -v "\[DB-PASSWORD\]\|\[REDACTED\]\|\[DB_CONNECTION_STRING\]")
 if [ -n "$DBURLS" ]; then
   echo "[FAIL] DATABASE_URL에 비밀번호 포함:"
   echo "$DBURLS"

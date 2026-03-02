@@ -48,7 +48,7 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 load_dotenv()
-genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
+genai.configure(api_key="[.env:GEMINI_API_KEY]")
 model = genai.GenerativeModel('gemini-2.5-flash')
 resp = model.generate_content('한국 경제 뉴스 3줄 요약해줘')
 print(resp.text[:200])

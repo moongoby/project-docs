@@ -83,7 +83,7 @@
 ## 7. Gemini 호출 테스트 결과
 
 - **테스트 코드 (venv_test):**
-  - `genai.configure(api_key=os.getenv('GEMINI_API_KEY'))`
+  - `genai.configure(api_key="[.env:GEMINI_API_KEY]")`
   - `model = genai.GenerativeModel('gemini-2.0-flash')`
   - `resp = model.generate_content('한국 경제 뉴스 3줄 요약')`
 - **결과:**

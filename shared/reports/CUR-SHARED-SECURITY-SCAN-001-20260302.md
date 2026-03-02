@@ -148,7 +148,7 @@ Public 레포이므로 `git log`로 이전 커밋을 조회하면 원본 값에 
 | IP 주소 | 마스킹되지 않은 공인/사설 IP (127.0.0.1, 0.0.0.0, 255.x 제외) |
 | 비밀번호/키 | `password=값`, `PGPASSWORD='값'`, `api_key=값` 등 실제 값 포함 |
 | .env 파일 | `.env`, `.env.*`, `*.bak`, `*.pem`, `*.key` 파일 존재 |
-| 개인 이메일 | `@[MASKED-DOMAIN]`, `@[MASKED-DOMAIN]`, `@kakao.com`, `@daum.net` |
+| 개인 이메일 | `@[MASKED-DOMAIN]`, `@[MASKED-DOMAIN]`, `@[MASKED-DOMAIN]`, `@[MASKED-DOMAIN]` |
 | DATABASE_URL | 비밀번호 포함된 DB 연결 URL |
 
 ### 현재 스캔 결과
@@ -156,7 +156,7 @@ Public 레포이므로 `git log`로 이전 커밋을 조회하면 원본 값에 
 - 스캔 False Positive 항목 (정상, 무시):
   - `os.getenv('GEMINI_API_KEY')` — 코드 상 환경변수 참조 (값 없음)
   - `kis_admin:***@localhost` — 이미 `***`로 마스킹된 상태
-  - `MYSQL_PASSWORD=***` — 이미 `***`로 마스킹된 상태
+  - `MYSQL_PASSWORD=[MASKED]` — 이미 `***`로 마스킹된 상태
 
 ---
 

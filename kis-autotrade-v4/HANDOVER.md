@@ -19,7 +19,7 @@
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
 | **CUR-V41-BRIDGE-DASHBOARD-001** | 03-02 | (이 커밋) | 200 | **통합지휘소 정기 보고 + 텔레그램 통합 대시보드**: telegram_report.py `[KIS]` 태그 표준화(project 파라미터 추가, 5개 프로젝트 태그 지원), genspark_bridge.py 6시간 정기 보고 루프(07:00/13:00/19:00/01:00 KST) 추가, GitHub API 최신 커밋 조회, systemctl 서비스 상태 포함 |
-| **CUR-V41-SESSION-K-MONITORING-SETUP-001** | 03-02 | (이 커밋) | 200 | **Session K 03-03 Virtual Run 자동 모니터링**: monitor_virtual_run.py 5액션(premarket/signal/periodic/close/daily_report), cron 6건(07:58~16:00), L3.3 비율+거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 보고서 자동생성, dry-run ALL PASS, 방안B(CEO 확인 후 push) |
+| **CUR-V41-SESSION-K-MONITORING-SETUP-001** | 03-02 | (이 커밋) | 200 | **Session K 03-03 Virtual Run 자동 모니터링**: `/root/kis-autotrade-v4/scripts/monitor_virtual_run.py` 5액션(premarket/signal/periodic/close/daily_report), cron 6건(07:58~16:00), L3.3 비율+거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 보고서 자동생성, dry-run ALL PASS, 방안B(CEO 확인 후 push) |
 | **CUR-V41-TELEGRAM-REPORT-001** | 03-02 | (이 커밋) | 200 | **텔레그램 보고 채널 연결**: go100_auto_trading_bot 신규 생성, CHAT_ID 자동 조회, 테스트 메시지 발송 성공(message_id:236), telegram_report.py+genspark_bridge.py 통합 완료 |
 | **CUR-V41-GENSPARK-BRIDGE-STEALTH-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 Cloudflare 차단 우회**: playwright-stealth 적용, headed+Xvfb 전환, --test-once 플래그, 직접 로그인 session.json 저장, 통합 테스트 PASS (13523자+메시지전송) |
 | **CUR-V41-GENSPARK-BRIDGE-V1-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 V1 구축**: BRIDGE-DESIGN-V1.md, genspark_bridge.py(260줄), genspark-bridge.service 등록(start 미실행), 통합 테스트 PASS(MCP 경유), Cloudflare headless 차단 발견 |

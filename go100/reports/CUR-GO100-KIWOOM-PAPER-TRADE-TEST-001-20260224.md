@@ -265,7 +265,7 @@ LINE 3: WHERE broker = 'KIWOOM' OR broker ILIKE '%kiwoom%' ORDER BY ...
 22:            from backend.app.core.kiwoom_key_manager import get_kiwoom_key_manager
 26:            key_manager = get_kiwoom_key_manager()
 31:                    return KiwoomBrokerClient(
-38:            return KiwoomBrokerClient(app_key=app_key, secret_key=secret_key, is_production=is_production)
+38:            return KiwoomBrokerClient(app_key=[APP_KEY], secret_key=[SECRET_KEY], is_production=is_production)
 --- 3-4. 키움 관련 라우터 ---
 backend/app/routers/monitoring_router.py
 --- 3-5. GO100 paper_trading 서비스 ---
@@ -392,7 +392,7 @@ drwxr-xr-x  2 root      root       4096 Feb 24 07:04 __pycache__
 347:                app_key = os.getenv("KIWOOM_APP_KEY", "")
 348:                secret_key = os.getenv("KIWOOM_SECRET_KEY", "")
 349:                is_prod = os.getenv("KIWOOM_IS_PRODUCTION", "false").lower() == "true"
-350:                broker = BrokerFactory.create("KIWOOM", app_key=app_key, secret_key=secret_key, is_production=is_prod)
+350:                broker = BrokerFactory.create("KIWOOM", app_key=[APP_KEY], secret_key=[SECRET_KEY], is_production=is_prod)
 359:                    r = await broker.buy(req)
 361:                    r = await broker.sell(req)
 373:                        notify_trade_executed(user_id or 0, stock_code, order_type, quantity, price or 0, broker_type)

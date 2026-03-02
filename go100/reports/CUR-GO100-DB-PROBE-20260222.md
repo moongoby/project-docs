@@ -21,8 +21,8 @@ DB_PORT=5432
 DB_NAME=kisautotrade
 DB_USER=kis_admin
 DB_PASSWORD=[DB-PASSWORD]
-DATABASE_URL=postgresql+asyncpg://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade
-DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade
+DATABASE_URL=[DB_CONNECTION_STRING]
+DATABASE_URL_SYNC=[DB_CONNECTION_STRING]
 ```
 
 ### (b) 실제 DB 목록 (`sudo -u postgres psql -c "\l"`)
@@ -60,7 +60,7 @@ DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:[DB-PASSWORD]@localhost:5432/k
 | DB명 | kisautotrade |
 | 사용자 | kis_admin (애플리케이션) / postgres (관리) |
 | 접속 방법 | `sudo -u postgres psql -d kisautotrade` 또는 `PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade` |
-| .env DATABASE_URL | postgresql+asyncpg://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade |
+| .env DATABASE_URL | [DB_CONNECTION_STRING] |
 
 ---
 
