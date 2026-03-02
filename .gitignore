@@ -2,6 +2,7 @@
 *.bak.*
 .env
 .env.*
+.genspark/
 *.key
 *.pem
 *.pyc
