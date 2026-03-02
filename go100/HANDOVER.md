@@ -1,4 +1,4 @@
-# GO100 인수인계서 v10.7 — 단일 파일 통합 (V10 기반)
+# GO100 인수인계서 v10.9 — 단일 파일 통합 (V10 기반)
 > 작성: 2026-02-28 | 최종 업데이트: 2026-03-02 | 대상: 다음 세션 AI  
 > 이전 문서: HANDOVER-20260228-V10.md (본 파일로 통합)
 
@@ -108,6 +108,8 @@
 | CUR-GO100-P6-EXTRA-VERIFY-001 | — | 03-02 | PASS | ✓ | 200 | Agent Chat E2E 4단계 검증 PASS: screen_stocks new_high_52w, execute_buy/sell, 리스크 pre-trade, Agent Loop 5라운드. risk_engine async_generator 버그 수정 포함 |
 | CUR-GO100-P7-1-FULL-QA-001 | — | 03-02 | PASS(조건부) | ✓ | 200 | 전체 QA 종합 판정 95/100: 서비스 정상, DB 70테이블, Agent도구 52개, 크론 31라인, Kill Switch E2E, KIS Mock주문 전 항목 PASS |
 | CUR-GO100-P4-AI-ENHANCE-DESIGN-001 | — | 03-02 | PASS | ✓ | 200 | Phase 4 AI 모델 고도화 설계안 완료: As-Is 기준선(AUC 0.5406, MFE_3D R²=0.0784), To-Be 4개 축(교차피처, 멀티타겟, Regime 분리, Threshold), 구현 12일, 리스크 분석, 모의투자 연동 설계 포함. CEO 승인 대기 |
+| CUR-GO100-P4A-FEATURE-ENG-001 | — | 03-02 | PASS | ✓ | 200 | V3 교차피처 3개(BB_WIDTH_x_RSI, SEC_LEAD_x_RVOL, DUAL_x_Q2) + 신규피처 4개(NEW_HIGH_52W_WITH_VOL-T001, FORCE_ACC_5D, MKT_SEASON_MONTH, D_D1_D2_ENTRY) 구현. feature_store V3_FEATURE_COLS 30개. 회귀테스트 PASS |
+| CUR-GO100-PAPER-TRADING-PREP-001 | — | 03-02 | PASS(조건부) | ✓ | 200 | 30일 모의투자 사전 설정 확인: 세션 2개 ACTIVE(03-03~03-29), 크론 정상, 서비스 running. Telegram 토큰 미설정(CEO 조치 필요) |
 
 ### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
@@ -323,3 +325,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.6 | 03-02 | P6-EXTRA-VERIFY PASS + P7-1 QA PASS(95/100): risk_engine async_generator 버그 수정, E2E 검증 완료, Agent도구 52개 확인, Phase 6 게이트 완전 통과, 진행률 90% |
 | v10.7 | 03-02 | Phase 4 AI 모델 고도화 설계안 완료(CUR-GO100-P4-AI-ENHANCE-DESIGN-001): 4개 축 설계(교차피처/멀티타겟/Regime분리/Threshold최적화), 구현 12일 계획, CEO 승인 대기 |
 | v10.8 | 03-02 | CEO P0 수급 데이터 전수 조사 완료(CUR-GO100-SUPPLY-DEMAND-AUDIT-001): 10개 테이블, 275K 투자자수급, 이슈 2건(orderbook_daily_stats 0건, 02-28 갭), CTE L3.3 반영 정상 확인 |
+| v10.9 | 03-02 | P4-A 피처 엔지니어링 완료(CUR-GO100-P4A-FEATURE-ENG-001): V3 교차피처 3개+신규피처 4개=7개 추가, feature_store 23→30개, 회귀 PASS. 30일 모의투자 사전 설정 확인(CUR-GO100-PAPER-TRADING-PREP-001): 세션 2개 ACTIVE, Telegram토큰 미설정-CEO조치필요 |
