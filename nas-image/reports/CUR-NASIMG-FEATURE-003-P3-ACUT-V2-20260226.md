@@ -1,267 +1,116 @@
-# 프리셋 시스템 종합 진단 보고서
+# CUR-NASIMG-FEATURE-003-P3-ACUT-V2-20260226
 
-**작성일시:** 2026-02-24 (월)
-**작성자:** Claude Code
-**목적:** 프리셋 등록 및 썸네일 표시 시스템 전체 진단
-
----
-
-## 📋 요약
-
-프리셋 썸네일 시스템의 모든 레이어(DB, 파일시스템, API, 프론트엔드)를 진단한 결과, **전체 시스템이 정상 작동 중**임을 확인했습니다.
+**제목:** P3 A컷 프롬프트 개선 (감성컷·상업적 매력도) + A컷_v2 배치  
+**작성일시:** 2026-02-26 (목) 22:30 KST  
+**작업 유형:** FEATURE (P3 A컷 v2)  
+**목적:** 감성컷·상업적 매력도 반영 프롬프트 적용, 2차 선별 결과는 "A컷_v2" 폴더에 저장(기존 A컷 유지), 시크블랙 14코디 + 리엘라 17코디 전체 배치 실행
 
 ---
 
-## 🔍 진단 과정
+## 1. 프롬프트 개선 (Before / After)
 
-### 1. 스크립트 수정
-- **문제:** NAS SSH 환경에서 `docker` 명령어 PATH 미설정
-- **해결:** `scripts/nas_preset_debug_report.sh`에 `export PATH=/usr/local/bin:$PATH` 추가
-- **파일:** [nas_preset_debug_report.sh](../../scripts/nas_preset_debug_report.sh)
+### 1.1 ACUT_BATCH_PROMPT (1라운드)
 
-### 2. 진단 스크립트 실행
-```bash
-ssh -p 2222 newtalk@192.168.30.23 \
-  "cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh"
-```
+| 구분 | Before | After |
+|------|--------|--------|
+| 역할 | 패션 이커머스 전문 포토 디렉터 | **한국** 패션 이커머스 전문 포토 디렉터, **상품 상세페이지 등록용 A컷 선별** 명시 |
+| 핵심 원칙 | (없음) | **상업적 매력도·감성적 분위기 > 기술적 완성도** |
+| 1순위 | 초점/선명도 (흔들림·아웃포커스 제외) | **상업적 매력도** (상품 매력, 구매 욕구, 포즈가 상품 돋보이게) |
+| 2순위 | 모델 포즈/표정 | **감성/무드** (감성컷 적극 포함, 라이프스타일 연출, 사선/측면 시선 분위기 좋으면 A컷, 자연광 우대) |
+| 3순위 | 상품 노출도 | **포즈/앵글 다양성** (전신·상반신·클로즈업, 앞/옆/뒤, 걷기·앉기·소품 연출) |
+| 4순위 | 구도/조명 등 | **기술적 최소 기준만 B컷** (심한 흔들림, 눈 완전 감음, 심한 노출, 극심한 아웃포커스) |
+| 주의 | (없음) | **B컷이 아닌 경우** (약간 모션블러+감성, 사선 시선+분위기, 소품 연출, 뒷모습+상품 잘 보임 → A컷 가능) |
+| A컷 비율 | 20~30% | **25~30%** (감성컷 많으면 30%, 일반적이면 25%) |
 
----
+### 1.2 ACUT_FINAL_PROMPT (2라운드)
 
-## ✅ 진단 결과
-
-### STEP 1: Docker 로그
-- ✅ 에러 로그 없음
-- 프리셋 관련 오류 없음
-
-### STEP 2: API 등록 테스트
-- ⚠️ 테스트 이미지 없어서 스킵
-- 실제 등록은 프론트엔드에서 정상 작동 중
-
-### STEP 3: 데이터베이스 확인
-
-**tone_presets 테이블 현황:**
-
-| ID | Name | Brand | image_path | thumbnail_path | Created |
-|----|------|-------|-----------|---------------|---------|
-| 8 | 따뜻한 톤 | 라라랜드 | 42 bytes | 46 bytes | 2026-02-24 |
-| 7 | 밝고 자연스러운톤 | 뿜업 | 42 bytes | 46 bytes | 2026-02-24 |
-| 6 | 밝고 따뜻한 톤 | 세종 | 42 bytes | 46 bytes | 2026-02-24 |
-| 5 | 밝고 따뜻한 톤 | 모노스트릿 | 42 bytes | 46 bytes | 2026-02-24 |
-| 4 | 테스트 | - | 42 bytes | 46 bytes | 2026-02-24 |
-| 3 | 자연스러운 톤 | - | 0 bytes | 0 bytes | 2026-02-23 |
-| 2 | 밝고 차가운 톤 | - | 0 bytes | 0 bytes | 2026-02-23 |
-| 1 | 밝고 따뜻한 톤 | 모노스트릿 | 0 bytes | 0 bytes | 2026-02-23 |
-
-**최신 프리셋(ID=8) 경로:**
-```
-image_path: /data/processed/_preset_assets/8/image.jpg
-thumbnail_path: /data/processed/_preset_assets/8/thumbnail.jpg
-```
-
-✅ **결론:** DB에 경로가 정상 저장되어 있음
-
-### STEP 4: 파일 시스템 확인
-
-**호스트 경로:**
-```bash
-/volume1/★제품사진/_processed/_preset_assets/
-├── 4/
-│   ├── image.jpg
-│   └── thumbnail.jpg
-├── 5/
-│   ├── image.jpg
-│   └── thumbnail.jpg
-├── 6/
-│   ├── image.jpg
-│   └── thumbnail.jpg
-├── 7/
-│   ├── image.jpg
-│   └── thumbnail.jpg
-└── 8/
-    ├── image.jpg
-    └── thumbnail.jpg
-```
-
-**Docker 볼륨 마운트 (docker-compose.yml):**
-```yaml
-volumes:
-  - /volume1/★제품사진/_processed:/data/processed
-```
-
-✅ **결론:** 파일이 실제로 존재하며, 볼륨 마운트 설정도 올바름
-
-**routes.py 코드 확인:**
-```python
-def _preset_assets_dir() -> Path:
-    return Path(get_settings().processed_root) / "_preset_assets"
-
-# 파일 저장 로직
-assets_dir = _preset_assets_dir() / str(preset_id)
-image_path = assets_dir / "image.jpg"
-thumbnail_path = assets_dir / "thumbnail.jpg"
-```
-
-✅ **결론:** 코드 로직이 올바름
-
-### STEP 5: API 동작 테스트
-
-**프리셋 8번 썸네일 테스트:**
-```bash
-curl -s -w '\nHTTP_CODE: %{http_code}\n' \
-  http://localhost:8100/api/preset/8/thumbnail
-```
-```
-HTTP_CODE: 200
-CONTENT_TYPE: image/jpeg
-SIZE: 7145 bytes
-```
-
-**프리셋 8번 원본 이미지 테스트:**
-```bash
-curl -s -w '\nHTTP_CODE: %{http_code}\n' \
-  http://localhost:8100/api/preset/8/image
-```
-```
-HTTP_CODE: 200
-CONTENT_TYPE: image/jpeg
-SIZE: 394915 bytes
-```
-
-**초기 프리셋(1-3) 테스트:**
-```
-Preset 1: HTTP 404 (이미지 없음)
-Preset 2: HTTP 404 (이미지 없음)
-Preset 3: HTTP 404 (이미지 없음)
-```
-
-✅ **결론:** API가 정상 작동, 이미지 없는 경우 404 반환 (예상된 동작)
-
-### STEP 6: 프론트엔드 코드 확인
-
-**preset.js 썸네일 로직 (Line 24):**
-```javascript
-var thumbRaw = p.thumbnail_url || p.image_url || (id ? "/api/preset/" + id + "/image" : "");
-```
-
-**우선순위:**
-1. `thumbnail_url` (API 제공)
-2. `image_url` (fallback)
-3. `/api/preset/{id}/image` (최종 fallback)
-
-**에러 처리 (Line 32):**
-```javascript
-onerror="this.style.background='#eee';this.src='PLACEHOLDER_SVG'"
-```
-
-✅ **결론:** 프론트엔드 로직 완벽함
-
-**API 응답 확인 (/api/preset/list):**
-```json
-{
-  "id": 8,
-  "name": "따뜻한 톤",
-  "thumbnail_url": "/api/preset/8/thumbnail",
-  "image_url": "/api/preset/8/image"
-}
-```
-
-✅ **결론:** API가 thumbnail_url을 정상 제공
+| 구분 | Before | After |
+|------|--------|--------|
+| 기준 | 포즈 다양성, 전신/상반신/클로즈업, 앵글 균형 | **상업적 매력도 최우선** + **감성/무드 컷 최소 30%** + 포즈 다양성 + 전신/상반신/클로즈업 + 앵글 균형 + **라이프스타일 연출 컷 포함** |
+| 응답 형식 | JSON 객체 | JSON 코드블록 명시 |
 
 ---
 
-## 📊 시스템 아키텍처 검증
+## 2. output_suffix 파라미터
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                         브라우저                              │
-│  preset.js → fetch("/api/preset/list")                      │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    FastAPI (routes.py)                       │
-│  /api/preset/list → thumbnail_url 포함 JSON 반환            │
-│  /api/preset/{id}/thumbnail → FileResponse                  │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      DB (jobs.db)                            │
-│  tone_presets.image_path, thumbnail_path                    │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  Docker 컨테이너                             │
-│  /data/processed/_preset_assets/{id}/                       │
-└────────────────────────┬────────────────────────────────────┘
-                         │ (볼륨 마운트)
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  NAS 호스트                                  │
-│  /volume1/★제품사진/_processed/_preset_assets/{id}/         │
-│    ├── image.jpg                                            │
-│    └── thumbnail.jpg                                        │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**전체 흐름 검증 완료:** 모든 레이어가 정상 작동
+- **목적:** 기존 A컷(v1) 폴더 유지, 2차 선별 결과만 별도 폴더에 저장.
+- **구현:**
+  - `select_acuts(..., output_suffix: str = "A컷")` 추가.
+  - 출력 폴더: `os.path.join(cody_folder, output_suffix)` → 기본 `A컷`, v2는 `A컷_v2`.
+- **API:** `POST /api/acut/select` Body에 `"output_suffix": "A컷_v2"` 추가 가능.
 
 ---
 
-## 🔧 발견된 부가 이슈
+## 3. 배치 실행 스크립트
 
-### 1. Docker 권한 문제
-- **현상:** newtalk 사용자가 docker 명령어 실행 시 권한 에러
-- **원인:** docker 그룹 미소속
-- **영향:** 디버그 스크립트의 `docker exec` 명령 실패
-- **해결방안 (선택):**
-  ```bash
-  sudo usermod -aG docker newtalk
-  # 재로그인 필요
-  ```
-- **우선순위:** 낮음 (운영에 영향 없음)
-
-### 2. SSH 보안 경고
-```
-WARNING: connection is not using a post-quantum key exchange algorithm.
-```
-- **원인:** SSH 서버가 양자내성 암호화 미지원
-- **영향:** 없음 (정보성 경고)
-- **해결방안:** OpenSSH 업그레이드 (선택)
-- **우선순위:** 낮음
+- **파일:** `scripts/run_p3_all_codys.sh`
+- **대상:**
+  - 시크블랙 0220지윤: 14코디 (`P3_BASE1` 또는 `/data/photos/●모델컷_시크블랙/★26년도 모델컷 원본/2026.2월/0220지윤`)
+  - 리엘라 0213 백소예: 17코디 + 기타 (`P3_BASE2` 또는 `/data/photos/●모델컷_리엘라/2026년도/2월/0213 백소예`)
+- **동작:** 코디별로 `output_suffix=A컷_v2`, `target_count=35`로 API 호출, 코디 간 5초 sleep, `@eaDir` 제외.
+- **로그:** `p3_batch_log.txt` (경로: `P3_BATCH_LOG` 또는 `/volume1/뉴톡/newtalk-image-auto/p3_batch_log.txt`)
 
 ---
 
-## 🎯 최종 결론
+## 4. 전체 코디 배치 실행 결과 (실행 후 기입)
 
-### ✅ 시스템 정상 작동 확인
+배치 완료 후 아래 표를 채우세요.
 
-1. **DB 레이어:** 프리셋 8개 정상 저장, 경로 정보 완전
-2. **파일 레이어:** 호스트에 실제 파일 존재
-3. **Docker 레이어:** 볼륨 마운트 정상
-4. **API 레이어:** 이미지/썸네일 HTTP 200 정상 응답
-5. **프론트엔드 레이어:** thumbnail_url 사용, fallback 완벽
+### 4.1 시크블랙 0220지윤 (14코디)
 
-### 📌 권장사항
+| 코디명 | 원본 장수 | 선별 장수 | 비고 |
+|--------|-----------|-----------|------|
+| (실행 후 로그에서 복사) | | | |
 
-**현재 상태:**
-- 프리셋 시스템 완전 정상 작동
-- 추가 수정 불필요
+### 4.2 리엘라 0213 백소예 (17코디 + 기타)
 
-**향후 개선 (선택):**
-- [ ] newtalk 사용자 docker 그룹 추가 (디버깅 편의성)
-- [ ] SSH 키 인증 설정 (비밀번호 입력 제거)
+| 코디명 | 원본 장수 | 선별 장수 | 비고 |
+|--------|-----------|-----------|------|
+| (실행 후 로그에서 복사) | | | |
 
----
+### 4.3 0장 코디 skip
 
-## 📎 참고 자료
-
-- **진단 스크립트:** [scripts/nas_preset_debug_report.sh](../../scripts/nas_preset_debug_report.sh)
-- **Docker 설정:** [docker-compose.yml](../../docker-compose.yml)
-- **API 라우트:** [app/api/routes.py](../../app/api/routes.py)
-- **프론트엔드:** [app/static/js/preset.js](../../app/static/js/preset.js)
+- 1번, 3번, 17번(리엘라) 등 0장 코디는 error 반환 후 다음 코디로 진행.
 
 ---
 
-**보고서 끝**
+## 5. 1번 코디 v1 vs v2 비교 (실행 후 기입)
+
+| 항목 | v1 (A컷) | v2 (A컷_v2) |
+|------|----------|-------------|
+| 선별 장수 | (기입) | (기입) |
+| 감성컷 비율/특징 | (기입) | (기입) |
+
+---
+
+## 6. Gemini API 호출 수·총 소요 시간 (실행 후 기입)
+
+| 항목 | 값 |
+|------|-----|
+| 코디당 1라운드 호출 수 | (예: 원본 154장 ÷ 10 = 16회) |
+| 코디당 2라운드 호출 수 | 0 또는 1회 |
+| 전체 코디 수 | 14 + 17+ = 31+ |
+| 총 API 호출 수 | (실행 후 집계) |
+| 총 소요 시간 | (초 단위) |
+
+---
+
+## 7. 완료 조건 체크
+
+- [x] ACUT_BATCH_PROMPT / ACUT_FINAL_PROMPT 개선 반영 (감성컷, 상업적 매력도)
+- [x] output_suffix 파라미터 동작 (A컷_v2 폴더 생성)
+- [x] 기존 A컷 폴더 유지 (삭제 안 함)
+- [ ] 시크블랙 14코디 + 리엘라 17코디 전체 A컷_v2 생성 (배치 실행 후 확인)
+- [ ] 0장 코디 skip 처리 확인
+- [ ] p3_batch_log.txt에 전체 결과 기록 확인
+- [x] pytest 8건 통과 (test_select_acuts_custom_suffix 포함)
+- [ ] 보고서 커밋 + project-docs 동기화 푸시
+
+---
+
+## 8. 참고
+
+- **원본 파일:** 수정/삭제/이동 금지, 복사만 수행.
+- **Rate limit:** 배치 간 1초, 코디 간 5초.
+- **Public 보고서:** project-docs 저장소 `nas-image/reports/CUR-NASIMG-FEATURE-003-P3-ACUT-V2-20260226.md` 에 동기화.
+- **커밋 메시지:** `feat: P3 프롬프트 개선 (감성컷+상업적매력도) + 배치 실행 스크립트 + output_suffix 20260226`
