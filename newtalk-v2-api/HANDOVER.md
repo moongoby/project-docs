@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.1.0
-**최종수정**: 2026-03-02 KST (CODE-FIX-001 완료, V1-FIX-001 진행중)
+**버전**: 4.2.0
+**최종수정**: 2026-03-02 KST (ROUTE-MERGE-001 완료, V1-FIX-001 CEO 승인 대기)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -141,6 +141,7 @@ outsource@newtalk.kr (외주)
 | DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환, .cursorrules 인계서 규칙 추가 |
 | CODE-REVIEW-001 | 2026-02-28 | — | 946c57e | R1~R4 코드 검수 보고서 push |
 | CODE-FIX-001 | 2026-03-02 | — | e594850 | BUG-001·002·003 수정 + TS 에러 0건 달성 (frontend 빌드 정상) |
+| ROUTE-MERGE-001 | 2026-03-02 | v4.2.0 | be758c6 | 라우트 통합 Phase1+2 — Cafe24 7EP + R4 33EP 병합, 마이그레이션 9개, 107라우트·75테이블 |
 
 ---
 
@@ -169,6 +170,7 @@ outsource@newtalk.kr (외주)
 | V1 products 컬럼명 차이 | R1 | be662c7에서 해결 |
 | R1 브랜치 develop 미병합 | R2 이전 | 정리 필요 |
 | Docker mount path 확인 필요 | — | src/ vs 루트 |
+| 이중 라우트 파일 (routes/api.php vs src/routes/api.php) | ROUTE-MERGE-001에서 해결 (src/routes/api.php 일원화, routes/api.php.legacy 보존) | API 라우트 66→107개 |
 | Cursor git push 누락 패턴 반복 | R4 | .cursorrules 자동 push 규칙 추가 필요 |
 | DO Spaces URL이 V1에 하드코딩 | V1-FIX-001 | 소스+DB 치환 필요 (CEO 승인 완료) |
 
@@ -177,11 +179,11 @@ outsource@newtalk.kr (외주)
 ## 6. 웹 Claude 인수인계 사항
 
 ### 최신 상태 (2026-03-02)
+- ROUTE-MERGE-001 완료: 라우트 통합 Phase1+2 — API 라우트 66→107개, DB 테이블 66→75개 (be758c6, 2026-03-02)
 - CODE-FIX-001 완료: BUG-001·002·003 수정, TS 에러 0건, frontend 재빌드 완료 (e594850, 2026-03-02)
 - CODE-REVIEW-001 완료: R1~R4 코드 검수 보고서 push (946c57e, 2026-02-28)
 - DOCS-FIX-009 완료: R4 최종 문서 정합성 push 완료 (770ae91, 2026-02-27)
-- DOCS-SETUP-001 완료: CEO-DIRECTIVES.md v1.0, HANDOVER.md v4.0.0 (8섹션 표준)
-- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2(DB 조사·치환) 미실행
+- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2~4 CEO 승인 대기
 
 ### 웹 Claude가 해야 할 일
 1. V1-FIX-001 Phase 2 실행 승인 → DB 조사 결과 검증 → Phase 3(UPDATE) 진행 판단
@@ -244,3 +246,4 @@ outsource@newtalk.kr (외주)
 | 3.0.1 | 2026-02-27 | DOCS-FIX-009: R4-FRONT-004·005·007 완료 반영, R4 라운드 종결 |
 | 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
 | 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
+| 4.2.0 | 2026-03-02 | ROUTE-MERGE-001 완료 반영, 107라우트·75테이블, git 브랜치 main 확인 |

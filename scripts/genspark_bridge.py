@@ -1,6 +1,6 @@
 """
 Genspark Bridge V1 — KIS-V41 대화창 자동 폴링 및 지시 실행 데몬
-- 60초 간격 폴링, >>>DIRECTIVE_START~END 블록 감지 시 실행
+- 60초 간격 폴링, [DIRECTIVE_START]~[DIRECTIVE_END] 또는 >>>DIRECTIVE_START~>>>DIRECTIVE_END 블록 감지 시 실행
 - /tmp/genspark_bridge.lock PID lockfile로 중복 실행 방지
 - /root/.genspark/logs/bridge.log 일자별 로테이션 로깅
 - playwright-stealth 적용으로 Cloudflare 봇 차단 우회
@@ -29,6 +29,9 @@ BASE_DIR = Path("/root/.genspark")
 LOG_DIR = BASE_DIR / "logs"
 SESSION_PATH = BASE_DIR / "session.json"
 LOCK_FILE = Path("/tmp/genspark_bridge.lock")
+PENDING_DIR = BASE_DIR / "pending"
+RUNNING_DIR = BASE_DIR / "running"
+DONE_DIR = BASE_DIR / "done"
 
 GITHUB_REPO = "moongoby/project-docs"
 KST = zoneinfo.ZoneInfo("Asia/Seoul")
@@ -113,6 +116,9 @@ CEO_CHAT_URL = "https://www.genspark.ai/agents?id=6d5b75b6-452d-452b-beef-eab368
 # 로거 설정
 # -------------------------------------------------------------------
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+PENDING_DIR.mkdir(parents=True, exist_ok=True)
+RUNNING_DIR.mkdir(parents=True, exist_ok=True)
+DONE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _kst_time(*args):
@@ -179,19 +185,51 @@ def is_whitelisted(directive_text: str, project: str = "KIS") -> bool:
 # 지시 블록 파싱
 # -------------------------------------------------------------------
 def parse_directive(text: str) -> str | None:
-    """>>>DIRECTIVE_START ~ >>>DIRECTIVE_END 블록 추출 (최소 20자 + 줄바꿈 필수 시만 유효)"""
-    pattern = r">>>DIRECTIVE_START(.*?)>>>DIRECTIVE_END"
-    # 가장 마지막 블록을 우선 처리 (최신 지시)
-    matches = re.findall(pattern, text, re.DOTALL)
+    """Directive 블록 추출 — 두 가지 구분자 형식 지원 (최소 20자 + 줄바꿈 필수 시만 유효)
+
+    지원 형식:
+      [DIRECTIVE_START] ... [DIRECTIVE_END]   ← 신규 기본 형식
+      >>>DIRECTIVE_START ... >>>DIRECTIVE_END ← 구형 호환 형식
+    가장 마지막 블록을 우선 처리 (최신 지시).
+    """
+    # 신규 [] 형식 우선 검색 후, 없으면 구형 >>> 형식 검색
+    bracket_pattern = r"\[DIRECTIVE_START\](.*?)\[DIRECTIVE_END\]"
+    arrow_pattern = r">>>DIRECTIVE_START(.*?)>>>DIRECTIVE_END"
+
+    matches = re.findall(bracket_pattern, text, re.DOTALL)
+    if not matches:
+        matches = re.findall(arrow_pattern, text, re.DOTALL)
     if not matches:
         return None
+
     content = matches[-1].strip()
     # 너무 짧거나 단순 구분자("/", 공백)는 false positive로 필터링
     # 줄바꿈(\n) 없는 한 줄 텍스트는 시스템 프롬프트 예시 텍스트로 간주 → 무시
-    # (시스템 프롬프트: "지시 응답은 >>>DIRECTIVE_START / >>>DIRECTIVE_END 블록으로 감싼다")
     if len(content) < 20 or "\n" not in content:
         return None
     return content
+
+
+# -------------------------------------------------------------------
+# Directive 영속화 (pending 폴더 저장)
+# -------------------------------------------------------------------
+def _save_directive_to_pending(project_tag: str, directive: str) -> Path | None:
+    """감지된 Directive를 pending 폴더에 마크다운으로 저장 후 경로 반환"""
+    try:
+        PENDING_DIR.mkdir(parents=True, exist_ok=True)
+        now_kst = datetime.datetime.now(KST)
+        ts = now_kst.strftime("%Y%m%d_%H%M%S")
+        fname = PENDING_DIR / f"{project_tag}_{ts}.md"
+        content = (
+            f"# Directive [{project_tag}] {now_kst.strftime('%Y-%m-%d %H:%M KST')}\n\n"
+            f"```\n{directive}\n```\n"
+        )
+        fname.write_text(content, encoding="utf-8")
+        logger.info("[%s] Directive → pending 저장: %s", project_tag, fname.name)
+        return fname
+    except Exception as e:
+        logger.warning("[%s] pending 저장 실패: %s", project_tag, e)
+        return None
 
 
 # -------------------------------------------------------------------
@@ -478,6 +516,9 @@ async def polling_loop(test_once: bool = False, project_filter: str | None = Non
                     last_directive_time[proj_key] = datetime.datetime.now(KST)  # 지시 처리 → 타이머 리셋
                     last_idle_msg_time[proj_key] = None  # 대기 메시지 타이머 리셋
                     logger.info("[%s] 지시 감지:\n%s", proj_key, directive[:300])
+
+                    # Directive를 pending 폴더에 저장 (처리 전 스냅샷)
+                    _save_directive_to_pending(tag, directive)
 
                     # 화이트리스트 판별
                     if not is_whitelisted(directive, project=proj_key):
