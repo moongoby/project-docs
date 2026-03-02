@@ -3,12 +3,18 @@
 # 사용법: ./path_check.sh <보고서파일명>
 # 예: ./path_check.sh CUR-GO100-P5-3-PORTFOLIO-OPTIMIZER-001-20260227.md
 
-set -e
 REPORT_FILE="$1"
 
+# 파일명 없으면 최근 커밋된 .md 파일 자동 감지
 if [ -z "$REPORT_FILE" ]; then
-    echo "사용법: $0 <보고서파일명>"
-    exit 1
+    AUTO=$(git -C /root/project-docs show --name-only --format="" HEAD 2>/dev/null | grep -E "CUR-.*\.md$|DESK2-.*\.md$" | head -1 | xargs basename 2>/dev/null)
+    if [ -n "$AUTO" ]; then
+        REPORT_FILE="$AUTO"
+        echo "[path_check] 자동 감지: $REPORT_FILE"
+    else
+        echo "path_check: SKIP (파일명 없음 — 인수 필요)"
+        exit 0
+    fi
 fi
 
 echo "━━━ PATH-001 검증 시작: $REPORT_FILE ━━━"

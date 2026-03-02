@@ -322,3 +322,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.5 | 03-02 | genspark_bridge.py 3종 버그 수정, 백억이 총괄매니저 세션 시작 보고 완료 |
 | v10.6 | 03-02 | P6-EXTRA-VERIFY PASS + P7-1 QA PASS(95/100): risk_engine async_generator 버그 수정, E2E 검증 완료, Agent도구 52개 확인, Phase 6 게이트 완전 통과, 진행률 90% |
 | v10.7 | 03-02 | Phase 4 AI 모델 고도화 설계안 완료(CUR-GO100-P4-AI-ENHANCE-DESIGN-001): 4개 축 설계(교차피처/멀티타겟/Regime분리/Threshold최적화), 구현 12일 계획, CEO 승인 대기 |
+| v10.8 | 03-02 | CEO P0 수급 데이터 전수 조사 완료(CUR-GO100-SUPPLY-DEMAND-AUDIT-001): 10개 테이블, 275K 투자자수급, 이슈 2건(orderbook_daily_stats 0건, 02-28 갭), CTE L3.3 반영 정상 확인 |
