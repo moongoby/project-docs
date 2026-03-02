@@ -116,10 +116,63 @@ Cursor 에이전트는 **각 프로젝트 매니저 대화창**에만 보고하�
 
 ---
 
+## 9. Directive 자동화 체계
+
+### 9-1. 전체 흐름
+
+```
+CEO + 매니저 Claude 전략 논의
+  → 매니저가 Directive 작성 (>>>DIRECTIVE_START ~ >>>DIRECTIVE_END)
+  → CEO "승인"
+  → bridge.py 60초 내 감지
+  → /root/.genspark/directives/pending/{PROJECT}_{YYYYMMDD}_{HHMMSS}.md 자동 저장
+  → 텔레그램: "[PROJECT] 새 Directive 감지 — {Task ID} (pending 저장 완료)"
+
+CEO가 Cursor/Claude Code에서 실행:
+  → bash /root/.genspark/run_pending.sh {PROJECT}
+  → 파일이 running/으로 이동 + 내용 출력
+
+작업 완료 후 Cursor가 done 파일 생성:
+  → python3 /root/.genspark/write_done.py --project KIS --task-id ... --commit ... --summary "..."
+  → /root/.genspark/directives/done/{PROJECT}_{YYYYMMDD}_{HHMMSS}_KST.md 생성
+
+bridge.py 10초 내 done 파일 감지:
+  → 해당 프로젝트 매니저 대화창에 결과 전송
+  → CEO 통합지휘소에 요약 전송
+  → 텔레그램: "[PROJECT] 작업 완료 — {Task ID}"
+  → archived/{YYYYMM}/로 이동
+```
+
+### 9-2. 폴더 구조
+```
+/root/.genspark/directives/
+├── pending/    bridge.py가 Directive 감지 즉시 저장
+├── running/    run_pending.sh 실행 시 이동 (Cursor 실행 중)
+├── done/       Cursor 작업 완료 후 write_done.py로 생성
+└── archived/   bridge.py 처리 완료 후 YYYYMM/ 서브폴더로 이동
+```
+
+### 9-3. 스크립트 명령어
+| 명령 | 설명 |
+|------|------|
+| `bash /root/.genspark/run_pending.sh` | 전체 pending 목록 확인 |
+| `bash /root/.genspark/run_pending.sh KIS` | KIS pending → running 이동 + 내용 출력 |
+| `python3 /root/.genspark/write_done.py --project KIS --task-id {ID} --commit {SHA} --summary "{요약}"` | 완료 파일 생성 |
+
+### 9-4. 타임스탬프 규칙
+- **모든 타임스탬프는 KST (Asia/Seoul, UTC+9)**
+- 파일명: `{PROJECT}_{YYYYMMDD}_{HHMMSS}.md` — KST 기준
+- 프런트매터: `completed_at: YYYY-MM-DD HH:MM:SS KST`
+- 로그: `2026-03-02 19:47:53,240 KST [INFO] ...`
+- UTC 사용 절대 금지
+
+---
+
 ## 8. 변경 이력
 
 | 날짜 | 버전 | 변경 내용 |
 |------|------|----------|
+| 2026-03-02 | v1.1 | 섹션 9 추가 — Directive 자동화 체계, run_pending.sh, write_done.py |
 | 2026-03-02 | v1.0 | 최초 생성 — 6개 프로젝트 매니저 대화창 URL 반영 (KIS, GO100, AADS, SF, NAS, NTV2) |
 
 ---
