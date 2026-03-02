@@ -1,4 +1,4 @@
-# GO100 인수인계서 v10.5 — 단일 파일 통합 (V10 기반)
+# GO100 인수인계서 v10.6 — 단일 파일 통합 (V10 기반)
 > 작성: 2026-02-28 | 최종 업데이트: 2026-03-02 | 대상: 다음 세션 AI  
 > 이전 문서: HANDOVER-20260228-V10.md (본 파일로 통합)
 
@@ -54,7 +54,7 @@
 
 ## 2. 현재 상태 (2026-03-01 기준)
 
-### 진행률: **88%** (천재 100% 기준, Batch 7 85% → Phase 4 AI 인프라 구축 반영)
+### 진행률: **90%** (P6 게이트 완전 통과 + P7-1 QA PASS 반영)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -105,17 +105,19 @@
 | P7-1 QA | 7 | — | 보류 | — | — | 보고서 미제출 |
 | CUR-SHARED-DB-SCHEMA-CATALOG-001 | — | 03-02 | PASS | ✓ | 200 | DB 스키마 카탈로그 GO100+V4.1 통합: 246테이블+8뷰=254 전수 스키마, go100_* 65테이블 포함, 자동최신화 cron(매일06:00), 참조: shared/DB-SCHEMA-CATALOG.md |
 | CUR-GO100-BRIDGE-BUG-FIX-001 | — | 03-02 | PASS | ✓ | 200 | genspark_bridge.py 3종 버그 수정: parse_directive 줄바꿈 필터(false positive 차단), CEO 승인 대기 30분 쿨다운(루프 방지), pressSequentially 입력방식 교체(React 호환) |
+| CUR-GO100-P6-EXTRA-VERIFY-001 | — | 03-02 | PASS | ✓ | 200 | Agent Chat E2E 4단계 검증 PASS: screen_stocks new_high_52w, execute_buy/sell, 리스크 pre-trade, Agent Loop 5라운드. risk_engine async_generator 버그 수정 포함 |
+| CUR-GO100-P7-1-FULL-QA-001 | — | 03-02 | PASS(조건부) | ✓ | 200 | 전체 QA 종합 판정 95/100: 서비스 정상, DB 70테이블, Agent도구 52개, 크론 31라인, Kill Switch E2E, KIS Mock주문 전 항목 PASS |
 
-### Phase 6 게이트 검증 결과 (2026-02-28 확인)
+### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
 | 항목 | 판정 | 비고 |
 |------|------|------|
-| P6-1 리스크엔진 | **PASS** | go100_risk_rules 테이블 존재. go100_risk_events 테이블 존재. 킬스위치 테스트 스크립트 존재(scripts/go100/test_risk_engine_p6_1.py). 규칙 행 0건 시 setup_default_rules 실행으로 보강 가능. |
-| P6-2 KIS 게이트웨이 | **PASS** | go100_live_orders 테이블 존재, 테스트 주문 기록 4건 확인. execute_buy/execute_sell/get_account_balance Agent 도구 연동. |
-| P6-EXTRA-VERIFY | **보류** | 보고서 CUR-GO100-P6-EXTRA-VERIFY-20260227.md 미제공 — 해당 보고서 push 후 판정. |
-| P7-1 QA | **보류** | 보고서 CUR-GO100-P7-1-FULL-QA-20260227.md 미제공 — 해당 보고서 push 후 판정. |
+| P6-1 리스크엔진 | **PASS** | go100_risk_rules 3건. risk_engine async_generator 버그 수정 완료. 9단계 테스트 PASS |
+| P6-2 KIS 게이트웨이 | **PASS** | go100_live_orders 10건. Mock 주문 BUY/SELL/REJECTED 전 항목 PASS |
+| P6-EXTRA-VERIFY | **PASS** | CUR-GO100-P6-EXTRA-VERIFY-001-20260302.md push 완료. E2E 4단계 전 항목 통과 |
+| P7-1 QA | **PASS(조건부)** | CUR-GO100-P7-1-FULL-QA-001-20260302.md push 완료. 95/100. 30일 모의투자 1사이클 미완료(장 대기) |
 
-### Agent 도구: **50개** (43+)
+### Agent 도구: **52개** (50+2 신규: get_position_sizing, set_position_sizing)
 
 전체 목록:
 - **시장·종목:** get_market_overview, get_market_regime, get_global_market, get_stock_price, get_stock_fundamentals, get_investor_flow, get_stock_ohlcv, get_sector_performance, get_sector_correlation, get_top_stocks
@@ -160,11 +162,14 @@
 | 3 | ohlcv_daily 크론 로그 경로 | LOW | **해결** — /var/log/go100/ohlcv_daily.log 통일 (P1-3) |
 | 4 | go100_fundamentals DART API 키 | LOW | **해결** — DART 발급·.env 설정 |
 | 5 | 모닝 브리핑 Telegram | LOW | **해결** — 토큰·채팅 ID 설정, 실발송 검증 후 운영 투입 |
-| 6 | P6-1 킬스위치 연동 시 asyncpg `:details::jsonb` 바인딩 오류 | MED | risk_engine 수정 후 재검증 권장 (P6-2 보고서) |
+| 6 | P6-1 킬스위치 연동 async_generator 오류 | MED | **해결** — risk_engine.py RULE_SECTOR sum/await 버그 수정 완료 (CUR-GO100-P6-EXTRA-VERIFY-001) |
 
 ---
 
 ## 3. 다음 작업
+
+- **[완료] P6-EXTRA-VERIFY**: PASS — 보고서 push 완료 (2026-03-02)
+- **[완료] P7-1 QA**: PASS(조건부) — 보고서 push 완료 (2026-03-02)
 
 - **Phase 4 AI 모델 고도화 (P2)**
   - 멀티타겟: LABEL_MFE_3D 추가 타겟 실험
@@ -206,9 +211,10 @@
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
-| P6-EXTRA-VERIFY | 보고서 push | 즉시 |
-| P7-1 전체 QA | 보고서 push | 즉시 |
-| 30일 모의투자 1사이클 | 장 개장 (월요일) | 다음 |
+| ~~P6-EXTRA-VERIFY~~ | ~~보고서 push~~ | **완료 (2026-03-02)** |
+| ~~P7-1 전체 QA~~ | ~~보고서 push~~ | **완료 (2026-03-02)** |
+| 30일 모의투자 1사이클 | 장 개장 (화요일) | 다음 |
+| Phase 4 AI 고도화 설계안 | 설계만 먼저 보고 | 다음 |
 | 소액 실매매 3일 | 모의투자 완주 + CEO 승인 | 그다음 |
 | SaaS 준비 | 실매매 검증 | 후순위 |
 
@@ -313,3 +319,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.4 | 03-02 | [SHARED] DB 스키마 카탈로그 통합(246테이블+8뷰=254, go100_* 65개 포함), 자동최신화 cron |
 | v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |
 | v10.5 | 03-02 | genspark_bridge.py 3종 버그 수정, 백억이 총괄매니저 세션 시작 보고 완료 |
+| v10.6 | 03-02 | P6-EXTRA-VERIFY PASS + P7-1 QA PASS(95/100): risk_engine async_generator 버그 수정, E2E 검증 완료, Agent도구 52개 확인, Phase 6 게이트 완전 통과, 진행률 90% |
