@@ -34,6 +34,7 @@ GITHUB_REPO = "moongoby/project-docs"
 KST = zoneinfo.ZoneInfo("Asia/Seoul")
 PERIODIC_REPORT_INTERVAL_SEC = 1800  # 30분 간격 정기 보고
 IDLE_WAIT_SEC = 120  # 2분 대기 후 지시 요청 메시지 전송
+CHAT_MSG_DIR = BASE_DIR / "directives" / "chat_messages"  # done_watcher → bridge 메시지 큐
 
 
 def _load_project_config() -> dict:
@@ -601,6 +602,23 @@ async def polling_loop(test_once: bool = False, project_filter: str | None = Non
                         if "login" in page.url:
                             logger.error("[%s] 세션 복원 실패 — 수동 로그인 필요", proj_key)
                             continue
+
+                    # ── chat_messages 폴더 감시 (done_watcher → bridge 메시지 큐) ──
+                    # 파일명: {PROJECT}_{timestamp}.txt → 해당 프로젝트 대화창에 전송
+                    CHAT_MSG_DIR.mkdir(parents=True, exist_ok=True)
+                    for msg_file in sorted(CHAT_MSG_DIR.glob(f"{proj_key}_*.txt")):
+                        try:
+                            msg_content = msg_file.read_text(encoding="utf-8").strip()
+                            if msg_content:
+                                logger.info("[%s] chat_msg 감지 — 대화창 전송: %s", proj_key, msg_file.name)
+                                await _send_chat_message(page, msg_content, project=tag)
+                                # 타이머 리셋 (완료 보고 = 활동)
+                                last_directive_time[proj_key] = datetime.datetime.now(KST)
+                                last_idle_msg_time[proj_key] = None
+                            msg_file.unlink(missing_ok=True)
+                            logger.info("[%s] chat_msg 전송 완료 → 파일 삭제", proj_key)
+                        except Exception as e:
+                            logger.error("[%s] chat_msg 전송 실패: %s — %s", proj_key, msg_file.name, e)
 
                     # ── 대화창 초기화 파일 감지 (telegram_url_watcher가 새 URL 감지 시 생성) ──
                     # 파일: /root/.genspark/init_chat_{tag}.json
