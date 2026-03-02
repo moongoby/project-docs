@@ -603,6 +603,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v8.3 | 2026-03-02 | Cursor | CEO P0 수급 데이터 전수조사 (10개 테이블, go100_investor_flow 275K건), path_check.sh 자동감지 개선, genspark_bridge 2분 대기 메시지 기능 추가 (전 프로젝트 공통) |
 | v8.2 | 2026-03-02 | Cursor | CEO ATR 1.5 승인 즉시 적용 + D4 GATE 오분류 수정 (96b7407b, 8d47bbd2) |
 | v8.1 | 2026-03-02 | Cursor | WF-Step1 적용 + D4 Shadow Mode 구현 (9f17b8c5) |
 | v8.0 | 2026-03-02 | Cursor | Step4 시뮬 결과 + 매니저 DIRECTIVE 반영 (WF-Step1/2 큐, 커밋 65557fd2) |
