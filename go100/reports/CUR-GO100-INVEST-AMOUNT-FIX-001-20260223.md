@@ -1,7 +1,7 @@
 # CUR-GO100-INVEST-AMOUNT-FIX-001 — 사용자 설정값(투자금/비중) 주문 반영
 
 **일시:** 2026-02-23 20:00 KST  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **작업 ID:** CUR-GO100-INVEST-AMOUNT-FIX-001
 
 ---

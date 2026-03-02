@@ -1,6 +1,6 @@
 # CUR-REGIME-BT-EXEC-005 전수 백테스트 + 레짐 분석 보고서
 
-**일시:** 2026-02-24 KST  **서버:** 211.188.51.113  **브랜치:** phase-2c-command-center
+**일시:** 2026-02-24 KST  **서버:** [SERVER-IP]  **브랜치:** phase-2c-command-center
 
 ---
 

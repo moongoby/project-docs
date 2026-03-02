@@ -30,7 +30,7 @@
 
 ### STEP A: 서버 접속 및 아키텍처·CHANGELOG 수동 반영
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 cd /srv/newtalk-v2
 # 1) ARCHITECTURE 메타 수정
 sed -i 's/2026-02-25 KST/2026-02-26 KST/' docs/architecture/NT-V2-ARCHITECTURE.md

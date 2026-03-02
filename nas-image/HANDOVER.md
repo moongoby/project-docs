@@ -10,20 +10,20 @@
 - **목표**: 촬영 원본 → A컷 선별 → 보정 → 크롭 → 인트로 생성 → 리네임 → CDN 업로드 → 114 DB 등록까지 전 과정 자동화
 - **저장소**: https://github.com/moongoby/newtalk-image-auto (main)
 - **문서 저장소**: https://github.com/moongoby/project-docs (master) → nas-image/ 디렉토리
-- **NAS**: Synology DSM, SSH newtalk@192.168.30.23 -p 2222, Docker 컨테이너 newtalk-image-auto
-- **114 서버**: SSH root@114.207.244.86 -p 7916, MariaDB autoda, CodeIgniter
+- **NAS**: Synology DSM, SSH newtalk@[NAS-IP] -p 2222, Docker 컨테이너 newtalk-image-auto
+- **114 서버**: SSH root@[SERVER-IP] -p [SSH-PORT], MariaDB autoda, CodeIgniter
 - **CDN**: DigitalOcean Spaces newtalk.nyc3.cdn.digitaloceanspaces.com
 - **AI API**: Google Gemini (A컷 선별, 인트로 카피 생성)
 - **FastAPI**: 포트 8100, Docker 내부
 
 ### 인프라 구조
-NAS (192.168.30.23)
+NAS ([NAS-IP])
 ├── /volume1/★제품사진/          → Docker /data/photos/ (촬영 원본)
 ├── /volume1/★제품사진/_processed → Docker /data/processed/ (처리 결과)
 ├── /volume1/뉴톡/newtalk-image-auto/ → 소스코드 + 스크립트
 └── Docker: newtalk-image-auto (FastAPI :8100)
 
-114 서버 (114.207.244.86)
+114 서버 ([SERVER-IP])
 ├── MariaDB autoda → goods, goods_detail 테이블
 ├── 이미지 경로: /home/danharoo/www/data/files/goods/goodscode/img/{GoodsCode}/
 └── CodeIgniter: application/controllers/

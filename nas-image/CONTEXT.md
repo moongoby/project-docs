@@ -9,11 +9,11 @@ NAS Docker 기반. 현재 수동 12단계 → 자동화 후 촬영→QC승인→
 
 ## 서버 환경
 - NAS: Synology DS1821+ (AMD Ryzen V1500B 4-core, 8GB RAM, DSM 7.2.1)
-- IP: 사설 192.168.30.23, 공인 183.96.69.193, SSH 포트 2222, 사용자 newtalk
+- IP: 사설 [NAS-IP], 공인 [NAS-PUBLIC-IP], SSH 포트 [NAS-SSH-PORT], 사용자 newtalk
 - Docker 24.0.2, 컨테이너 newtalk-image-auto (Python 3.11, FastAPI, port 8100)
 - 프로젝트 경로: /volume1/뉴톡/newtalk-image-auto (Windows SMB: Z:\)
 - 원본: /volume1/★제품사진/ (rw, P1 폴더생성 mkdir용), 결과: /volume1/★제품사진/_processed/ (rw)
-- 114서버: 114.207.244.86:7916, 동기화 계정 nasync (SSH 키), 이미지 경로 /home/danharoo/www/data/files/goods/goodscode/img/{소문자코드}/
+- 114서버: [SERVER-IP]:7916, 동기화 계정 nasync (SSH 키), 이미지 경로 /home/danharoo/www/data/files/goods/goodscode/img/{소문자코드}/
 - 116서버: PHP 어드민
 
 ## 기술 스택

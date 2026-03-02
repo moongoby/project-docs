@@ -13,18 +13,18 @@
 뉴톡 V2는 V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축하는 프로젝트.
 SNS형 B2B SaaS 마켓플레이스로 진화 중.
 
-**핵심 이해관계자**: CEO (moongoby@gmail.com) – 사입 시스템 유일 의사결정자.
+**핵심 이해관계자**: CEO ([CEO-EMAIL-GM]) – 사입 시스템 유일 의사결정자.
 
 ### 접속 정보
 
 #### 서버 (rfree-009)
 ```
-SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 OS: Ubuntu 20.04
 CPU: AMD EPYC 7262 8-Core
 RAM: 16 GB
 Disk: 875 GB
-IP: 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
+IP: [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
 Docker: 28.1.1, Compose v2.35.1
 ```
 
@@ -47,7 +47,7 @@ V2 (읽기/쓰기): mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
 
 #### NAS
 ```
-Synology DS1821+, IP 192.168.30.23
+Synology DS1821+, IP [NAS-IP]
 image-auto 컨테이너: :8100
 ```
 
@@ -59,9 +59,9 @@ image-auto 컨테이너: :8100
 
 #### URL
 ```
-V2 API: http://114.207.244.86:8080
-V2 Frontend: http://114.207.244.86:3000
-V1: http://114.207.244.86
+V2 API: http://[SERVER-IP]:8080
+V2 Frontend: http://[SERVER-IP]:3000
+V1: http://[SERVER-IP]
 ```
 
 #### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
@@ -78,9 +78,9 @@ outsource@newtalk.kr (외주)
 
 | ID | 설명 | 규칙 |
 |---|---|---|
-| A | V1 웹 (114.207.244.86:80) | 수정 금지 |
-| B | V1 어드민 (114.207.244.87) | 수정 금지 |
-| C | NAS image-auto (192.168.30.23:8100) | 별도 진행 |
+| A | V1 웹 ([SERVER-IP]:80) | 수정 금지 |
+| B | V1 어드민 ([ADMIN-SERVER-IP]) | 수정 금지 |
+| C | NAS image-auto ([NAS-IP]:8100) | 별도 진행 |
 | D | ShortFlow AI 쇼츠 | 별도 진행 |
 
 ---

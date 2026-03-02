@@ -53,7 +53,7 @@ drwx------  27 root root 2068480 Feb 21 16:40 ..
 
 ```
 Host server114
-  HostName 114.207.244.86
+  HostName [SERVER-IP]
   Port 7916
   User root
   IdentityFile /root/.ssh/id_ed25519_newtalk
@@ -71,10 +71,10 @@ Host server114
 
 | 파일 | 내용 |
 |------|------|
-| `id_rsa.pub` | `ssh-rsa AAAAB3NzaC1yc2E... root@rfree-0009.cafe24.com` |
+| `id_rsa.pub` | `ssh-rsa AAAAB3NzaC1yc2E... root@[SERVER-HOSTNAME]` |
 | `id_ed25519.pub` | **(없음)** — 서버에 id_ed25519 키 쌍 없음 |
 | `id_ed25519_newtalk.pub` | `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEIeydSrq946EEiWrGqgW7ciVZKi2Pi1GUm6om0e6OOU newtalk-go100-infra@genspark.ai` |
-| `id_rsa_116.pub` | `ssh-rsa AAAAB3NzaC1yc2E... rfree-0009_to_116` |
+| `id_rsa_116.pub` | `ssh-rsa AAAAB3NzaC1yc2E... [SERVER-ID]_to_116` |
 
 **해석**: 뉴톡 V2 / GitHub용으로 추정되는 키는 **id_ed25519_newtalk** (newtalk-go100-infra@genspark.ai). 대표님 확인으로 GitHub에는 이 키가 등록되어 있다고 가정.
 
@@ -216,7 +216,7 @@ Host github.com
 ## 5. 참고
 
 - 진단 실행 일시: 2026-02-21  
-- 진단 실행 위치: 서버 114.207.244.86 (port 7916, root, id_ed25519_newtalk로 접속)  
+- 진단 실행 위치: 서버 [SERVER-IP] (port 7916, root, id_ed25519_newtalk로 접속)  
 - 보고서 경로(로컬): `newtalk-v2/docs/reports/R0-TASK-001-FIX-report.md`  
 - 서버 동일 보고서 경로: `/srv/newtalk-v2/docs/reports/R0-TASK-001-FIX-report.md` (배포 시 동일 내용 반영 권장)
 

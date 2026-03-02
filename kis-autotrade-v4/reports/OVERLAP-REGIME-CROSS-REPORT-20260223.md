@@ -1,6 +1,6 @@
 # OVERLAP-GUARD + REGIME-STRATEGY-CROSS 보고서 (2026-02-23)
 
-**서버:** 211.188.51.113  
+**서버:** [SERVER-IP]  
 **경로:** /root/kis-autotrade-v4  
 **성격:** 읽기 전용 분석
 

@@ -36,12 +36,12 @@ Playwright 기반 로그인·채팅 POC, 5개 프로젝트 대화창 생성 스�
 - URL 저장: `.env` (GENSPARK_CHAT_KIS, GENSPARK_CHAT_GO100), `chat_urls_114.json` (SF, NTV2, NAS)
 
 ### 2.4 114서버 URL 전달 (4단계)
-- 전달 명령: `scp -P 7916 /root/.genspark/chat_urls_114.json root@114.207.244.86:/root/.genspark/chat_urls_114.json`
+- 전달 명령: `scp -P 7916 /root/.genspark/chat_urls_114.json root@[SERVER-IP]:/root/.genspark/chat_urls_114.json`
 - verify.sh는 project-docs에 포함되어 114서버에서 `git pull` 후 사용
 
 ### 2.5 verify.sh 및 보안 조치 (5단계)
 - **setup_full.sh** 삭제 (git rm, 커밋 완료)
-- **SYNC_GUIDE.md** 마스킹: 192.168.30.23 → [NAS_HOST], 2222 → [NAS_PORT]
+- **SYNC_GUIDE.md** 마스킹: [NAS-IP] → [NAS_HOST], 2222 → [NAS_PORT]
 - **루트 보고서** 2건 이동: kis-autotrade-v4/reports/ (CUR-V41-D2-IMPROVE-RSI-MA10-001, CUR-V41-D2ABC-REALCODE-008)
 - **scripts/verify.sh** 생성: 5개 프로젝트 공통 검증, path_check.sh 호출 또는 프로젝트별 요약
 - **scripts/path_check.sh** 확장: SF, NAS, NTV2 프로젝트·경로·파일명 규칙 추가

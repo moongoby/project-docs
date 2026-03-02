@@ -58,7 +58,7 @@
   (서버에서 `docker compose --env-file .env.docker exec app php -l <파일>` 실행으로 확인)
 - **마이그레이션**: `php artisan migrate:status | grep cafe24` → cafe24_connections, cafe24_product_mappings Run 상태 확인.
 - **라우트**: `php artisan route:list --path=cafe24` → 7개 라우트 확인 (connect, callback, status, products/push, products/{id}, products).
-- **V1 헬스**: **200** (`curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`)
+- **V1 헬스**: **200** (`curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]`)
 
 ## 비고
 - 실제 카페24 API 호출은 개발자센터에서 앱 발급 후 client_id/secret 설정해야 가능. 구조(마이그레이션·모델·서비스·컨트롤러·라우트)는 완성되어 있으며, 미설정 시 try-catch 및 메시지로 "연동 준비 완료" 상태 반환.

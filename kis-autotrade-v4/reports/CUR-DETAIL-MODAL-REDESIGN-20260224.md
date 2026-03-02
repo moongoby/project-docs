@@ -1,7 +1,7 @@
 # CUR-DETAIL-MODAL-REDESIGN-20260224
 
 **일시:** 2026-02-24 KST
-**서버:** 211.188.51.113
+**서버:** [SERVER-IP]
 **브랜치:** phase-2c-command-center
 
 ---

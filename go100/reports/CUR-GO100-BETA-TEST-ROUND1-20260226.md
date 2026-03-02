@@ -1,7 +1,7 @@
 # CUR-GO100-BETA-TEST-ROUND1 (2026-02-26)
 
 ## 테스트 환경
-- 서버: root@211.188.51.113 (Ubuntu 24.04)
+- 서버: root@[SERVER-IP] (Ubuntu 24.04)
 - 서비스: go100 (FastAPI 8002), go100-frontend (Next.js 3000)
 - DB: PostgreSQL 16, Redis 6379
 - 디스크: 89% (84GB/99GB)

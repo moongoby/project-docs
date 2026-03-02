@@ -1,7 +1,7 @@
 # PAPER-TRADE-SETUP 보고서
 
 **날짜:** 2026-02-23  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4  
 **브랜치:** phase-2c-command-center  
 **우선순위:** P0 (장중 — 15:30 장마감 전 모의 테스트 준비)

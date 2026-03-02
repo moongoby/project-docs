@@ -33,7 +33,7 @@
 - .env, config/youtube_token_*.json, venv/ 커밋 금지
 - API 키 노출 시 즉시 교체
 - Cloudflare DNS-only 전환은 OAuth 시에만, 완료 후 즉시 Proxied 복원
-- 서버 IP(114.207.244.86) 외부 노출 최소화
+- 서버 IP([SERVER-IP]) 외부 노출 최소화
 
 ### D-006 비공개 우선 정책
 - 모든 업로드는 private으로 시작
@@ -65,8 +65,8 @@
 ### T-002 채널 설정
 | 채널 | 계정 | Channel ID | 토큰 | 크론 |
 |------|------|------------|------|------|
-| 3분경제 | oby240610@gmail.com | UC1qhhy2MDsF4vorlma6-dQ | youtube_token_economy.json | 09:00/13:00/18:00 |
-| 건강한입 | moongo76@gmail.com | UCKRf4X2fOwhTGcKSVO8rLYQ | youtube_token_health.json | 09:10/13:10/18:10 |
+| 3분경제 | [CHANNEL-EMAIL-1] | UC1qhhy2MDsF4vorlma6-dQ | youtube_token_economy.json | 09:00/13:00/18:00 |
+| 건강한입 | [CHANNEL-EMAIL-2] | UCKRf4X2fOwhTGcKSVO8rLYQ | youtube_token_health.json | 09:10/13:10/18:10 |
 | 역사5분 | (미정) | (미정) | youtube_token_history.json | (미정) |
 
 ### T-003 키워드 프리셋

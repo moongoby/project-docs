@@ -63,7 +63,7 @@
   - `ALTER TABLE go100_backtest_runs ADD COLUMN IF NOT EXISTS params_hash VARCHAR(12);`
 
 ### DB ALTER 실행 여부
-- **서버(211.188.51.113)에서 수동 실행 필요.**  
+- **서버([SERVER-IP])에서 수동 실행 필요.**  
   - 로컬 검증 시 Peer 인증으로 psql 접속 불가.  
   - 배포 후 다음 실행 권장:  
     `PGPASSWORD='...' psql -U kis_admin -d kisautotrade -f backend/migrations/028_go100_backtest_runs_params_hash.sql`

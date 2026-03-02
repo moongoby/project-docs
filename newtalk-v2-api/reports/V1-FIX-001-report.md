@@ -52,7 +52,7 @@
 
 ### 접속
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 ```
 
 ### 조사용 파일 (워크스페이스)
@@ -119,7 +119,7 @@ AND DATA_TYPE IN ('text','mediumtext','longtext');
 
 | 대상 | 결과 | 비고 |
 |------|------|------|
-| **SSH** | 가능 | `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` |
+| **SSH** | 가능 | `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` |
 | **MySQL root** | 비밀번호 필요 | 비대화형에서 사용 불가 |
 | **MySQL pigupuser** | 가능 | V1 `application/config/database.php` 계정으로 접속·조회·덤프 가능 |
 

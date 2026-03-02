@@ -1,7 +1,7 @@
 # CUR-GO100-KIWOOM-PAPER-TRADE-TEST-001 보고서
 
 **작업일시**: 2026-02-24 KST  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 **목적**: 키움증권 모의계좌 실매매 테스트 사전 점검
 
 ---
@@ -27,9 +27,9 @@
 
 | account_id | user_id | broker_type | account_number | account_alias        | is_mock | is_active |
 |------------|---------|-------------|----------------|---------------------|---------|-----------|
-| 4          | 3       | KIWOOM      | 81201280       | moongoby@naver.com  | t       | t         |
-| 5          | 3       | KIWOOM      | 52568156       | moongoby@naver.com  | f       | t         |
-| 6          | 3       | KIWOOM      | 63109343       | moongoby@naver.com  | f       | t         |
+| 4          | 3       | KIWOOM      | 81201280       | [CEO-EMAIL-NV]  | t       | t         |
+| 5          | 3       | KIWOOM      | 52568156       | [CEO-EMAIL-NV]  | f       | t         |
+| 6          | 3       | KIWOOM      | 63109343       | [CEO-EMAIL-NV]  | f       | t         |
 
 - **키움 모의계좌(account_id=4)**: 존재, is_mock=true, is_active=true, enc_app_key/enc_app_secret 설정됨, enc_token 없음, token_expires_at NULL.
 - **account_rate_quotas** (broker_type='KIWOOM'): 3건 (account_id 4, 5, 6 각 max_rps 1.7).

@@ -164,7 +164,7 @@ bash scripts/R1-TASK-003-server-run.sh
 | md/retail → 발주/입고 접근 불가 | 403 | |
 | purchaser → 발주 삭제 불가 | 403 | |
 | purchaser → 입고 반려 불가 | 403 | |
-| curl http://114.207.244.86 → 200 (V1 보호) | 200 | |
+| curl http://[SERVER-IP] → 200 (V1 보호) | 200 | |
 
 ---
 

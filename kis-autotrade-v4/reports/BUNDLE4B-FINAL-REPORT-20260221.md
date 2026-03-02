@@ -8,7 +8,7 @@
 |------|-----|
 | 백업 파일 | `/tmp/backup_bundle4b_pre_20260221_184436.dump` |
 | 백업 크기 | 329MB (정상) |
-| CEO user_id | 2 (moongoby@gmail.com, 대표님, PREMIUM) |
+| CEO user_id | 2 ([CEO-EMAIL-GM], 대표님, PREMIUM) |
 | 분봉 보유 종목 수 | 546개 (`/tmp/minute_stock_codes.txt`) |
 
 ---

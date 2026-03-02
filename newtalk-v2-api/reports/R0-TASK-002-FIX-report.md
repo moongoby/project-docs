@@ -123,7 +123,7 @@ docker compose --env-file .env.docker exec app php artisan migrate --force
 
 - V1 DB(autoda) 접근 시 비밀번호 필요. **실측 스키마 추출(STEP 1)을 서버에서 수동 실행한 뒤**, 동일 서버에서 다음으로 V1 영향 없음 권장 확인:
   - `mysql -u pigupuser -p ... autoda -e "SELECT COUNT(*) FROM users;"` → 79,458 (변동 없음)
-  - `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200 (V1 웹 정상)
+  - `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200 (V1 웹 정상)
 
 ---
 

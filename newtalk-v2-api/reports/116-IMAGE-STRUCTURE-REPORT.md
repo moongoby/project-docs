@@ -20,7 +20,7 @@
 
 **상태:** **미실행** — 현재 환경에서 114 서버 SSH 접속 불가  
 - 원인: `~/.ssh/id_ed25519` 키 없음 (Permission denied)  
-- 명령: `ssh -p 7916 -i ~/.ssh/id_ed25519 nasync@114.207.244.86`
+- 명령: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519 nasync@[SERVER-IP]`
 
 ### 1.2 코드/설정 기반 추정 구조
 
@@ -31,7 +31,7 @@
 | 상품코드별 이미지 디렉터리 | `user_goodscode_img_dir` = `/home/danharoo/www/data/files/goods/goodscode/img/` | `/home/danharoo/www/data/files/goods/goodscode/img/` |
 | URL 경로 | `user_goodscode_img_url` = `/data/files/goods/goodscode/img/` | — |
 | 업로드 서버 도메인 | `upload_serve_domain` = `https://www.newtalk.kr` | — |
-| 114 업로드 경로 참조 | `upload_serve_path_114` = `114.207.244.86/` | — |
+| 114 업로드 경로 참조 | `upload_serve_path_114` = `[SERVER-IP]/` | — |
 
 - **상품 하나당 폴더:** `.../goodscode/img/{GoodsCode}/`  
   - 예: `.../goodscode/img/ns916k36/`
@@ -208,7 +208,7 @@
 현재 환경에서 SSH 키 미비로 미실행. 114에 SSH 접속 가능한 환경에서 아래를 직접 실행해 보완 권장.
 
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519 nasync@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519 nasync@[SERVER-IP]
 ls -lt /home/danharoo/www/data/files/goods/goodscode/img/ | head -20
 # 샘플 폴더 하나 선택 후
 SAMPLE_DIR=$(ls -t /home/danharoo/www/data/files/goods/goodscode/img/ | head -1)

@@ -36,7 +36,7 @@
 
 ```bash
 cd /root/kis-autotrade-v4 && source venv/bin/activate
-export PGPASSWORD='KisAuto2026!Secure'   # 필요 시
+export PGPASSWORD='[DB-PASSWORD]'   # 필요 시
 python scripts/backfill_signals.py --days 60 --top 500 \
   2>&1 | tee backups/backfill_signals_20260220.log
 ```
@@ -47,13 +47,13 @@ python scripts/backfill_signals.py --days 60 --top 500 \
 
 ```bash
 # source별 건수·날짜 범위
-PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade -c "
   SELECT source, COUNT(*) AS cnt, MIN(signal_date) AS min_date, MAX(signal_date) AS max_date
   FROM v4_signals GROUP BY source ORDER BY source;
 "
 
 # 데스크별 분포
-PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade -c "
   SELECT desk_id, COUNT(*) AS cnt, AVG(signal_strength)::int AS avg_str
   FROM v4_signals GROUP BY desk_id ORDER BY desk_id;
 "

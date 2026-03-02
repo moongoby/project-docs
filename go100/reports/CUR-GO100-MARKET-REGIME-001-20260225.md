@@ -66,7 +66,7 @@
 
 - **pre-commit-check.sh:** 통과 (Python/TypeScript).
 - **Lint:** advanced_filters.py 에러 없음.
-- **Import:** 로컬에서 venv 미활성으로 인해 전체 패키지 import 실패 가능. 서버(211.188.51.113)에서 다음 권장:
+- **Import:** 로컬에서 venv 미활성으로 인해 전체 패키지 import 실패 가능. 서버([SERVER-IP])에서 다음 권장:
   - `python3 -c "from backend.app.services.go100.universe.advanced_filters import Go100AdvancedFilters; print('OK')"`
   - `PGPASSWORD='...' psql -U kis_admin -d kisautotrade -c "SELECT COUNT(*), market_type, MAX(date) FROM v4_market_regime_daily GROUP BY market_type;"`
 - **서비스 재시작:** kis-v41-* 절대 재시작 금지. go100만 필요 시 `systemctl restart go100`, `curl -s http://localhost:8002/health` 확인.
@@ -84,7 +84,7 @@
 
 ## 7. 서비스 상태
 
-- health check는 서버(211.188.51.113)에서 `curl -s http://localhost:8002/health | python3 -m json.tool` 로 확인.
+- health check는 서버([SERVER-IP])에서 `curl -s http://localhost:8002/health | python3 -m json.tool` 로 확인.
 - 보고서 작성 시점에는 로컬에서 go100 프로세스 미실행 가능.
 
 ---

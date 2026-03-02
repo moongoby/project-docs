@@ -2,7 +2,7 @@
 
 > 작성일: 2026-03-01 (토) KST
 > 프로젝트: KIS AutoTrade V4.1
-> 서버: root@211.188.51.113
+> 서버: root@[SERVER-IP]
 > 작성: Claude AI (CEO 지시 기반)
 > 데이터: v4_ohlcv_minute 69,893,452행, 251거래일 (2025-03 ~ 2026-02)
 

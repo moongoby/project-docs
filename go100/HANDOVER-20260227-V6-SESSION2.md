@@ -10,7 +10,7 @@
 2. 커밋 메시지 prefix 필수: [V4.1], [GO100], [SHARED]
 3. GO100 작업 시 V4.1 파일 절대 수정 금지, 역도 동일
 4. 공유 인프라(.env, main.py, nginx 등) 수정 시 양쪽 영향 명시
-5. 대표님(user_id=2, moongoby@gmail.com)이 CEO — 보고체 사용
+5. 대표님(user_id=2, [CEO-EMAIL-GM])이 CEO — 보고체 사용
 6. 백억이 = GO100 AI 에이전트의 이름
 7. 문서 레포(project-docs)와 코드 레포(kis-autotrade-v4)는 별도 관리
 
@@ -151,8 +151,8 @@
 ### 사용자 매핑
 | legacy users.id | v4_users.user_id | email | 비고 |
 |-----------------|-------------------|-------|------|
-| 6 | 2 | moongoby@gmail.com | 대표님 (CEO) |
-| 15 | 3 | moongoby@naver.com | 오병용 |
+| 6 | 2 | [CEO-EMAIL-GM] | 대표님 (CEO) |
+| 15 | 3 | [CEO-EMAIL-NV] | 오병용 |
 
 ---
 
@@ -500,4 +500,4 @@ grep GO100 /root/kis-autotrade-v4/.env
 - **Redis**: localhost:6379/0
 - **텔레그램**: @go100_auto_trading_bot
 - **GitHub 문서**: github.com/moongoby/project-docs
-- **대표님 계정**: moongoby@gmail.com (v4_users.user_id=2)
+- **대표님 계정**: [CEO-EMAIL-GM] (v4_users.user_id=2)

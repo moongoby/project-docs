@@ -1,7 +1,7 @@
 # DOC-VERSION-AUDIT 보고서
 
 **작업지시서**: DOC-VERSION-AUDIT  
-**서버**: 211.188.51.113  
+**서버**: [SERVER-IP]  
 **경로**: /root/kis-autotrade-v4  
 **일시**: 2026-02-23  
 **성격**: 읽기 전용 (수정 없음)

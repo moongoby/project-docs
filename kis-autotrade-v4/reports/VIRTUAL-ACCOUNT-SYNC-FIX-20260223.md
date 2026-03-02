@@ -2,7 +2,7 @@
 
 **작업 ID:** VIRTUAL-ACCOUNT-SYNC-FIX  
 **우선순위:** P0 (장마감 전 잔고 연동 검증)  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **브랜치:** phase-2c-command-center  
 
 ---

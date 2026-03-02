@@ -42,12 +42,12 @@
 ## 4. user_id 정합성 수정 여부
 
 - **수정 안 함.** 방안 B(프론트에서 두 API 병합)만 적용.
-- 실서버에서 CEO(moongoby@gmail.com)의 GO100 카드가 "내 전략"에 안 보이면, 아래로 일괄 정합성 수정 후 재검증:
+- 실서버에서 CEO([CEO-EMAIL-GM])의 GO100 카드가 "내 전략"에 안 보이면, 아래로 일괄 정합성 수정 후 재검증:
   ```bash
   psql -U go100user -d go100db -c "
     UPDATE go100_strategy_cards
-    SET user_id = (SELECT id FROM users WHERE email='moongoby@gmail.com')
-    WHERE user_id != (SELECT id FROM users WHERE email='moongoby@gmail.com')
+    SET user_id = (SELECT id FROM users WHERE email='[CEO-EMAIL-GM]')
+    WHERE user_id != (SELECT id FROM users WHERE email='[CEO-EMAIL-GM]')
     AND go100_card_id IN (13, 14, 15);
   "
   ```

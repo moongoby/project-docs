@@ -4,7 +4,7 @@
 **작업 ID**: CUR-GO100-BROKER-GATEWAY-001  
 **우선순위**: P0  
 **브랜치**: feat/CUR-GO100-BROKER-GATEWAY-001 → phase-2c-command-center  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 
 ---
 

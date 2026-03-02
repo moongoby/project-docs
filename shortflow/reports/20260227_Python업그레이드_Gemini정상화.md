@@ -1,7 +1,7 @@
 # Python 업그레이드 + Gemini 정상화
 
 **일시:** 2026-02-27 10:00 KST  
-**서버:** ssh root@114.207.244.86  
+**서버:** ssh root@[SERVER-IP]  
 **작업 디렉터리:** /data/shortflow
 
 ---

@@ -18,4 +18,4 @@
 ## 참고사항
 - 전체 프로젝트 상태: `cat /data/shortflow/docs/CONTEXT.md`
 - GitHub: https://github.com/moongoby/shortflow (private)
-- 서버: rfree-0009.cafe24.com, 프로젝트 경로 /data/shortflow
+- 서버: [SERVER-HOSTNAME], 프로젝트 경로 /data/shortflow

@@ -1,7 +1,7 @@
 # CUR-GO100-CARD-DELETE-FIX-001 — GO100 전략카드 삭제 실패 수정 보고서
 
 - **일시**: 2026-02-23 19:00 KST
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **DB**: psql -h localhost -U kis_admin -d kisautotrade
 - **코드 repo**: /root/kis-autotrade-v4
 - **문서 repo**: /root/project-docs (master)

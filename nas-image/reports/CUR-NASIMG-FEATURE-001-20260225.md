@@ -21,7 +21,7 @@
 
 ### 2.2 환경 변수 / config
 - **.env** (커밋 금지, .gitignore 확인)
-  - `MYSQL_HOST=114.207.244.86`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=실제비밀번호`
+  - `MYSQL_HOST=[SERVER-IP]`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=실제비밀번호`
   - 비밀번호는 server116/application/config/database.php의 `$db['default']['password']` 사용
 - **app/config.py**
   - `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DB`, `MYSQL_USER`, `MYSQL_PASSWORD` (os.getenv 기반) 추가
@@ -114,7 +114,7 @@
 
 ### 7.2 미완료 시 즉시 실행 (NAS 기준)
 
-- **.env에 MYSQL 정보 없음** → `MYSQL_HOST=114.207.244.86`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=***` 추가 (비밀번호는 server116 `application/config/database.php` 참조)
+- **.env에 MYSQL 정보 없음** → `MYSQL_HOST=[SERVER-IP]`, `MYSQL_PORT=3306`, `MYSQL_DB=autoda`, `MYSQL_USER=pigupuser`, `MYSQL_PASSWORD=***` 추가 (비밀번호는 server116 `application/config/database.php` 참조)
 - **.env에 GEMINI_API_KEY 없음** → 114서버 ShortFlow `.env`에서 복사: `cat /data/shortflow/.env | grep GEMINI_API_KEY`
 - **Docker 미빌드** → `sudo docker-compose build --no-cache && sudo docker-compose up -d`
 - **pip-cache (오프라인)** → `pip download PyMySQL>=1.1.0 -d pip-cache/`
@@ -122,7 +122,7 @@
 ### 7.3 DB 테이블 생성 확인 (NAS에서 116 DB 접속)
 
 ```bash
-mysql -h 114.207.244.86 -P 3306 -u pigupuser -p autoda -e "DESCRIBE nas_folder_request;"
+mysql -h [SERVER-IP] -P 3306 -u pigupuser -p autoda -e "DESCRIBE nas_folder_request;"
 ```
 
 테이블 없으면:

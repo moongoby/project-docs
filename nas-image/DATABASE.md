@@ -85,13 +85,13 @@ image_queue.preset_id ──> tone_presets.id (논리 참조, FK 미정의)
   - goods_image: ~76,892건, 상품별 이미지 메타데이터
 
 ## 7. 114서버 DB 참조 정보 (읽기 전용, Phase 4 연동 대상)
-- 서버: 114.207.244.86
+- 서버: [SERVER-IP]
 - DB: MySQL (cafe24 호스팅)
 - 주요 테이블: goods_detail, goods_image
 - 연동 방식: Phase 4에서 API 또는 직접 DB 연결로 이미지 경로 자동 업데이트
 
 ## 8. 116서버 DB(autoda) — nas_folder_request (P1 폴더생성 폴링)
-- **서버**: 114.207.244.86:3306 (116서버 MySQL)
+- **서버**: [SERVER-IP]:3306 (116서버 MySQL)
 - **DB명**: autoda
 - **용도**: 116 어드민 "NAS 폴더생성" 버튼 시 INSERT → NAS 폴러가 1분마다 pending 조회 후 폴더 생성, 상태 업데이트
 

@@ -160,7 +160,7 @@
 - DB: goods_detail (GoodsEtc60~74, GoodsSortImg1~4), goods_image
 
 ### 7.3 NAS 관련
-- Docker API: `http://192.168.30.23:8100`
-- QC UI: `http://192.168.30.23:8100/qc`
+- Docker API: `http://[NAS-IP]:8100`
+- QC UI: `http://[NAS-IP]:8100/qc`
 - 원본: `/volume1/★제품사진/` (ro)
 - 결과: `/volume1/★제품사진/_processed/` (rw)

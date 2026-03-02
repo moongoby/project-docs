@@ -1,7 +1,7 @@
 # CUR-GO100-CHATWIDGET-BROWSER-001 ChatWidget FAB 브라우저 검증
 
 **일시:** 2026-02-23 (월) 15:35 KST  
-**서버:** root@211.188.51.113 (SSH)  
+**서버:** root@[SERVER-IP] (SSH)  
 **코드 repo:** `/root/kis-autotrade-v4` (branch: phase-2c-command-center)  
 **문서 repo:** `/root/project-docs` (branch: master)  
 **목적:** useAuth 쿠키 token 패치 후 ChatWidget FAB 브라우저 노출 검증  

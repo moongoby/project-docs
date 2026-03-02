@@ -72,7 +72,7 @@
 
 - **error.log:** `upstream prematurely closed connection` — `/api/v1/notifications/stream` SSE 연결 종료 다수. 429와 직접 무관.
 - **access.log 429 (최근):**  
-  - **시간대:** 2026-02-23 11:26:50 ~ 11:27:29 (동일 IP 172.70.214.84)
+  - **시간대:** 2026-02-23 11:26:50 ~ 11:27:29 (동일 IP [CDN-IP-3])
   - **경로:**  
     - `GET /api/v1/strategy-cards`  
     - `GET /api/v1/notifications/unread-count`  

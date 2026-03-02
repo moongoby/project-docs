@@ -1,7 +1,7 @@
 # DESK2-BT-CHART-DASHBOARD-001 — 백테스트 메뉴 라우팅 수정 + Plotly HTML 차트 + DESK2 대시보드
 
 **일시:** 2026-02-27  
-**서버:** 211.188.51.113  
+**서버:** [SERVER-IP]  
 **브랜치:** phase-2c-command-center  
 **작업 ID:** DESK2-BT-CHART-DASHBOARD-001 (P0)
 

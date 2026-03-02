@@ -100,7 +100,7 @@ Host github.com
   IdentitiesOnly yes
 
 Host server114
-  HostName 114.207.244.86
+  HostName [SERVER-IP]
   Port 7916
   User root
   IdentityFile /root/.ssh/id_ed25519_newtalk

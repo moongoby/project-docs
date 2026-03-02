@@ -63,7 +63,7 @@
 
 - **TypeScript**: 로컬 린트 0 에러 (서버에서 `docker compose exec frontend npx tsc --noEmit` 실행 후 결과 기입)
 - **페이지 HTTP 코드**: 서버에서 curl /retail/shorts, /wholesale/shorts 실행 후 기입
-- **V1 헬스**: 서버에서 curl http://114.207.244.86 → 200 확인
+- **V1 헬스**: 서버에서 curl http://[SERVER-IP] → 200 확인
 
 ## 다음 작업
 

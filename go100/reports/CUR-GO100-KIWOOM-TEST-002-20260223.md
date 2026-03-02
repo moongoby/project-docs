@@ -1,7 +1,7 @@
 # CUR-GO100-KIWOOM-TEST-002 결과 보고서
 
 **일시:** 2026-02-23 (월) 15:15 KST  
-**서버:** root@211.188.51.113 (SSH)  
+**서버:** root@[SERVER-IP] (SSH)  
 **목적:** 키움증권 모의계좌(account_id=4, 81201280) API 인증 + 잔고조회 + 매수/매도 테스트  
 **선행:** CUR-GO100-KIWOOM-TEST-001 완료 (DB enc_app_key/enc_app_secret 존재 확인)
 
@@ -56,7 +56,7 @@ PYTHONPATH=/root/kis-autotrade-v4 python /tmp/kiwoom_test.py
 ### 상세 로그 (요약)
 
 - 계좌: id=4, number=81201280, is_mock=True  
-- enc_app_key/enc_app_secret 길이 140, **복호화 성공** (app_key=td73-AMw..., secret_key=wx2t-mdu...)  
+- enc_app_key/enc_app_secret 길이 140, **복호화 성공** (app_key=[KIWOOM-APP-KEY-PREFIX]..., secret_key=[KIWOOM-SECRET-PREFIX]...)  
 - STEP 3: `BrokerToken(token='', token_type='bearer', ...)` — **토큰 문자열이 비어 있음**  
 - STEP 4: `Authorization: Bearer ` (빈 토큰) 전송으로 HTTP 헤더 규격 위반 발생
 

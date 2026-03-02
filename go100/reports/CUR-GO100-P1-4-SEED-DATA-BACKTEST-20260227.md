@@ -18,7 +18,7 @@
 ```bash
 source /root/kis-autotrade-v4/venv/bin/activate
 export PYTHONPATH=/root/kis-autotrade-v4/backend
-export PGPASSWORD="${DB_PASSWORD:-KisAuto2026!Secure}"
+export PGPASSWORD="${DB_PASSWORD:-[DB-PASSWORD]}"
 
 psql -h localhost -U kis_admin -d kisautotrade -c "SELECT go100_card_id, strategy_name, user_id, card_status, is_active FROM go100_strategy_cards WHERE user_id = 2;"
 psql -h localhost -U kis_admin -d kisautotrade -c "SELECT COUNT(*) FROM go100_backtest_runs;"

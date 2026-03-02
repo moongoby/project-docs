@@ -3,7 +3,7 @@
 **작성일시:** 2026-02-25 KST
 **작업 유형:** 신규 개발 / E2E 테스트
 **상태:** 완료
-**서버:** rfree-0009.cafe24.com (114.207.244.86)
+**서버:** [SERVER-HOSTNAME] ([SERVER-IP])
 **프로젝트:** /data/shortflow
 
 ## 1. 작업 개요
@@ -14,8 +14,8 @@ Gemini 대본 → CLOVA TTS → 이미지 소싱 → FFmpeg 합성 전체 파이
 
 | 채널 | 채널 ID | 계정 | 핸들 |
 |------|---------|------|------|
-| 3분경제 | UC1qhhty2MDsF4worImq6-dQ | oby240610@gmail.com | @3분경제-m9f |
-| 건강한입 | UCKRf4X2fOwhTGcKSVO8rLYQ | moongo76@gmail.com | @건강한입-e1b |
+| 3분경제 | UC1qhhty2MDsF4worImq6-dQ | [CHANNEL-EMAIL-1] | @3분경제-m9f |
+| 건강한입 | UCKRf4X2fOwhTGcKSVO8rLYQ | [CHANNEL-EMAIL-2] | @건강한입-e1b |
 
 ## 3. 생성 결과
 

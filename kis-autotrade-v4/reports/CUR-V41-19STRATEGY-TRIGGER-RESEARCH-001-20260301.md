@@ -5,7 +5,7 @@
 | 문서 ID | CUR-V41-19STRATEGY-TRIGGER-RESEARCH-001 |
 | 작성일 | 2026-03-01 |
 | 기간 | 2025-03-03 ~ 2026-02-27 (241일) |
-| DB | PostgreSQL kisautotrade @ 211.188.51.113 |
+| DB | PostgreSQL kisautotrade @ [SERVER-IP] |
 | 스크립트 | /tmp/trigger_h01_d1gap.py ~ /tmp/trigger_h19_s1_mom.py, /tmp/run_all_trigger_checks.py |
 
 ---
@@ -130,7 +130,7 @@
 python3 /tmp/build_base_data.py
 
 # 19개 트리거 검증 일괄 실행 (DB 연결 필요)
-export DB_HOST=211.188.51.113
+export DB_HOST=[SERVER-IP]
 export DB_PASSWORD="..."
 python3 /tmp/run_all_trigger_checks.py
 

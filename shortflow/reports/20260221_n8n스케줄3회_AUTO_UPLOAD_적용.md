@@ -19,7 +19,7 @@ n8n 일일 파이프라인을 1회(09:00)에서 3회(09:00, 13:00, 18:00 KST)로
 - **파일:** `n8n/daily_workflow.json`
 - **변경:** Schedule Trigger cron `0 9 * * *` → `0 9,13,18 * * *`
 - **결과:** 매일 09:00, 13:00, 18:00 KST에 `POST http://worker:8000/api/v1/pipeline/daily` 호출
-- **n8n UI:** http://114.207.244.86:5678 에서 기존 워크플로우 삭제 후 `n8n/daily_workflow.json` import 하거나, 기존 워크플로우의 Schedule Trigger에서 cron 표현식만 위대로 수정
+- **n8n UI:** http://[SERVER-IP]:5678 에서 기존 워크플로우 삭제 후 `n8n/daily_workflow.json` import 하거나, 기존 워크플로우의 Schedule Trigger에서 cron 표현식만 위대로 수정
 
 ### 2.2 daily 엔드포인트 중복 방지
 - **파일:** `worker/main.py` (`/api/v1/pipeline/daily`)
@@ -47,7 +47,7 @@ n8n 일일 파이프라인을 1회(09:00)에서 3회(09:00, 13:00, 18:00 KST)로
 ## 3. 테스트 결과
 
 - **린트:** `worker/main.py`, `worker/workers/pipeline_worker.py` 린트 오류 없음
-- **Docker 재빌드 및 수동 테스트** (서버 rfree-0009에서 실행 권장):
+- **Docker 재빌드 및 수동 테스트** (서버 [SERVER-ID]에서 실행 권장):
 
 ```bash
 cd /data/shortflow && docker compose down && docker compose build worker && docker compose up -d

@@ -2,7 +2,7 @@
 
 **작업 ID:** CUR-NXT-USER-PROCESS-LIVE-001  
 **일시:** 2026-02-24 10:29 ~ 11:06 KST  
-**서버:** root@211.188.51.113 (kis-autotrade-v4)  
+**서버:** root@[SERVER-IP] (kis-autotrade-v4)  
 **브랜치:** phase-2c-command-center  
 **매매 방식:** 사용자 프로세스 (V4.1 REST API 엔드포인트 경유)
 

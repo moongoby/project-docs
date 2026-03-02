@@ -6,7 +6,7 @@
 
 ## 사전 상태
 - go100_strategy_cards: 15건
-- Cards 13-15 user_id: 2 (moongoby@gmail.com)
+- Cards 13-15 user_id: 2 ([CEO-EMAIL-GM])
 - v4_positions OPEN: 5건
 
 ## DB 정리 결과
@@ -15,7 +15,7 @@
 - 잔여: 3건 (go100_card_id 13, 14, 15)
 
 ## user_id
-- **STEP 4 변경 실행:** `go100_strategy_cards` 3건(go100_card_id 13, 14, 15)의 `user_id`를 3 (moongoby@naver.com)으로 변경함. 검증: 3건 모두 user_id=3, email=moongoby@naver.com.
+- **STEP 4 변경 실행:** `go100_strategy_cards` 3건(go100_card_id 13, 14, 15)의 `user_id`를 3 ([CEO-EMAIL-NV])으로 변경함. 검증: 3건 모두 user_id=3, email=[CEO-EMAIL-NV].
 
 ## 코드 수정
 - `backend/app/services/strategy_card_service.py`: CUR-GO100-FIX-BACKEND 헤더 추가, list_cards_with_system 내 GO100 블록에서 `last_backtest_mdd`/`last_backtest_sharpe` 조회, `card_id=go100_card_id`, `backtest_return`/`backtest_mdd`/`backtest_sharpe` 전달

@@ -49,7 +49,7 @@ PGPASSWORD='...' bash scripts/cur_go100_strategy_card_fix_db.sh
 | go100_strategy_cards | `SELECT COUNT(*) FROM go100_strategy_cards;` | [변경 전 건수] |
 | Cards 13–15 | `SELECT go100_card_id, strategy_name, card_status, user_id FROM go100_strategy_cards ORDER BY go100_card_id;` | (결과 붙여넣기) |
 | v4_positions OPEN | `SELECT COUNT(*) FROM v4_positions WHERE status='OPEN';` | [건수] |
-| moongoby@naver.com | `SELECT user_id FROM v4_users WHERE email = 'moongoby@naver.com';` | id=[NAVER_USER_ID] |
+| [CEO-EMAIL-NV] | `SELECT user_id FROM v4_users WHERE email = '[CEO-EMAIL-NV]';` | id=[NAVER_USER_ID] |
 | strategy_cards (V4.1) | `SELECT COUNT(*) FROM strategy_cards;` | [건수] |
 
 ---
@@ -68,7 +68,7 @@ DELETE FROM go100_strategy_cards WHERE go100_card_id NOT IN (13, 14, 15);
 
 ### [B] user_id 정합성 (수동 실행)
 
-- `NAVER_USER_ID` = `v4_users`에서 `email = 'moongoby@naver.com'`인 행의 `user_id`.
+- `NAVER_USER_ID` = `v4_users`에서 `email = '[CEO-EMAIL-NV]'`인 행의 `user_id`.
 - Cards 13–15의 `user_id`가 위와 다르면:
 
 ```sql

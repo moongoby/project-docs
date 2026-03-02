@@ -1,7 +1,7 @@
 # CUR-GO100-CHATWIDGET-FIX-003 보고서
 
 **일시**: 2026-02-23 16:20 KST  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 **목적**: ChatWidget FAB 근본 수정 — 인증 상태 의존 제거, 페이지 로드 시 무조건 FAB 렌더  
 **코드**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)  
 **문서**: /root/project-docs (branch: master)  

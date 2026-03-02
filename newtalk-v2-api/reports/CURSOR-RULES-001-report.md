@@ -10,7 +10,7 @@
 
 | 항목 | 결과 |
 |------|------|
-| 서버 접속 | `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` 성공 |
+| 서버 접속 | `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` 성공 |
 | .cursorrules 생성 | `/srv/newtalk-v2/.cursorrules` 생성 완료 (SCP 전송) |
 | 내용 확인 (cat) | head -30 및 wc -l 실행, 123줄 확인 |
 | .gitignore 확인 | cursorrules 항목 없음 → 커밋 대상 |

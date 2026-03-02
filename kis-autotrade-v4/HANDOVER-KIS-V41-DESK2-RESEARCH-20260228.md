@@ -10,7 +10,7 @@
 
 ## PART 1. 프로젝트 개요
 
-KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매 시스템. DESK1~5 멀티 전략 62개 카드 운영. 서버 root@211.188.51.113, 브랜치 phase-2c-command-center, DB PostgreSQL 16 (kisautotrade), Python 3.12, FastAPI.
+KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매 시스템. DESK1~5 멀티 전략 62개 카드 운영. 서버 root@[SERVER-IP], 브랜치 phase-2c-command-center, DB PostgreSQL 16 (kisautotrade), Python 3.12, FastAPI.
 
 GO100(백억이) — 동일 서버·DB에서 운영되는 AI 투자 플랫폼. 두 프로젝트가 DB를 공유하므로 GO100 데이터(뉴스, 펀더멘탈 등)를 DESK2 연구에서 즉시 활용 가능.
 

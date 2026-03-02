@@ -45,8 +45,8 @@
 
 ## 검수 결과
 - **TypeScript 컴파일**: 서버 `/srv/newtalk-v2`에서 `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` 실행 후 결과 확인. (로컬에 Docker/env 없으면 해당 서버에서 실행)
-- **페이지 렌더링**: 서버에서 `docker compose --env-file .env.docker up -d --build frontend` 후 `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content` → 200, `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content/new` → 200 확인.
-- **V1 헬스**: **200** (curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86)
+- **페이지 렌더링**: 서버에서 `docker compose --env-file .env.docker up -d --build frontend` 후 `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/wholesale/content` → 200, `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/wholesale/content/new` → 200 확인.
+- **V1 헬스**: **200** (curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP])
 
 ## 비고
 - 파일 업로드 백엔드 API는 R2-API-003에서 구현 예정. 현재는 프론트만 구현, API 연동 시 `contents`, `contents/mine`, `contents/{id}`, `media/upload`, `products/mine` 엔드포인트 필요.

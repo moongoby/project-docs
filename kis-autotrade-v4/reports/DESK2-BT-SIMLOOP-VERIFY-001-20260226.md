@@ -13,7 +13,7 @@
 ═══════════════════════════════════════════════════════════
 
 환경:
-- 서버: root@211.188.51.113
+- 서버: root@[SERVER-IP]
 - DB: localhost:5432/kisautotrade (kis_admin)
 - 가상환경: source /root/kis-autotrade-v4/.venv/bin/activate
 - PYTHONPATH: /root/kis-autotrade-v4:/root/kis-autotrade-v4/backend
@@ -461,7 +461,7 @@ curl -s -o /dev/null -w "%{http_code}" \
 ═══════════════════════════════════════════════════════════
 
 환경:
-- 서버: root@211.188.51.113
+- 서버: root@[SERVER-IP]
 - DB: localhost:5432/kisautotrade (kis_admin)
 - 가상환경: source /root/kis-autotrade-v4/.venv/bin/activate
 - PYTHONPATH: /root/kis-autotrade-v4:/root/kis-autotrade-v4/backend

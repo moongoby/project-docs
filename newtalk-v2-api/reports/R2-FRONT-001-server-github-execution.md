@@ -9,7 +9,7 @@
 
 | 대상 | 방법 | 결과 |
 |------|------|------|
-| **서버** | `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` | **가능** — 호스트명 `rfree-0009.cafe24.com`, 작업 디렉터리 `/srv/newtalk-v2` 확인 |
+| **서버** | `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` | **가능** — 호스트명 `[SERVER-HOSTNAME]`, 작업 디렉터리 `/srv/newtalk-v2` 확인 |
 | **GitHub** | 서버에서 `git fetch origin` / `git push origin feature/R2-FRONT-001-setup` | **가능** — remote `git@github.com:moongoby/newtalk-v2-api-.git` 기준 fetch/push 성공 |
 
 ---

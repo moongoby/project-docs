@@ -33,7 +33,7 @@
 - **원격 RAW 확인**:
   - DB-SCHEMA.md: https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/DB-SCHEMA.md → **200**
   - V1-SCHEMA-SUMMARY.md: https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/V1-SCHEMA-SUMMARY.md → **200**
-- **V1 헬스**: http://114.207.244.86 → **200**
+- **V1 헬스**: http://[SERVER-IP] → **200**
 
 ---
 
@@ -56,7 +56,7 @@
    - 일부 환경에서 `git commit -m "한글메시지"` 시 발생.  
    - 대응: 영문 단순 메시지로 커밋, 또는 `env -i ... git commit -m "..."` 로 커밋.
 3. **V1 상세 스키마**  
-   - V1 DB가 접속 가능한 서버(예: 114.207.244.86)에서 동일 스크립트를 다시 실행하면 `V1-SCHEMA-SUMMARY.md`에 테이블 목록 및 주요 테이블 상세가 채워짐.
+   - V1 DB가 접속 가능한 서버(예: [SERVER-IP])에서 동일 스크립트를 다시 실행하면 `V1-SCHEMA-SUMMARY.md`에 테이블 목록 및 주요 테이블 상세가 채워짐.
 
 ---
 

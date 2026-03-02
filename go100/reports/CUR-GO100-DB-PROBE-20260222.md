@@ -20,9 +20,9 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=kisautotrade
 DB_USER=kis_admin
-DB_PASSWORD=KisAuto2026!Secure
-DATABASE_URL=postgresql+asyncpg://kis_admin:KisAuto2026!Secure@localhost:5432/kisautotrade
-DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:KisAuto2026!Secure@localhost:5432/kisautotrade
+DB_PASSWORD=[DB-PASSWORD]
+DATABASE_URL=postgresql+asyncpg://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade
+DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade
 ```
 
 ### (b) 실제 DB 목록 (`sudo -u postgres psql -c "\l"`)
@@ -59,8 +59,8 @@ DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:KisAuto2026!Secure@localhost:5
 |------|-----|
 | DB명 | kisautotrade |
 | 사용자 | kis_admin (애플리케이션) / postgres (관리) |
-| 접속 방법 | `sudo -u postgres psql -d kisautotrade` 또는 `PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade` |
-| .env DATABASE_URL | postgresql+asyncpg://kis_admin:KisAuto2026!Secure@localhost:5432/kisautotrade |
+| 접속 방법 | `sudo -u postgres psql -d kisautotrade` 또는 `PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade` |
+| .env DATABASE_URL | postgresql+asyncpg://kis_admin:[DB-PASSWORD]@localhost:5432/kisautotrade |
 
 ---
 
@@ -90,8 +90,8 @@ DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:KisAuto2026!Secure@localhost:5
 
 | user_id | email | nickname |
 |------|------|
-| 3 | moongoby@naver.com | 오병용 |
-| 2 | moongoby@gmail.com | 대표님 |
+| 3 | [CEO-EMAIL-NV] | 오병용 |
+| 2 | [CEO-EMAIL-GM] | 대표님 |
 
 ※ v4_users 테이블에는 `username` 컬럼 없음. `nickname` 사용.
 
@@ -101,8 +101,8 @@ DATABASE_URL_SYNC=postgresql+psycopg2://kis_admin:KisAuto2026!Secure@localhost:5
 
 | id | email | name |
 |------|------|
-| 6 | moongoby@gmail.com | 대표님 |
-| 15 | moongoby@naver.com | 오병용 |
+| 6 | [CEO-EMAIL-GM] | 대표님 |
+| 15 | [CEO-EMAIL-NV] | 오병용 |
 
 ---
 
@@ -452,6 +452,6 @@ SELECT * FROM go100_strategy_cards ORDER BY go100_card_id;
 | 사용자 테이블 | v4_users (user_id bigint, email, nickname). 레거시 users(id, email, name) 별도 존재 |
 | 전략 카드 | **go100_strategy_cards**: GO100용, 15건, card_status/strategy_type 등 풀 스펙. **strategy_cards**: V4.1 대시/CRUD용, 59건, card_id/user_id/account_id/desk_id 등 |
 | Catalog API | `GET /strategy-cards/catalog` → `list_cards_with_system()` (시스템 전략 + 사용자 카드 통합). 서비스는 strategy_cards 기반 + go100_strategy_cards 병합 처리 |
-| 두 계정 | moongoby@naver.com → v4_users.user_id=3 (오병용), moongoby@gmail.com → v4_users.user_id=2 (대표님) |
+| 두 계정 | [CEO-EMAIL-NV] → v4_users.user_id=3 (오병용), [CEO-EMAIL-GM] → v4_users.user_id=2 (대표님) |
 
 ※ 코드/DB 변경 없음. 조사만 수행함.

@@ -26,7 +26,7 @@
 
 ## PART 2. 프로젝트 개요
 
-KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매. 서버 root@211.188.51.113, DB PostgreSQL 16 (kisautotrade), 225 테이블 15.7GB, 일봉 3년 261만행, 1분봉 4,200만+행, 뉴스 214만건, 투자자 수급 26.1만행.
+KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매. 서버 root@[SERVER-IP], DB PostgreSQL 16 (kisautotrade), 225 테이블 15.7GB, 일봉 3년 261만행, 1분봉 4,200만+행, 뉴스 214만건, 투자자 수급 26.1만행.
 
 5개 DESK 체계: DESK5(장기풀 D-120~D-20) → DESK4(중기풀 D-40~D-5) → DESK3(단기풀 D-10~D-1, 50~100종목) → **DESK2(당일 실행, 6전략+1탐지)** → DESK1(초단기).
 

@@ -35,7 +35,7 @@
 ## 검수 결과
 - **TypeScript 컴파일**: `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` → 0 에러
 - **페이지 렌더링**: /retail/cart, /retail/order/new, /retail/orders, /wholesale/orders → 각 200 (또는 302 로그인 리다이렉트)
-- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 - **보고서 빈칸**: 0 (푸시 후 SHA·완료일을 실제 값으로 교체 후 재커밋)
 
 ## 신규/수정 파일

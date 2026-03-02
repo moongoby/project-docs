@@ -119,7 +119,7 @@
 
 ## 6. 환경 정보
 
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **프로젝트 경로**: /root/kis-autotrade-v4
 - **가상환경**: /root/kis-autotrade-v4/.venv (또는 venv)
 - **PYTHONPATH**: /root/kis-autotrade-v4/backend

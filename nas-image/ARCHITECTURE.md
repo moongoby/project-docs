@@ -26,13 +26,13 @@
 ### 2.1 NAS (이미지 처리 서버)
 - 하드웨어: Synology DS1821+, AMD Ryzen V1500B 4-core, 8GB RAM
 - OS: DSM 7.2.1
-- IP: 사설 192.168.30.23, 공인 183.96.69.193
-- SSH: 포트 2222, 사용자 newtalk
+- IP: 사설 [NAS-IP], 공인 [NAS-PUBLIC-IP]
+- SSH: 포트 [NAS-SSH-PORT], 사용자 newtalk
 - Docker: 24.0.2
 - 컨테이너: newtalk-image-auto (Python 3.11, FastAPI, uvicorn, 포트 8100)
 
 ### 2.2 114 서버 (이미지 CDN/DB)
-- 호스팅: cafe24, IP 114.207.244.86, SSH 포트 7916
+- 호스팅: cafe24, IP [SERVER-IP], SSH 포트 7916
 - 디스크: /dev/sdb1 (11TB, 4.7TB 사용, 5.7TB 가용)
 - 이미지 경로: /home/danharoo/www/data/files/goods/goodscode/img/{소문자상품코드}/
 - CDN: https://cdn.newtalk.kr/data/files/goods/goodscode/img/{GoodsCode}/{파일명}
@@ -115,8 +115,8 @@ POST /api/classify, POST /api/classify/reclassify, POST /api/classify/confirm
 - 상품코드 소문자 변환 필수
 
 ## 8. 네트워크 및 보안
-- NAS SSH: newtalk@192.168.30.23:2222 (키 인증)
-- NAS→114: nasync@114.207.244.86:7916 (키 인증, cafe24 방화벽 NAS IP 허용)
+- NAS SSH: newtalk@[NAS-IP]:[NAS-SSH-PORT] (키 인증)
+- NAS→114: nasync@[SERVER-IP]:7916 (키 인증, cafe24 방화벽 NAS IP 허용)
 - Docker API: localhost:8100 (내부 전용)
 - PhotoRoom: x-api-key 헤더
 - .env: .gitignore 제외

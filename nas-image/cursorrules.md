@@ -1,6 +1,6 @@
 # 뉴톡 이미지 자동화 시스템 - Cursor 규칙
 > 프로젝트: newtalk-image-auto
-> 서버: Synology NAS 192.168.30.23:2222
+> 서버: Synology NAS [NAS-IP]:[NAS-SSH-PORT]
 > 최종 갱신: 2026-02-25
 
 ## 문서 레포(Public) 동기화 — 반드시 수행

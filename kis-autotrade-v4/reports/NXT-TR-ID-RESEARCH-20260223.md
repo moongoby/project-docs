@@ -4,7 +4,7 @@
 |------|------|
 | 작업 ID | NXT-TR-ID-RESEARCH |
 | 일시 | 2026-02-23 KST |
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 | 목적 | KIS API 문서에서 NXT/시간외 주문 TR_ID 및 파라미터 확인 |
 
 ## 분석 결과

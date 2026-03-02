@@ -12,7 +12,7 @@
 
 **실행 (2026-02-26):**
 
-- **116 서버 경로:** `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` 접속 시 `/home/newpigup3` 디렉터리가 존재하지 않음 (동일 호스트 기준).
+- **116 서버 경로:** `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` 접속 시 `/home/newpigup3` 디렉터리가 존재하지 않음 (동일 호스트 기준).
 - **로컬 server116 저장소 기준:**
 
 ```text

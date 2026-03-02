@@ -9,7 +9,7 @@
 
 ## 1. 작업 개요
 - **목적:** GitHub remote URL을 `newtalk-admin/newtalk-v2-api` → `moongoby/newtalk-v2-api`로 변경하고, main / develop / feature 브랜치 푸시.
-- **실행:** 서버 `114.207.244.86`에 SSH 접속 후 `/srv/newtalk-v2`에서 직접 실행.
+- **실행:** 서버 `[SERVER-IP]`에 SSH 접속 후 `/srv/newtalk-v2`에서 직접 실행.
 
 ---
 

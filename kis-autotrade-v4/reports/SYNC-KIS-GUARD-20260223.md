@@ -3,7 +3,7 @@
 - 작업자: Cursor
 
 ## 사전 확인
-- strategy_cards: (로컬 psql 타임아웃 — 서버 211.188.51.113에서 기대값 62 확인 권장)
+- strategy_cards: (로컬 psql 타임아웃 — 서버 [SERVER-IP]에서 기대값 62 확인 권장)
 - v4_positions OPEN: (로컬 psql 타임아웃 — 서버에서 기대값 5 확인 권장)
 - 서비스: kis-v41-api active, kis-v41-monitor active, kis-v41-scheduler active
 

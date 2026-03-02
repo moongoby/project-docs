@@ -73,6 +73,6 @@ docs/ 루트의 기존 NT-V2-PLAN-002-FINAL.md, NT-V2-ARCHITECTURE.md는 삭제�
 
 ## 5. 참고
 
-- SSH: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86`
+- SSH: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]`
 - V2 경로: `/srv/newtalk-v2/`
 - 레포: `github.com/moongoby/newtalk-v2-api-` (끝 하이픈 주의)

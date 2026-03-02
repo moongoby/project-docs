@@ -12,7 +12,7 @@
 ### 1. 서버 접속
 
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 ```
 
 ### 2. 스크립트 실행
@@ -29,7 +29,7 @@ bash /srv/newtalk-v2/docs/scripts/DOCS-ARCH-001-remediation-sync.sh
 # 로컬에서
 scp -P 7916 -i ~/.ssh/id_ed25519_newtalk \
   /root/newtalk-v2/docs/scripts/DOCS-ARCH-001-remediation-sync.sh \
-  root@114.207.244.86:/tmp/
+  root@[SERVER-IP]:/tmp/
 
 # 서버에서 (project-docs 경로가 /root/project-docs-repo인 경우)
 bash /tmp/DOCS-ARCH-001-remediation-sync.sh

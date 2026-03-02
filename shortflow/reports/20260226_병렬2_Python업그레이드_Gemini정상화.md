@@ -1,7 +1,7 @@
 # [병렬2/4] Python 3.10+ 업그레이드 + Gemini SDK 정상화
 
 **작성일시:** 2026-02-26 20:10 KST  
-**서버:** ssh root@114.207.244.86  
+**서버:** ssh root@[SERVER-IP]  
 **작업 디렉터리:** /data/shortflow  
 **관련:** `venv`, `venv_test`, `pyenv`, `requirements*.txt`, `.env`
 

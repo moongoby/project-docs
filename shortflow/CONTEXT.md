@@ -8,10 +8,10 @@
 - **자체 채널**: korea walker (UCqpf3lJQio6EBHxthLQob0g) + moongoby (UC9fJiBkP9yYq4taKOXqFvsg)
 
 ## 인프라
-- **114서버**: rfree-0009.cafe24.com (루트 76%, 197GB 여유)
+- **114서버**: [SERVER-HOSTNAME] (루트 76%, 197GB 여유)
 - **프로젝트 경로**: /data/shortflow → 심볼릭 링크 → goodscode 11TB 서브디스크
 - **StyleFlow 경로**: /data/styleflow → 심볼릭 링크 → goodscode
-- **NAS**: Synology DSM 7.2.1, 내부 192.168.30.23, 외부 183.96.69.193, SSH 2222
+- **NAS**: Synology DSM 7.2.1, 내부 [NAS-IP], 외부 [NAS-PUBLIC-IP], SSH 2222
 - **DB**: MySQL autoda (상품 77,122건, goods 테이블)
 - **Supabase**: Auth + DB (profiles, coupang_credentials 등)
 - **GitHub**: https://github.com/moongoby/shortflow (private, SSH)

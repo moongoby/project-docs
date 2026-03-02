@@ -85,8 +85,8 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 | URL | 기대 HTTP | 결과 |
 |-----|-----------|------|
 | http://127.0.0.1:3000 | 200 | frontend 컨테이너 기동 후 확인 |
-| http://114.207.244.86:3000 | 200 | frontend 컨테이너 기동 후 확인 |
-| http://114.207.244.86:3000/login | 200 | 동일 |
+| http://[SERVER-IP]:3000 | 200 | frontend 컨테이너 기동 후 확인 |
+| http://[SERVER-IP]:3000/login | 200 | 동일 |
 
 ---
 
@@ -98,7 +98,7 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 | 대시보드 KPI | /admin/dashboard 접속 | 카드 4개 데이터 표시 | 동일 |
 | 사입 대시보드 | /admin/purchasing 접속 | 요약·도매처·알림 표시 | 동일 |
 | 기존 API | curl POST .../api/auth/login | 200 | AuthController 반영 후 확인 |
-| V1 보호 | curl http://114.207.244.86 | 200 | (기존 확인) |
+| V1 보호 | curl http://[SERVER-IP] | 200 | (기존 확인) |
 
 ---
 
@@ -121,7 +121,7 @@ frontend 서비스는 `docs/R2-FRONT-001-docker-nginx.md` 참고하여 서버에
 - [x] PART 3-1: Next.js 프로젝트 구조 생성, package.json, shadcn/ui 의존성 포함
 - [x] PART 3-2: api.ts, auth-store, login/register, layouts, admin/retail/wholesale 대시보드
 - [x] PART 3-3: Docker·nginx 안내 문서 (R2-FRONT-001-docker-nginx.md)
-- [ ] PART 3-4: http://114.207.244.86:3000 접속 200 (서버 배포 후)
+- [ ] PART 3-4: http://[SERVER-IP]:3000 접속 200 (서버 배포 후)
 - [ ] PART 3-4: 로그인 → 역할별 리다이렉트 (서버 배포 후)
 - [ ] PART 3-4: 관리자 대시보드 R1 API 데이터 표시 (서버 배포 후)
 - [x] PART 3-5: Git 커밋·푸시 (서버에서 실행 완료, ce541c5)

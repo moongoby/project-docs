@@ -7,12 +7,12 @@
 
 ## 1. 프로젝트 개요
 - ShortFlow v3.0: YouTube Shorts 자동 생성·업로드 SaaS
-- 서버: root@114.207.244.86 (rfree-0009.cafe24.com, Ubuntu 20.04 Focal), 작업 디렉터리 /data/shortflow
+- 서버: root@[SERVER-IP] ([SERVER-HOSTNAME], Ubuntu 20.04 Focal), 작업 디렉터리 /data/shortflow
 - GitHub 본 레포: https://github.com/moongoby/shortflow (main)
 - GitHub 문서 레포: https://github.com/moongoby/project-docs (master)
 - 대시보드: https://shotflow.newtalk.kr (Docker 포트 3001, Cloudflare Proxied)
 - DB: MySQL autoda (77,122 rows), Supabase (auth + PostgreSQL)
-- YouTube 채널: 3분경제 (oby240610@gmail.com), 건강한입 (moongo76@gmail.com), 역사5분 (미발급)
+- YouTube 채널: 3분경제 ([CHANNEL-EMAIL-1]), 건강한입 ([CHANNEL-EMAIL-2]), 역사5분 (미발급)
 - Tech: Python 3.9.5 (3.8→3.9 업그레이드 완료 02-27), FastAPI, Next.js 14, FFmpeg, Docker, crontab
 - YouTube API: 10,000 units/day, 1,600/upload, 최대 6회/일
 - LLM: Gemini 2.5 Flash (model ID: gemini-2.5-flash) → Anthropic Claude (폴백) → OpenAI GPT (폴백)

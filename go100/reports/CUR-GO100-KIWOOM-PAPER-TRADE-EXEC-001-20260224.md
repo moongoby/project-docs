@@ -1,7 +1,7 @@
 # CUR-GO100-KIWOOM-PAPER-TRADE-EXEC-001 보고서
 
 **작업일시**: 2026-02-24 KST
-**서버**: root@211.188.51.113
+**서버**: root@[SERVER-IP]
 **목적**: 키움증권 모의계좌(account_id=4, 81201280) 실매매 실행 테스트
 **사전점검**: CUR-GO100-KIWOOM-PAPER-TRADE-TEST-001-20260224.md (전 항목 PASS)
 
@@ -39,7 +39,7 @@
 ## 다음 단계
 
 - 전 항목 PASS (매도만 모의 잔고 미반영으로 스킵) → GO100 프론트엔드에서 paper-trading 페이지 브라우저 테스트 권장
-- JWT 로그인(moongoby@naver.com / test1234) 401 시: 비밀번호 확인 또는 API 대신 Python 직접 호출로 검증 가능
+- JWT 로그인([CEO-EMAIL-NV] / test1234) 401 시: 비밀번호 확인 또는 API 대신 Python 직접 호출로 검증 가능
 
 ## APPENDIX: 실행 로그 요약
 

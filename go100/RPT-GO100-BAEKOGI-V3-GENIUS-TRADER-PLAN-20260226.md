@@ -30,7 +30,7 @@ Phase 4~10에서 16건의 모듈을 구현하고 E2E 17/17 PASS를 받았습니�
 
 ### 1-4. 사용자 현황
 
-v4_users 4명(시스템 계정 포함). 실사용자는 대표님(user_id=2, moongoby@gmail.com)과 오병용님(user_id=3, moongoby@naver.com) 2명. 전략 카드 3건 모두 user_id=3 소유.
+v4_users 4명(시스템 계정 포함). 실사용자는 대표님(user_id=2, [CEO-EMAIL-GM])과 오병용님(user_id=3, [CEO-EMAIL-NV]) 2명. 전략 카드 3건 모두 user_id=3 소유.
 
 ---
 

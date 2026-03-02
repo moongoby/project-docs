@@ -1,7 +1,7 @@
 # CUR-GO100-KIWOOM-ORDER-001 결과 보고서
 
 **일시:** 2026-02-23 (월) 15:35 KST  
-**서버:** root@211.188.51.113 (SSH)  
+**서버:** root@[SERVER-IP] (SSH)  
 **목적:** 키움 모의계좌(account_id=4, 81201280) 실제 매수/매도 주문 테스트  
 **선행:** KIWOOM-TEST-003 → 토큰 발급 성공, 잔고 조회 200 정상  
 **절대규칙:** kis-v41-* 서비스 재시작 금지, strategy_cards ALTER/DROP/DELETE 금지

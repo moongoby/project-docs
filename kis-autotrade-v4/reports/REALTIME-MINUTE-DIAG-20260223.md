@@ -2,7 +2,7 @@
 
 **작업 ID**: REALTIME-MINUTE-DIAG  
 **일자**: 2026-02-23  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 **브랜치**: phase-2c-command-center  
 **우선순위**: P1 (읽기 전용 진단)
 

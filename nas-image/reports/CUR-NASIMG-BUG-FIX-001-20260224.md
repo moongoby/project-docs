@@ -92,7 +92,7 @@ python -m pytest tests/test_qc_ui.py tests/test_tone_matcher.py -v --tb=short
 ```
 
 ### 3.2 수동 확인 권장 (NAS 배포 후)
-1. `http://192.168.30.23:8100/qc/presets/register` 접속  
+1. `http://[NAS-IP]:8100/qc/presets/register` 접속  
 2. 대표 이미지 선택, 이름·설명 등 입력 후 **등록** 클릭  
 3. "등록되었습니다." 메시지 후 약 1.5초 뒤 `/qc/presets`로 이동하는지 확인  
 4. 목록에 방금 등록한 프리셋이 보이고, 썸네일이 로드되는지 확인  
@@ -102,10 +102,10 @@ python -m pytest tests/test_qc_ui.py tests/test_tone_matcher.py -v --tb=short
 ```bash
 # 등록 (이미지 파일 필요)
 curl -s -X POST -F "image=@/path/to/test.jpg" -F "name=테스트" \
-  http://192.168.30.23:8100/api/preset/register
+  http://[NAS-IP]:8100/api/preset/register
 
 # 목록
-curl -s http://192.168.30.23:8100/api/preset/list
+curl -s http://[NAS-IP]:8100/api/preset/list
 ```
 
 ---
@@ -147,7 +147,7 @@ NAS SSH 접속 후 아래 중 한 가지로 실행한 뒤, **출력 전체**를 
 
 ```bash
 # 방법 A: 로컬에서 원격 실행
-ssh -p 2222 newtalk@192.168.30.23 "cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh"
+ssh -p 2222 newtalk@[NAS-IP] "cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh"
 
 # 방법 B: NAS에 접속한 뒤
 cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh
@@ -249,7 +249,7 @@ cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh
 프로젝트 루트에 `scripts/nas_docker_code_verify.sh` 추가됨. NAS 접속 후:
 
 ```bash
-ssh -p 2222 newtalk@192.168.30.23
+ssh -p 2222 newtalk@[NAS-IP]
 cd /volume1/뉴톡/newtalk-image-auto
 bash scripts/nas_docker_code_verify.sh
 ```

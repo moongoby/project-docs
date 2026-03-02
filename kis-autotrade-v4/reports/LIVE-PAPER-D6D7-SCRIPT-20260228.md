@@ -22,7 +22,7 @@ KIS 모의투자 API를 통해 자동 운영하는 스크립트.
 ## 2. 실행 환경
 
 ```
-서버: root@211.188.51.113
+서버: root@[SERVER-IP]
 경로: /root/kis-autotrade-v4/scripts/live_paper_d6_d7.py
 Python: 3.12.3 (venv)
 의존성: psycopg2, httpx, numpy

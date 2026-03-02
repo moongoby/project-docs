@@ -1,7 +1,7 @@
 # CUR-GO100-CHATWIDGET-FIX-002 보고서
 
 **일시**: 2026-02-23 16:00 KST  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 **목적**: ChatWidget FAB 브라우저 미노출 원인 특정 및 수정  
 **코드**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)  
 **절대규칙**: kis-v41-* 재시작 금지, strategy_cards ALTER/DROP/DELETE 금지

@@ -46,8 +46,8 @@
 - GET /api/v1/strategy-cards/for-backtest
 
 ## user_id 매핑 (★ 핵심)
-- moongoby@naver.com: v4_users.user_id=3, legacy users.id=15
-- moongoby@gmail.com: v4_users.user_id=2, legacy users.id=6
+- [CEO-EMAIL-NV]: v4_users.user_id=3, legacy users.id=15
+- [CEO-EMAIL-GM]: v4_users.user_id=2, legacy users.id=6
 - JWT에는 legacy id가 들어있으므로 반드시 get_effective_uid() 사용
 
 ## 문서 동기화

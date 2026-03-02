@@ -2,7 +2,7 @@
 
 **작업 ID:** CUR-STRATEGY-MOCK-LIVE-001  
 **일시:** 2026-02-24 KST (화요일)  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4  
 **브랜치:** phase-2c-command-center  
 

@@ -240,7 +240,7 @@
 ---
 
 ## 10. 알려진 이슈 / 제한사항
-- DB 직접 접속 없이 코드 기준으로 스키마 기술. 실제 DB는 서버(211.188.51.113)에서 PGPASSWORD 등으로 접속 필요.
+- DB 직접 접속 없이 코드 기준으로 스키마 기술. 실제 DB는 서버([SERVER-IP])에서 PGPASSWORD 등으로 접속 필요.
 - ChatInterface의 DEFAULT_USER_ID=1 하드코딩은 ISS-012 등에서 제거 권장(실제 auth-store user_id 사용).
 - BacktestOptimizer는 OpenAI gpt-4o 고정; 다른 모델/LLMGateway 통합은 미적용.
 - 24시간 백테스트 캐시 사용 시 동일 카드 파라미터 변경 후에도 캐시가 우선 사용됨.

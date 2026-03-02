@@ -2,7 +2,7 @@
 
 **작성:** 2026-02-24  
 **우선순위:** P1 (프로세스 재설계)  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4 (branch: phase-2c-command-center → docs/CUR-GO100-TRADE-PROCESS-REDESIGN-001)  
 **참조:** [PLANNING](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/PLANNING.md), [DB_SCHEMA](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/DB_SCHEMA.md), [API_SPEC](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/API_SPEC.md), [go100-rules](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/rules/go100-rules.md), [GIT-WORKFLOW](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/rules/GIT-WORKFLOW.md)
 
@@ -190,12 +190,12 @@
 
 ## 7. 진단 시 실행한 명령 (참고)
 
-- **DB:** 서버(211.188.51.113)에서 직접 실행 시 아래로 스키마/데이터 확인 가능.  
+- **DB:** 서버([SERVER-IP])에서 직접 실행 시 아래로 스키마/데이터 확인 가능.  
   (로컬에서 Peer 인증 등으로 접속 불가 시, 보고서는 코드·마이그레이션 기준으로 작성됨.)
 
 ```bash
 # 1-1. go100_strategy_cards 설정값 컬럼
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 SELECT column_name, data_type, column_default
 FROM information_schema.columns
 WHERE table_name='go100_strategy_cards'
@@ -203,21 +203,21 @@ AND column_name IN ('allocated_amount','max_stocks','risk_params','entry_rules',
 ORDER BY ordinal_position"
 
 # 1-2. 카드 데이터 샘플
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 SELECT go100_card_id, strategy_name, card_status, is_active, is_live,
        allocated_amount, max_stocks, risk_params::text,
        length(entry_rules::text) AS entry_rules_len, length(exit_rules::text) AS exit_rules_len
 FROM go100_strategy_cards ORDER BY go100_card_id LIMIT 5"
 
 # 1-3. v4_trade_schedules 스키마
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 SELECT column_name, data_type, column_default
 FROM information_schema.columns
 WHERE table_name='v4_trade_schedules'
 ORDER BY ordinal_position"
 
 # 1-4. 스케줄 최근 5건
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 SELECT * FROM v4_trade_schedules ORDER BY created_at DESC LIMIT 5"
 ```
 

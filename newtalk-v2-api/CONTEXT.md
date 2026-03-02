@@ -9,16 +9,16 @@
 
 - **V2 목표**: V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축, SNS형 B2B SaaS 마켓플레이스로 진화.
 - **GitHub**: https://github.com/moongoby/newtalk-v2-api- (끝 하이픈 주의)
-- **V1**: 114.207.244.86 (운영), 114.207.244.87 (어드민) — 수정 금지.
+- **V1**: [SERVER-IP] (운영), [ADMIN-SERVER-IP] (어드민) — 수정 금지.
 
 ---
 
 ## 2. 인프라
 
-- **서버**: rfree-009, Ubuntu 20.04, IP 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
-- **SSH**: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86`
+- **서버**: rfree-009, Ubuntu 20.04, IP [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
+- **SSH**: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]`
 - **Docker**: Docker 28.1.1, Compose v2.35.1. 프로젝트 경로: `/srv/newtalk-v2` (또는 워크스페이스 `/root/newtalk-v2`)
-- **NAS**: Synology DS1821+, 192.168.30.23, image-auto :8100
+- **NAS**: Synology DS1821+, [NAS-IP], image-auto :8100
 
 ---
 

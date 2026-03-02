@@ -2,7 +2,7 @@
 
 ## 작업 개요
 - **작업명**: TRADE-BRIDGE-FIX (P0 긴급)
-- **서버**: 211.188.51.113
+- **서버**: [SERVER-IP]
 - **목적**: `v4_trade_bridge.py` `_insert_position()` VALUES 괄호 중복 버그 수정 — 포지션 INSERT 실패로 인한 매매 사이클 미완성 해소
 - **CEO 승인**: ✅ v4_trade_bridge.py 수정 승인 (14:25 KST), kis-v41-api 1회 재시작 승인
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # R2-FRONT-006 검수 + R2-API-003 마감 runbook
-# 서버 114.207.244.86 /srv/newtalk-v2 에서 실행
-# SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+# 서버 [SERVER-IP] /srv/newtalk-v2 에서 실행
+# SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 # ============================================================
 # 1) 검수 실행 (tsc, docker build, curl) → 보고서 기입
 # 2) 마이그레이션 백업·실행, storage:link
@@ -34,12 +34,12 @@ echo "TSC: $TSC_RESULT"
 echo "=== 5-2 Docker frontend 빌드 ==="
 docker compose --env-file .env.docker up -d --build frontend 2>&1 || true
 sleep 15
-CURL_CONTENT=$(curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content || echo "000")
-CURL_NEW=$(curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/wholesale/content/new || echo "000")
+CURL_CONTENT=$(curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/wholesale/content || echo "000")
+CURL_NEW=$(curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/wholesale/content/new || echo "000")
 echo "/wholesale/content: $CURL_CONTENT, /wholesale/content/new: $CURL_NEW"
 
 # ----- 5-3 V1 헬스 -----
-V1_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86 || echo "000")
+V1_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP] || echo "000")
 echo "V1 헬스: $V1_HEALTH"
 
 # ----- 마이그레이션·storage:link -----
@@ -53,7 +53,7 @@ REPORT_FRONT=docs/reports/R2-FRONT-006-report.md
 sed -i "s/(서버 \/srv\/newtalk-v2 에서 git push 후 \`git log --oneline -1\` 로 확인하여 기입)/푸시후_SHA_교체/" "$REPORT_FRONT"
 sed -i "s|서버 \`/srv/newtalk-v2\`에서 \`docker compose --env-file .env.docker exec frontend npx tsc --noEmit\` 실행 후 결과 기입. (로컬에 Docker/env 없으면 해당 서버에서 실행 권장)|**$TSC_RESULT**|" "$REPORT_FRONT"
 sed -i "s|서버에서 \`docker compose --env-file .env.docker up -d --build frontend\` 후.*→ 200 확인.|**페이지 렌더링**: /wholesale/content → **$CURL_CONTENT**, /wholesale/content/new → **$CURL_NEW**|" "$REPORT_FRONT"
-sed -i "s|**V1 헬스**: \*\*200\*\* (curl -s -o /dev/null -w \"%{http_code}\" http://114.207.244.86)|**V1 헬스**: **$V1_HEALTH**|" "$REPORT_FRONT"
+sed -i "s|**V1 헬스**: \*\*200\*\* (curl -s -o /dev/null -w \"%{http_code}\" http://[SERVER-IP])|**V1 헬스**: **$V1_HEALTH**|" "$REPORT_FRONT"
 
 # ----- 토큰 획득 (wholesale 비밀번호 필요) -----
 echo "=== API 테스트용 토큰 (wholesale@newtalk.kr) ==="
@@ -61,7 +61,7 @@ if [ -z "$WHOLESALE_PW" ]; then
   echo "WHOLESALE_PW 미설정. export WHOLESALE_PW='비밀번호' 후 재실행 시 API 테스트 자동 기입."
   TOKEN=""
 else
-  TOKEN=$(curl -s -X POST http://114.207.244.86:8080/api/auth/login \
+  TOKEN=$(curl -s -X POST http://[SERVER-IP]:8080/api/auth/login \
     -H "Content-Type: application/json" \
     -d "{\"email\":\"wholesale@newtalk.kr\",\"password\":\"$WHOLESALE_PW\"}" | grep -o '"token":"[^"]*"' | cut -d'"' -f4) || true
 fi
@@ -71,16 +71,16 @@ HTTP_MEDIA="000"; HTTP_CREATE="000"; HTTP_MINE="000"; HTTP_SHOW="000"; HTTP_DELE
 if [ -n "$TOKEN" ]; then
   echo "토큰 획득됨. API 테스트 실행."
   [ ! -f /tmp/test.jpg ] && touch /tmp/test.jpg 2>/dev/null || true
-  HTTP_MEDIA=$(curl -s -o /tmp/api_media.json -w "%{http_code}" -X POST http://114.207.244.86:8080/api/media/upload \
+  HTTP_MEDIA=$(curl -s -o /tmp/api_media.json -w "%{http_code}" -X POST http://[SERVER-IP]:8080/api/media/upload \
     -H "Authorization: Bearer $TOKEN" -F "file=@/tmp/test.jpg" -F "type=image" 2>/dev/null || echo "000")
-  HTTP_CREATE=$(curl -s -o /tmp/api_create.json -w "%{http_code}" -X POST http://114.207.244.86:8080/api/contents \
+  HTTP_CREATE=$(curl -s -o /tmp/api_create.json -w "%{http_code}" -X POST http://[SERVER-IP]:8080/api/contents \
     -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
     -d '{"title":"테스트 콘텐츠","body":"본문","type":"image","status":"draft","visibility":"public","media_ids":[],"product_ids":[]}' 2>/dev/null || echo "000")
-  HTTP_MINE=$(curl -s -o /tmp/api_mine.json -w "%{http_code}" http://114.207.244.86:8080/api/contents/mine -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
+  HTTP_MINE=$(curl -s -o /tmp/api_mine.json -w "%{http_code}" http://[SERVER-IP]:8080/api/contents/mine -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
   CONTENT_ID=$(grep -o '"id":[0-9]*' /tmp/api_create.json 2>/dev/null | head -1 | cut -d: -f2)
   CONTENT_ID=${CONTENT_ID:-1}
-  HTTP_SHOW=$(curl -s -o /tmp/api_show.json -w "%{http_code}" "http://114.207.244.86:8080/api/contents/$CONTENT_ID" -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
-  HTTP_DELETE=$(curl -s -o /tmp/api_del.json -w "%{http_code}" -X DELETE "http://114.207.244.86:8080/api/contents/$CONTENT_ID" -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
+  HTTP_SHOW=$(curl -s -o /tmp/api_show.json -w "%{http_code}" "http://[SERVER-IP]:8080/api/contents/$CONTENT_ID" -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
+  HTTP_DELETE=$(curl -s -o /tmp/api_del.json -w "%{http_code}" -X DELETE "http://[SERVER-IP]:8080/api/contents/$CONTENT_ID" -H "Authorization: Bearer $TOKEN" 2>/dev/null || echo "000")
 else
   echo "토큰 없음. API 테스트 표는 수동 기입."
 fi
@@ -140,6 +140,6 @@ echo "exit code: $?"
 # ----- STEP 6: 원격 검증 -----
 sleep 5
 curl -s -o /dev/null -w "R2-API-003-report.md: %{http_code}\n" https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/reports/R2-API-003-report.md
-curl -s -o /dev/null -w "V1 헬스: %{http_code}\n" http://114.207.244.86
+curl -s -o /dev/null -w "V1 헬스: %{http_code}\n" http://[SERVER-IP]
 
 echo "=== Done. R2-API-003 마감 runbook 완료. ==="

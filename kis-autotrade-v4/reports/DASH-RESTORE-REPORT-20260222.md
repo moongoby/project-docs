@@ -1,7 +1,7 @@
 # DASH-RESTORE 결과 보고 (STEP 2·3 완료, 복구 실행 대기)
 
 **작업일**: 2026-02-22  
-**서버**: 211.188.51.113  
+**서버**: [SERVER-IP]  
 **경로**: /root/kis-autotrade-v4  
 
 ---
@@ -142,7 +142,7 @@ if _dashboard_dir.is_dir():
 # DASH-RESTORE-EXEC 결과 (실행 완료)
 
 **실행일시**: 2026-02-22  
-**서버**: 211.188.51.113  
+**서버**: [SERVER-IP]  
 **경로**: /root/kis-autotrade-v4  
 
 ---

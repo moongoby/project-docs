@@ -4,7 +4,7 @@
 |------|------|
 | 작업 ID | CUR-NXT-REGULAR-LIVE-001 |
 | 일시 | 2026-02-24 09:36 ~ 10:40 KST |
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 | 프로젝트 | /root/kis-autotrade-v4 |
 | 브랜치 | phase-2c-command-center |
 | 장 상태 | 정규장 (09:00~15:30) |

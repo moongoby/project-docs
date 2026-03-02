@@ -101,7 +101,7 @@ Fallback description:
 ## 4. Git 커밋 및 push
 
 - **shortflow:** `engine/coupang_partners.py`, `scripts/upload_worker.py`, `.env.example`, `.gitignore` 변경은 이미 main 브랜치에 반영된 상태로 확인됨.  
-  보고서 파일 `docs/reports/20260223_쿠팡파트너스_API연동_Description삽입.md`는 서버(rfree-0009)에서 아래로 추가 커밋 권장:
+  보고서 파일 `docs/reports/20260223_쿠팡파트너스_API연동_Description삽입.md`는 서버([SERVER-ID])에서 아래로 추가 커밋 권장:
   ```bash
   cd /data/shortflow
   git add docs/reports/20260223_쿠팡파트너스_API연동_Description삽입.md

@@ -39,8 +39,8 @@
 - 메인 플랫폼: newtalk.kr / pick.newtalk.kr
 - 브랜드몰: 10+ 카페24 서브도메인 (blessu, bingo, mayb, amiable, jacob 등)
 - 모바일 앱: iOS / Android
-- 어드민: 114.207.244.87
-- NAS 이미지 자동화: 192.168.30.23:8100
+- 어드민: [ADMIN-SERVER-IP]
+- NAS 이미지 자동화: [NAS-IP]:8100
 - ShortFlow AI 쇼츠: 별도 시스템
 
 ### 2.2 데이터 규모
@@ -262,7 +262,7 @@ Auth: Sanctum + Spatie (6 roles, 36 permissions)
 Infra: Docker Compose on rfree-009 (AMD EPYC 7262, 16GB)
 
 ## 부록 B: 인프라
-서버: 114.207.244.86/87, Docker 28.1.1, Ubuntu 20.04
+서버: [SERVER-IP]/87, Docker 28.1.1, Ubuntu 20.04
 V2 스택: app(PHP8.3), nginx(1.25:8080), db(MySQL8.0:3307), redis(7:6380), frontend(Next.js:3000)
-NAS: 192.168.30.23:8100 (Synology DS1821+)
+NAS: [NAS-IP]:8100 (Synology DS1821+)
 Git: github.com/moongoby/newtalk-v2-api-
