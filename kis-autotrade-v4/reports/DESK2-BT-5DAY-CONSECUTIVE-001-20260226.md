@@ -68,6 +68,9 @@
 
 ## 4. CEO 보고 요약
 
-- **보고서**: 본 문서 — `report/v41/DESK2-BT-5DAY-CONSECUTIVE-001-20260226.md`
-- **결과**: 5일 연속 백테스트 **미실행**. 사전 확인에서 strategy_cards 60건(목표 62건)으로 FAIL 처리 후 중단.
-- **다음 액션**: strategy_cards 62건 확인/복구 후 STEP 0 재실행 및 동일 5일 백테스트 플로우 재진행 권장.
+- **보고서 raw URL**:  
+  https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/DESK2-BT-5DAY-CONSECUTIVE-001-20260226.md
+- **푸시 검증**: HTTP 200 확인됨.
+- **5일 합산**: 미실행(STEP 0 실패로 백테스트 미수행). 총 거래수·총 손익·평균 일일 수익률 산출 불가.
+- **실매매 전환 기준**: 판정 불가(5일 결과 미수집).
+- **다음 단계 제안**: strategy_cards 62건 확인/복구 후 STEP 0 재실행 및 5일 연속 백테스트 플로우 재진행.

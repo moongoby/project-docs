@@ -28,7 +28,10 @@ globs: [
    - backtest_engine_v2.py, collector_minute.py, main.py
 6. 사전 확인 필수: strategy_cards = 62, v4_positions OPEN = 5
 7. 작업 완료 시 보고서 필수: report/v41/{작업ID}-{YYYYMMDD}.md
-   보고서 동기화: bash /root/project-docs/scripts/sync_reports.sh
+   보고서 발행(개별): bash /root/project-docs/scripts/publish_report.sh {작업ID}
+   보고서 동기화(전체): bash /root/project-docs/scripts/sync_kis.sh
+   push 후 확인: curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{파일명}
+   ※ HTTP 200 확인 필수. 미확인 시 태스크 미완료.
 
 ## 환경
 - Python 3.12, FastAPI, SQLAlchemy (asyncpg), PostgreSQL 16, Redis 7.x
@@ -231,7 +234,8 @@ PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.p
 5. 서비스 상태 확인: systemctl is-active kis-v41-api kis-v41-monitor kis-v41-scheduler
    (재시작은 절대 금지 — CEO/지시서 명시 시에만)
 6. 보고서 작성: report/v41/{작업ID}-{YYYYMMDD}.md
-7. 보고서 동기화: bash /root/project-docs/scripts/sync_reports.sh
+7. 보고서 발행: bash /root/project-docs/scripts/publish_report.sh {작업ID}
+   또는 전체: bash /root/project-docs/scripts/sync_kis.sh → HTTP 200 확인 필수
 
 ## 코드 검수 프로세스
 핵심 파일 수정 시:

@@ -1,0 +1,49 @@
+[
+  {
+    "go100_card_id": 44,
+    "strategy_name": "CEO 신고가 돌파 모멘텀",
+    "card_status": "DRAFT",
+    "entry_rules": [
+      {
+        "type": "price_breakout",
+        "period": 252,
+        "direction": "up"
+      },
+      {
+        "type": "volume_surge",
+        "ratio": 1.5,
+        "period": 20
+      },
+      {
+        "long": 20,
+        "type": "ma_cross",
+        "short": 5,
+        "direction": "golden"
+      }
+    ],
+    "exit_rules": [
+      {
+        "pct": 15,
+        "type": "profit_target"
+      },
+      {
+        "pct": 3,
+        "type": "stop_loss"
+      },
+      {
+        "pct": 7,
+        "type": "trailing_stop"
+      },
+      {
+        "max": 20,
+        "type": "holding_days"
+      },
+      {
+        "long": 20,
+        "type": "ma_cross",
+        "short": 5,
+        "direction": "dead"
+      }
+    ]
+  }
+]

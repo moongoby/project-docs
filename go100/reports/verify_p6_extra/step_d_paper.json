@@ -1,0 +1,19 @@
+{
+  "request": "이 전략으로 30일 모의투자 시작해줘",
+  "status_code": 200,
+  "response": {
+    "agent_name": "PAPER_START",
+    "reply_to_user": "💼 **내 포트폴리오**\n_2026-02-28(토) 14:50 기준_\n\n먼저 전략 포트폴리오를 만들어 주세요. '투자 목표 설정해줘' 또는 '전략 만들어줘'로 포트폴리오를 구성한 뒤 페이퍼 트레이딩을 시작할 수 있어요.\n---\n💡 포트폴리오 리밸런싱을 검토해볼까요? 또는 새 전략을 추가해보세요.",
+    "user_intent": null,
+    "strategy_design": null,
+    "needs_more_info": false,
+    "error": null,
+    "status": "completed",
+    "strategy_card_id": null,
+    "go100_card_id": null,
+    "backtest_result": null,
+    "evaluation": null,
+    "optimization_history": [],
+    "data": null
+  }
+}

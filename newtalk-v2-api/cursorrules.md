@@ -98,6 +98,21 @@
 # - GitHub SSH: ~/.ssh/config에 github.com Host 설정 완료 상태.
 #   키: /root/.ssh/id_ed25519_newtalk
 # - GitHub CLI (gh): 설치 완료. 인증 필요 시 gh auth login -p ssh -h github.com
+#
+# 7.1 Git push 완료 원칙 (의미 A — 모든 세션에서 반드시 push까지 완료)
+# - push는 "선택"이 아니라 "필수 완료"이다. 작업에서 커밋까지 했다면 반드시 push까지 끝낸다.
+# - push가 거절되면 (non-fast-forward, rejected) 그대로 보고하고 끝내지 않는다.
+#   → 원격 이력을 덮어쓰는 force push는 사용하지 않는다 (원격만의 커밋 보존).
+# - push 거절 시 반드시 다음 순서로 진행하여 같은 세션 안에서 push 성공시킨다:
+#   (1) git fetch origin
+#   (2) git pull origin main   (merge 방식으로 원격 반영)
+#   (3) 충돌(conflict) 발생 시 충돌 파일을 열어 <<<< / ==== / >>>> 마커 해결
+#       → 양쪽 변경을 병합하거나, 최종 의도에 맞게 내용 확정
+#   (4) git add <해결한 파일> && git commit (merge 커밋 완료)
+#   (5) git push origin main
+# - rebase로 진행해도 된다: git pull --rebase origin main 후 충돌 해결 → git add → git rebase --continue 반복 → push.
+# - 충돌 해결 후 push가 성공할 때까지 재시도한다. "수동으로 하라"고만 보고하고 끝내지 않는다.
+# - 모든 Cursor 세션은 "커밋했으면 push까지 완료된 상태"로 종료한다.
 
 # ============================================================
 # 8. 배포 규칙
@@ -142,7 +157,8 @@
 #   (2) CONTEXT.md 갱신: /srv/newtalk-v2/docs/CONTEXT.md (완료/진행중/다음작업 업데이트)
 #   (3) CHANGELOG.md 갱신: /srv/newtalk-v2/docs/CHANGELOG.md
 #   (4) project-docs 동기화: bash /data/project-docs/scripts/sync_newtalk_v2_api.sh
-#   (5) 양쪽 Git 커밋 & 푸시 (private + project-docs)
+# - (5) 양쪽 Git 커밋 & 푸시 (private + project-docs)
+#     → push 거절 시 7.1 준수: 충돌 해결 후 반드시 push 완료. 세션 종료 전 push 성공시킨다.
 # - 동기화 스크립트가 없거나 실패하면 수동 복사:
 #   cp /srv/newtalk-v2/docs/CONTEXT.md /data/project-docs/newtalk-v2-api/
 #   cp /srv/newtalk-v2/.cursorrules /data/project-docs/newtalk-v2-api/cursorrules.md
@@ -193,6 +209,7 @@
 #     grep -rIiE "(password|secret|token=|NewTalk2026|Test2026)"
 #
 # (5) git add -A → git status 확인 → commit → push origin master
+#     → push 거절 시 7.1과 동일: 충돌 해결 후 push 완료. 건너뛰지 않는다.
 #
 # (6) push 성공 확인: echo $? → 0, git log --oneline -1
 #
@@ -203,3 +220,29 @@
 # --- {SHA} 플레이스홀더 금지 ---
 # CONTEXT, CHANGELOG, 보고서에 {SHA}, (커밋 후 기록) 등 빈칸 금지.
 # git log --oneline -1 로 SHA 확인 후 즉시 교체, 재커밋.
+
+## 인계서 관리 규칙 (2026-02-28 CEO 승인)
+
+### 필수 읽기 (매 작업 시작 전)
+1. docs/CEO-DIRECTIVES.md
+2. docs/handover/HANDOVER.md
+
+### 작업 완료 후 필수 수행
+1. docs/handover/HANDOVER.md 업데이트:
+   - 섹션 2 완료 작업에 본 Task 추가
+   - 섹션 3 진행 중 작업 갱신
+   - 섹션 5 핵심 발견 추가 (해당 시)
+   - 섹션 6 웹 Claude 인수인계 갱신
+2. 보고서 작성: docs/reports/{TASK-ID}-report.md
+3. Git push:
+   git add .
+   git commit -m "[{접두사}] {작업 설명}"
+   GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" git push origin main
+4. push 실패 시 즉시 채팅에 오류 보고
+5. project-docs repo 동기화 (HANDOVER.md, CEO-DIRECTIVES.md 변경 시)
+
+### 보고서 상단 필수 체크포인트
+[인계 확인]
+직전 완료: {이전 TASK-ID}
+현재 단계: {본 TASK-ID}
+CEO 지시 적용: {D-XXX, T-XXX 번호}
