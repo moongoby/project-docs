@@ -1,5 +1,5 @@
-# GO100 인수인계서 v10.1 — 단일 파일 통합 (V10 기반)
-> 작성: 2026-02-28 | 대상: 다음 세션 AI  
+# GO100 인수인계서 v10.5 — 단일 파일 통합 (V10 기반)
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-02 | 대상: 다음 세션 AI  
 > 이전 문서: HANDOVER-20260228-V10.md (본 파일로 통합)
 
 ---
@@ -104,6 +104,7 @@
 | P6-EXTRA-VERIFY | 7 | — | 보류 | — | — | 보고서 미제출 |
 | P7-1 QA | 7 | — | 보류 | — | — | 보고서 미제출 |
 | CUR-SHARED-DB-SCHEMA-CATALOG-001 | — | 03-02 | PASS | ✓ | 200 | DB 스키마 카탈로그 GO100+V4.1 통합: 246테이블+8뷰=254 전수 스키마, go100_* 65테이블 포함, 자동최신화 cron(매일06:00), 참조: shared/DB-SCHEMA-CATALOG.md |
+| CUR-GO100-BRIDGE-BUG-FIX-001 | — | 03-02 | PASS | ✓ | 200 | genspark_bridge.py 3종 버그 수정: parse_directive 줄바꿈 필터(false positive 차단), CEO 승인 대기 30분 쿨다운(루프 방지), pressSequentially 입력방식 교체(React 호환) |
 
 ### Phase 6 게이트 검증 결과 (2026-02-28 확인)
 
@@ -311,3 +312,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.2 | 03-01 | Batch 8 AI LightGBM V2 학습 반영, 모델 경로·다음 작업 추가 |
 | v10.4 | 03-02 | [SHARED] DB 스키마 카탈로그 통합(246테이블+8뷰=254, go100_* 65개 포함), 자동최신화 cron |
 | v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |
+| v10.5 | 03-02 | genspark_bridge.py 3종 버그 수정, 백억이 총괄매니저 세션 시작 보고 완료 |
