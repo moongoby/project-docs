@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-ALL-MANAGER-CHATS-001** | 03-03 | (이 커밋) | 200 | **6프로젝트 매니저 대화창 일괄 생성 + bridge.py 확장**: Genspark AI 채팅+Claude Opus 4.6으로 4개 신규 생성([AADS]/[SF]/[NTV2]/[NAS] 프로젝트 매니저, 맥락파악완료), .genspark/.env에 4개 URL+SSH_CMD 환경변수 추가, genspark_bridge.py _load_project_config() 6개 프로젝트(KIS/GO100/AADS/SF/NAS/NTV2) 확장(SSH 환경변수 기반, 하드코딩 금지), genspark-bridge 재시작 → 활성 프로젝트 6개 폴링 확인 |
 | **CUR-V41-BRIDGE-DASHBOARD-001** | 03-02 | (이 커밋) | 200 | **통합지휘소 정기 보고 + 텔레그램 통합 대시보드**: telegram_report.py `[KIS]` 태그 표준화(project 파라미터 추가, 5개 프로젝트 태그 지원), genspark_bridge.py 6시간 정기 보고 루프(07:00/13:00/19:00/01:00 KST) 추가, GitHub API 최신 커밋 조회, systemctl 서비스 상태 포함 |
 | **CUR-V41-SESSION-K-MONITORING-SETUP-001** | 03-02 | (이 커밋) | 200 | **Session K 03-03 Virtual Run 자동 모니터링**: `/root/kis-autotrade-v4/scripts/monitor_virtual_run.py` 5액션(premarket/signal/periodic/close/daily_report), cron 6건(07:58~16:00), L3.3 비율+거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 보고서 자동생성, dry-run ALL PASS, 방안B(CEO 확인 후 push) |
 | **CUR-V41-TELEGRAM-REPORT-001** | 03-02 | (이 커밋) | 200 | **텔레그램 보고 채널 연결**: go100_auto_trading_bot 신규 생성, CHAT_ID 자동 조회, 테스트 메시지 발송 성공(message_id:236), telegram_report.py+genspark_bridge.py 통합 완료 |
