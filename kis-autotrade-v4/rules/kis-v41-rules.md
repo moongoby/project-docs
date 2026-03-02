@@ -121,3 +121,23 @@ Genspark 대화창에 첫 메시지를 보낼 때 아래 형식을 사용한다:
 - **위 항목 외 모든 승인**은 Genspark CEO 통합지휘 대화창(지휘소 AI)의 승인으로 진행한다
 - 지휘소 AI의 DIRECTIVE_START~END 블록 = CEO 승인으로 간주하고 즉시 실행한다
 - 지휘소 AI가 "CEO 승인 필요"라고 명시한 경우에만 CEO(사용자)에게 직접 확인한다
+
+### 9-9. 세션 시작 시 매니저 대화창 라우팅 (2026-03-02 추가)
+모든 새 Cursor 세션은 시작 시 다음을 수행한다.
+- `/root/kis-autotrade-v4/.cursorrules`를 읽어 프로젝트 판별
+- 프로젝트에 해당하는 매니저 대화창에만 보고 — CEO 통합지휘소에 직접 보고 금지
+
+**라우팅 테이블:**
+| 작업 대상 | 보고 대화창 |
+|-----------|-------------|
+| KIS V4.1 | `[KIS-V41] 프로젝트 매니저` https://www.genspark.ai/agents?id=77de652f-ca8c-4edb-b841-4ca3726b7bb4 |
+| GO100 | `[GO100] 백억이 총괄매니저` https://www.genspark.ai/agents?id=167071cf-c8b5-476a-8953-6168dd6c910c |
+| CEO 통합지휘소 | 정기보고/프로젝트 간 조율만 — bridge.py 자동 발송 전용 (Cursor 수동 보고 금지) |
+
+**세션 시작 보고 형식:**
+- KIS 세션: `[CURSOR-KIS] 세션 시작 — KIS 매니저 대화창 연결`
+- GO100 세션: `[CURSOR-GO100] 세션 시작 — GO100 매니저 대화창 연결`
+
+**준수 사항:**
+- CEO 통합지휘소 URL에 직접 `>>>DIRECTIVE_START` 블록을 보내는 것은 bridge.py 자동 발송만 허용
+- Cursor 수동 세션은 반드시 해당 프로젝트 매니저 대화창 URL을 사용한다
