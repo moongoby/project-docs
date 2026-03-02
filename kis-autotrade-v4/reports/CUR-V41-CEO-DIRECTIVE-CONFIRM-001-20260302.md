@@ -58,7 +58,7 @@
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-CEO-DIRECTIVE-CONFIRM-001-20260302.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-CEO-DIRECTIVE-CONFIRM-001-20260302.md
-- 커밋: (본 보완 반영 push 후 갱신)
+- 커밋: 1a3cd74
 - HTTP 확인: 200
 - HANDOVER 업데이트: 완료
 
