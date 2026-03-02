@@ -22,9 +22,18 @@ if [[ "$REPORT_FILE" == CUR-GO100-* ]] || [[ "$REPORT_FILE" == *-GO100-* ]]; the
 elif [[ "$REPORT_FILE" == CUR-V41-* ]] || [[ "$REPORT_FILE" == DESK2-* ]]; then
     PROJECT="kis-autotrade-v4"
     EXPECTED_DIR="/root/project-docs/kis-autotrade-v4/reports/"
+elif [[ "$REPORT_FILE" == CUR-SF-* ]] || [[ "$REPORT_FILE" == *-SF-* ]] || [[ "$REPORT_FILE" == *shortflow* ]]; then
+    PROJECT="shortflow"
+    EXPECTED_DIR="/root/project-docs/shortflow/reports/"
+elif [[ "$REPORT_FILE" == CUR-NAS-* ]] || [[ "$REPORT_FILE" == *-NAS-* ]] || [[ "$REPORT_FILE" == *nas-image* ]]; then
+    PROJECT="nas-image"
+    EXPECTED_DIR="/root/project-docs/nas-image/reports/"
+elif [[ "$REPORT_FILE" == CUR-NTV2-* ]] || [[ "$REPORT_FILE" == *-NTV2-* ]] || [[ "$REPORT_FILE" == *newtalk-v2* ]]; then
+    PROJECT="newtalk-v2-api"
+    EXPECTED_DIR="/root/project-docs/newtalk-v2-api/reports/"
 else
     echo "  ❌ 파일명에서 프로젝트 식별 불가: $REPORT_FILE"
-    echo "  → CUR-GO100-* 또는 CUR-V41-* 또는 DESK2-* 형식 필요"
+    echo "  → CUR-GO100-* / CUR-V41-* / CUR-SF-* / CUR-NAS-* / CUR-NTV2-* 또는 DESK2-* 형식 필요"
     exit 1
 fi
 
@@ -38,17 +47,17 @@ fi
 # 2) 파일명 규칙 검증
 echo ""
 echo "[2/5] 파일명 규칙 검증"
-if echo "$REPORT_FILE" | grep -qP '^(CUR-(GO100|V41)-[A-Z0-9]+-([A-Z0-9]+-)*\d{3}-\d{8}|DESK2-[A-Z0-9]+-([A-Z0-9]+-)*\d{3}-\d{8})\.md$'; then
+if echo "$REPORT_FILE" | grep -qP '^(CUR-(GO100|V41|SF|NAS|NTV2)-[A-Z0-9]+-([A-Z0-9]+-)*\d{3}-\d{8}|DESK2-[A-Z0-9]+-([A-Z0-9]+-)*\d{3}-\d{8})\.md$'; then
     echo "  ✅ 파일명 규칙 준수"
 else
     echo "  ⚠️  파일명 규칙 불일치 (엄격 검증 실패, 수동 확인 권장)"
-    echo "  → 형식: CUR-{GO100|V41}-TASK-SEQ-YYYYMMDD.md"
+    echo "  → 형식: CUR-{GO100|V41|SF|NAS|NTV2}-TASK-SEQ-YYYYMMDD.md"
 fi
 
 # 3) 교차 저장 검사
 echo ""
 echo "[3/5] 교차 저장 검사"
-CROSS=$(git diff --cached --name-only 2>/dev/null | grep -E "^go100/.*(DESK2|CUR-V41)|^kis-autotrade-v4/.*CUR-GO100" || true)
+CROSS=$(git diff --cached --name-only 2>/dev/null | grep -E "^go100/.*(DESK2|CUR-V41|CUR-SF|CUR-NAS|CUR-NTV2)|^kis-autotrade-v4/.*CUR-GO100|^shortflow/.*CUR-(GO100|V41)|^nas-image/.*CUR-(GO100|V41)|^newtalk-v2-api/.*CUR-(GO100|V41)" || true)
 if [ -z "$CROSS" ]; then
     echo "  ✅ 교차 저장 없음"
 else

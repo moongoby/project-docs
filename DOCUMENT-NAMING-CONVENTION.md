@@ -108,8 +108,11 @@ project-docs/  ← repo 루트
 |--------------|-----------|------|
 | `CUR-GO100-*` | `go100/reports/` | GO100 전용 |
 | `CUR-V41-*` | `kis-autotrade-v4/reports/` | V4.1 전용 |
+| `CUR-SF-*` | `shortflow/reports/` | ShortFlow 전용 |
+| `CUR-NAS-*` | `nas-image/reports/` | NAS Image 전용 |
+| `CUR-NTV2-*` | `newtalk-v2-api/reports/` | NewTalk V2 전용 |
 
-**교차 저장 금지**: GO100 보고서를 `kis-autotrade-v4/reports/`에 저장하거나, V4.1 보고서를 `go100/reports/`에 저장하지 않는다.
+**교차 저장 금지**: 프로젝트별 reports/ 폴더에만 해당 프로젝트 보고서 저장. 타 프로젝트 접두어 보고서 저장 금지.
 
 ### 3-2. 판별 기준
 
