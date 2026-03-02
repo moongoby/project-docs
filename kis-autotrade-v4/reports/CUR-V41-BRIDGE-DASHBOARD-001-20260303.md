@@ -5,8 +5,8 @@
 |------|-----|
 | 작업 ID | CUR-V41-BRIDGE-DASHBOARD-001 |
 | 날짜 | 2026-03-02 |
-| 커밋 SHA | (push 후 갱신) |
-| HTTP | (push 후 갱신) |
+| 커밋 SHA | 5be1cb0 |
+| HTTP | 200 |
 | 우선순위 | P1 |
 
 ---
