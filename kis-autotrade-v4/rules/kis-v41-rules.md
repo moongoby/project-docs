@@ -1,52 +1,288 @@
-# KIS AutoTrade V4.1 + GO100 모노리포 — 서비스 경계 규칙
-
-## 이 프로젝트는 2개의 독립 서비스가 하나의 레포에 공존합니다.
-## 작업 시 반드시 어느 서비스에 대한 작업인지 먼저 확인하세요.
-
+---
+description: KIS AutoTrade V4.1 자동매매 시스템 전용 규칙
+globs: [
+  "backend/app/services/trading/**",
+  "backend/app/services/fund/**",
+  "backend/app/services/adaptive/**",
+  "backend/app/services/market/**",
+  "backend/app/services/data_pipeline/**",
+  "backend/app/services/scheduler/**",
+  "backend/app/api/v4_*.py",
+  "scripts/backtest/**",
+  "scripts/collection/**",
+  "scripts/analysis/**"
+]
 ---
 
-## 서비스 A: KIS AutoTrade V4.1 (자동매매 엔진)
-- 용도: 한국투자증권 API 기반 자동매매, 실시간 데이터 수집, 데스크 전략
-- 백엔드 라우터: /api/v4/*, /api/v1/dashboard, /api/v1/trade, /api/v1/settings
-- 백엔드 파일: backend/app/routers/v4_*.py, backend/app/services/v4_*, backend/app/services/data/*
-- 프론트엔드: frontend/src/app/(protected)/ (go100 폴더 제외 전부)
-- 프론트엔드 페이지: /dashboard, /trade, /backtest, /strategy-cards, /portfolio, /accounts, /admin, /monitoring, /reports, /settings, /notifications
-- systemd: go100-ws-krx, go100-ws-nxt (WS 수집기)
-- 크론: collect_*.sh, scripts/data_collect/*, 키움 관련 스크립트
-- DB 테이블 (V4.1 전용): ohlcv_daily, v4_ohlcv_minute, v4_tick_data, v4_orderbook_realtime, index_daily, v4_vkospi_daily, v4_investor_daily, v4_market_regime_daily, stock_universe, stock_fundamentals, strategy_cards, v4_users, accounts, v4_positions, v4_orders
-- 절대 GO100 파일을 수정하지 마세요.
+# KIS AutoTrade V4.1 — 전용 규칙
 
-## 서비스 B: GO100 (AI 주식 어시스턴트 "백억이")
-- 용도: AI 채팅 기반 전략 설계/백테스트/페이퍼/실매매 SaaS
-- 도메인: go100.newtalk.kr
-- 백엔드 라우터: /api/go100/*
-- 백엔드 파일: backend/app/routers/go100/*.py, backend/app/services/go100/**/*
-- 프론트엔드: frontend/src/app/(protected)/go100/**/*
-- 프론트엔드 컴포넌트: frontend/src/go100/**/*
-- systemd: go100 (FastAPI 메인 — 공유), go100-frontend (Next.js — 공유)
-- 크론: scripts/go100/*.sh
-- DB 테이블 (GO100 전용): go100_strategy_cards, go100_backtest_runs, go100_portfolios, go100_positions, go100_orders, go100_trades, go100_goals, go100_user_profile, go100_usage_logs, go100_global_market, go100_sector_price, go100_sector_correlation, go100_overnight_gap, go100_cross_market_signals, go100_fundamentals_pit, go100_orderbook_daily_stats, go100_tick_daily_stats, go100_calibration_params, go100_trading_cost_params, go100_data_integrity_log, go100_alerts, go100_experience_log
-- 절대 V4.1 파일을 수정하지 마세요.
+## 절대 규칙 (CLAUDE.md 공통 규칙보다 V4.1 전용이 우선)
+1. kis-v41-api / kis-v41-monitor / kis-v41-scheduler 재시작 금지 (CEO 승인 + 지시서 명시 시에만 1회)
+2. strategy_cards 테이블: ALTER/DROP/DELETE 절대 금지, UPDATE는 CEO 승인 후에만
+3. v4_positions 직접 수정(UPDATE/DELETE) 절대 금지
+4. backtest_engine_v2.py 수정은 CEO 승인 후에만
+5. 핵심 파일 수정 시 검수 필수 (review/ 업로드 → CEO+Claude 승인 후 적용):
+   - v4_pipeline_orchestrator.py, strategy_engine.py, risk_manager.py
+   - order_executor.py, position_manager.py, split_transfer_engine.py
+   - lifecycle.py, fund/*, adaptive/*, regime_detector.py
+   - backtest_engine_v2.py, collector_minute.py, main.py
+6. 사전 확인 필수: strategy_cards = 62, v4_positions OPEN = 5
+7. 작업 완료 시 보고서 필수: report/v41/{작업ID}-{YYYYMMDD}.md
+   보고서 발행(개별): bash /root/project-docs/scripts/publish_report.sh {작업ID}
+   보고서 동기화(전체): bash /root/project-docs/scripts/sync_kis.sh
+   push 후 확인: curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/{파일명}
+   ※ HTTP 200 확인 필수. 미확인 시 태스크 미완료.
 
-## 공유 인프라 (양쪽 모두 사용, 수정 시 양쪽 영향 확인 필수)
-- backend/app/main.py (라우터 등록)
-- backend/app/core/ (config, security, database)
-- backend/app/models/ (SQLAlchemy 모델)
-- frontend/src/app/layout.tsx, middleware.ts
-- .env (환경변수)
-- PostgreSQL kisautotrade DB
-- Redis
-- Nginx 설정
+## 환경
+- Python 3.12, FastAPI, SQLAlchemy (asyncpg), PostgreSQL 16, Redis 7.x
+- 프로젝트 루트: /root/kis-autotrade-v4
+- 가상환경: source venv/bin/activate
+- PYTHONPATH: /root/kis-autotrade-v4:/root/kis-autotrade-v4/backend
+- DB명: kisautotrade (NOT kis_autotrading)
+- 테스트: python -m pytest scripts/ -v --tb=short
 
-## 작업 규칙
-1. 작업 시작 전 "이 작업은 V4.1/GO100/공유 중 어디에 해당하는가?" 먼저 판단
-2. V4.1 작업 시 GO100 폴더(routers/go100, services/go100, go100/) 절대 수정 금지
-3. GO100 작업 시 V4.1 폴더(routers/v4_*, services/v4_*) 절대 수정 금지
-4. 공유 인프라 수정 시 양쪽 서비스 영향도 반드시 명시
-5. 커밋 메시지 prefix: [V4.1], [GO100], [SHARED]
-6. DB 테이블 생성 시 GO100은 go100_ prefix 필수
-7. 크론 스크립트: V4.1은 scripts/collect_*.sh 또는 scripts/data_collect/, GO100은 scripts/go100/
+## API 토큰 관리 규칙 (CEO 지시, 2026-02-23)
 
+### 1. KIS (한국투자증권) 토큰 관리
+
+#### 공식 정책 (KIS Developers)
+- access_token 유효기간: 24시간 (실전/모의 동일)
+- 1일 1회 발급 원칙: 발급 후 만료 전까지 재사용 필수
+- 재발급 최소 간격: 1분 (1분 이내 재시도 시 KIS 서버에서 거부)
+- REST API 호출 제한: 초당 20건
+- 발급 URL: POST /oauth2/tokenP (실전·모의 동일 경로)
+
+#### V4.1 KIS 토큰 관리 원칙
+1. **토큰 캐시 필수**: 발급받은 토큰은 Redis에
+   (token, expires_at) 형태로 저장 (키: token:kis:{account_id}, account_id = kis:{config_id})
+2. **재사용 우선**: API 호출 전 캐시 토큰의 만료시각 확인,
+   유효하면 반드시 재사용 (불필요한 재발급 금지)
+3. **만료 1시간 전 선제 갱신 (CEO 규칙)**:
+   - 토큰 발급 후 만료 1시간 전에 자동으로 재발급 진행
+   - 구현: backend/app/core/token_manager.py (RENEW_BEFORE_EXPIRY=1시간, _needs_renewal, _is_token_valid에서 now+RENEW_BEFORE_EXPIRY와 만료시각 비교, 79-94행)
+   - 갱신 성공 시 기존 토큰을 새 토큰으로 교체
+   - 갱신 실패 시 기존 토큰이 아직 유효하므로 계속 사용, 다음 주기에 재시도
+4. **config_id별 독립 관리**: config_id 1/3/5 각각 별도 토큰 캐시
+   (서로 다른 APP_KEY/APP_SECRET 사용)
+5. **실패 대응**:
+   - 1회 실패: 60초 대기 후 재시도
+   - 2회 실패: 120초 대기 후 재시도
+   - 3회 초과: 로그 경고 + 기존 캐시 토큰이 유효하면 재사용,
+     무효하면 서비스 degraded 모드 (주문 차단, 조회만 허용)
+   - 현행: token_manager에는 위 단계별 재시도/폴백 미구현 (1초 sleep 후 캐시 재조회만 존재)
+6. **서비스 재시작 시**: Redis에 기존 토큰 키 유지 시 로딩,
+   유효하면 재사용 (get_token → _get_cached_token → _is_token_valid)
+
+### 2. 키움증권 토큰 관리
+
+#### 공식 정책 (키움 REST API)
+- access_token 유효기간: 24시간 (모의·실전 동일)
+- 발급 URL: POST /oauth2/token (KIS의 /tokenP와 다름)
+- 모의 API: https://mockapi.kiwoom.com
+- 실전 API: (KIWOOM_IS_PRODUCTION=true 시 사용, 현재 false)
+- 인증 파라미터: appkey + **secretkey** (KIS의 appsecret과 다름, 주의!)
+- 주문 엔드포인트: POST /api/dostk/ordr (매수 api-id: kt10000, 매도: kt10001)
+- 잔고 조회: POST /api/dostk/acnt
+
+#### V4.1 키움 토큰 관리 원칙
+1. **토큰 캐시**: Redis (키: `token:kiwoom:kiwoom:{account_id}`)
+   (token, expires_at) 형태로 저장
+2. **재사용 우선**: token_manager에서 캐시 유효성 확인 후 재사용
+3. **만료 1시간 전 선제 갱신 (CEO 규칙)**:
+   - KIS와 동일하게 만료 1시간 전 자동 재발급
+   - 구현: token_manager.py 동일 로직 (get_token → _needs_renewal, 79-94행)
+4. **account_id별 독립 관리**: account_id 4(모의), 5(실전), 6(실전) 각각 별도 토큰
+5. **빈 토큰 방어 (2026-02-23 패치 적용 완료)**:
+   - token_manager._is_token_valid()에서 빈 문자열 토큰을 무효로 처리
+   - _issue_token_kiwoom()에서 빈 토큰 응답 시 ValueError 발생, Redis 저장 방지
+   - authenticate()에서 빈 토큰 시 RuntimeError → fallback 직접 발급
+6. **실패 대응**: token_manager 실패 시 broker_kiwoom_client.authenticate()에서 직접 POST 폴백, 3회 재시도(2^attempt+1초 대기)
+7. **RPS 제한**: 전체 5 rps, 계좌당 1.67 rps (3계좌 기준)
+   - 구현: kis_rate_limiter.py (TOTAL_KIWOOM_RPS=5, per_account fair-share)
+
+#### 키움 계좌 현황
+| account_id | 계좌번호 | 유형 | 상태 |
+|------------|---------|------|------|
+| 4 | 81201280 | 모의 | active |
+| 5 | 52568156 | 실전 | active |
+| 6 | 63109343 | 실전 | active |
+
+#### 키움 앱키 관리
+- .env의 KIWOOM_APP_KEY/KIWOOM_SECRET_KEY: 글로벌 폴백용 (현재 비어 있음)
+- 실제 키: DB accounts 테이블의 enc_app_key/enc_app_secret에 Fernet 암호화 저장
+- 복호화: ENCRYPTION_KEY/FERNET_KEY (.env) 사용
+
+### 3. 공통 금지 사항
+- 매 API 호출마다 토큰 재발급 시도 금지
+- 1분 이내 연속 토큰 발급 요청 금지
+- 토큰을 소스코드/로그에 평문 전체 기록 금지 (앞 20자+... 마스킹)
+- .env에 토큰 하드코딩 금지 (APP_KEY/SECRET만 저장)
+- 키움 인증 파라미터를 KIS와 혼동 금지 (appsecret ≠ secretkey)
+
+### 4. 현행 구현 상태 (Phase A 검증 기준)
+- KIS 토큰 매니저: backend/app/core/token_manager.py (통합)
+- 키움 토큰 매니저: token_manager.py + broker_kiwoom_client.py
+- 캐시 방식: KIS Redis (token:kis:{account_id}) / 키움 Redis (token:kiwoom:*)
+- KIS 만료 1시간 전 갱신: 구현됨 (token_manager.py:26, 80, 115-131)
+- 키움 만료 1시간 전 갱신: 구현됨 (token_manager.py 동일 로직)
+- 개선 필요 사항: 있음 — KIS 실패 시 60초/120초 단계별 재시도 및 3회 초과 degraded 모드 미구현
+
+## 코드 규칙
+- datetime.utcnow() 절대 금지 → datetime.now(timezone.utc)
+- v4_* 테이블: INSERT/SELECT만, TRUNCATE/DROP/ALTER 절대 금지
+- 레거시 테이블(ohlcv_1m, daily_investor_stats, stock_universe): SELECT만
+- DB 세션: Depends(get_db) 필수
+- 인증: Depends(get_current_user) 또는 Depends(get_optional_user)
+- 시크릿 하드코딩 금지 → os.getenv
+- 로깅: logger.info("msg %s", var) (f-string 금지)
+- 타입 힌트: typing.Any (bare Any 금지)
+- 미사용 import 금지
+
+## 아키텍처 계층
+CEO → Adaptive Engine → Fund Commander → DESK1~5 Commander
+→ Strategy Cards → Pipeline Orchestrator → Signal Engine
+→ Risk Manager → Order Executor → Position Manager
+→ Promotion/Transfer Engine
+
+## DESK 정의
+| DESK | 역할 | max_hold | 라이브/전체 | 상태 |
+|------|------|----------|------------|------|
+| DESK1 | 초단타/스캘핑 | 0-1일 | 10/10 | 미검증, 인프라 구축 완료 |
+| DESK2 | 단타 | 1-3일 | 10/16 | 분봉 진입 최적화 필요 (-23.25%) |
+| DESK3 | 단기스윙 | 3-10일 | 9/11 | 주 수익원 (+32.23%) |
+| DESK4 | 중기스윙 | 20-40일 | 6/9 | 운영 중 |
+| DESK5 | 장기 | 90-120일 | 1/10 | 카드 부족 |
+
+## 서비스 상태
+| 서비스 | 포트 | 상태 | 비고 |
+|--------|------|------|------|
+| kis-v41-api | 8003 | active | nginx 프록시 |
+| kis-v41-monitor | — | active | |
+| kis-v41-scheduler | — | active | |
+| kis-v41-minute-collector | — | inactive | 월요일 장전 활성화 |
+| kis-v41-orderbook-collector | — | inactive | 월요일 장전 활성화 |
+
+## DB 무결성 기준값
+- strategy_cards: 62건
+- v4_positions OPEN: 5건 (ID 49, 51, 55, 58, 61)
+- DB 크기: 6,152 MB
+- v4_ohlcv_minute: 19,468,781행
+- v4_scalping_universe: 708종목
+- v4_market_regime_daily: 59행
+- 디스크: 53% 사용 (45GB 여유)
+
+## DB 스키마 주요 테이블
+- users: id, email, name(NOT NULL), is_active, is_admin, is_verified, created_at
+  (username 없음, email_verified 없음)
+- v4_trade_analysis: exit_date(date), realized_pnl(bigint), realized_pnl_pct(numeric(5,2))
+- v4_system_heartbeat: cycle_count(int), cycle_id(int), module_status(jsonb)
+- v4_backtest_results: 테이블 미존재 (참조 금지)
+- v4_backtest_trades (BT-ENGINE-UPGRADE 2026-02-23):
+  기존: session_id, stock_code, trade_type, price, quantity, pnl, trade_date, card_id,
+        exit_reason, entry_date, exit_date, hold_days
+  추가 16컬럼: entry_datetime(timestamp), exit_datetime(timestamp),
+        entry_price(numeric), exit_price(numeric), mfe_pct(numeric), mae_pct(numeric),
+        mfe_price(numeric), mae_price(numeric), regime_at_entry(varchar),
+        indicator_snapshot(jsonb), slippage_pct(numeric), commission(numeric),
+        sector(varchar), strategy_name(varchar), entry_volume(bigint),
+        entry_spread_pct(numeric)
+  주의: indicator_snapshot·sector INSERT 로직 미구현
+
+## ORM 모델 (backend/app/models/)
+- V4Position, V4PositionExtended (position.py)
+- SystemStateLog, SystemHeartbeat (system.py)
+- MarketRegimeDaily, MarketCalendar (market.py)
+- Reservation (execution.py)
+
+## 핵심 파일 경로
+- FastAPI 진입점: backend/app/main.py
+- 파이프라인: backend/app/services/trading/v4_pipeline_orchestrator.py
+- 전략 엔진: backend/app/services/trading/strategy_engine.py
+- 리스크 관리: backend/app/services/trading/risk_manager.py
+- 주문 실행: backend/app/services/trading/order_executor.py
+- 포지션 관리: backend/app/services/trading/position_manager.py
+- 프로모션: backend/app/services/trading/split_transfer_engine.py
+- 라이프사이클: backend/app/services/trading/lifecycle.py
+- 펀드 서비스: backend/app/services/fund/
+- 어댑티브: backend/app/services/adaptive/
+- 레짐 감지: backend/app/services/market/regime_detector.py
+- 백테스트: scripts/backtest/backtest_engine_v2.py
+- 분봉 수집: backend/app/services/data_pipeline/collector_minute.py
+- 호가 수집: scripts/collection/orderbook_collector.py
+- DESK 추천 API: backend/app/api/v4_desk_recommend.py
+
+## 백테스트 실행 명령
+cd /root/kis-autotrade-v4 && source venv/bin/activate
+PYTHONPATH=/root/kis-autotrade-v4/backend python scripts/backtest/run_backtest.py \
+  --start YYYYMMDD --end YYYYMMDD --capital 1000000 --name "설명" --engine v2 \
+  --desk-strategies '[{"desk_id":3,"card_id":8}]'
+주의: --desk-id 없음, --desk-strategies JSON 사용
+
+## 커밋 컨벤션
+- feat: 신규 기능
+- fix: 버그 수정
+- refactor: 리팩토링
+- test: 테스트 추가/수정
+- docs: 문서 변경
+- V4.1 커밋 형식: feat: CUR-{작업ID} {설명}
+
+## 작업 절차
+1. 수정 전 백업: sudo -u postgres pg_dump -d kisautotrade -Fc -f /tmp/backup_{작업명}_{TS}.dump
+2. 한 파일 수정 후 관련 테스트 실행
+3. 전체 수정 후: python -m pytest scripts/ -v --tb=short
+4. 테스트 실패 시 롤백 후 원인 분석
+5. 서비스 상태 확인: systemctl is-active kis-v41-api kis-v41-monitor kis-v41-scheduler
+   (재시작은 절대 금지 — CEO/지시서 명시 시에만)
+6. 보고서 작성: report/v41/{작업ID}-{YYYYMMDD}.md
+7. 보고서 발행: bash /root/project-docs/scripts/publish_report.sh {작업ID}
+   또는 전체: bash /root/project-docs/scripts/sync_kis.sh → HTTP 200 확인 필수
+
+## 코드 검수 프로세스
+핵심 파일 수정 시:
+1. cp {수정파일} /root/project-docs/kis-autotrade-v4/review/{파일명}__REVIEW__{작업ID}.py
+2. 파일 상단에 CODE REVIEW REQUEST 헤더 삽입
+3. bash /root/project-docs/scripts/push_review.sh {작업ID}
+4. 사용자에게 검수 URL 보고 → 작업 일시 중단
+5. 승인 후 적용, bash /root/project-docs/scripts/clean_review.sh
+
+## 실패 교훈 (반복 금지)
+- 대시보드 덮어쓰기(2/20): 신규 UI 별도 파일, 레거시 보존
+- DESK2 분봉 -23.25%: 분봉 진입 로직 검증 없이 LIVE 전환 금지
+- 프로모션 단일 조건: min_profit_pct만 체크 → 다중 조건 필요
+- DESK 간 중복 매수(19종목): Guard 미구현, CEO 정책 대기
+
+## 현재 작업 큐
+| 순위 | 작업 | 상태 |
+|------|------|------|
+| P0 | MINUTE-COLLECTOR-STATUS | Cursor 결과 대기 |
+| P1 | DESK2-MINUTE-REBT | P0 후 |
+| P2 | DESK5-CARD-BT | P1 후 |
+| P3 | OVERLAP-GUARD | CEO 정책 대기 |
+| P4 | REGIME-FILTER | CEO 승인 대기 |
+| P5 | DESK1-LIVE-PREP | 월요일 09:00 전 |
+
+## CEO 결정 대기
+1. DESK 간 중복 매수 정책
+2. 레짐 기반 DESK2 진입 제한
+3. 레짐 전환 방어 모드 48h
+4. strategy_cards 61, 62 처리
+5. index_daily OHLC=0 재수집
+
+## 정적 프론트엔드 관리 규칙 (2026-02-26 CEO 지시)
+1. admin.html, backtest-dashboard.js, admin.css는 frontend/static/에서 git 관리
+2. /var/www/trading.newtalk.kr/ 직접 수정 절대 금지
+3. 수정 흐름: frontend/static/ 수정 → git 커밋 → bash scripts/deploy_static.sh
+4. frontend/static/ 파일 수정 시 CEO + Claude PM 사전 승인 필수
+5. deploy_static.sh는 배포 전 자동 백업 수행
+6. 위반 시 git checkout으로 즉시 롤백
+
+## 공유 파일 주의사항 (GO100과 공유)
+아래 파일은 GO100 프로젝트와 공유됨. 수정 시 GO100 PM에게 알릴 것:
+- backend/app/services/trading/strategy_card_service.py
+- backend/app/main.py
+- frontend/src/app/layout.tsx
+- frontend/src/app/backtest/page.tsx
+- frontend/src/app/strategy-cards/page.tsx
 ## 9. Genspark CEO 통합지휘 대화 규칙 (2026-03-03 추가)
 
 ### 9-1. 작업 완료의 정의
@@ -114,4 +350,3 @@ Genspark 대화창에 첫 메시지를 보낼 때 아래 형식을 사용한다:
 ### 9-7. project-docs 동기화 의무
 - KIS 프로젝트는 공통 문서(common/) 관리를 겸임한다
 - scripts/verify.sh, scripts/path_check.sh, scripts/security_scan.sh 수정 시 다른 4개 프로젝트에 영향이 없는지 확인한다
-- 동기화: bash /root/project-docs/scripts/sync_kis.sh
