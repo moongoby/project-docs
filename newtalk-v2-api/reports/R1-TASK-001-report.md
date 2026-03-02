@@ -125,7 +125,7 @@ Showing [9] routes
 
 ## 6. V1 영향 없음 확인
 
-- **명령:** `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`  
+- **명령:** `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]`  
 - **결과:** **200**  
 - V1 사이트 응답 정상.
 
@@ -150,7 +150,7 @@ Showing [9] routes
   - `HasApiTokens`, `HasRoles` 사용.  
   - `fillable`에 phone, company_name, business_number, v1_idx, v1_auth_code 추가.
 - **config/sanctum.php:**  
-  - `stateful` 도메인에 `114.207.244.86:8080` 포함.
+  - `stateful` 도메인에 `[SERVER-IP]:8080` 포함.
 - **bootstrap/app.php:**  
   - `api` 라우트 파일 등록 (`routes/api.php`).  
   - Spatie 미들웨어 alias 등록: `role`, `permission`, `role_or_permission`.

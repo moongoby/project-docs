@@ -67,14 +67,14 @@ ShortFlow는 쿠팡 파트너스 제휴 링크를 기반으로 YouTube Shorts �
 
 | 항목 | 값 |
 |------|-----|
-| 서버명 | rfree-0009 |
-| IP | 114.207.244.86 |
+| 서버명 | [SERVER-ID] |
+| IP | [SERVER-IP] |
 | OS | Linux |
 | 프로젝트 경로 | /data/shortflow |
 | 데이터 경로 | /data/styleflow |
-| NAS | Synology DSM 7.2.1, 내부 192.168.30.23, 외부 183.96.69.193 |
-| NAS SSH | 포트 2222, 사용자 newtalk, 키 /root/.ssh/id_nas |
-| 라우터 | ipTIME A8004T-XR, 관리자 http://192.168.30.1 |
+| NAS | Synology DSM 7.2.1, 내부 [NAS-IP], 외부 [NAS-PUBLIC-IP] |
+| NAS SSH | 포트 [NAS-SSH-PORT], 사용자 newtalk, 키 /root/.ssh/id_nas |
+| 라우터 | ipTIME A8004T-XR, 관리자 http://[ROUTER-IP] |
 
 ### 2.2 Docker Compose 구성
 
@@ -793,12 +793,12 @@ FFmpeg 4.2.7+ 시스템 설치 필요.
 |------|-----|
 | **SaaS 대시보드 (공식)** | https://shotflow.newtalk.kr |
 | YouTube 채널 | https://www.youtube.com/channel/UCqpf3lJQio6EBHxthLQob0g |
-| 릴스 미리보기 (데모) | http://114.207.244.86:8888/index.html |
-| 대시보드 (IP 직접) | http://114.207.244.86:3000 |
+| 릴스 미리보기 (데모) | http://[SERVER-IP]:8888/index.html |
+| 대시보드 (IP 직접) | http://[SERVER-IP]:3000 |
 | YouTube Data API v3 | https://www.googleapis.com/youtube/v3/videos |
 | 쿠팡 파트너스 | https://partners.coupang.com |
 | Supabase | (프로젝트 생성 후 기입) |
-| n8n | http://114.207.244.86:5678 |
+| n8n | http://[SERVER-IP]:5678 |
 
 ---
 

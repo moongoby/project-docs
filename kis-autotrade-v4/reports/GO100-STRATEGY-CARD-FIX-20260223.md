@@ -2,7 +2,7 @@
 
 - **작업 ID**: GO100-STRATEGY-CARD-FIX
 - **일시**: 2026-02-23 15:20 KST
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **프로젝트**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)
 - **절대규칙 준수**: kis-v41-* 재시작 없음, strategy_cards ALTER/DROP/DELETE 없음, v4_positions 직접 수정 없음, .env/.bak 커밋 없음
 

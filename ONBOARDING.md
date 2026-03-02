@@ -10,11 +10,11 @@
 
 | 프로젝트 | 서버 | 폴더 | CONTEXT | Cursor Rules |
 |----------|------|------|---------|--------------|
-| ShortFlow/StyleFlow | 114서버 rfree-0009 | shortflow/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/cursorrules.md) |
+| ShortFlow/StyleFlow | 114서버 [SERVER-ID] | shortflow/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/cursorrules.md) |
 | GO100 자동매매 | kis-autotrade-v4 | go100/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/go100/cursorrules.md) |
 | KIS AutoTrade V4.1 | 211서버 | kis-autotrade-v4 | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md) |
-| KIS AutoTrade V4.1 | 211서버 | kis-autotrade-v4 | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md) |
 | NAS 이미지 자동화 | Synology NAS | nas-image/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/nas-image/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/nas-image/cursorrules.md) |
+| NewTalk V2 API | 114서버 | newtalk-v2-api/ | [CONTEXT](https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/CONTEXT.md) | [Rules](https://raw.githubusercontent.com/moongoby/project-docs/master/newtalk-v2-api/cursorrules.md) |
 
 ## 사용법
 

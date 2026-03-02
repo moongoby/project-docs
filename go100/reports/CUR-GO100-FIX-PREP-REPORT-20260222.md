@@ -55,7 +55,7 @@ FROM go100_strategy_cards ORDER BY go100_card_id;
 
 ```sql
 SELECT id, email, username FROM users 
-WHERE email IN ('moongoby@naver.com','moongoby@gmail.com');
+WHERE email IN ('[CEO-EMAIL-NV]','[CEO-EMAIL-GM]');
 ```
 
 *(실제 출력은 스크립트 실행 후 터미널 결과를 붙여 넣으세요.)*
@@ -158,12 +158,12 @@ DELETE FROM go100_strategy_cards WHERE go100_card_id NOT IN (13, 14, 15);
 
 ## STEP 4: user_id 정합성 수정 (변경 실행)
 
-**상태:** 변경 보류 → **변경 실행**. `user_id = 3` (moongoby@naver.com)으로 업데이트한다.
+**상태:** 변경 보류 → **변경 실행**. `user_id = 3` ([CEO-EMAIL-NV])으로 업데이트한다.
 
 **실행:**
 
 ```bash
-PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade -c "
   UPDATE go100_strategy_cards 
   SET user_id = 3 
   WHERE go100_card_id IN (13, 14, 15);
@@ -173,7 +173,7 @@ PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -
 **검증:**
 
 ```bash
-PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade -c "
   SELECT sc.go100_card_id, sc.strategy_name, sc.user_id, u.email
   FROM go100_strategy_cards sc
   JOIN v4_users u ON sc.user_id = u.user_id
@@ -181,7 +181,7 @@ PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -
 "
 ```
 
-→ 3건 모두 `user_id = 3`, `email = moongoby@naver.com` 이어야 함.
+→ 3건 모두 `user_id = 3`, `email = [CEO-EMAIL-NV]` 이어야 함.
 
 ---
 
@@ -191,7 +191,7 @@ PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade -
 
 | 항목 | 값 |
 |------|-----|
-| **1) moongoby@naver.com의 user_id** | *(STEP 2-(b) 결과에서 id 값)* |
+| **1) [CEO-EMAIL-NV]의 user_id** | *(STEP 2-(b) 결과에서 id 값)* |
 | **2) go100_strategy_cards 컬럼 목록** | *(실제 `\d go100_strategy_cards` 출력 또는 위 코드 기준 요약)* |
 | **3) strategy_cards 컬럼 목록** | *(실제 `\d strategy_cards` 출력 또는 위 코드 기준 요약)* |
 | **4) 전략 관련 라우터 파일 경로** | 위 (f) 표 참고 (라우터 목록) |

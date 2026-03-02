@@ -19,8 +19,8 @@
 - **go100_strategy_cards:** 3건 (go100_card_id 13, 14, 15), user_id=3, is_featured=true
 - **strategy_cards (user_id=3):** 4건 (card_id 3, 62, 63, 64)
 - **strategy_cards (user_id=15, legacy naver):** 0건
-- **v4_users:** user_id 1(system), 2(moongoby@gmail.com), 3(moongoby@naver.com), 4(test)
-- **legacy users:** id 6=moongoby@gmail.com, id 15=moongoby@naver.com 등
+- **v4_users:** user_id 1(system), 2([CEO-EMAIL-GM]), 3([CEO-EMAIL-NV]), 4(test)
+- **legacy users:** id 6=[CEO-EMAIL-GM], id 15=[CEO-EMAIL-NV] 등
 - **go100_strategy_cards 컬럼:** go100_card_id, user_id, account_id, strategy_name, strategy_type, universe_filter, entry_rules, exit_rules, risk_params, strategy_params, allocated_amount, max_stocks, card_status, is_active, is_live, source_type, source_store_card_id, source_user_id, llm_session_id, last_backtest_*, paper_*, disclaimer_*, dedicated_account, created_at, updated_at, is_featured, is_public, featured_order
 - **go100_backtest_runs:** 0건
 
@@ -130,7 +130,7 @@
 sudo systemctl stop go100
 cd /root/kis-autotrade-v4
 git revert HEAD --no-edit
-PGPASSWORD='KisAuto2026!Secure' pg_restore -h localhost -U kis_admin -d kisautotrade --clean --if-exists /tmp/backup_UNIFIED_SAVE_BE_20260223_035257.dump
+PGPASSWORD='[DB-PASSWORD]' pg_restore -h localhost -U kis_admin -d kisautotrade --clean --if-exists /tmp/backup_UNIFIED_SAVE_BE_20260223_035257.dump
 sudo systemctl start go100
 curl -s http://localhost:8002/health
 ```

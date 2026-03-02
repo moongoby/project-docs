@@ -1,7 +1,7 @@
 # REGIME-BACKFILL + DESK-ROLE-AUDIT 결과
 
 **작업명:** REGIME-BACKFILL + DESK-ROLE-AUDIT (레짐 히스토리 백필 + DESK별 역할 충분성 점검)  
-**서버:** 211.188.51.113  
+**서버:** [SERVER-IP]  
 **경로:** /root/kis-autotrade-v4  
 **작성일:** 2026-02-23  
 **규칙 준수:** 백업 수행, 기존 파일 수정 없음, INSERT만 사용, strategy_cards UPDATE 없음

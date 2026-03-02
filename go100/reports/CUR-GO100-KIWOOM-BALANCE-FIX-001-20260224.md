@@ -1,7 +1,7 @@
 # CUR-GO100-KIWOOM-BALANCE-FIX-001 키움증권 계좌 잔액 0원 표시 수정 보고서
 
 **발행일시:** 2026-02-24  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4  
 **브랜치:** phase-2c-command-center  
 

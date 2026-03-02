@@ -11,7 +11,7 @@
 
 Phase 2-2에서 확인된 **pip3 설치 실패**, **git commit 실패** 2건을 해결하여, 대표님 OAuth 브라우저 인증 진행 전 환경을 정리함.
 
-- **대상 서버:** 114 (rfree-0009.cafe24.com)  
+- **대상 서버:** 114 ([SERVER-HOSTNAME])  
 - **프로젝트 경로:** /data/shortflow  
 
 ---

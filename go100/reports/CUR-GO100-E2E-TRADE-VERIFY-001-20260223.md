@@ -2,7 +2,7 @@
 
 - **작업코드**: CUR-GO100-E2E-TRADE-VERIFY-001
 - **일시**: 2026-02-23 21:30 KST
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **DB**: psql -h localhost -U kis_admin -d kisautotrade
 - **코드 repo**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)
 - **문서 repo**: /root/project-docs (branch: master)

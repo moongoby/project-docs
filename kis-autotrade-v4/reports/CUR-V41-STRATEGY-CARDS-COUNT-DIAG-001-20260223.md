@@ -1,7 +1,7 @@
 # CUR-V41-STRATEGY-CARDS-COUNT-DIAG-001 — strategy_cards 60건 원인 진단
 
 - **일시**: 2026-02-23 20:00 KST
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **절대규칙 준수**: 읽기 전용(SELECT only), DB/코드 변경 없음, kis-v41-* 재시작 금지
 
 ---

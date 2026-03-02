@@ -38,8 +38,8 @@ cd /srv/newtalk-v2
 docker compose --env-file .env.docker up -d --build frontend
 docker compose --env-file .env.docker logs frontend --tail 30
 
-curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/brand/test-wholesale
-curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/brands
+curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/brand/test-wholesale
+curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/brands
 
 git add -A
 grep -rIiE "(password|secret|token=)" frontend/src/ --include="*.ts" --include="*.tsx" || true

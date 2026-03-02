@@ -83,7 +83,7 @@ TOKEN=$(curl -s -X POST "http://127.0.0.1:8080/api/auth/login" \
 | E-6 | stats (admin) | curl .../dashboard/stats | 200, system/storage | 동일. |
 | E-7 | stats (비admin) | md 토큰 | 403 | 동일. |
 | E-8 | 기존 라우트 | purchase-orders 등 | 200 | 동일. |
-| E-9 | V1 보호 | curl 114.207.244.86 | 200 | 동일. |
+| E-9 | V1 보호 | curl [SERVER-IP] | 200 | 동일. |
 
 ---
 

@@ -1,7 +1,7 @@
 # YouTube OAuth 웹 클라이언트 키 교체 + 토큰 발급
 
 **작성일시:** 2026-02-26 10:45 KST  
-**서버:** ssh root@114.207.244.86  
+**서버:** ssh root@[SERVER-IP]  
 **작업 디렉터리:** /data/shortflow  
 **관련 파일:** `.env`, `scripts/youtube_oauth_setup.py`, `config/youtube_token_*.json`
 
@@ -41,7 +41,7 @@
 | 구분 | 기존 (InstalledApp) | 변경 후 (Web) |
 |------|---------------------|----------------|
 | 클라이언트 타입 | `installed` + `InstalledAppFlow` | `web` + `Flow.from_client_config()` |
-| redirect_uri | `http://localhost:8090`, `http://114.207.244.86:8090` | `http://shotflow.newtalk.kr:8090` |
+| redirect_uri | `http://localhost:8090`, `http://[SERVER-IP]:8090` | `http://shotflow.newtalk.kr:8090` |
 | 콜백 수신 | `flow.run_local_server(...)` | `HTTPServer(("0.0.0.0", PORT), OAuthHandler)` → `flow.fetch_token(code=auth_code)` |
 
 - **동작:** 스크립트 실행 시 포트 8090에서 콜백 대기 → 사용자가 출력된 인증 URL을 브라우저에서 열고 로그인·승인 → `http://shotflow.newtalk.kr:8090?...&code=...` 로 리다이렉트되면 스크립트가 `code`를 받아 토큰 발급·저장.
@@ -72,7 +72,7 @@ cd /data/shortflow
 venv/bin/python scripts/youtube_oauth_setup.py economy
 ```
 
-- 출력된 URL을 브라우저에서 열기 → **oby240610@gmail.com** 로그인 → **3분경제** 채널 선택 → 승인.
+- 출력된 URL을 브라우저에서 열기 → **[CHANNEL-EMAIL-1]** 로그인 → **3분경제** 채널 선택 → 승인.
 - 서버가 인증 코드를 자동 수신 후 `config/youtube_token_economy.json` 저장.
 
 **health (건강한입):** economy 완료 후
@@ -81,7 +81,7 @@ venv/bin/python scripts/youtube_oauth_setup.py economy
 venv/bin/python scripts/youtube_oauth_setup.py health
 ```
 
-- **moongo76@gmail.com** 로그인 → **건강한입** 채널 선택 → 승인.
+- **[CHANNEL-EMAIL-2]** 로그인 → **건강한입** 채널 선택 → 승인.
 - `config/youtube_token_health.json` 저장.
 
 ---

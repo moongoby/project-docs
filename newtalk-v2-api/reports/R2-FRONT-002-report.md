@@ -61,7 +61,7 @@
 | 빌드 성공 확인 | `docker compose --env-file .env.docker logs frontend --tail 20` | "Ready" 또는 "started server" 메시지 |
 | /feed 접속 | `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/retail/feed` | 200 기대 |
 | /explore 접속 | `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/retail/explore` | 200 기대 |
-| V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` | 200 유지 |
+| V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` | 200 유지 |
 
 실제 HTTP 상태 코드 및 Git SHA는 서버에서 빌드·푸시 후 기록.
 

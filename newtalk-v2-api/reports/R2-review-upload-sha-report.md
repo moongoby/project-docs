@@ -65,7 +65,7 @@ GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" g
    - `feature/R2-FRONT-003-product-detail`, `feature/R2-API-002-brand-page` 등.
 2. 서버 접속 후:
    ```bash
-   ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+   ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
    cd /srv/newtalk-v2 && git fetch origin
    bash /srv/newtalk-v2/docs/scripts/R2-review-upload-sha-runbook.sh
    ```
@@ -83,7 +83,7 @@ GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_newtalk -o StrictHostKeyChecking=no" g
 | CONTEXT SHA 플레이스홀더 제거 | ⏳ 서버 R2-* 푸시 후 runbook 실행 시 갱신 |
 | 보고서 SHA 기입 | ⏳ 서버 R2-* 푸시 후 runbook 실행 시 갱신 |
 | project-docs 커밋·푸시 | ⏳ 수동 실행 필요 (§2 참조) |
-| V1 헬스 | ⏳ 푸시 후 `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200 기대 |
+| V1 헬스 | ⏳ 푸시 후 `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200 기대 |
 
 ---
 

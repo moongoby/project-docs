@@ -66,7 +66,7 @@
 | 6-7 내 주문 목록 GET /api/orders | 200 | 200 |
 | 6-8 주문 상세 GET /api/orders/1 | 200 | 200 |
 | 6-9 주문 상태 변경 PUT /api/orders/1/status (confirmed) | 200 | 관리자 토큰: 200. 도매 토큰: 403 (해당 주문 seller=admin) |
-| 6-10 V1 헬스 GET http://114.207.244.86 | 200 | 200 |
+| 6-10 V1 헬스 GET http://[SERVER-IP] | 200 | 200 |
 
 ## 검수 결과
 - **PHP Syntax**:  
@@ -87,7 +87,7 @@
 - **라우트**:  
   - `route:list --path=cart` → 5개 (GET/POST/PUT/DELETE cart, DELETE cart/items/{id}).  
   - `route:list --path=orders` → orders 관련 5개 (POST/GET/GET/PUT/POST store, index, show, updateStatus, cancel).
-- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200.
+- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200.
 
 ## 비고
 - 장바구니에 여러 도매(판매자) 상품이 섞여 있으면 주문 생성 시 422 (한 번에 한 도매만 주문).

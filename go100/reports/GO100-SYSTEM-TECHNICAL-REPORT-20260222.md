@@ -3,7 +3,7 @@
 **문서 유형**: 시스템 정밀 분석 보고서
 **작성일**: 2026-02-22
 **대상 시스템**: GO100 (고백) V4.1 AI 전략 플랫폼
-**서버**: 211.188.51.113 (211서버)
+**서버**: [SERVER-IP] (211서버)
 **도메인**: https://go100.newtalk.kr
 
 ---
@@ -893,7 +893,7 @@ ExecStart=/root/kis-autotrade-v4/venv/bin/python3 \
 
 ```python
 async_engine = create_async_engine(
-    "postgresql+asyncpg://kis_admin:***@localhost/kisautotrade",
+    "[DB_CONNECTION_STRING]",
     pool_size=20,
     max_overflow=10,
     pool_pre_ping=True,

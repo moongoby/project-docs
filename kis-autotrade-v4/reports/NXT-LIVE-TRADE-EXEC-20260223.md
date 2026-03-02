@@ -4,7 +4,7 @@
 |------|------|
 | 작업 ID | NXT-LIVE-TRADE-EXEC |
 | 일시 | 2026-02-23 KST |
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 | 브랜치 | phase-2c-command-center |
 | 승인 | CEO 즉시 승인 |
 

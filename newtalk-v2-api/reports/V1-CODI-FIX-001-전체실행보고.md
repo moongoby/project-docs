@@ -45,7 +45,7 @@ https://github.com/moongoby/project-docs/blob/master/newtalk-v2-api/reports/V1-C
 ## 4. 후속 조치
 
 1. **V1 서버에서 조사 스크립트 전체 실행**  
-   - SSH: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86`  
+   - SSH: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]`  
    - 실행: `/srv/newtalk-v2/docs/scripts/V1-CODI-FIX-001-investigate.sh`  
    - 결과로 STEP 2(DB)·STEP 3(에러 로그)·STEP 4(라우팅)·STEP 5(소스)·STEP 6(환경)·STEP 7(Health Check) 수집.
 

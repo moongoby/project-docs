@@ -25,7 +25,7 @@
 
 ### 테스트 결과
 - SMTP 로그인: smtp.gmail.com:587 성공
-- 이메일 발송: moongoby@gmail.com 수신 확인 ✅
+- 이메일 발송: [CEO-EMAIL-GM] 수신 확인 ✅
 
 ---
 
@@ -69,7 +69,7 @@
 |------|------|------|
 | 인앱 (DB) | ✅ 정상 | 알림 4건 생성, 목록/읽음 처리 정상 |
 | SSE 실시간 | ✅ 정상 | Redis pub/sub → EventSource 즉시 수신 |
-| 이메일 (SMTP) | ✅ 정상 | Gmail 앱 비밀번호 설정, moongoby@gmail.com 수신 확인 |
+| 이메일 (SMTP) | ✅ 정상 | Gmail 앱 비밀번호 설정, [CEO-EMAIL-GM] 수신 확인 |
 | 브라우저 푸시 | ✅ 정상 | VAPID 키 + FCM 엔드포인트, 시스템 알림 수신 확인 |
 
 ---

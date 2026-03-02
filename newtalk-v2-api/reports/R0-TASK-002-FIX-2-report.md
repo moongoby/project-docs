@@ -26,7 +26,7 @@
 
 ## 2. STEP 1: V1 DB 비밀번호 확인 방법 (경로만, 비밀번호 미기록)
 
-- **접속**: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86`
+- **접속**: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]`
 - **V1 DB 설정 파일 탐색 명령 (읽기만, 수정 금지)**  
   - `find /home -name "database.php" -path "*/config/*" 2>/dev/null`  
   - `find /var/www -name "database.php" -path "*/config/*" 2>/dev/null`  

@@ -23,7 +23,7 @@
 
 | 항목 | 결과 |
 |------|------|
-| 서버 | rfree-0009.cafe24.com (Ubuntu 20.04.6 LTS) |
+| 서버 | [SERVER-HOSTNAME] (Ubuntu 20.04.6 LTS) |
 | Docker | 28.1.1 |
 | Docker Compose | v2.35.1 |
 | Git | 2.25.1 |
@@ -49,10 +49,10 @@
 
 | 용도 | 접속 방법 |
 |------|-----------|
-| V2 웹 | http://114.207.244.86:8080 |
+| V2 웹 | http://[SERVER-IP]:8080 |
 | V2 DB | `mysql -h 127.0.0.1 -P 3307 -u newtalk_v2_user -p newtalk_v2` |
-| V1 메인 | http://114.207.244.86 (영향 없음, 200 확인) |
-| V1 어드민 | http://114.207.244.87 (본 서버(86)에서 curl 시 연결 실패 — 별도 호스트일 수 있음) |
+| V1 메인 | http://[SERVER-IP] (영향 없음, 200 확인) |
+| V1 어드민 | http://[ADMIN-SERVER-IP] (본 서버(86)에서 curl 시 연결 실패 — 별도 호스트일 수 있음) |
 
 - DB 비밀번호 등 민감 정보는 `.env.docker` 및 `src/.env`에만 있으며, Git에 커밋되지 않음.
 
@@ -104,7 +104,7 @@
    - 일반 셸에서 `git commit -m "..."` 시 `trailer` 관련 오류 발생.  
    - `env -i HOME="$HOME" PATH="/usr/bin:/bin" git commit -m "..."` 로 최소 환경에서 커밋하여 성공. (전역 훅/alias 가능성 있음.)
 
-3. **V1-B(114.207.244.87)**  
+3. **V1-B([ADMIN-SERVER-IP])**  
    - 본 서버(86)에서 `curl` 시 응답 없음(000). 별도 호스트이거나 방화벽/네트워크 제한일 수 있음. V1 메인(86)은 정상.
 
 ---

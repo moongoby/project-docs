@@ -11,7 +11,7 @@
 |---|-----------------|-----------|------|
 | 1 | **채팅위젯(FAB) 미노출** | ✅ 통과 | layout 청크 로컬/외부 200, FAB 청크 200, ProtectedLayoutClient에 ChatWidget dynamic(ssr:false) 반영됨 |
 | 2 | **백억이 전략 저장 실패 (500)** | ✅ 수정 반영 | card_service에 `_strategy_type_to_db()` 추가: API `GO100_AI` → DB `LLM_GENERATED` 매핑으로 CHECK 제약 위반 방지 |
-| 3 | **내 전략에 저장 안 됨 / 노출 안 됨** | ⚠️ API 정상 | 로그인 테스트 계정(moongoby@naver.com / test1234) 401으로 저장·조회 E2E는 미실행. 동일 유저 로그인 시 `/api/go100/strategy-cards` 저장·목록 정상 동작 가정 |
+| 3 | **내 전략에 저장 안 됨 / 노출 안 됨** | ⚠️ API 정상 | 로그인 테스트 계정([CEO-EMAIL-NV] / test1234) 401으로 저장·조회 E2E는 미실행. 동일 유저 로그인 시 `/api/go100/strategy-cards` 저장·목록 정상 동작 가정 |
 
 ---
 

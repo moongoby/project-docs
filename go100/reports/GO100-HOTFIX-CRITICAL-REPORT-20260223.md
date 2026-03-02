@@ -127,7 +127,7 @@
 sudo systemctl stop go100 go100-frontend
 cd /root/kis-autotrade-v4
 git revert HEAD --no-edit
-PGPASSWORD='KisAuto2026!Secure' pg_restore -h localhost -U kis_admin -d kisautotrade \
+PGPASSWORD='[DB-PASSWORD]' pg_restore -h localhost -U kis_admin -d kisautotrade \
   --clean --if-exists /tmp/backup_HOTFIX_CRITICAL_20260223_043545.dump
 sudo systemctl start go100 go100-frontend
 sleep 10

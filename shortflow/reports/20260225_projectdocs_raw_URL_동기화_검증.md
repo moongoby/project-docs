@@ -44,7 +44,7 @@
 ## 3. 동기화 스크립트 및 실행
 
 - **스크립트**: `/data/shortflow/scripts/sync_projectdocs_full.sh`
-- **실행 위치**: 서버 `ssh root@114.207.244.86` 에서 실행
+- **실행 위치**: 서버 `ssh root@[SERVER-IP]` 에서 실행
 - **실행 명령**: `bash /data/shortflow/scripts/sync_projectdocs_full.sh`
 - **역할**: shortflow `docs/reports` → `/data/project-docs/shortflow/reports` 복사 후 `project-docs` 저장소 커밋·푸시
 

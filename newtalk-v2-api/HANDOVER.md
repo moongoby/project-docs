@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.0.0
-**최종수정**: 2026-02-28 KST (DOCS-SETUP-001 표준 8섹션 전환)
+**버전**: 4.3.0
+**최종수정**: 2026-03-02 KST (ROUTE-CONNECT-B1-001 완료, 142라우트)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -13,18 +13,18 @@
 뉴톡 V2는 V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축하는 프로젝트.
 SNS형 B2B SaaS 마켓플레이스로 진화 중.
 
-**핵심 이해관계자**: CEO (moongoby@gmail.com) – 사입 시스템 유일 의사결정자.
+**핵심 이해관계자**: CEO ([CEO-EMAIL-GM]) – 사입 시스템 유일 의사결정자.
 
 ### 접속 정보
 
 #### 서버 (rfree-009)
 ```
-SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 OS: Ubuntu 20.04
 CPU: AMD EPYC 7262 8-Core
 RAM: 16 GB
 Disk: 875 GB
-IP: 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
+IP: [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
 Docker: 28.1.1, Compose v2.35.1
 ```
 
@@ -47,7 +47,7 @@ V2 (읽기/쓰기): mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
 
 #### NAS
 ```
-Synology DS1821+, IP 192.168.30.23
+Synology DS1821+, IP [NAS-IP]
 image-auto 컨테이너: :8100
 ```
 
@@ -59,9 +59,9 @@ image-auto 컨테이너: :8100
 
 #### URL
 ```
-V2 API: http://114.207.244.86:8080
-V2 Frontend: http://114.207.244.86:3000
-V1: http://114.207.244.86
+V2 API: http://[SERVER-IP]:8080
+V2 Frontend: http://[SERVER-IP]:3000
+V1: http://[SERVER-IP]
 ```
 
 #### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
@@ -78,9 +78,9 @@ outsource@newtalk.kr (외주)
 
 | ID | 설명 | 규칙 |
 |---|---|---|
-| A | V1 웹 (114.207.244.86:80) | 수정 금지 |
-| B | V1 어드민 (114.207.244.87) | 수정 금지 |
-| C | NAS image-auto (192.168.30.23:8100) | 별도 진행 |
+| A | V1 웹 ([SERVER-IP]:80) | 수정 금지 |
+| B | V1 어드민 ([ADMIN-SERVER-IP]) | 수정 금지 |
+| C | NAS image-auto ([NAS-IP]:8100) | 별도 진행 |
 | D | ShortFlow AI 쇼츠 | 별도 진행 |
 
 ---
@@ -137,8 +137,12 @@ outsource@newtalk.kr (외주)
 | R4-FRONT-007 | 2026-02-26 | v3.15.0 | — | 위탁배송·드롭십 UI |
 | DOCS-FIX-007 | 2026-02-26 | — | — | SHA 교체 + ARCHITECTURE 재작성 |
 | DOCS-FIX-008 | 2026-02-26 | v3.11.0 | — | 4대 핵심 문서 정합성 복구 |
-| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | — | R4 최종 문서 정합성 복구 (로컬 커밋 완료, push 미완료) |
+| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | 770ae91 | R4 최종 문서 정합성 복구 (push 완료) |
 | DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환, .cursorrules 인계서 규칙 추가 |
+| CODE-REVIEW-001 | 2026-02-28 | — | 946c57e | R1~R4 코드 검수 보고서 push |
+| CODE-FIX-001 | 2026-03-02 | — | e594850 | BUG-001·002·003 수정 + TS 에러 0건 달성 (frontend 빌드 정상) |
+| ROUTE-MERGE-001 | 2026-03-02 | v4.2.0 | be758c6 | 라우트 통합 Phase1+2 — Cafe24 7EP + R4 33EP 병합, 마이그레이션 9개, 107라우트·75테이블 |
+| ROUTE-CONNECT-B1-001 | 2026-03-02 | v4.3.0 | f39ef28 | B-1 라우트 연결 — 장바구니·주문·브랜드·콘텐츠·미디어·SNS 35EP, 107→142라우트 |
 
 ---
 
@@ -146,9 +150,7 @@ outsource@newtalk.kr (외주)
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| V1-FIX-001 | 지시서 전달 | V1 이미지 URL DO→newtalk.kr 치환 |
-| DOCS-FIX-009 | push 미완료 | R4 문서 정합성 (로컬 커밋 완료, 원격 push 미완료) |
-| CODE-REVIEW-001 | 보고서 확인 대기 | R1~R4 코드 검수 |
+| V1-FIX-001 | Phase 1 완료, Phase 2 대기 | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행) |
 
 ---
 
@@ -156,10 +158,8 @@ outsource@newtalk.kr (외주)
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
-| DOCS-FIX-009 push | force-with-lease 실행 | P0 즉시 |
-| V1-FIX-001 실행 | Cursor 실행 | P0 즉시 |
-| CODE-REVIEW-001 확인 | 보고서 push | P1 단기 |
-| R5 기획 | 코드 검수 완료 | P2 중기 |
+| V1-FIX-001 Phase 2 (DB 조사·치환) | CEO 승인 + Cursor 실행 | P0 즉시 |
+| R5 기획 | CEO 범위 확정 | P2 중기 |
 
 ---
 
@@ -171,6 +171,7 @@ outsource@newtalk.kr (외주)
 | V1 products 컬럼명 차이 | R1 | be662c7에서 해결 |
 | R1 브랜치 develop 미병합 | R2 이전 | 정리 필요 |
 | Docker mount path 확인 필요 | — | src/ vs 루트 |
+| 이중 라우트 파일 (routes/api.php vs src/routes/api.php) | ROUTE-MERGE-001에서 해결 (src/routes/api.php 일원화, routes/api.php.legacy 보존) | API 라우트 66→107개 |
 | Cursor git push 누락 패턴 반복 | R4 | .cursorrules 자동 push 규칙 추가 필요 |
 | DO Spaces URL이 V1에 하드코딩 | V1-FIX-001 | 소스+DB 치환 필요 (CEO 승인 완료) |
 
@@ -178,23 +179,22 @@ outsource@newtalk.kr (외주)
 
 ## 6. 웹 Claude 인수인계 사항
 
-### 최신 상태 (2026-02-28)
-- R4 라운드: 코드 46건 완료 (R0~R4 API+FRONT+DOCS-FIX)
-- DOCS-SETUP-001 완료: CEO-DIRECTIVES.md v1.0 생성, HANDOVER.md v4.0.0 (8섹션 표준), .cursorrules 인계서 규칙 추가
-- DOCS-FIX-009: 로컬 커밋 완료, 원격 push 미완료 (non-fast-forward)
-- V1-FIX-001: 이미지 URL 치환 지시서 전달, Cursor 실행 대기
-- CODE-REVIEW-001: 서버 로컬에 보고서 존재, push/내용 미확인
+### 최신 상태 (2026-03-02)
+- ROUTE-CONNECT-B1-001 완료: B-1 라우트 연결 — API 라우트 107→142개 (f39ef28, 2026-03-02)
+- ROUTE-MERGE-001 완료: 라우트 통합 Phase1+2 — API 라우트 66→107개, DB 테이블 66→75개 (be758c6, 2026-03-02)
+- CODE-FIX-001 완료: BUG-001·002·003 수정, TS 에러 0건, frontend 재빌드 완료 (e594850, 2026-03-02)
+- CODE-REVIEW-001 완료: R1~R4 코드 검수 보고서 push (946c57e, 2026-02-28)
+- DOCS-FIX-009 완료: R4 최종 문서 정합성 push 완료 (770ae91, 2026-02-27)
+- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2~4 CEO 승인 대기
 
 ### 웹 Claude가 해야 할 일
-1. V1-FIX-001 실행 보고 수신 → Phase 1(조사) 결과 검증 → Phase 2~4 진행 판단
-2. CODE-REVIEW-001 보고서 push 확인 → 내용 교차검증 → 이슈 분류 → R-FIX 지시서 작성
-3. DOCS-FIX-009 push 완료 확인 (force-with-lease)
-4. R5 기획 착수 (CEO 확정 후)
+1. V1-FIX-001 Phase 2 실행 승인 → DB 조사 결과 검증 → Phase 3(UPDATE) 진행 판단
+2. CODE-REVIEW-001 내용 교차검증 → 발견 이슈 분류 → R-FIX 지시서 작성 (P1)
+3. R5 기획 착수 (CEO 확정 후, P2)
 
 ### 대표님 확인 필요 사항
-1. V1-FIX-001: newtalk.kr/img/YYYYMM/ 경로 구조가 DO Spaces와 동일한지
-2. CODE-REVIEW-001: 발견 이슈 중 긴급 수정 필요 건 우선순위 결정
-3. R5 기획 범위·일정 확정
+1. V1-FIX-001 Phase 2 승인: V1 DB goods_detail 테이블 DO URL 치환 진행 여부
+2. R5 기획 범위·일정 확정
 
 ### 주의사항
 - Cursor가 git push를 건너뛰는 패턴이 반복됨 → 모든 지시서에 push 단계 명시 필수
@@ -247,3 +247,6 @@ outsource@newtalk.kr (외주)
 | 3.0.0 | 2026-02-26 | DOCS-FIX-008: 완료 항목 정합성 복구; R4-FRONT-006 콘텐츠 파이프라인 UI 완료 반영 |
 | 3.0.1 | 2026-02-27 | DOCS-FIX-009: R4-FRONT-004·005·007 완료 반영, R4 라운드 종결 |
 | 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
+| 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
+| 4.2.0 | 2026-03-02 | ROUTE-MERGE-001 완료 반영, 107라우트·75테이블, git 브랜치 main 확인 |
+| 4.3.0 | 2026-03-02 | ROUTE-CONNECT-B1-001 완료 반영, 142라우트, B-1 연결 완료 |

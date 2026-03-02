@@ -1,7 +1,7 @@
 # /terms·/privacy 리다이렉트 원인 진단
 
 **일시**: 2026-02-25 KST  
-**서버**: ssh root@114.207.244.86  
+**서버**: ssh root@[SERVER-IP]  
 **프로젝트**: /data/shortflow  
 
 ---
@@ -24,7 +24,7 @@
 - **localhost:3000/terms, /privacy**: **307 Temporary Redirect → /login** (위 앱의 미들웨어).
 - **shortflow-saas-dashboard**: 현재 컨테이너 목록에 없음 (미기동 또는 다른 호스트에서 기동).
 
-실제 서버(114.207.244.86)에서 3000을 ShortFlow가 쓰는데 리다이렉트된다면 → 예전 빌드로 재빌드·재배포 필요.
+실제 서버([SERVER-IP])에서 3000을 ShortFlow가 쓰는데 리다이렉트된다면 → 예전 빌드로 재빌드·재배포 필요.
 
 ---
 

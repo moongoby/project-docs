@@ -57,7 +57,7 @@
 - 마이그레이션: `docker compose --env-file .env.docker exec app php artisan migrate` → 5개 Ran
 - 라우트: `php artisan route:list --path=short` → 11개 확인
 - API 테스트: 지시서 PHASE 6 curl 11개 실행 후 N/11 통과 기입
-- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ## 비고
 - GET /api/shorts/mine 은 GET /api/shorts/{id} 보다 먼저 등록되어야 함 (라우트 순서 유지).

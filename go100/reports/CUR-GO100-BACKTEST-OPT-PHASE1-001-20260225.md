@@ -14,7 +14,7 @@
 | check_readiness 사용 | `grep check.readiness, data_gate` | backtest_router.py에서 run/retry 시 data_gate_check_readiness 호출 | **기반영 확인** – run/retry 게이트 연동됨 |
 | POST /check-readiness | 라우터 엔드포인트 목록 | 기존에 **없음** | **신규 추가** – POST /check-readiness 엔드포인트 추가 |
 | OHLCV 프리로드 | `grep preload, pre_load` in backtest/ | 없음 | **신규 구현** – preload_ohlcv, get_stock_data, get_ohlcv_slice 추가 |
-| 백테스트 실행 기록 | `SELECT COUNT(*) FROM go100_backtest_runs` | (본 환경에서 DB 미연결로 미실행) | 서버(211.188.51.113)에서 확인 필요 |
+| 백테스트 실행 기록 | `SELECT COUNT(*) FROM go100_backtest_runs` | (본 환경에서 DB 미연결로 미실행) | 서버([SERVER-IP])에서 확인 필요 |
 | backtest 서비스 파일 | `ls backend/app/services/go100/backtest/` | backtest_service, data_gate, data_loader, minute_data_loader, simulator, minute_simulator 등 | 구조 확인 |
 | backtest_router 엔드포인트 | `grep def / @router` | GET "", POST /run, POST /retry/{id}, GET /{run_id} | POST /check-readiness **추가** |
 | data_loader 구조 | `grep -n "def " data_loader.py` | load_ohlcv, load_stock_info | preload_ohlcv, get_stock_data, get_ohlcv_slice **추가** |
@@ -78,7 +78,7 @@
 
 ## 4. E2E 백테스트 결과 (서버에서 실행 권장)
 
-본 환경에서는 DB 접속(Peer authentication) 불가로 아래는 서버(211.188.51.113)에서 실행 후 기록하는 것을 권장합니다.
+본 환경에서는 DB 접속(Peer authentication) 불가로 아래는 서버([SERVER-IP])에서 실행 후 기록하는 것을 권장합니다.
 
 - **DataGate 확인:**  
   `POST /api/go100/backtest/check-readiness`  
@@ -127,7 +127,7 @@ frontend go100Api.ts, backtest/page.tsx – checkBacktestReadiness 및 RED/YELLO
   Python 문법 체크, TypeScript 체크 통과.
 
 - **헬스체크 / DataGate API / TSC·빌드:**  
-  서버(211.188.51.113)에서 `systemctl restart go100`, `curl .../health`, `curl .../check-readiness`, `cd frontend && npx tsc --noEmit && npm run build` 실행 후 결과 기록 권장.
+  서버([SERVER-IP])에서 `systemctl restart go100`, `curl .../health`, `curl .../check-readiness`, `cd frontend && npx tsc --noEmit && npm run build` 실행 후 결과 기록 권장.
 
 ---
 

@@ -26,7 +26,7 @@
 1. 로컬 수정본을 서버에 반영: `docs/V1-SCHEMA-SUMMARY.md`, `docs/handover/HANDOVER.md`, `docs/reports/DOCS-CLEANUP-001-report.md` 를 서버 `/srv/newtalk-v2/docs/` 에 복사한 뒤 실행.
 2. runbook 실행:
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 cd /srv/newtalk-v2 && bash docs/scripts/DOCS-CLEANUP-001-runbook.sh
 ```
 - runbook: TASK 1에서 `git log --grep`으로 SHA_FRONT003, SHA_API002, SHA_FRONT004, SHA_FIX002 추출 후 CONTEXT/CHANGELOG/R2-FIX-002-report 치환, TASK 8에서 HANDOVER·V1-SCHEMA-SUMMARY 포함 project-docs 동기화 및 푸시.

@@ -2,7 +2,7 @@
 
 **작업 ID:** CUR-KIS-MOCK-FULL-SCAN-DESK2TO5-001  
 **일시:** 2026-02-24 10:54 ~ 11:18 KST (화요일, 정규장 09:00~15:30)  
-**서버:** root@211.188.51.113 (kis-autotrade-v4)  
+**서버:** root@[SERVER-IP] (kis-autotrade-v4)  
 **브랜치:** phase-2c-command-center  
 
 ---

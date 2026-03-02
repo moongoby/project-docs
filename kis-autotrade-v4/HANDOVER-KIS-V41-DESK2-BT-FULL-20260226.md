@@ -10,7 +10,7 @@
 
 ## PART 1. 프로젝트 개요
 
-KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매 시스템. DESK1~5 멀티 전략 62개 카드 운영. 서버 root@211.188.51.113, 브랜치 phase-2c-command-center, DB PostgreSQL 16 (kisautotrade, data_directory: /data/postgresql/16/main), Python 3.12, FastAPI, Redis 7.x.
+KIS AutoTrade V4.1 — 한국투자증권 API 기반 AI 자동매매 시스템. DESK1~5 멀티 전략 62개 카드 운영. 서버 root@[SERVER-IP], 브랜치 phase-2c-command-center, DB PostgreSQL 16 (kisautotrade, data_directory: /data/postgresql/16/main), Python 3.12, FastAPI, Redis 7.x.
 
 GO100(백억이) — 동일 서버·DB에서 운영되는 AI 투자 플랫폼. go100_* 전용 테이블 보유. 뉴스 288,787건(go100_news_items), stock_fundamentals, 종목 적합도 분석(go100_fit_analysis) 등 수집 데이터가 풍부.
 
@@ -188,7 +188,7 @@ CLI: `scripts/backtest/desk2_live_parity_run.py`
 
 ## PART 6. 커서 작업 규칙
 
-1. 서버: root@211.188.51.113
+1. 서버: root@[SERVER-IP]
 2. DB: localhost:5432/kisautotrade (kis_admin)
 3. 가상환경: `source /root/kis-autotrade-v4/venv/bin/activate`
 4. PYTHONPATH: `/root/kis-autotrade-v4/backend`
@@ -259,7 +259,7 @@ https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/
 
 | 항목 | 값 |
 |------|-----|
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 | OS | Ubuntu 24.04 LTS |
 | CPU | Intel Xeon Gold 5220 4코어 |
 | RAM | 15GB (available 11GB) |

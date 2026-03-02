@@ -10,7 +10,7 @@
 - GitHub: moongoby/kis-autotrade-v4 (private), 문서: moongoby/project-docs (public)
 
 ## 2. 서버 환경
-- 서버: root@211.188.51.113 (kis-autotrade-v4)
+- 서버: root@[SERVER-IP] (kis-autotrade-v4)
 - 프로젝트: /root/kis-autotrade-v4
 - 브랜치: phase-2c-command-center
 - DB: PostgreSQL 16, kisautotrade / kis_admin / localhost:5432

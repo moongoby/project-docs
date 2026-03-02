@@ -4,7 +4,7 @@
 |------|------|
 | 작업 ID | KIS-API-DOCS-PUSH |
 | 일시 | 2026-02-23 18:08 KST |
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 
 ## 작업 내용
 - `/root/kis-autotrade-v4/docs/api/kisapi/` 및 PDF를 `/root/project-docs/kis-autotrade-v4/api/`로 복사 후 GitHub에 push

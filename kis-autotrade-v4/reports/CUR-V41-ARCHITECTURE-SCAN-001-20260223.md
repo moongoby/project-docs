@@ -2,7 +2,7 @@
 
 **작업 ID:** ARCHITECTURE-FULL-SCAN-V1.2  
 **일시:** 2026-02-23 17:00 KST  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4  
 **브랜치:** phase-2c-command-center  
 **작업자:** Cursor AI (읽기전용)  

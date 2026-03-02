@@ -2,7 +2,7 @@
 
 **검수일시**: 2026-02-24
 **검수자**: Claude Code
-**검수 대상**: 116 서버 (114.207.244.86) - /home/danharoo/www/application/controllers/products.php
+**검수 대상**: 116 서버 ([SERVER-IP]) - /home/danharoo/www/application/controllers/products.php
 **백업 파일**: products.php.bak.20260224
 
 ---
@@ -363,7 +363,7 @@ if(!in_array(strtolower($data['GoodsCode']), $existCodes)) {
 
 ## 9. 검수 환경
 
-- **서버**: 116 서버 (114.207.244.86:7916)
+- **서버**: 116 서버 ([SERVER-IP]:7916)
 - **파일 경로**: /home/danharoo/www/application/controllers/products.php
 - **백업 파일**: products.php.bak.20260224
 - **PHP 버전**: 확인 필요

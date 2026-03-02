@@ -4,7 +4,7 @@
 |------|------|
 | 지시서 ID | PUSH-VERIFY-001 |
 | 목표 | 서버 로컬 작업물 확인 → V2 레포 + project-docs 레포 push → 경로 보고 |
-| 실행 위치 | **서버** `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` → `cd /srv/newtalk-v2` |
+| 실행 위치 | **서버** `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` → `cd /srv/newtalk-v2` |
 
 ## 로컬(워크스페이스) 검증 결과 (STEP 1 대체)
 
@@ -23,7 +23,7 @@
 ## 서버에서 실행할 Runbook
 
 ```bash
-ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 cd /srv/newtalk-v2
 chmod +x docs/scripts/PUSH-VERIFY-001-runbook.sh
 bash docs/scripts/PUSH-VERIFY-001-runbook.sh

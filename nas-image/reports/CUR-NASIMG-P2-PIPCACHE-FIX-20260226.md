@@ -4,7 +4,7 @@
 **작성일시:** 2026-02-26 (목) 14:10 KST  
 **작업 유형:** P2-PIPCACHE-FIX  
 **프로젝트:** https://github.com/moongoby/newtalk-image-auto (main)  
-**서버:** NAS 192.168.30.23:2222, 사용자 newtalk
+**서버:** NAS [NAS-IP]:[NAS-SSH-PORT], 사용자 newtalk
 
 ---
 

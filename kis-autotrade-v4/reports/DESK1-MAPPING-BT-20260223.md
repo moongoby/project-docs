@@ -2,7 +2,7 @@
 
 ## 작업 개요
 - **작업명**: DESK1-MAPPING-BT
-- **서버**: 211.188.51.113
+- **서버**: [SERVER-IP]
 - **목적**: DESK1 실매매 전제조건 — v4_desk_strategy_mapping 매핑 확인·보강 후 DESK1 전용 백테스트 수행 및 실매매 투입 판단
 - **절대 규칙 준수**: kis-v41-* 재시작 없음, strategy_cards ALTER/DROP/DELETE 없음, v4_positions 직접 수정 없음, backtest_engine_v2.py 수정 없음, .env/.bak 커밋 없음
 

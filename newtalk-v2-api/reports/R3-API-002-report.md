@@ -54,13 +54,13 @@
 | 15-6 POST /api/payments/confirm | 200 또는 400 | TOSS_SECRET_KEY 미설정 시 스킵 또는 400 메시지 기록 |
 | 15-7 POST /api/payments/{id}/cancel | 200 또는 422 | 토스 키 필요 시 스킵 사유 기록 |
 | 15-8 POST /api/payments/webhook | 200 | webhook secret 미설정 시에도 200 + 로그 기록 |
-| 15-9 V1 헬스 GET http://114.207.244.86 | 200 | |
+| 15-9 V1 헬스 GET http://[SERVER-IP] | 200 | |
 
 ## 검수 결과
 - **PHP Syntax**: app/Models/Payment.php, PaymentLog.php, Order.php, TossPaymentService.php, PaymentController.php — 모두 "No syntax errors detected".
 - **마이그레이션**: 서버에서 `php artisan migrate` 실행 후 2026_02_25_160001, 160002, 160003 Ran 확인.
 - **라우트**: `php artisan route:list --path=payments` → 6개 (prepare, confirm, show, cancel, webhook, orderPayment). `--path=orders` 에 GET orders/{id}/payment 포함 확인.
-- **V1 헬스**: 서버에서 `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200 확인.
+- **V1 헬스**: 서버에서 `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200 확인.
 
 ## 비고
 - orders 테이블에는 기존에 payment_method 컬럼이 있어 160003 마이그레이션에서는 payment_status, paid_at만 추가함.

@@ -13,7 +13,7 @@
 
 - Phase 2-1(.env 보안 강화) 완료 후, YouTube Shorts 자동 업로드를 위한 OAuth2.0 인증 체계 구축.
 - 자체 채널 **템빨신상맨**, YouTube Data API v3 일일 10,000 units, 업로드 1회 1,600 units, 일일 최대 약 6건 권장.
-- 서버: rfree-0009.cafe24.com, 프로젝트 경로 `/data/shortflow`, credentials `/data/shortflow/credentials/`.
+- 서버: [SERVER-HOSTNAME], 프로젝트 경로 `/data/shortflow`, credentials `/data/shortflow/credentials/`.
 
 ---
 

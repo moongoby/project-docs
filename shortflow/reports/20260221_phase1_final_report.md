@@ -46,7 +46,7 @@ Phase 1 기본 구현 이후, 릴스 품질 개선(텍스트 위치·디자인),
 
 ### Task 5: crontab + NAS 자동 동기화
 
-- **sync_nas.sh:** 기존 그대로 사용. `ssh nas`로 NAS(183.96.69.193:2222) 접속, 날짜 폴더별 tar 동기화.
+- **sync_nas.sh:** 기존 그대로 사용. `ssh nas`로 NAS([NAS-PUBLIC-IP]:[NAS-SSH-PORT]) 접속, 날짜 폴더별 tar 동기화.
 - **crontab 등록 (수동):**  
   `crontab -e` 후 아래 한 줄 추가.  
   `*/30 * * * * /data/shortflow/engine/sync_nas.sh >> /data/styleflow/logs/cron_sync.log 2>&1`  
@@ -57,7 +57,7 @@ Phase 1 기본 구현 이후, 릴스 품질 개선(텍스트 위치·디자인),
 - **A,B,C:** 11개 MOV × 템플릿 A,B,C → 33건 생성 성공.
 - **D,E:** `batch_reels_d_e.py` 실행 → D 5건, E 2건, 총 7건 성공.
 - **총 40개 릴스** 생성, `index.html` 갱신 완료.
-- **확인 URL:** http://114.207.244.86:8888/index.html (서버에서 8888 서비스 가동 시)
+- **확인 URL:** http://[SERVER-IP]:8888/index.html (서버에서 8888 서비스 가동 시)
 
 ## 3. 테스트 결과
 

@@ -10,7 +10,7 @@
   - `backend/app/services/go100/optimizer/` — backtest_optimizer.py, fit_engine.py, optimizer_service.py, schemas.py, __init__.py
   - `backend/app/routers/go100/optimizer_router.py`
   - CUR-GO100-AI-BACKTEST-OPT 참조: schemas.py, optimizer_service.py, fit_engine.py, backtest_optimizer.py, optimizer_router.py, ai_router.py, intent_router.py
-- **DB 테이블:** 확인 불가 (본 점검 환경에서 psql Peer authentication 실패. 서버 211.188.51.113에서 직접 `PGPASSWORD='...' psql -U kis_admin -d kisautotrade` 로 재확인 권장)
+- **DB 테이블:** 확인 불가 (본 점검 환경에서 psql Peer authentication 실패. 서버 [SERVER-IP]에서 직접 `PGPASSWORD='...' psql -U kis_admin -d kisautotrade` 로 재확인 권장)
 - **보고서:** 존재 — `/root/project-docs/go100/reports/CUR-GO100-AI-BACKTEST-OPT-001-20260224.md`
 - **판정:** **완료** (코드·보고서 반영됨, DB는 서버에서 별도 확인)
 
@@ -42,4 +42,4 @@
 - 전체 목록: `ls -la /root/project-docs/go100/reports/` 로 확인 가능
 
 ---
-*CUR-GO100-STATUS-CHECK-001 점검 완료. DB 항목은 실제 서버(211.188.51.113)에서 psql로 재확인 권장.*
+*CUR-GO100-STATUS-CHECK-001 점검 완료. DB 항목은 실제 서버([SERVER-IP])에서 psql로 재확인 권장.*

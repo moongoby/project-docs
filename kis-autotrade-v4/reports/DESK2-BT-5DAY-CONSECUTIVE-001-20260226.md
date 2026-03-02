@@ -12,7 +12,7 @@
 - **대상 날짜**: 2026-02-19, 2026-02-20, 2026-02-21, 2026-02-24, 2026-02-25 (거래일 5일)
 - **초기 자본**: 10,000,000원/일 (날짜별 독립, 이월 없음)
 - **스크립트**: `scripts/backtest/desk2_live_parity_run.py`
-- **서버**: root@211.188.51.113
+- **서버**: root@[SERVER-IP]
 - **가상환경**: `/root/kis-autotrade-v4/.venv`
 - **브랜치**: phase-2c-command-center
 - **DB**: localhost:5432/kisautotrade (kis_admin)

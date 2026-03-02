@@ -32,7 +32,7 @@
 ## 검수 결과
 - **TypeScript 컴파일**: 서버에서 `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` 실행 후 0 에러 확인
 - **페이지 HTTP 검증**: /retail/addresses, /retail/orders, /wholesale/orders → 200 또는 302 (로그인 리다이렉트)
-- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ## 신규/수정 파일
 - frontend/src/types/shipping.ts

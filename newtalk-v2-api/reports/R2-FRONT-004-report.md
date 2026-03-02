@@ -59,10 +59,10 @@
 ## §4. HTTP 테스트 (프론트)
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/brand/test-wholesale
+curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/brand/test-wholesale
 # 기대: 200
 
-curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/brands
+curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/brands
 # 기대: 200
 ```
 

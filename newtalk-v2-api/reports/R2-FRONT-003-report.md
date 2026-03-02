@@ -60,8 +60,8 @@
 
 - **빌드**: `docker compose --env-file .env.docker up -d --build frontend` → 에러 없음
 - **로그**: `docker compose --env-file .env.docker logs frontend --tail 30` → 정상
-- **접속**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86:3000/retail/product/1` → 200 또는 307
-- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- **접속**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]:3000/retail/product/1` → 200 또는 307
+- **V1 헬스**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ---
 

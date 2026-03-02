@@ -1,7 +1,7 @@
 # CUR-GO100-INDEX-DAILY-FIX-001 — index_daily OHLC=0 수정 및 재수집
 
 **일시:** 2026-02-23 21:30 KST  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **작업 ID:** CUR-GO100-INDEX-DAILY-FIX-001
 
 ---

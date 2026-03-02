@@ -104,7 +104,7 @@ git version 2.25.1
 
 ## 6. V1 영향 없음 확인
 
-- **명령**: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`
+- **명령**: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]`
 - **결과**: **200**
 - **해석**: V1 사이트 응답 정상.
 

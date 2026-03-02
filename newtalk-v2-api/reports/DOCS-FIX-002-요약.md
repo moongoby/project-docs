@@ -41,7 +41,7 @@
 
 ## 서버에서 실행할 단계 (지시서 3~9)
 
-현재 작업 위치가 **로컬(/root/newtalk-v2)** 이므로, 아래는 **서버(SSH: -p 7916 root@114.207.244.86, /srv/newtalk-v2)** 에서 진행해야 합니다.
+현재 작업 위치가 **로컬(/root/newtalk-v2)** 이므로, 아래는 **서버(SSH: -p [SSH-PORT] root@[SERVER-IP], /srv/newtalk-v2)** 에서 진행해야 합니다.
 
 1. **SHA 확인**  
    `cd /srv/newtalk-v2 && V2_SHA=$(git log -1 --oneline | awk '{print $1}') && echo "V2 SHA: $V2_SHA"`
@@ -74,4 +74,4 @@
 
 ## V1 헬스 (로컬 확인)
 
-- `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → **200** 확인됨.
+- `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → **200** 확인됨.

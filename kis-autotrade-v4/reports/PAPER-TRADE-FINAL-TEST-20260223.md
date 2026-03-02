@@ -2,7 +2,7 @@
 
 **작업 ID:** PAPER-TRADE-FINAL-TEST  
 **일시:** 2026-02-23 15:35 KST (장마감 후, CEO 승인 완료)  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **프로젝트:** /root/kis-autotrade-v4  
 **브랜치:** phase-2c-command-center  
 **우선순위:** P0 (모의매매 1회 사이클 최종 검증)

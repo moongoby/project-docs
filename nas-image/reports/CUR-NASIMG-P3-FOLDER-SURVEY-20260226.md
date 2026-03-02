@@ -4,7 +4,7 @@
 **작성일시:** 2026-02-26 (목) 19:40 KST  
 **작업 유형:** P3-FOLDER-SURVEY  
 **프로젝트:** https://github.com/moongoby/newtalk-image-auto (main)  
-**서버:** NAS 192.168.30.23:2222, 사용자 newtalk
+**서버:** NAS [NAS-IP]:[NAS-SSH-PORT], 사용자 newtalk
 
 ---
 
@@ -54,10 +54,10 @@ NAS SSH 접속 후 아래 중 한 가지로 실행한다.
 
 ```bash
 # 방법 A: 스크립트 파이프 (로컬에서)
-# Get-Content scripts\nas_p3_folder_survey.sh -Raw | ssh -p 2222 newtalk@192.168.30.23 "bash -s"
+# Get-Content scripts\nas_p3_folder_survey.sh -Raw | ssh -p 2222 newtalk@[NAS-IP] "bash -s"
 
 # 방법 B: NAS 저장소에서 직접 실행 (repo 최신 pull 후)
-ssh -p 2222 newtalk@192.168.30.23
+ssh -p 2222 newtalk@[NAS-IP]
 cd /volume1/뉴톡/newtalk-image-auto
 bash scripts/nas_p3_folder_survey.sh
 ```

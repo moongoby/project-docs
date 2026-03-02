@@ -1,7 +1,7 @@
 # DESK-STRATEGY-OPTIMIZATION-RESEARCH 보고
 
 **작업명:** DESK-STRATEGY-OPTIMIZATION-RESEARCH (DESK × 전략 × 종목 × 타이밍 원천 최적화 연구)  
-**서버:** 211.188.51.113  
+**서버:** [SERVER-IP]  
 **경로:** /root/kis-autotrade-v4  
 **보고일:** 2026-02-22  
 

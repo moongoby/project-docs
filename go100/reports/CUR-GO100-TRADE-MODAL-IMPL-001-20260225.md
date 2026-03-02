@@ -67,7 +67,7 @@
 
 1. **DB 마이그레이션 (서버에서 실행)**  
    ```bash
-   PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -f /root/kis-autotrade-v4/backend/migrations/027_go100_trade_schedules_card_source.sql
+   PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -f /root/kis-autotrade-v4/backend/migrations/027_go100_trade_schedules_card_source.sql
    ```
 2. **go100 서비스 재시작**  
    ```bash

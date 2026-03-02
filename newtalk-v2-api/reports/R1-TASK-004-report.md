@@ -61,7 +61,7 @@ TOKEN=$(curl -s -X POST "http://127.0.0.1:8080/api/auth/login" \
 | 6-7a | 권한 purchaser | purchaser 토큰으로 summary | 403 | |
 | 6-7b | 권한 md | md 토큰으로 summary | 403 | |
 | 6-7c | 권한 retail | retail 토큰으로 summary | 403 | |
-| 6-8 | V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` | 200 | |
+| 6-8 | V1 보호 | `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` | 200 | |
 
 ---
 

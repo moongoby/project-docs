@@ -24,8 +24,8 @@ git diff --cached --quiet || { git commit -m "[sync] [폴더명] $(date +%Y%m%d_
 ### 원격 서버 (NAS 등 SSH 접근)
 ```bash
 #!/bin/bash
-NAS_HOST="admin@192.168.30.23"
-NAS_PORT="2222"
+NAS_HOST="[NAS_HOST]"
+NAS_PORT="[NAS_PORT]"
 NAS_SRC="/프로젝트경로/docs"
 DST="/data/project-docs/[폴더명]"
 scp -P ${NAS_PORT} ${NAS_HOST}:${NAS_SRC}/CONTEXT.md ${DST}/

@@ -1,6 +1,6 @@
 # DB 스키마 문서 (kisautotrade)
 > 자동 생성일: 2026-02-23
-> 서버: root@211.188.51.113
+> 서버: root@[SERVER-IP]
 > DB: PostgreSQL 16, kisautotrade / kis_admin
 
 ⚠️ **보안 주의**: 이 문서에는 테이블 구조(컬럼명, 타입)만 포함됩니다.

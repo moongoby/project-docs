@@ -3,7 +3,7 @@
 **작업 ID**: CUR-GO100-EXTERNAL-DATA-001  
 **작성일**: 2026-02-25 (KST)  
 **브랜치**: feat/CUR-GO100-EXTERNAL-DATA-001 → phase-2c-command-center  
-**서버**: root@211.188.51.113  
+**서버**: root@[SERVER-IP]  
 **DB**: kisautotrade (PostgreSQL)
 
 ---

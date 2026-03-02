@@ -79,7 +79,7 @@ mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2 \
 | 7 | /api/wishlists/{productId} (찜 추가) | POST | 201 | |
 | 8 | /api/wishlists (찜 목록) | GET | 200 | |
 | 9 | /api/feed/search?q=테스트 | GET | 200 | |
-| 10 | V1 보호 (http://114.207.244.86) | GET | 200 | |
+| 10 | V1 보호 (http://[SERVER-IP]) | GET | 200 | |
 
 ---
 
@@ -116,7 +116,7 @@ mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2 \
 
 ## §6. 서버 실행 체크리스트 (STEP 5~9)
 
-다음은 **서버(114.207.244.86)** 에서 실행할 항목입니다.
+다음은 **서버([SERVER-IP])** 에서 실행할 항목입니다.
 
 1. **브랜치 생성**
    - `git checkout develop && git pull origin develop`

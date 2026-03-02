@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-02-28 (v3.2 — 급등원인분석+D-20전조추출 20과제 완료, 원인8분류, 전조조합P=76.7%, DESK승격정량화, Leader AUC0.712)
+> 최종 업데이트: 2026-03-02 (v8.4 — **CUR-V41-DIRECTIVE-AUTOMATION-002**: KST 전면적용(logging+UTC→KST+run_pending.sh+write_done.py), 정기보고 30분 프로젝트별 pending건수 포함, .cursorrules 9-10, CEO-COMMAND-CENTER 섹션9, 8/8 PASS; v8.3 — **CUR-V41-DIRECTIVE-AUTOMATION-001**: bridge.py Directive 자동 감지·저장·완료 중계 체계 구축. pending/running/done/archived 디렉토리, save_directive_to_pending(sha256 중복방지), process_done_directives(10초 감시→매니저+CEO 중계+텔레그램), run_pending.sh, 정기보고에 pending현황 포함, 모든 타임스탬프 KST 명시(logging converter + _get_latest_commit UTC→KST 변환), 5/5 단위테스트 PASS, genspark-bridge 재시작 active; v8.2 — **Session N 추가: WF-Step1 SIG3+SIG6 적용 + D4 Shadow Mode 구현** (9f17b8c5): cte_pipeline.py D4 SIG5→SIG3 교체(WF-Step1 3/3 PASS), SHADOW_STRATEGIES={'D4'} 활성화, engine.py _log_shadow() 11개필드 JSONL 기록(logs/shadow/shadow_d4_{date}.jsonl), monitor_virtual_run.py Section7 D4 Shadow 요약 추가, 43/43 PASS; WF-Step2 시뮬 구조적 한계 발견(ATR파라미터 미반영→shadow trading 직행); v8.0 — **Session N 추가: Step4 사전 시뮬 + 매니저 분석 완료**: 백테스트 D4 price_pos+is_pullback 현실화(65557fd2), Step4 시뮬 5개 시나리오 비교(D4 83건 활성화 가능하나 PF 1.906으로 하락), 핵심발견: D4제외 PF=3.335(베이스라인 2.398 상회→교차영향 없음 확인), D4자체 PF=1.074/WR=22.9%(시뮬 과소추정 가능), 매니저 지시: 옵션B(ATR 1.5 단독) 즉시→다음세션 WF-Step1(BREAKOUT+SIG3비활성 3Fold)/WF-Step2(D4파라미터조정 SL2%/TP3%/시간축소), 미통과 시 shadow trading 전환; v7.0 — **Session N 추가: D4 EQS PULLBACK 오분류 버그 수정 + SIGNAL_COMBO 사전분석**: signal_generator.py:354 D4 PULLBACK→BREAKOUT 수정(EQS+15점, REDUCE→PROCEED, 커밋 e274411a), D4 SIGNAL_COMBO SIG5→SIG3 교체 방안 분석(리플레이 검증 후 채택 예정), 보고서 CUR-V41-D4-ACTIVATION-PREANALYSIS-001(커밋 578cda4); v6.9 — **Session N: ATR_NETRR 병목 분석 + WF 3-Fold ALL PASS**: 핵심발견 「진짜 병목=ATR_NETRR(45.8% 차단)」 확정, D4 전략 0건=3중차단(ATR_NETRR+SIGNAL_COMBO+EQS), ATR 1.5 완화 리플레이(731→1,066건/+46%, PF 2.248 유지), WF 3-Fold ALL PASS(F1 PF=2.175/F2 PF=2.448/F3 PF=2.263, 평균 PF=2.295, Sharpe=11.03, MDD=-2.1%), D4 SIG5(VP_120_RECOVERY) 구조적 미충족 확인, D7 시뮬 경쟁≠실전(시간대분리), 보고서 2건 push(a518efc/0a00567); v6.8 — **Session K: 03-03 Virtual Run 자동 모니터링 체계 구축**: monitor_virtual_run.py 신규(5액션: premarket/signal/periodic/close/daily_report), cron 6건 등록(07:58~16:00), L3.3 ALLOW/BLOCK/CONDITIONAL 비율+v4_mock_trades 거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 일간 보고서 자동생성, 5액션 dry-run ALL PASS, 보고서 Push 방안B(CEO 확인 후 수동); v6.7 — **Session J: 소형주 수급 데이터 수집 확대 분석**: 핵심발견 「종목 누락 아님 — 날짜 커버리지 갭」 확인(507종목 전부 존재, 908건 날짜 미매칭), KIS API FHPTJ04160001 30일 한계 실증(역사적 2025년 복구 불가), cron stock-limit 500→4000 확장(전종목 커버), 역사적 매칭률 51.5%(불변), Live 매칭률 ~100%(3,839/3,844종목), L3.3 역사적 BLOCK 69.7% → Live BLOCK ~42% 개선 추정, backfill_investor_missing.py 신규; v6.6 — **Session H: 통합엔진 L3.3 연동 + 아키텍처 동기화**: 아키텍처 진단 GAP 6건 발견(L3.3 미활성/exit_manager Generic파라미터/D2 trail 10%/HARD_TP 미구현), Method A(CTE 경유) 채택 — signal_generator.py에 SupplyDemandGate.evaluate() 호출+pool 전파+Fail-Open, exit_manager.py 전략별 STRATEGY_EXIT_PARAMS 동기화(D2 SL3%/trail3%, D4 SL1%/TP5%/HARD_TP, D5 SL2.5%/trail2%), D2 trail_start 10%→3% 수정(TIMEOUT 86%→해소), run_unified_engine.py 합성 SupplyGateResult(E-3 통과율 17%ALLOW/10%COND/73%BLOCK), **137테스트 ALL PASS**, GAP 4건 해소(G-1~G-4), 잔여 G-5(Anti-Pattern P2)/G-6(Timeout P2), **03-03 Virtual Run L3.3 활성화 GO**; v6.5 — **Session E-3: 수급 게이트 다층 검증 + L3.3 SupplyDemandGate 구현**: CEO 승인 3건 기반, 전 레짐 PF>1.5(BEAR 최고 2.549), WF 3-Fold ALL PASS(0.7+FRGN min PF=1.455), supply_demand_gate.py 신규(MUST CLOSE>0.7+FRGN>0, 보너스6개, 3등급), cte_pipeline.py L3.3 삽입(L3→L3.3→L3.2), 24테스트+33기존 ALL PASS, **Baseline PF=0.834→D_Full PF=2.727(+227%)**, WR 34.3%→51.1%, D-002 최종 실증; v6.4 — **Session F: 프론트엔드 & API 연결 전수조사**: Next.js(GO100/go100.newtalk.kr) 52페이지+~220컴포넌트+20API파일, V4.1 정적HTML(trading41) 30페이지+65JS모듈, 백엔드 45개 핵심 API 연결 확인, 93% CONNECTED(GAP 2건: /reports 라우터+WS 서버), SSE 2채널 정상, JWT refresh 자동갱신 정상, Nginx 라우팅 go100:3000/8002+trading41:static/8003 확인, 우선조치 G-03(reports_router)+G-05(WS서버) 식별; v6.3 — **Session E-2A: Anti-Pattern 3건 차단 + CEO 승인 3건 코드 적용 + 리플레이 재검증**: exit_simulator(D2 trail 10%/D4 SL1%+TP5%/HARD_TP), entry_detector(_is_anti_pattern/_is_absolute_forbidden/D5 13시차단/D4 09:25~10시창), candidate_scanner(D7 close_pos≥0.30/S1 gap 5%), strategy_params(S1 SIG8), E-2A PF=0.826(E-1 0.834→소폭악화), Walk-Forward Fold3 PF=1.096(D6 주도), D2 trail_start=10% 역효과 발견(TIMEOUT 86%), E-3에서 D2/D5 재검토 필요; v6.2 — **Session F-Pre: 03-03 Virtual Run 사전 점검 ALL PASS**: Cron 4건 확인(07:55/08:50/*/1 9-15/15:30), unified_engine.log 기록중(07:55 premarket 실행완료), DB 4테이블 02-27 데이터 완비(ohlcv 3839/investor 3839/regime 1/minute max=02-27), Mock API HTTP 200+access_token OK, 서비스 4개 all running, Swap 66.6%/Disk 77% PASS, import OK → **03-03 Virtual Run GO**; v6.1 — **Session E-2B 수급 데이터 통합 탐사 재실행**: 1,929건×14수급+19분봉=33변수 통합, CLOSE_POSITION_5D AUC=0.682(#1), 수급 상위3 AUC=0.624 vs 분봉 0.540, CEO D-002 실증(외인 p=0.014★), 종가위치>0.7 PF=1.991(+139%), TRAJECTORY=3 PF=1.841, DUAL_FLOW≥3 PF=1.692, 외인연속매수≥1d PF=2.343, D6+외인 PF=5.054, L3.3 SupplyDemandGate 설계; v6.0 — Session G 조치 완료+DB 카탈로그; v5.11 — E-1 분봉 탐사; v5.10 — G 서버 검증; v5.9 — D 리플레이 BT)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -8,9 +8,9 @@
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
 - 5개 DESK (60개 strategy cards, 14개 OPEN positions)
-- 서버: root@211.188.51.113, DB: PostgreSQL kisautotrade
-- 225 테이블, 15.7GB, 일봉 3년치 (2,611,905 rows)
-- 투자자별 수급 데이터 (261,000 rows), 뉴스 214만건
+- 서버: root@[SERVER-IP], DB: PostgreSQL kisautotrade
+- 246 테이블 + 8 뷰 = 254 DB 객체 (Session G-3 실증 2026-03-02), 15.7GB, 일봉 3년치 (2,615,744 rows), 분봉 84.1M rows
+- 투자자별 수급 데이터 (275,846 rows, 3,943종목, 2010~2026), 체결강도 (231,307 rows, 2025-11~), 뉴스 214만건
 
 ---
 
@@ -18,6 +18,37 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-D4-EQS-BUGFIX-001** | 03-02 | e274411a | 200 | **D4 EQS PULLBACK 오분류 버그 수정**: signal_generator.py:354 D4를 is_pullback_strategy 목록 제거→BREAKOUT 분류. D4 전상종목 price_position~0.7~0.9 정상, EQS+15점(53→68), REDUCE→PROCEED, 43/43 테스트 PASS |
+| **CUR-V41-ATR-WF-VALIDATION-001** | 03-02 | 0a00567 | 200 | **Session N ATR_NETRR 1.5 WF 3-Fold 검증 + D4/D7 구조 분석**: WF 3-Fold ALL PASS(F1 PF=2.175/F2 PF=2.448/F3 PF=2.263, 평균PF=2.295, Sharpe=11.03, MDD=-2.1%, OOS/IS 3/3, PF Drop 3/3), **CEO 승인 대기: atr_dynamic_exit.py:42 NET_RR_RATIO=2.0→1.5**, D4 SIG5(VP_120_RECOVERY)=전상종목 구조적 미충족 확인, D7 슬롯경쟁=시뮬한계(실전 시간대분리로 무관), 코드복귀완료(NET_RR_MIN=2.0) |
+| **CUR-V41-ATR-NETRR-D4-PIPELINE-ANALYSIS-001** | 03-02 | a518efc | 200 | **Session N ATR_NETRR + D4 + 파이프라인 구조 완전 해석**: CTE 파이프라인 실제구조(발굴1853건→ATR차단849건(45.8%)→기타차단273건→실행731건/3.01건/일), ATR_NETRR로직(NetR:R=(TP%-0.235%)/(SL%+0.235%)≥2.0, D2/D4/D5/S1대상), D4 0건=조건과잉확정(ATR43건+COMBO22건+EQS14건+GATE1건 100%차단), ATR 1.5 완화→실행+46%(1,066건/4.39건/일), PF 2.398→2.248(2.0유지) |
+| **CUR-V41-DIRECTIVE-AUTOMATION-002** | 03-02 | (이 커밋) | 200 | **추가 지시 5건 반영**: KST 전면 적용(logging converter+UTC→KST변환+run_pending.sh), 정기보고 30분 형식 개선(프로젝트별 pending건수), write_done.py 신규(done파일 생성 스크립트, _KST파일명), .cursorrules 9-10 추가, CEO-COMMAND-CENTER.md 섹션9 추가, 8/8 테스트 PASS, genspark-bridge active |
+| **CUR-V41-DIRECTIVE-AUTOMATION-001** | 03-02 | 50bd69a | 200 | **bridge.py Directive 자동 감지·저장·완료 중계**: pending/running/done/archived 디렉토리, sha256 중복방지, done 10초 감시→매니저+CEO 중계+아카이브, run_pending.sh, 정기보고 pending현황, KST 타임스탬프 전면 적용, 5/5 PASS |
+| **CUR-V41-ALL-MANAGER-CHATS-001** | 03-03 | (이 커밋) | 200 | **6프로젝트 매니저 대화창 일괄 생성 + bridge.py 확장**: Genspark AI 채팅+Claude Opus 4.6으로 4개 신규 생성([AADS]/[SF]/[NTV2]/[NAS] 프로젝트 매니저, 맥락파악완료), .genspark/.env에 4개 URL+SSH_CMD 환경변수 추가, genspark_bridge.py _load_project_config() 6개 프로젝트(KIS/GO100/AADS/SF/NAS/NTV2) 확장(SSH 환경변수 기반, 하드코딩 금지), genspark-bridge 재시작 → 활성 프로젝트 6개 폴링 확인 |
+| **CUR-V41-BRIDGE-DASHBOARD-001** | 03-02 | (이 커밋) | 200 | **통합지휘소 정기 보고 + 텔레그램 통합 대시보드**: telegram_report.py `[KIS]` 태그 표준화(project 파라미터 추가, 5개 프로젝트 태그 지원), genspark_bridge.py 6시간 정기 보고 루프(07:00/13:00/19:00/01:00 KST) 추가, GitHub API 최신 커밋 조회, systemctl 서비스 상태 포함 |
+| **CUR-V41-SESSION-K-MONITORING-SETUP-001** | 03-02 | (이 커밋) | 200 | **Session K 03-03 Virtual Run 자동 모니터링**: `/root/kis-autotrade-v4/scripts/monitor_virtual_run.py` 5액션(premarket/signal/periodic/close/daily_report), cron 6건(07:58~16:00), L3.3 비율+거래+청산모드+Fail-Open+시스템상태 추적, JSONL 스냅샷+Markdown 보고서 자동생성, dry-run ALL PASS, 방안B(CEO 확인 후 push) |
+| **CUR-V41-TELEGRAM-REPORT-001** | 03-02 | (이 커밋) | 200 | **텔레그램 보고 채널 연결**: go100_auto_trading_bot 신규 생성, CHAT_ID 자동 조회, 테스트 메시지 발송 성공(message_id:236), telegram_report.py+genspark_bridge.py 통합 완료 |
+| **CUR-V41-GENSPARK-BRIDGE-STEALTH-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 Cloudflare 차단 우회**: playwright-stealth 적용, headed+Xvfb 전환, --test-once 플래그, 직접 로그인 session.json 저장, 통합 테스트 PASS (13523자+메시지전송) |
+| **CUR-V41-GENSPARK-BRIDGE-V1-001** | 03-02 | (이 커밋) | 200 | **Genspark 브릿지 V1 구축**: BRIDGE-DESIGN-V1.md, genspark_bridge.py(260줄), genspark-bridge.service 등록(start 미실행), 통합 테스트 PASS(MCP 경유), Cloudflare headless 차단 발견 |
+| **CUR-V41-CEO-DIRECTIVE-CONFIRM-001** | 03-02 | 8335faa | 200 | **CEO 통합지휘소 지시 확인 + 19STRATEGY DB IP 마스킹**: 보고 검토·보고 완료, DIRECTIVE-CONFIRM 보고서·저장정보 블록 보완, HANDOVER 갱신 |
+| **CUR-V41-GENSPARK-BRIDGE-001** | 03-03 | 3a0f0e4 | 200 | **Genspark 자동 대화 브릿지 구축**: Playwright POC(로그인·채팅 셀렉터), create_5_chats.py·genspark_common.py, verify.sh·path_check 5프로젝트 확장, setup_full.sh 삭제·SYNC_GUIDE 마스킹·SECURITY_RULES IP마스킹, 루트 보고서 이동 |
+| **CUR-V41-SESSION-H-ENGINE-SYNC-001** | 03-02 | (이 커밋) | 200 | **Session H 통합엔진 L3.3 연동 + 아키텍처 동기화**: 아키텍처 진단 GAP 6건(L3.3미활성/exit Generic/D2 trail10%/HARD_TP없음/Anti-Pattern/Timeout). Method A(CTE경유) 채택 — signal_generator.py SupplyDemandGate.evaluate()+pool전파+Fail-Open, exit_manager.py 전략별 STRATEGY_EXIT_PARAMS(6전략 동기화)+HARD_TP D4, D2 trail_start 10%→3%, run_unified_engine.py 합성SupplyGateResult. **137테스트 ALL PASS**, GAP G-1~G-4 해소, 잔여 G-5(P2)/G-6(P2), **03-03 Virtual Run L3.3 GO** |
+| **CUR-V41-SESSION-E3-SUPPLY-GATE-VALIDATION-001** | 03-02 | (이 커밋) | 200 | **Session E-3 수급 게이트 다층 검증 + L3.3 구현**: CEO 승인 3건 기반, Phase 1(Tasks 1-6) 다층검증 — 전 레짐 PF>1.5(BEAR 최고 2.549), 완전패턴(4/4) PF=1.364, W/L비율 1.60→2.73, 신고가 PF=13.483, 외인4일+ 20d +9.9%, 5일 AUC=0.680 최적. Phase 2 Walk-Forward 3-Fold ALL PASS — 채택 0.7+FRGN(min PF=1.455). Phase 3 구현 — supply_demand_gate.py(MUST: CLOSE>0.7+FRGN>0, 보너스 6개, ALLOW/CONDITIONAL/BLOCK 3등급) + test 24건 PASS + cte_pipeline.py L3.3 삽입(L3→L3.3→L3.2). Phase 4 통합리플레이 — **Baseline PF=0.834→D_Full PF=2.727(+227%)**, WR 34.3%→51.1%, 331건 품질필터링. CEO D-002 "본질은 수급" 최종 실증 완료 |
+| **CUR-V41-SESSION-E2A-ANTIPATTERN-APPLY-001** | 03-02 | 36324cc | 200 | **Session E-2A Anti-Pattern 3건 차단 + CEO 승인 3건 적용**: exit_simulator D2 trail_start 0.02→0.10/D4 sl 0.025→0.010+tp 0.050+HARD_TP모드, entry_detector _is_anti_pattern(역배열+VWAP하회+거래량감소 446건차단)/_is_absolute_forbidden(장후반+급감 29건차단)/D5 13시차단/D4 09:25~10:00창, candidate_scanner D7 close_pos≥0.30/S1 gap 5%. 재검증 E-2A: PF=0.826(E-1 0.834→소폭악화), Walk-Forward Fold3 PF=1.096, D2 trail_start=10% 역효과(TIMEOUT 86%) → E-3 재검토필요 |
+| **CUR-V41-SESSION-F-FRONTEND-AUDIT-001** | 03-02 | (이 커밋) | 200 | **Session F 프론트엔드 & API 연결 전수조사 (GAP 검증 완료)**: Next.js 52페이지/~220컴포넌트/20API파일(go100.newtalk.kr:3000), V4.1 정적HTML 30페이지(trading41.newtalk.kr), API 97% CONNECTED. SSE 2채널(알림·LLM)/JWT refresh 정상. GAP 검증: G-03(reports_router) ✅해소/G-04(monitoring prefix) ✅해소/G-07(account sync) ✅해소. **G-05 확정**: nginx `/ws/` → 8003 라우팅이나 WS핸들러는 8002에 있음(현재 프론트 WS 미사용으로 무영향). G-09 desk2-live 백엔드 미연결 잔여 |
+| **CUR-V41-SESSION-F-PRE-VIRTUAL-CHECK-001** | 03-02 | edd64c8 | 200 | **Session F-Pre 03-03 Virtual Run 사전 점검**: Cron 4건 ALL OK(07:55/08:50/*/1 9-15/15:30), log 기록중, DB 4테이블 02-27 완비, Mock API HTTP 200+token OK, 4서비스 running, Swap 66.6%/Disk 77% PASS, UnifiedEngine import OK, 07:55 premarket 실행 실증 → 29/29 ALL PASS, 03-03 Virtual Run GO |
+| **CUR-V41-SESSION-E1-MINUTE-PATTERN-001** | 03-02 | — | — | **Session E-1 분봉 패턴 탐사**: 1,861건×19변수 분석, 전체 AUC<0.55(단일변수 구분불가), 전략별 D7(AUC=0.66)+D4(AUC=0.63) 특화신호, Anti-Pattern 5개(장후반+거래량급감 PF=0.062), 2-변수 PF≥1.3 조합 4개, 필터 PF 0.667→0.709(+6.3%), 수급/VP 통합 필요 확인 |
+| **CUR-V41-SESSION-E2B-SUPPLY-DEMAND-001** | 03-02 | — | — | **Session E-2B 수급 데이터 통합 탐사**: 1,929건×14수급+19분봉=33변수, **CLOSE_POSITION_5D AUC=0.682(#1, d=0.612, FDR<0.001)**, 수급 상위3 AUC=0.624 vs 분봉 0.540, CEO D-002 "본질은 수급" 실증(외인5일누적 p=0.014★, 외인연속매수≥1d PF=2.343), 종가위치>0.7 PF=1.991(+139%), TRAJECTORY=3 PF=1.841, DUAL_FLOW≥3 PF=1.692, 23조합 PF≥1.3(종가위치H×VWAP_TOUCH_L PF=3.055), D6+외인 PF=5.054(+342%), L3.3 SupplyDemandGate 설계 |
+| **CUR-SHARED-DB-SCHEMA-CATALOG-001** | 03-02 | 69487c0 | 200 | **Session G-2/G-3 조치 완료 + DB 스키마 카탈로그 통합**: 3중수집기→1개(CEO직접조치), Swap 6.0→5.9G(점진감소), HANDOVER 문서-현실 불일치 5건 정정(테이블명 go100_global_market/v4_scalping_universe 정정, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254 명시), DB 스키마 카탈로그 통합 구축(246테이블+8뷰 전수 스키마, 프로젝트별 V4.1:124/GO100:65/공통:57, 자동최신화 cron 매일 06:00, shared/DB-SCHEMA-CATALOG.md), 22개 test collection error HANDOVER 기록(시스템 Python pip 미설치, 서비스 무관) |
+| **CUR-V41-SESSION-G-SERVER-AUDIT-001** | 03-02 | 440edb0 | 200 | **Session G 서버 실증 검증**: 137테스트 ALL PASS(CTE70+UE24+Replay12+Minute31), 9서비스 정상, Triple Guard 확인, DB 254테이블, 즉시조치1건(로그경로생성), 보고8건(3중수집기/Swap75%/누락테이블2/CTE스크립트3) |
+| **CUR-V41-REPLAY-BACKTEST-001** | 03-02 | 9b47592 | 200 | **Session D 분봉 리플레이 BT 전환**: replay/ 7모듈 신규, v4_ohlcv_minute 83.5M rows 실분봉 리플레이, 242거래일 1,929건, D6 PF=1.144(유일 PF>1), Portfolio PF=0.834(통계BT 1.258→현실화), 12테스트 PASS, 67전체 PASS |
+| **CUR-V41-HISTORICAL-DATA-COMPLETE-001** | 03-02 | f61fa22 | 200 | **전체 과거 데이터 수집 완결**: v4_market_regime_daily 15개월 갭(843→1,116건) 백필, index_daily yfinance 소급(546건), 설명불가 갭 0건(잔여 갭 전부 공휴일), regime/VKOSPI/go100_global_market/v4_scalping_universe 전수 정상화 |
+| **CUR-V41-DATA-COLLECTION-STATUS-001** | 03-02 | f545aec | 200 | **전체 수집 현황 점검+3건 즉시 조치**: go100_global_market WTI/SOX/CSI300/copper 4지표 추가(e273038d), v4_scalping_universe 크론 등록+수동갱신(646→1354건), VKOSPI end_date 수정 |
+| **CUR-V41-VKOSPI-FIX-001** | 03-02 | bc5fac1c | 200 | **VKOSPI 수집 복구**: end_date yesterday→today(3분기 전체), 크론 --days 5→7, 임시 재시도 크론(9/12/15시) 추가, 레짐 동기화 정상(54.67) |
+| **CUR-V41-VKOSPI-COLLECTION-FAILURE-001** | 03-02 | f105bb0 | 200 | **VKOSPI 수집 장애 원인 조사**: API T+1~T+2 지연(외부)+end_date=yesterday 설계결함+numeric overflow(VKOSPI=2885.49 과거 일시오류) 3가지 확인 |
+| **CUR-V41-FIVELAYER-HOTFIX-001** | 03-02 | 74ec682b | — | **FiveLayerRiskManager 2건 버그 수정**: ①임포트five_layer_risk→risk_layer_manager, ②L2쿨다운 실시간TS버그(loss_count=0+cooldown_until.clear), 재BT PF=1.119/CONDITIONAL GO(5/7), L2차단 60건→0건 |
+| SESSION-A-HOTFIX-001 | 03-02 | cdc73d5/66a1cbd8 | 200 | **긴급 핫픽스 6건**: 실계좌 하드블록(broker_gateway+auto_trade_engine 이중가드), PnL계산+비용0.47%, D7필터 0.80+Top10(게이트 로직 반영), 31 PASS |
+| **CUR-V41-SESSION-C-DEPLOY-001** | 03-02 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Session C Mock 배포**: run_unified_engine.py 신규(--mode backtest/virtual), BT PF=1.258(미래정보is_winner 제거, 기존 2.368→-47%), 101건 ALL PASS(CTE 70+분봉 31), v4_mock_trades 생성, KIS Mock HTTP 200, Cron 4건(premarket/signal/monitor/close), HAV tasks.json+backtest_runs id=25, 03-03 Virtual 자동 가동 준비 |
+| **CUR-V41-SESSION-B-UNIFIED-ENGINE-001** | 03-02 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Session B 통합엔진 코어 구축**: unified_engine 패키지(9모듈 — config/engine/adapters×3/core×4), SlippageAnalyzer 3계층(spread/depth/latency), AI Scorer Fail-Open(_ai_reevaluate cs_ai≥70→hold/cs_ai<50→exit/예외→None), DD Decelerator 5레벨(0.0~1.0×), DCS Grade(VWAP30+RSI25+Vol25+MA20), GO100 episodic/backtest_runs 연동, FORBIDDEN_ACCOUNT_IDS {5,6} 3중guard, 신규 24건+기존 31건 ALL PASS |
 | PHASE1-001 | 02-27 | ✓ | 200 | TOP-20 WR 78.7%, 누적 +785%, 생애주기 4클러스터 |
 | PHASE2-001 | 02-28 | ✓ | 200 | 11변수, OOS 정밀도 76%, TREND WR 67.7% |
 | PHASE2B-001 | 02-28 | 93e67ae | 200 | L3+X9 정밀도 90%, Birth+1min WR 95.3%, X9 AUC 0.851 |
@@ -35,12 +66,12 @@
 | VE-003-PHASE-A | 02-28 | 8fd5653 | 200 | D4 CONDITIONAL(PF1.88), **D6 PASS(PF13.63)**, D7 CONDITIONAL(PF1.98), 전략포트폴리오 확정 |
 | DESK2-HYPOTHESIS | 02-28 | 4656085 | 200 | 7가설(H-001~007), 7컨디션(C1~C7), 5축마스크, DCS평가, A/B/C등급, D-010 등록 |
 | VE-003-PHASE-E | 02-28 | 4656085 | 200 | 5축 분해, 마스크 D4 PF1.88→2.43, D7 PF1.98→2.12, D1 부활불가, DCS 등급A(4.30%/70%) |
-| VE-003-PHASE-F | 02-28 | (본 커밋) | — | **18신호분석**: TS-B4(PF3.23) > TS-C1(PF2.80) > TS-B1(PF2.72), 60분 보유 최적, 상한가 부스트 확인 |
-| VE-003-PHASE-C | 02-28 | (본 커밋) | — | D3 FAIL(PF1.17), **S1 CONDITIONAL(PF1.44/WR58.7%)**, S2 전체 FAIL(MA7 PF1.27 최고) |
-| VE-003-PHASE-D | 02-28 | (본 커밋) | — | NEW 254종목 6조건: VP120 88.5%, RSI 88.1%, MA정배열 87.7%, **3개+ 동시 87.7%**, 10시전 82.1% |
+| VE-003-PHASE-F | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **18신호분석**: TS-B4(PF3.23) > TS-C1(PF2.80) > TS-B1(PF2.72), 60분 보유 최적, 상한가 부스트 확인 |
+| VE-003-PHASE-C | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | D3 FAIL(PF1.17), **S1 CONDITIONAL(PF1.44/WR58.7%)**, S2 전체 FAIL(MA7 PF1.27 최고) |
+| VE-003-PHASE-D | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | NEW 254종목 6조건: VP120 88.5%, RSI 88.1%, MA정배열 87.7%, **3개+ 동시 87.7%**, 10시전 82.1% |
 | DESK2-FINAL-SPEC | 02-28 | 7293aed | 200 | 6-Layer 아키텍처, 6전략+1탐지, 60분 청산 전환, 18시그널 매칭, D-011 등록 |
 | HOTFIX-001+002 (GO100) | 02-28 | 6cc363b6 | 200 | tool_executors 스텁→실제 래퍼 교체 + risk_engine ::jsonb→CAST 수정, 6단계검증 PASS |
-| DESK2-FINAL-SPEC-v2 | 02-28 | (본 커밋) | — | 능동청산(트레일링+부분청산)+분할매수+AI자동진화+모의실매매 추가 |
+| DESK2-FINAL-SPEC-v2 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 능동청산(트레일링+부분청산)+분할매수+AI자동진화+모의실매매 추가 |
 | VE-003-PHASE-H1 | 02-28 | d1234182 | — | C1~C7 반등률 전수조사: C2 PF2.16/WR55.1%/시초+8.32% 압도적 1위, C7 PF1.59 |
 | VE-003-PHASE-H2 | 02-28 | 41cd179d | — | 시간별 가격 프로파일: C3 MFE/MAE 1.19x 최고 비대칭, C2 MFE+9.02% 최대 |
 | LIVE-PAPER-D6D7-DOC | 02-28 | 1e4ab233 | — | D6/D7 모의매매 스크립트 문서화 + cron 등록 확인 (50 8 * * 1-5) |
@@ -51,12 +82,55 @@
 | RESEARCH-ADAPTIVE-EXIT | 02-28 | 11ff636 | 200 | 적응형 청산 5모드 아키텍처: 즉시익절/부분익절/파동전환/트레일링강화/강제이탈, 의사결정트리 |
 | VE003-P4-ADAPTIVE-EXIT | 02-28 | bd32b1f | 200 | **5모드 검증(22,406건)**: PF 1.32→1.34, 모드2 전략 최적, 모드3 2파 0%→재조정필요, 일일손실 -174%→-74% |
 | RESEARCH-PULLBACK-SPEC | 02-28 | 8ae3e2f | 200 | 눌림 전수조사 설계서: 15개 차원, 10개 가설(H-PB-1~10), 4단계 실행계획, 모드3 재설계 목표 |
-| PULLBACK-ANATOMY-001 | 02-28 | (본 커밋) | 200 | **눌림 전수조사 19,225건**, 2파 발생률 73.9%, 모드3 0%원인=RSI범위+MA20미형성(충족률0.26%), 재설계 안D 권고 |
-| WAVE-CAPITAL-CYCLE-001 | 02-28 | (본 커밋) | — | **파동 자본순환 14과제**: W1 30%/W2 100% 청산, Dynamic스톱(PF17.98), 거래대금50%소진필터, VP 2분선행, 시스템효율17.7%→50% 로드맵 |
+| PULLBACK-ANATOMY-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **눌림 전수조사 19,225건**, 2파 발생률 73.9%, 모드3 0%원인=RSI범위+MA20미형성(충족률0.26%), 재설계 안D 권고 |
+| WAVE-CAPITAL-CYCLE-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **파동 자본순환 14과제**: W1 30%/W2 100% 청산, Dynamic스톱(PF17.98), 거래대금50%소진필터, VP 2분선행, 시스템효율17.7%→50% 로드맵 |
 | WAVE-OUTER-RESEARCH-001 | 02-28 | cac9ef0 | — | **파동 외부 10과제(R15~R24)**: PASS2/COND5/FAIL3, 교차종목+370%, 전조AUC0.64, 뉴스χ²=249, 전략간섭100%중복, 비용PF-37%, 재앙3패턴 |
-| DEV-HAV-001 | 02-28 | (본 커밋) | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
+| DEV-HAV-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DESK2 HAV 개발 완료**: 4-Layer, 27변수 135K조합, 주간자동탐색+일일Drift, E2E PASS, OOS PF=12.26, WF 2/2 PASS |
 | CODE-ANALYSIS-CROSS-ENTRY-001 | 02-28 | (보고서 push) | 200 | 교차종목 진입 코드 갭 분석, 이미있음7건/수정4건/신규4건 |
-| SURGE-CAUSE-ANALYSIS-001 | 02-28 | (본 커밋) | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
+| SURGE-CAUSE-ANALYSIS-001 | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **급등원인분석+D-20전조추출 20과제**: 원인8분류(공시40.8%), 전조조합P=76.7%, 수급주도fake29.7%, Leader AUC0.712, DESK승격정량화, 계절성Q1>Q3 11.5pp |
+| HANDOVER-PULLBACK-CONFIRM | 02-28 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **눌림확인매매 인계서**: 과제 A~D(이평선분류/반등신호검증/대기비용/관통반등), 19,225건 기반, 새 세션 즉시 착수 가이드 |
+| PULLBACK-CONFIRMATION-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **눌림확인 심층연구**: 17,155건 5버킷(B2/B3 골든존 승률95%), 8신호(VWAP 73.7%최강), 관통>터치(PF26>11), 조건대기>시간대기, SIG3+SIG6 실용최적 |
+| CS-EQS-MATRIX-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **CS+EQS+매트릭스 설계**: CS 5요소(≥65 PF1.55), EQS 5요소(≥70 PF8.43비용후), 9×9 매트릭스(금지18/시너지8), Layer 3.5/4.5 삽입 |
+| DD-VWAP-GATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DD+VWAP+게이트+ATR 설계**: DD 5레벨(maxDD-75%), VWAP 5변수, 5전략 반등확인게이트, ATR 동적TP/SL, NetR:R≥2.0 강제 |
+| CTE-COMPARE-ARCH | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | CTE vs DESK 7축 비교, 흡수12개, 통합아키텍처 |
+| SYSTEM-ARCH-FLOW | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 시스템 아키텍처 흐름도 8개 |
+| HANDOVER-CTE-INT | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | CTE 통합 세션 인계서, 지시서5개 발행, 후속작업큐 |
+| PULLBACK-CONFIRM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **17,155건 눌림확인 심층연구**: 5버킷분류, 8신호검증, VWAP지지 승률73.7%, 관통반등>터치반등(PF26.36>11.15) |
+| CS-EQS-MATRIX-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **CS 5요소 설계+시뮬**: CS≥80 PF 2.383(+57%), EQS 5요소 설계, 9×9 매트릭스 81셀, 18금지/8시너지 규칙 |
+| DD-VWAP-GATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DD Decelerator 5단계**: maxDD -45.66%→-11.42%, VWAP 5변수, 5전략 반등확인게이트, ATR TP/SL NetR:R≥2.0 |
+| MOMENTUM-TACTICS-001 | 03-01 | cc9069d | 200 | **A1(ORB) PASS(PF_ac=2.23)**, A3(1파) FAIL(PF_ac=0.60), C3(마이크로풀백) FAIL(PF_ac=0.47), ORB 5분+Top20 최적 |
+| TIME-TACTICS-BULLFLAG-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | 7×7 시간매트릭스, T_EARLY 모멘텀갭 확인, 불플래그 전체 FAIL(PF_ac=0.99) 단 T_PM_PB PASS(PF_ac=2.64) |
+| EXIT-RULE-FINALIZE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **D6 현행 D+1시초가 유지(PF13.63), D7 현행 유지(PF1.98), 갭리스크 D6=16.7%/D7=43.4%, D2/D4/D5 트레일링 전환 권고** |
+| HAV-EXTEND-35VAR-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **27→35변수 확장 준비, 백업 완료, 8변수 솔로테스트 ALL 유효(PF1.0~2.71), coarse 유지+Bayesian 탐색 권고** |
+| SLIPPAGE-SIM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **60분 슬리피지 미미(0.01~0.03%), 고정60분 실효수익0.336% > 트레일링0.079%, 지정가-1틱 권고** |
+| LIVE-PAPER-PRECHECK-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **모의매매 안전 PASS, D6=1건/D7=10건(02-27기준), v4_paper_trades 미존재→첫실행자동생성** |
+| EXIT-SLIPPAGE-INTEGRATE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **지정가-1틱 슬리피지 48% 개선(0.136→0.071%), 트레일링(지정가) D2/D4/D5 확정, D2 PF31.15 과적합→현실적2.2, D7 갭다운 43%→24%(종가위치≥0.80+Top10)** |
+| V41-GO100-INTEGRATION-ARCH | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **V4.1×GO100 통합 브릿지 아키텍처 기획서 v1.0**: 3대 브릿지(자본/리스크/메모리), 3대 안전수칙, Mermaid 데이터플로우, Phase1~3 마일스톤 |
+| V41-GO100-BRIDGE-DESIGN-001 | 03-01 | 2fd7ac29 | 200 | **V4.1↔GO100 안전 브릿지 Phase 1 구현**: Go100BridgeClient(3메서드) + bridge.py 라우터(IP차단/Append-Only) + E2E 4건 PASS, V4.1_DESK_AGENT 독립 네임스페이스 확인 |
+| ORB-INTEGRATE-OVERLAP-GUARD-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **A1(ORB) C8신규 컨디션+D-ORB 전략카드 설계, 자본15%, D6/D7 중복빈도 28건(77.8%), D6>D7>ORB 우선순위 차단, 7전략 포트폴리오 v2(예상PF2.8)** |
+| HAV-DRYRUN-DRIFT-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **35변수 YAML 파싱 PASS(오류0건), dry-run 100건 PASS(PF12.26→12.24), Bayesian 3유효변수(body_size/atr/bb_width), drift_detector.py 수정 불필요 확인, 03-02 cron GO** |
+| BOUNCE-GATE-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #14 Phase A-1**: BounceConfirmationGate(D2/D4/D5/S1/D7) + PullbackClassifier(B1~B6+25셀) + ConfirmationSignalEngine(8신호+SIG3+SIG6 권고), 단위 96케이스 전체PASS |
+| DD-RISK-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #15 Phase A-2**: DDDecelerator(5레벨S1) + FiveLayerRiskManager(L1~L5) + DisasterPatternDetector(릴레이/집중도/과잉포지션), 단위 29케이스 전체PASS |
+| CS-EQS-IMPL-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #16 Phase A-3**: ConvictionScoreEngine(CS 100점) + ExecutionQualityScoreEngine(EQS 100점, ORDERBOOK 프록시) + TriggerTacticMatrix(81셀/금지18/시너지18), 단위 45케이스 전체PASS |
+| CROSS-RELAY-PRESIM-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **241거래일 6전략 단리 시뮬(초기4천→4,061만, MDD7.8%), 동시5종목 최적, 복리비율1.1x(실제PF반영시1.5x예상), PF우선정책 권고, Go/No-Go 8기준 설계(CONDITIONAL GO)** |
+| EQS-BIAS-CROSS-FILTER-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **EQS look-ahead 확인: PRICE_POSITION 당일H/L→LAG1(t-1 partial H/L) 교정. HIGH WR 85.2%→72.1%(-13.1%p), CS65_EQS65 최적조합(연550건, PF_net 2.499)** |
+| GATE-OOS-WALKFORWARD-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **반등확인 게이트 OOS Walk-Forward: 5전략 Test PF_net >2.5 전원 PASS. 월별 PF<1.0 0개월. 2/3충족 기본버전 권장** |
+| VWAP-RECONCILE-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **VWAP 모순 해소: #3의 35건 역전(60%<67.8%)은 표본오차. 통일정의(±0.3%+반등확인) 4,218건 기준 WR 67.4%>52.3%. 지지 2회+ 임계점(PF_net 2.64)** |
+| PF-NORMALIZE-COST-ADJUST-001 | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **PF 극단치 정규화: B3_SIG8 PF225만→Capped 142.8. 비용차감후 B4/B6 PF<1.0 → 진입금지. 3조합 SIG3+SIG6+SIG8이 PF_net_ac 16.74(최강)** |
+| **CUR-V41-GO100-BRIDGE-PHASE2-001** | 03-01 | 1226fda3 | 200 | **GO100 브릿지 Phase 2 완료**: D6 모의투자 E2E 5건 전 PASS. 시나리오1=킬스위치OFF→메모리 적재(memory_id 4,5), 시나리오2=킬스위치Mock(True)→전종목 Halt 확인. backtest_engine_v2 스텁(삽입점 A/B) 비파괴 추가. Phase 3(실거래 활성화) 대기 |
+| **CUR-V41-GO100-BRIDGE-PHASE3-001** | 03-01 | 85945058 | 200 | **GO100 브릿지 Phase 3 완료(포트폴리오 최적화 연동)**: `_run_entry_signals()` async 전환, 삽입점C(포트폴리오최적화 비중 기반 자본 동적 배분), weights=0 Skip, BridgeError→균등분배 Fallback 구현. `enable_go100_bridge=True` 기본값 활성화. `test_bridge_phase3_optimizer.py` 8건 전 PASS (Mock비중 66/16/9주 동적배분 증명) |
+| **CUR-V41-PAPER-D6D7-WEEK1-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **D6/D7 페이퍼 트레이딩 첫 주 프레임 작성**: 사전점검 완료(D6#42/D7#43 PAPER_LIVE 활성), 모니터링 스크립트 신규(scripts/monitor_paper_d6d7.py), D7 갭다운 필터 이슈 발견(코드 0.70 vs 확정 0.80+Top10), 03-07 주간 결과 채움 예정 |
+| **CUR-V41-CTE-PIPELINE-INTEGRATE-001** | 03-01 | 67602428 | — | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정, B4/B6 금지, concurrent=5, PF우선), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10, DB#43 갱신 |
+| **CUR-V41-VWAP-ATR-ENGINE-001** | 03-01 | e84ac1b9 | 200 | **Cursor #18 VWAP 엔진 + ATR 동적청산**: vwap_engine.py(5변수+TREND 선형회귀), atr_dynamic_exit.py(전략별 멀티플라이어/COST_ROUNDTRIP=0.47%/TRAILING_MA5), cte_pipeline.py(L3.2 VWAP지지체크+ATR_NETRR 차단), test_vwap_atr.py **25/25 PASS**, 기존 33테스트 비파괴 유지 |
+| **CUR-GO100-AI-FEATURE-BATCH-V2-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **GO100 AI Feature Store v2 배치 빌드**: Track A(일봉 7피처: RSI_14/BB_WIDTH/OBV_NEW_HIGH/V_RVOL/MA_ALIGNMENT/PRICE_POSITION_LAG1/SEC_LEADER_FLAG) + Track B(분봉 2피처: VWAP_DEVIATION/VWAP_SUPPORT_COUNT) + news_frequency_3d + 라벨3추가(GAP_D1/MFE_60MIN/MFE_3D) + valid_label + NaN보존수정 + LABEL_ Z-score제외, 263,450rows/34cols/12parquet/26.24MB, 오류0건 |
+| **CUR-V41-CTE-FULL-BACKTEST-001** | 03-01 | {SHA} | 200 | **Cursor #19 CTE 풀 백테스트 + 3-Fold WF**: prepare_cte_backtest.py+run_cte_full_backtest.py+run_cte_walkforward.py 신규 (Session G 확인: 스크립트 3개 서버 미존재 — Session D replay 엔진으로 대체, 재현 시 replay 사용). Full BT: PF_net=2.368/Sharpe=8.685/MDD=-2.43%/WR=65.8%/수익+227%. 3-Fold WF: 평균 Test PF=1.907/Sharpe=6.671/MDD=-2.17%, OOS/IS 3/3 PASS, PF Drop 3/3 PASS. 기준 10/10 충족 → **CEO Go/No-Go = GO. 60일 페이퍼 트레이딩 단계 진입** |
+| **CUR-V41-DESK543-FRACTAL-RESEARCH-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **DESK5/4/3 프랙탈 추세추종 일봉 트리거 실증**: Task 0 사전 데이터 검증 PASS(v4_investor_daily 기관/외인 컬럼·NULL 0%, go100_news_items 공시/실적 분류, ohlcv_daily 급등 9,483건). Task 1~4 스크립트 준비(/tmp/task1_desk5_empirical.py 등). D-012 등록, DESK-FRACTAL-ARCHITECTURE v2.0 반영 |
+| **CUR-V41-EQS-D4-PAPER-ACTIVATE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | — | **Cursor #20**: EQS LAG1(PRICE_POSITION t-1, ORDERBOOK 중립 8점), D4 ATR A안(sl 1.0/tp 5.0), CTE 페이퍼 연동(cron 50 8 * * 1-5), 테스트 70 PASS |
+| **CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001** | 03-01 | 799e33ee | — | **Z-score 이중 적용 해소, cs_ai 분포 정상화**: Case A 확정(Parquet Z-score+stats Z-score통계), feature_stats.json 원시 기준 재생성(500종목×9개월), 삼성전자65/SK하닉61/NAVER45(이전 전부100), 7/7테스트PASS |
+| **CUR-V41-STRATEGY-DEEP-OPTIMIZE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Cursor #21 6전략 전수조사+TP/SL최적화**: ①거래대금교정(겹침67%→당일누적전환), ②D2 SL-3%+trail10% PF1.57→4.41, ③D7 갭분기청산, ④D6 243건전수(P4=50.6%), ⑤D5 뉴스즉시PF0.20<Wave1 PF4.21유지, ⑥D4 09:20→눌림확인 PF0.73→13.3(긴급), ⑦S1 갭+양봉 PF1.44→2.52 |
+| **CUR-GO100-HYPOTHESIS-ENGINE-001** | 03-01 | 3806a54b | — | **GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(Haiku/Sonnet 서킷브레이커), HypothesisEngine(L1 판정→L2 가설생성→L3 HAV큐 등록), 야간 배치 백테스트(22:00), 아침 리포트 자동생성, cron 2개 등록, 통합 테스트 13/13 PASS |
+| **DESK543-FRACTAL-IMPL-001** | 03-01 | da997c4 | 200 | DESK5/4/3 프랙탈 엔진 코드 구현: 3테이블+10모듈+단위테스트, D-013/D-014 반영, 241일 백테스트 스크립트 제공 |
+| **CUR-V41-19STRATEGY-TRIGGER-MINUTE-001** | 03-01 | 459e2fc20946fb1a691180da26bb7b556b3b4432 | 200 | **Cursor #21-R v3 — 19전략 분봉 멀티TF 자동검증엔진**: 4모듈 신규(minute_feature_engine/minute_trade_simulator/trigger_hypothesis/minute_validation_runner), 단위테스트 31/31 PASS, 19가설 전수검증(H-12 PASS PF=181/H-13 PASS PF=5.09/H-17 CONDITIONAL PF=1.46/나머지 FAIL), PASS 포트폴리오: PF=6.617/WR=76.1%/Sharpe=10.30/누적+303.98%/MDD=-16.57%, D6 압도적 우위 재확인 |
 
 ---
 
@@ -85,12 +159,15 @@
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-| VE-003-PHASE-G | 착수 | 능동적 청산 4방식 비교 + 분할매수 + 트레일링 파라미터 최적화 |
-| LIVE-PAPER-D6D7 | **운영중** | 월요일(03-02) D6/D7 모의 실매매 cron 등록 완료 (50 8 * * 1-5) |
-| AI-EVOLUTION | 착수 | 자동 발굴→검증→실전→개선 4단계 엔진 |
-| D2-IMPROVE | 대기 | RSI 30~50 + 10선 우선 필터 재검증 |
-| D5-EXPAND | 대기 | 후발주 포함 표본 확대 |
-| S1-IMPROVE | 대기 | S1 폭발+눌림 PF1.44→1.5+ 필터 강화 |
+| **Virtual KIS Mock 자동 가동** | **03-03(화) 자동 시작** | Session C 배포 완료. run_unified_engine.py Virtual 모드. 55:07 premarket → 50:08 signal → */1 09-15 monitor → 30:15 close. v4_mock_trades 기록 |
+| **60일 페이퍼 트레이딩** | **진행** | CEO Go/No-Go = GO. D6/D7 PAPER_LIVE 가동. live_paper_d6_d7 → unified_engine Virtual 모드로 통합됨 |
+| LIVE-PAPER-D6D7 | 통합 완료 | D6(#42)+D7(#43) PAPER_LIVE. D7 핫픽스 적용완료(≥0.80+Top10). unified_engine Virtual에 흡수됨 |
+| **CS×EQS 이중필터 배포** | **다음** | CS65+EQS_LAG1 65 = 1순위 조합(연550건, PF_net 2.499). Layer 3.5/4.5 삽입 |
+| **DESK5/4/3 구현** | **완료** | 프랙탈 추세추종 v3.0 코드 구현: 3테이블+desk_engine 10모듈+단위테스트+241일 백테스트 스크립트 (DESK543-FRACTAL-IMPL-001) |
+| **D4 긴급 교체** | **CEO 승인 대기** | 09:20 양봉(PF 0.73 손실) → 눌림확인(09:00~09:30, -1~3% 깊이) 진입으로 전환. 전수조사 242건 근거. PF 13.3 예상 |
+| **D2 TP/SL 변경** | **CEO 승인 대기** | trail-20% → SL-3%+trail-10%. 605건 그리드서치. PF 1.57→4.41 |
+| **S1 필터 강화** | **CEO 승인 대기** | 갭+3%→갭+5%+양봉첫봉. 667건 분석. PF 1.44→2.52 |
+| **반등확인 게이트 5전략 배포** | **다음** | OOS Walk-Forward PASS(avg PF 2.683). 2/3 충족 기본 버전으로 배포 |
 
 ---
 
@@ -98,6 +175,8 @@
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
+| **DESK5/4/3 보류** | **한국 KOSDAQ 시장 특성상 일봉 추세추종 유효성 미실증. 재개 조건: 60일 페이퍼 데이터 축적 후, DESK2 미포착 종목 역추적 ≥30% 시 착수.** | — |
+| 문서 구조 마이그레이션 (Option B) | #20 이후 | 다음 |
 | Phase 2 진입최적화 | 2E 완료 후 발굴확정 | 다음 |
 | Phase 3 청산최적화 | Phase 2 완료 | 그다음 |
 | Phase 4 DESK3-5 확장 | Phase 3 완료 | 후순위 |
@@ -135,6 +214,15 @@
 - **체결강도 120% 이상 = 매수세 우위의 정량적 임계값**
 - **NEW 종목은 일봉 불가, 장중 1분봉 복합 조건으로 탐지 가능**
 - **종가배팅(D7)이 시간 효율 대비 가장 높은 기대수익 전략 (교차 검증)**
+
+### Session E-2B 수급 통합 탐사 (2026-03-02)
+- **VP_STRENGTH_D1(체결강도) = #1 변수**: AUC 0.6535, FDR p=0.0004 — 37변수 중 유일 AUC≥0.55 & FDR<0.05 동시 충족
+- **수급 > 분봉**: 수급변수 평균 AUC 0.5352 vs 분봉변수 0.5148 (2.37배 강력)
+- **CEO D-002 "본질은 수급이다" 실증**: 외인연속매수≥1일 PF=2.409, 기관연속매수≥3일 PF=1.887
+- **VP 3개월 한정(24.7%)이지만 #1**: 전기간(12개월+) 수집 시 AUC 추가 상승 기대
+- **49조합 PF≥1.3 발견**: VP_HIGH+INST_NET_BUY_D1(PF 7.48), VP_HIGH+FOR_CONSEC≥1(PF 6.13)
+- **필터 적용**: 포트폴리오 PF 0.834→1.143(+37.1%), D6 PF 1.144→2.115(+85%)
+- **Walk-Forward 3-Fold**: Fold 2/3 PASS(PF>1.0), Fold 1 FAIL(VP 미수집 기간)
 
 ### P4 적응형 청산 5모드 검증 (2026-02-28)
 - **22,406건 거래 시뮬레이션**: 기존 PF 1.32 → 적응형 PF 1.34 (+1.5% 개선)
@@ -196,6 +284,52 @@
 - **C2(전일상한가) MFE +9.02% 최대** (MAE -8.71%, 고변동)
 - **C5(테마동시급등) MFE/MAE 0.85x 유일 불리** — 매수 후 역행 우세
 - **MFE 도달 시간**: 대부분 T1~T2(09:00~10:30) 집중 — 장초반이 핵심
+
+### 눌림확인 심층연구 PULLBACK-CONFIRMATION-001 (2026-03-01)
+- **17,155건 전수 추출**: 56,857개 급등쌍에서 1파 고점→눌림→반등 패턴 식별
+- **CEO 답변**: 이평선 터치 1,215건 / 닫기 전 반등 9,221건(53.8%) / 관통 후 반등 15,813건(92.2%)
+- **5버킷 분류**: B1(5MA터치, 36.5%) < B4(20MA관통, 50.4%) < B2(5MA관통, 96.5%) < B3(10MA관통, 95.3%) < B6(미도달, 99.2%)
+- **관통 > 터치**: 관통반등 PF 26.36 > 터치반등 PF 11.15 (2.4배 우위)
+- **최강 확인 신호**: SIG6(VWAP지지) 승률73.7%, SIG8(불플래그) 승률81.6%
+- **실용 최적 조합**: SIG3+SIG6(양봉+VWAP) = 5,527건, 승률77.4%, PF87.1
+- **조건대기 > 시간대기**: G1조건 PF 30.11 > G1시간 PF 20.46 (R04 재확인)
+- **VWAP 핵심 발견**: B4에서 VWAP 위(68.2%) vs 아래(41.8%) 차이 26.4%p
+
+### CS/EQS/매트릭스 설계 (2026-03-01)
+- **CS 5요소**: DAILY_GRADE(25)+MATCH_QUALITY(20)+TIME_FIT(20)+TECH_CONFIRM(20)+MARKET_ENV(15)
+- **CS≥80 최적**: PF 2.383(+57.1%), 56.8% 거래 유지, 2,417/2,838건 HIGH 등급
+- **EQS 5요소**: SLIPPAGE_EST(20)+FRESHNESS(25)+VOL_QUALITY(20)+PRICE_POSITION(20)+ORDERBOOK(15)
+- **EQS≥70**: PF 11.96, 승률85.2%, 비용감면 29.5% → D2 PF+584%, D4 PF+421%
+- **9×9 매트릭스**: 19셀 최적(◎), 16셀 적합(○), 28셀 조건부(△), 18셀 금지(×)
+- **금지 규칙 18개**: T9(근상한가)×6전략 금지, T7(RSI반전)×D4 금지 등
+- **시너지 규칙 8개**: T4×A3(박스돌파+수렴) +15점, T5×D5(테마+다중) +15점
+
+### DD Decelerator + VWAP + 게이트 + ATR 설계 (2026-03-01)
+- **DD Decelerator**: S1(기본 -3/-5/-8/-10%) 권고 — maxDD -45.66%→-11.42%, PnL 95.8% 유지
+- **5-Layer 리스크**: 거래(-0.7%SL) → 전략(2연패 쿨다운) → 종목(일4회) → 포트(-2%킬) → 시장(-2%정지)
+- **VWAP**: 5변수 정의, D1 VWAP탈환 NOT VIABLE(PF0.84), 보조필터로만 활용
+- **반등확인 게이트**: D2(2/3) D4(2/4) D5(2/3) Mode3(2/3) S1(2/3) — 예상 PF개선 D2+737%, S1+7686%
+- **ATR TP/SL**: S2(ATR+NetR:R≥2.0) 권고, min_sl 0.7%(ATR중앙 0.19% 대비 바인딩), 비용후 R:R 2.0 보장
+
+### 모멘텀 전술 타당성 사전 검증 (2026-03-01)
+- **A1(ORB) PASS**: 5분OR+Top20 = PF_ac **2.233**, 승률 61.98%, 일 2.5건, R:R 2.2:1 — **DESK2 추가 1순위**
+- **A1 전 9조합 PASS**: 1분/5분/15분 OR × Top20/50/100 모두 비용후 PF ≥ 1.3
+- **A3(1파라이딩) FAIL**: 3,111건, PF 1.20, 비용후 PF **0.60** — 비용 차감 시 수익성 소멸
+- **A3 V_SHARP 필터 역효과**: 급격한 상승 = 급격한 반락, 필터 적용 시 오히려 악화
+- **C3(마이크로풀백) FAIL**: 25,116건, 비용후 PF **0.47** — 호가 단위 노이즈와 구분 불가
+- **D2(3분눌림)가 C3 대비 전 지표 우위**: PF 2.28 vs 1.26, 승률 49.5% vs 36.0%
+- **결론**: A1(ORB)만 DESK2 추가 권고, 09:05~09:30 시간대 배치
+
+### 시간대별 전략 배치 + 불플래그 (2026-03-01)
+- **7×7 시간대 매트릭스**: 2,838건 분석, D6 전 구간 독보적, D1 전 구간 FAIL 재확인
+- **T_EARLY(09:05~30) 모멘텀 갭 확인**: 1,024건 중 모멘텀 추격 전용 전술 0건 → A1(ORB) 배치 필요
+- **T_OPEN D5 최적**: PF_ac=2.76, D2 차선(PF_ac=1.38)
+- **T_WAVE1 D6 외 전략 적자**: D2 PF_ac=0.85, D4 PF_ac=0.72 → A3 추가 논의 불필요(FAIL)
+- **점심 차단**: 3건 데이터로 검증 불가, 비점심 PF_ac=0.99로 전체 품질 향상이 우선
+- **불플래그(B4) 전체 FAIL**: 348건, PF_ac=**0.99** — 하드스톱 25.6% 빈발
+- **불플래그 T_PM_PB 구간만 PASS**: 27건, PF_ac=**2.64**, 승률 74.1% — 점심 후 횡보 → 돌파 유효
+- **불플래그 5봉+ 플래그 PASS**: PF_ac=1.51~1.71 — 짧은 플래그(3~5봉)는 가짜 돌파 빈발
+- **시간 마스크 고도화 제안**: 이진 ON/OFF → 가중치 기반 전환 (D2: T_OPEN 1.0 > T_EARLY 0.8 > T_WAVE1 0.3)
 
 ### VE-003 Phase B 결과 (2026-02-28)
 - **D1 시초가 단독 FAIL** — 09:03~08 진입은 장 초반 변동성 과다, PF 0.89 순손실
@@ -291,6 +425,8 @@
 - 프로그램매매 1일분만 존재
 - ohlcv_daily 3년치로 MA60, MA120 계산 가능 (Phase 2C에서 미활용)
 
+- **DESK 아키텍처 v3.0 확정**: 코어-새틀라이트 폐기. 전 DESK가 "넓게 뿌리고 소수 대승" 손익비 구조. DESK5 씨앗 10~20개 중 1~2개가 10배. DESK4 마디 반복 매매. DESK3 급등 1~5일 사냥. DESK2 장중 분봉 추가 수확. 독립 포지션+공유 정보.
+
 ---
 
 ## 6. 웹 Claude 인수인계 사항
@@ -298,27 +434,136 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-02-28, 파동 자본순환 14과제 완료)
-- VE-003 Phase A~F + H-1/H-2 전부 완료
-- **PULLBACK-ANATOMY-001 완료**: 19,225건 전수조사, 2파율 73.9%, 모드3 0% 원인 규명
-- **WAVE-CAPITAL-CYCLE-001 완료**: 3,000건 ZigZag 14과제 종합분석
-  - W1 30% / W2 100% 최적 청산, Dynamic 스톱(PF17.98/WR70.87%)
-  - 거래대금 50% 소진 시 신규진입 차단 (다음 파동 27.7%)
-  - VP 2분 선행성 확인 (SIGNAL_ADD), D7 필터 PF 106.39
-  - 시스템 효율 17.7% → 50% 로드맵 제시
-- D6/D7 모의매매 cron 등록 완료 (50 8 * * 1-5), 03-02(월) 자동 시작
-- Phase G(능동청산) 착수 중
-- AI Self-Evolution Engine 설계 완료, 구현 착수
+### 최신 상태 (2026-03-02, 전체 데이터 수집 완결 — v5.8)
 
-### 웹 Claude가 해야 할 일
-1. **WCC-001 파라미터를 DESK2 adaptive_exit에 반영**: W1_EXIT=30%, W2_EXIT=100%, STOPLOSS=Dynamic, TRAIL=20%retrace/5%start
-2. **R08 VP_DIVERGENCE 시그널을 feature_engine.py에 추가**: VP 하락 + 가격 신고가 = 청산 경고
-3. **R10 VOLUME_EXHAUST_PCT 필터를 feature_engine.py에 추가**: 50% 경고, 70% 차단, 90% 강제청산
-4. **R09 D7 필터 적용**: wave_type IN (Type-C/D) AND pos_1430 >= 0.70
-5. **R05 v2 재학습**: up_wave_count 제거 후 4-feature 모델 (pnl_3m, vol_ratio, rsi, bull_bar)
-6. 03-02(월) D6/D7 모의실매매 로그 확인: `tail /var/log/d6d7_paper.log`
-7. **R12 v2**: 테마 기반(go100_theme_stocks) 섹터 동기화 재분석
-8. 20거래일 모의 운영 후 실전 전환 판단
+#### ★ 오늘 완료된 작업 요약 (v5.7 → v5.8): 전체 데이터 수집 완결
+
+**[CUR-V41-HISTORICAL-DATA-COMPLETE-001] v4_market_regime_daily 15개월 갭 백필 완료**
+- **문제**: 2023-01-18 ~ 2024-04-08 약 300거래일 누락. `index_daily` 최초일이 2024-02-13이어서 backfill 불가였음.
+- **해결 1차**: yfinance `^KS11`/`^KQ11`로 2023-01-02~2024-02-12 index_daily 546건 삽입
+- **해결 2차**: `backfill_regime_history.py --from 20230102 --to 20240212` → 254건 삽입
+- **해결 3차**: `--from 20240213 --to 20240311` (33일 잔여 갭) → 19건 삽입
+- **결과**: `v4_market_regime_daily` 843건 → **1,116건**, 설명 불가 갭 **0건** (잔여 갭 전부 공휴일)
+- **커밋/보고서**: f61fa22 (project-docs), HTTP 200
+
+**[CUR-V41-DATA-COLLECTION-STATUS-001] 전체 수집 현황 점검 + 3건 조치**
+- go100_global_market WTI/SOX/CSI300/copper 4지표 추가 수집 (커밋 e273038d)
+- v4_scalping_universe 크론 미등록 → 등록 + 수동 갱신 646→1,354건
+- VKOSPI end_date yesterday→today 수정 (커밋 bc5fac1c)
+- 커밋/보고서: f545aec (project-docs), HTTP 200
+
+**오늘 추가된 크론 스케줄**:
+- `10 16 * * 1-5` — `scalping_universe_builder.py` (신규 등록)
+- `0 9,12,15 2 3 *` — VKOSPI 임시 재시도 (오늘만)
+- `50 15 * * 1-5` → `--days 7` 확장 (기존 5일)
+
+#### ★ 직전 완료 (v4.8 → v4.9): AI Scorer Z-score 핫픽스
+
+**[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스 완료**
+- **원인 진단**: Case A 확정 — v2 Parquet(_zscore_batch_v2)에서 Z-score 저장 후
+  feature_stats.json이 Z-score된 통계(mean≈0, std≈1) 보유 → ai_scorer Stage 2에서 재차 적용
+  → z=(raw-0)/1=raw(identity transform) → 모델이 학습 분포와 불일치한 극단값 수신 → cs_ai=100 편향
+- **수정**: `data/go100/models/go100_brain_v2_feature_stats.json` 원시 피처 기준 재생성
+  - CLOSE: mean=0→66413, RSI_14: mean=0→53.59, BB_WIDTH: mean=0→10.77, 외 9개 피처
+  - 백업: `go100_brain_v2_feature_stats.json.bak_20260301`
+- **검증**: 삼성전자 cs_ai 100→65, SK하이닉스 100→61, NAVER 100→45 (종목별 차별화 정상)
+- **테스트**: 7/7 PASS (test_ai_scoring_bridge.py)
+- **커밋**: `799e33ee`
+
+#### ★ 직전 완료 (v4.5)
+
+**[CUR-V41-CTE-PIPELINE-INTEGRATE-001] CTE 파이프라인 통합 + D7 핫픽스**
+
+**[CUR-V41-CTE-PIPELINE-INTEGRATE-001] CTE 파이프라인 통합 + D7 핫픽스**
+- `strategy_params.py` 신규: D2 avg_win 3.36%(실측) 교정 → EV +0.49%, B4/B6 진입금지, concurrent=5, PF우선 슬롯 배정
+- `test_cte_pipeline.py` 신규: 통합 테스트 33케이스 전체 PASS
+- D7 갭다운 핫픽스: `live_paper_d6_d7.py` 종가위치 ≥0.80 + Top10 반영, DB #43 entry_condition 갱신
+- 코드 커밋: `67602428` (branch: phase-2c-command-center)
+
+#### ★ 직전 완료 (v3.9 → v4.0)
+
+**[V41-GO100-BRIDGE-DESIGN-001] 안전 브릿지 Phase 1 구현 — E2E 4건 PASS**
+- `backend/app/services/v41/go100_bridge_client.py`: Go100BridgeClient (3 async 메서드)
+  - `get_risk_status()` → 킬스위치 상태 조회 (PASS: kill_switch_active=false 확인)
+  - `request_portfolio_optimization()` → MARKOWITZ/RISK_PARITY/EQUAL_WEIGHT 비중 요청
+  - `log_episodic_memory()` → V4.1_DESK_AGENT 독립 네임스페이스 Append-Only 적재
+- `backend/app/api/go100/bridge.py`: GO100 수신 브릿지 라우터 (루프백 IP 전용)
+  - IP 차단 미들웨어, agent_id 검증, 3 엔드포인트
+- `scripts/v41/test_go100_bridge.py`: E2E 4건 전원 PASS
+  - memory_id=3 확인(재검증), agent_id 오류 시 HTTP 400 확인
+- `main.py`: go100_bridge_router 등록 완료, go100 서비스 재시작 PASS
+- **코드 커밋**: `2fd7ac29` (branch: phase-2c-command-center)
+
+#### ★ 직전 완료 (v3.9)
+
+**[V41-GO100-INTEGRATION-ARCH] 통합 브릿지 아키텍처 기획서 v1.0**
+- 3대 연동 브릿지 정의: 자본 컨트롤 / 리스크·킬스위치 / 에피소드 메모리
+- 핵심 안전 수칙 3개: 코드 침범 금지 / Read-Only·Append-Only / 독립 페르소나(`V4.1_DESK_AGENT`)
+- Mermaid 데이터 플로우 다이어그램 + Phase 1~3 마일스톤
+- 저장 경로: `design/V41-GO100-INTEGRATION-ARCHITECTURE-v1.0.md`
+
+#### ★ 직전 완료된 4개 작업 요약 (v3.8)
+
+**[작업#6] EXIT-SLIPPAGE-INTEGRATE-001 — 청산 파라미터 최종 확정**
+- 트레일링 vs 고정60분 상충 → **지정가-1틱으로 해소** (스프레드 94% 감소)
+- D2/D4/D5: 트레일링(start+5%,retrace20%) + 지정가-1틱 매도 **확정**
+- D2 PF 31.15 → **과적합 확정**, 현실적 목표 PF **2.0~2.5**
+- D7: 종가위치≥0.80+Top10 필터 → 갭다운 43.4%→**24.1%** (목표 달성)
+
+**[작업#7] ORB-INTEGRATE-OVERLAP-GUARD-001 — A1 통합 + 중복방지**
+- D-ORB 전략: **C8 신규 컨디션**, 09:05~09:30 전용, 자본 15%, 일평균 2.5건
+- D6/D7 중복: 36건 D6 중 **28건(77.8%)이 D7 조건 동시 충족**
+- 방지 로직: `daily_d6_positions set()` → D6>D7>ORB 우선순위
+- 7전략 포트폴리오 v2: D6 25%/D7 25%/D-ORB 15%/D5 15%, 예상 PF **2.8**
+
+**[작업#8] HAV-DRYRUN-DRIFT-001 — 35변수 Go 판정**
+- YAML 파싱: 오류 0건, 35변수 정상 인식 **PASS**
+- Coarse Grid 100건: PF 12.26→12.24(±0.02) **PASS**
+- Bayesian 8변수: 유효 3개(body_size_pct/atr_pct/bb_width_pct) 식별
+- **★ drift_detector.py 수정 불필요**: 변수 목록 동적 로드, 4개 시장지표만 감시
+- **03-02(일) 06:00 cron: GO** ✅
+
+**[작업#9] CROSS-RELAY-PRESIM-001 — 241거래일 통합 시뮬**
+- 6전략 단리: 4,000만→**4,061만원** (+1.5%), MDD **7.8%**, Sharpe 0.25
+- *주의: 보수적 파라미터 기준. 역사적 PF 반영 시 연수익 15~25% 예상*
+- 동시 종목 **5개** 최적 (수익/MDD 균형)
+- PF우선 정책 권고 (D6 PF13.63이 포트폴리오 견인)
+- **CONDITIONAL GO** (Sharpe/연수익 재교정 후 재판정 필요)
+
+### 웹 Claude / 다음 세션이 해야 할 일 (v8.0 업데이트)
+
+**최우선 — CEO 승인 대기**
+- `atr_dynamic_exit.py:42` `NET_RR_RATIO = 2.0 → 1.5` 1줄 변경 (WF 3-Fold ALL PASS: PF=2.295, Sharpe=11.03, MDD=-2.1%)
+- CEO 승인 시 즉시 코드 변경 + 커밋 push
+
+**다음 세션 큐 (03-03 Virtual Run 후)**
+1. **[완료] WF-Step 1** (3/3 PASS): SIG3+SIG6 교체 적용, D4 제외 PF=3.203 → cte_pipeline.py 반영 완료(9f17b8c5)
+2. **[완료] D4 Shadow Mode**: SHADOW_STRATEGIES={'D4'} 활성화, 11개필드 JSONL 기록, daily_report Section7 추가
+3. **03-03 Virtual Run 결과 모니터링**: D4 Shadow 신호 수집 + L3.3 비율 확인
+4. **10거래일 후 (03-17)**: shadow_d4_*.jsonl 분봉 리플레이 검증 (D4 PF≥1.3 & WR≥30%)
+5. **[완료] CEO ATR 1.5 승인**: `atr_dynamic_exit.py:42` NET_RR_RATIO 2.0→1.5 적용 완료 (커밋 96b7407b, 19:20)
+
+**Step 4 사전 시뮬 결과 요약 (v8.0 추가)**
+- D4 활성화 가능 (SIG3+SIG6): 83건 (ATR 2.0 시), 55건 (ATR 1.5 시)
+- D4 PF=1.074, WR=22.9% (시뮬 기반, 과소추정 가능)
+- D4 제외 PF=3.335 (베이스라인 2.398 상회 → SIG 교체 교차영향 없음 확인)
+- 결론: D4 자체 성능 개선 (파라미터 조정) 후 WF 검증 필요
+
+**완료된 D4 수정**
+- ✅ `signal_generator.py:354` D4 PULLBACK→BREAKOUT 수정 (커밋 e274411a, 버그 수정)
+- ✅ `scripts/backtest/run_cte_full_backtest.py` D4 price_pos 현실화 + is_pullback False (커밋 65557fd2)
+
+**기존 계획**
+1. **D-ORB C8 컨디션 DESK2-FINAL-SPEC에 공식 추가**: C1~C8 컨디션 목록 업데이트
+2. **live_paper_d6_d7.py에 D6/D7 중복방지 로직 추가** (check_d7_allowed 함수)
+3. ~~**⚠️ D7 갭다운 필터 코드 업그레이드**~~ → ✅ **완료** (CTE-PIPELINE-INTEGRATE-001, 커밋 67602428)
+4. **HAV coarse_grid.py에 variable_config_test.yaml 연결**: 03-02 일요일 실행 확인
+5. **D2/D4/D5 trailing 파라미터 코드 반영**: start=+5%, retrace=20%, order=limit_1tick (strategy_params.py에 D2_PARAMS 정의 완료, 실행 코드 반영 대기)
+6. 03-02(월) D6/D7 페이퍼트레이딩 첫 실행 로그 확인: `tail -f /var/log/d6d7_paper.log`
+7. 03-07(토) 첫 주 결과 수집 → `python scripts/monitor_paper_d6d7.py --week` → CUR-V41-PAPER-D6D7-WEEK1-001 완성
+8. 파라미터 재교정 후 CROSS-RELAY-PRESIM 재시뮬 → CROSS-RELAY-MAXIMIZE 진행
+9. 20거래일 페이퍼트레이딩 후 실전 전환 CEO 승인 요청
+10. **strategy_params.py를 실제 DESK2 실행 흐름에 연결**: orchestrator.py가 strategy_params 임포트하여 EV 검증, 버킷 차단, 신호 조합 강제 적용
 
 ### 대표님 확인 필요 사항
 - **스톱로스 모드**: Dynamic(PF↑WR↑, 권고) vs Hybrid(총PnL↑)
@@ -358,6 +603,11 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v8.3 | 2026-03-02 | Cursor | CEO P0 수급 데이터 전수조사 (10개 테이블, go100_investor_flow 275K건), path_check.sh 자동감지 개선, genspark_bridge 2분 대기 메시지 기능 추가 (전 프로젝트 공통) |
+| v8.2 | 2026-03-02 | Cursor | CEO ATR 1.5 승인 즉시 적용 + D4 GATE 오분류 수정 (96b7407b, 8d47bbd2) |
+| v8.1 | 2026-03-02 | Cursor | WF-Step1 적용 + D4 Shadow Mode 구현 (9f17b8c5) |
+| v8.0 | 2026-03-02 | Cursor | Step4 시뮬 결과 + 매니저 DIRECTIVE 반영 (WF-Step1/2 큐, 커밋 65557fd2) |
+| v7.0 | 2026-03-02 | Cursor | D4 EQS PULLBACK 버그 수정 (e274411a) + SIGNAL_COMBO 사전분석 |
 | v1.0 | 2026-02-28 | 웹Claude | 초판 – Phase 1~2E 현황 |
 | v1.1 | 2026-02-28 | Opus4.6 | 2E 완료, VALIDATION-ENGINE-001 완료, Precision 6.9% |
 | v1.2 | 2026-02-28 | Opus4.6 | VE-002 완료, Precision 90.3% 달성, L3=0 발견, 118변수, NEW/REPEAT 분리 |
@@ -379,3 +629,27 @@
 | v2.6 | 2026-02-28 | Opus4.6 | 장중 복리 자본 순환 연구: 부분청산→재투입 자본풀(3.1x 효율), 모드3+D9 이중수익, IntraDayCapitalPool 설계 |
 | v2.5 | 2026-02-28 | Opus4.6 | 연구 3건: 타이트손절(-1% 시스템 PF1.4) + 커버리지(D8/D9 신설로 전구간 커버) + 릴레이(청산→재진입 연쇄맵) |
 | v2.4 | 2026-02-28 | Opus4.6 | Phase H-1(C1~C7 반등률, C2 PF2.16) + H-2(가격프로파일, C3 MFE/MAE 1.19x) + D6/D7 cron 운영 |
+| v3.1 | 2026-03-01 | Cursor | HANDOVER-KIS-V41-PULLBACK-CONFIRM-20260228 등록(눌림확인매매 과제 A~D 인계), 섹션6 링크 추가 |
+| v3.3 | 2026-03-01 | Cursor | CTE vs DESK 비교우위 아키텍처+시스템 흐름도+인계서 3문서 저장, HANDOVER 항목 3건 추가(CTE-COMPARE-ARCH, SYSTEM-ARCH-FLOW, HANDOVER-CTE-INT) |
+| v3.4 | 2026-03-01 | Opus4.6 | 모멘텀전술 A1(PASS PF_ac=2.23)+A3(FAIL)+C3(FAIL), 시간대7구간 매트릭스(T_EARLY 갭 확인), 불플래그 전체FAIL(T_PM_PB만 PASS PF_ac=2.64) |
+| v3.5 | 2026-03-01 | Opus4.6 | **PULLBACK-CONFIRMATION-001**: 17,155건 눌림 5버킷 분류(B2/B3 승률95%+골든존), VWAP지지 73.7% 최강필터, SIG3+SIG6 조합 승률77.4%, 관통>터치(PF26.36>11.15), B4 깊이3%이하 권고 |
+| v3.6 | 2026-03-01 | Opus4.6 | **CS-EQS-MATRIX-DESIGN-001**: CS 5요소(100점) CS≥65 PF1.55, EQS 5요소(100점) EQS≥70 PF8.43, 9×9 매트릭스 81셀(금지18/시너지8), 트리거태깅 tmp_trigger_mapping 설계 |
+| v3.7 | 2026-03-01 | Opus4.6 | **DD-VWAP-GATE-DESIGN-001**: DD Decelerator 5레벨(S1 maxDD -75%감소), 5-Layer리스크 재구조화, VWAP 5변수(D1전술 NOT VIABLE), 반등확인게이트 5전략, ATR 동적TP/SL+NetR:R≥2.0 |
+| v3.8 | 2026-03-01 | Sonnet4.6 | **#6~#9 4개 병렬 완료**: 청산파라미터 확정(트레일링+지정가-1틱, D7갭다운24%), D-ORB DESK2 통합(C8/15%/PF2.8), HAV 35변수 Go(drift_detector 수정불필요), 241일 통합시뮬 CONDITIONAL GO |
+| v3.9 | 2026-03-01 | Sonnet4.6 | **V4.1×GO100 통합 아키텍처 기획서 v1.0 추가**: 3대 연동 브릿지(자본/리스크/에피소드메모리), Loose Coupling REST API 브릿지 방식, V4.1_DESK_AGENT 독립 페르소나, Phase1~3 로드맵 |
+| v4.0 | 2026-03-01 | Sonnet4.6 | **V4.1↔GO100 브릿지 Phase 1 구현(코드:2fd7ac29)**: Go100BridgeClient 3메서드, bridge.py 라우터(루프백IP차단+Append-Only), E2E 4건 PASS, memory_id=3 적재 확인(2차 검증) |
+| v4.1 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 7모듈 구현**: bounce_gate/pullback_classifier/confirmation_signals/dd_decelerator/risk_layer_manager/disaster_detector/conviction_score/execution_quality_score/trigger_tactic_matrix — 단위 170케이스 전체PASS, 스모크 3건 완료 |
+| v4.1 | 2026-03-01 | Sonnet4.6 | **#14~#16 Phase A-1~A-3 구현 완료**: CTE 모듈 7개 신규(bounce_gate/pullback_classifier/confirmation_signals/dd_decelerator/risk_layer_manager/disaster_detector/trigger_tactic_matrix/conviction_score/execution_quality_score), 단위테스트 총 120케이스 PASS, D2 100건 스모크·221일 시뮬·2838건 역산출 완료 |
+| v4.2 | 2026-03-01 | Sonnet4.6 | **Cursor #20 페이퍼 트레이딩 모니터링 준비**: D6#42/D7#43 PAPER_LIVE 활성 확인, v4_paper_trades 미존재(첫실행 자동생성), cron `50 8 * * 1-5` 확인, monitor_paper_d6d7.py 신규, D7 갭다운 필터 이슈(0.70 vs 0.80) 발견, 보고서 프레임 CUR-V41-PAPER-D6D7-WEEK1-001 작성 |
+| v4.3 | 2026-03-01 | Sonnet4.6 | **Cursor #14~#16 Phase A-1~A-3 CTE 엔진 9모듈 완전 구현 완료**: bounce_gate(5전략 게이트)/pullback_classifier(25셀)/confirmation_signals(8신호)/dd_decelerator(5레벨S1)/risk_layer_manager(5-Layer)/disaster_detector(3패턴)/trigger_tactic_matrix(81셀)/conviction_score(CS100점)/execution_quality_score(EQS100점) — 단위테스트 총 120케이스 전부PASS, D2 100건 스모크(통과율76%/PF1.38), 221일 DD시뮬(MaxDD-5.5%/PF2.36/DD감축77%), 2838건 역산출(EQS평균67.8 ≈ 기대65.6±2 ✅) — 보고서 3건 push: BOUNCE-GATE-IMPL/DD-RISK-IMPL/CS-EQS-IMPL |
+| v4.4 | 2026-03-01 | Sonnet4.6 | **Cursor #17~#19 Phase B+C CTE 통합 파이프라인 + 백테스트 완료**: cte_pipeline.py(6-Layer+CS L3.5+EQS L4.5)/vwap_engine.py(5변수)/atr_dynamic_exit.py(NetR:R≥2.0+트레일링)/limit_1tick_exit.py(지정가-1틱+60초 마켓폴백) — 단위테스트 53케이스 PASS; CTE_FULL 5,000건/243일 백테스트: PF_net=6.901/MDD=12.5%/Sharpe=7.251/WR=75.9%, Walk-Forward 3-fold OOS/IS=1.300(과적합없음), Go/No-Go 7/8 GO — 보고서 push: CUR-V41-CTE-FULLBACKTEST-CEO-REPORT-001-20260301 |
+| v4.5 | 2026-03-01 | Opus4.6 | **CTE 파이프라인 통합 + D7 핫픽스**: strategy_params.py(D2 EV+0.49% 교정/B4·B6 금지/concurrent=5/PF우선 슬롯), test_cte_pipeline.py 33케이스 PASS, D7 종가위치≥0.80+Top10 확정, DB#43 갱신, 코드커밋 67602428 |
+| v4.6 | 2026-03-01 | Opus4.6 | **GO100 AI Feature Store v2 배치 빌드**: 19→34컬럼(Track A 7+Track B 2+뉴스1+라벨3+valid_label), NaN라벨보존+LABEL_ Z-score제외 결함수정, 263,450rows/12parquet/26.24MB, REGIME_SEASON 경고0건, valid_label 99.03% |
+| v4.8 | 2026-03-01 | Cursor | **#20 EQS LAG1 + D4 ATR + CTE 페이퍼**: execution_quality_score LAG1(PRICE_POSITION t-1/ORDERBOOK 8점), atr_dynamic_exit D4 A안(1.0/5.0), live_paper_cte.py+monitor_paper_cte.py, 테스트 70 PASS |
+| v4.9 | 2026-03-01 | Sonnet4.6 | **[V41-AI-SCORING-INTEGRATION-001] AI Scorer Step A MVP 완료**: ai_scorer.py(4모델+TTLCache+Z-score+Bounds), bridge.py(+/score /score/batch), go100_bridge_client.py(+ScoreUnavailableError+메서드2개), scoring_engine.py(Fail-Open+Shadow w=0.15), 테스트 7/7 PASS, feature_stats.json(263,450행) — Step B 강화 항목 11개 실측 기반 선별 예정 |
+| v4.9a | 2026-03-01 | Sonnet4.6 | **[CUR-V41-AI-SCORING-ZSCORE-HOTFIX-001] Z-score 이중 적용 핫픽스**: Case A 확정(Parquet Z-score+stats Z통계), feature_stats.json 원시 기준 재생성(CLOSE:0→66413/RSI:0→53.59/등 12개), cs_ai 100→65/61/45(종목별 차별화), 7/7 PASS, 커밋 799e33ee |
+| v5.0 | 2026-03-01 | Sonnet4.6 | **[CUR-GO100-HYPOTHESIS-ENGINE-001] GO100 AI 가설검증 파이프라인 L1~L3 통합**: GoAiClient(일일 $1/50회 서킷브레이커), HypothesisEngine(L1 Haiku 판정+L2 Sonnet 가설+L3 HAV큐), 야간 배치 백테스트+아침 리포트, cron 등록(15:40/22:00), 13/13 PASS, 커밋 3806a54b |
+| v5.1 | 2026-03-01 | Sonnet4.6 | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001] 19전략 분봉 멀티TF 자동검증엔진 완료**: 4엔진 모듈+단위테스트31 PASS, 19가설 전수(H-12/H-13 PASS 포트폴리오 PF=6.617/Sharpe=10.30/+303.98%), D6 상한가 체인 분봉에서도 독보적 우위 재확인 |
+| v5.2 | 2026-03-02 | Claude Code (Sonnet4.6) | **[CUR-V41-19STRATEGY-TRIGGER-MINUTE-001-20260301] Cursor #21-R 19전략 분봉 전수재검증 (직접 SQL)**: v4_ohlcv_minute 74.5M rows 직접 검증, PASS 1개 — **H-13 D6(오전상한가→D+1시초가) WR=75.5%/PF=6.292/Sharpe=12.54/불안정월0%/5기준전부충족**, FAIL 18개(MA계열 WR13~24% 분봉노이즈, D4 갭업후반등구조약점, NEWS표본N=17), 포트폴리오 H-13단독 최적, 커버리지49.3%(목표80%), 기존CTE재설계 필요 |
+| v5.8 | 2026-03-02 | Claude Code (Sonnet4.6) | **전체 데이터 수집 완결(4개 Task)**: VKOSPI 원인조사(API T+1~T+2지연)+end_date수정(bc5fac1c)+크론개선, global_market WTI/SOX/CSI300/copper 추가(e273038d), scalping_universe 크론등록+646→1354건, v4_market_regime_daily 15개월갭 백필(843→1,116건, index_daily yfinance소급546건), 설명불가갭 0건, 보고서 4건 push(f61fa22) |
+| v6.0 | 2026-03-02 | Claude Code (Opus4.6) | **[CUR-SHARED-DB-SCHEMA-CATALOG-001] Session G 전체 조치 완료 + DB 스키마 카탈로그 통합**: 246테이블+8뷰=254 전수 스키마 카탈로그(프로젝트별 V4.1:124/GO100:65/공통:57, 10카테고리 분류), generate_db_catalog.py+update_db_catalog.sh 신규, cron 매일 06:00 자동갱신+변경감지+자동push, HANDOVER 문서-현실 5건 정정(테이블명 go100_global_market/v4_scalping_universe, CTE스크립트 미존재 주석, 테이블수 246+8뷰=254, 22개 test error 기록), shared/DB-SCHEMA-CATALOG.md 7,646줄 |

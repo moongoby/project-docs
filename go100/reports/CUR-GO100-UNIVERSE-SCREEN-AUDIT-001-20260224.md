@@ -37,7 +37,7 @@
 | 전략카드 universe_filter 내용 | ✅ 있음 | `go100_strategy_cards.universe_filter` (JSONB). 조건만 저장, **실행 결과(종목 리스트)는 저장하지 않음** |
 | 백테스트 시 universe 스냅샷 | ✅ 있음 | `go100_backtest_runs.universe_filter_snapshot` (JSONB). API에서는 미반환. `stock_codes_used` (TEXT[]) 컬럼은 스키마에 있으나 서비스에서 미사용 |
 
-- 조사 시 DB 접속은 Peer 인증 오류로 미실행(서버 211.188.51.113에서 직접 실행 필요).
+- 조사 시 DB 접속은 Peer 인증 오류로 미실행(서버 [SERVER-IP]에서 직접 실행 필요).
 
 ### 4. 현황 요약
 - **사용자가 “이 전략이 오늘 어떤 종목을 고르는지”를 볼 수 있는 화면/API는 현재 없음.**

@@ -6,9 +6,9 @@ This repository contains two SaaS products sharing the same infrastructure:
 2. **StyleFlow v1.0** (B2B) – Shopping mall video-to-reel automation for SNS
 
 ## Server
-- Host: rfree-0009, IP: 114.207.244.86
+- Host: [SERVER-ID], IP: [SERVER-IP]
 - Project: /data/shortflow, Data: /data/styleflow
-- NAS: Synology 192.168.30.23 (public 183.96.69.193, SSH port 2222)
+- NAS: Synology [NAS-IP] (public [NAS-PUBLIC-IP], SSH port [NAS-SSH-PORT])
 
 ## Tech Stack
 - Backend: FastAPI (Python 3.11), Supabase (PostgreSQL + Auth + RLS)

@@ -23,16 +23,16 @@
 ```
  user_id |       email        | nickname
 ---------+--------------------+----------
-       3 | moongoby@naver.com | 오병용
-       2 | moongoby@gmail.com | 대표님
+       3 | [CEO-EMAIL-NV] | 오병용
+       2 | [CEO-EMAIL-GM] | 대표님
 ```
 
 ### (c) users(레거시)
 ```
  id |       email        |  name
 ----+--------------------+--------
- 15 | moongoby@naver.com | 오병용
-  6 | moongoby@gmail.com | 대표님
+ 15 | [CEO-EMAIL-NV] | 오병용
+  6 | [CEO-EMAIL-GM] | 대표님
 ```
 
 ### (d) v4_positions OPEN
@@ -66,7 +66,7 @@
 ## 3. 원인
 - **원인 B + 데이터 불일치:**  
   - 카드 13·14·15가 **user_id=2**(gmail)로 저장되어 있었음.  
-  - 네이버(moongoby@naver.com)로 로그인 시 JWT sub는 v4_users 기준이면 **user_id=3**.  
+  - 네이버([CEO-EMAIL-NV])로 로그인 시 JWT sub는 v4_users 기준이면 **user_id=3**.  
   - Catalog tab=my는 `WHERE user_id = 3`으로 조회하므로, user_id=2인 카드는 조회되지 않아 **"내 전략" 탭에 0건**으로 표시됨.  
 - **추가 대비(원인 A):** 레거시 로그인(users.id를 sub로 쓰는 경로)을 쓰는 경우를 대비해, Catalog 서비스에서 user_id → v4_users.user_id 변환 레이어를 추가함.
 
@@ -107,6 +107,6 @@
 ```bash
 sudo systemctl stop go100 go100-frontend
 cd /root/kis-autotrade-v4 && git revert HEAD
-PGPASSWORD='KisAuto2026!Secure' pg_restore -h localhost -U kis_admin -d kisautotrade -c /tmp/backup_MY_STRATEGY_FIX_20260222_110313.dump
+PGPASSWORD='[DB-PASSWORD]' pg_restore -h localhost -U kis_admin -d kisautotrade -c /tmp/backup_MY_STRATEGY_FIX_20260222_110313.dump
 sudo systemctl start go100 go100-frontend
 ```

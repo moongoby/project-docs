@@ -55,7 +55,7 @@
 
 - TypeScript: 서버에서 `docker compose --env-file .env.docker exec frontend npx tsc --noEmit` → 0 에러 확인 권장
 - 페이지: /retail/messages, /retail/messages/[id], /wholesale/messages, /wholesale/messages/[id] → 200 또는 302
-- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ## Git
 

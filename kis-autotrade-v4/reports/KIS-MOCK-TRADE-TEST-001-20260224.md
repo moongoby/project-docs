@@ -2,7 +2,7 @@
 
 **작업 ID:** CUR-KIS-MOCK-TRADE-TEST-001  
 **일시:** 2026-02-24 10:41 ~ 10:52 KST (화요일, 정규장)  
-**서버:** root@211.188.51.113 (kis-autotrade-v4)  
+**서버:** root@[SERVER-IP] (kis-autotrade-v4)  
 **브랜치:** phase-2c-command-center  
 
 ---

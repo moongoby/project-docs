@@ -1,7 +1,7 @@
 # TRADE-ORIGIN-INVESTIGATE 보고서 (2026-02-23)
 
 **작성일시:** 2026-02-23 14:25 KST  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **우선순위:** P0 (긴급 — 미확인 실계좌 거래 추적)  
 **조사 방식:** 읽기 전용 (코드/DB/서비스 수정 없음)
 
@@ -26,7 +26,7 @@
   - `go100_orders`, `go100_trades`, `go100_positions`: stock_code='152550' 0건.
   - `accounts`: account_id=7 → 74***, is_mock=f, broker_type=KIS (실계좌 등록됨).
 - **레거시(68)**
-  - `ssh root@211.188.51.68` 접속 불가 → 68서버 내 로그/DB 미확인.
+  - `ssh root@[SERVER-IP-68]` 접속 불가 → 68서버 내 로그/DB 미확인.
   - 113 서버 .env 내 68/레거시 IP 직접 설정 없음.
 
 ---

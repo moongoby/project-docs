@@ -114,7 +114,7 @@ docker compose --env-file .env.docker exec app php artisan db:seed --class=Categ
 
 ## 6. V1 영향
 
-- **확인:** `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86`
+- **확인:** `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]`
 - **결과:** **200** — V1 서비스 정상, 영향 없음.
 
 ---

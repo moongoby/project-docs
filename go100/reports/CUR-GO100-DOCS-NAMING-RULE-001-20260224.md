@@ -1,7 +1,7 @@
 # CUR-GO100-DOCS-NAMING-RULE-001 보고서
 
 **작업일시**: 2026-02-24 KST
-**서버**: root@211.188.51.113
+**서버**: root@[SERVER-IP]
 **작업자**: Cursor (Claude PM 지시)
 
 ## 1. 작업 내용

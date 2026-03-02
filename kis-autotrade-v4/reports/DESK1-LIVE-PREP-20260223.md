@@ -1,7 +1,7 @@
 # DESK1 라이브 사전 체크리스트
 > 날짜: 2026-02-23 (월요일 09:00 대비)
 > 작업자: Cursor
-> 서버: root@211.188.51.113 | 프로젝트: /root/kis-autotrade-v4 | 브랜치: phase-2c-command-center
+> 서버: root@[SERVER-IP] | 프로젝트: /root/kis-autotrade-v4 | 브랜치: phase-2c-command-center
 
 ## DESK1 전략카드 현황
 | card_id | 이름 | 타입 | active | live |

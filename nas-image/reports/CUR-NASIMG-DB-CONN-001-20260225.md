@@ -3,15 +3,15 @@
 **제목:** P1 선행 — NAS → 114서버(116 DB) MySQL 접속 테스트  
 **작성일시:** 2026-02-25 KST  
 **작업 유형:** DB-CONN (P1 선행 조건 확인)  
-**목적:** NAS에서 116서버 DB(114.207.244.86:3306) 폴링 가능 여부 확인
+**목적:** NAS에서 116서버 DB([SERVER-IP]:3306) 폴링 가능 여부 확인
 
 ---
 
 ## 1. 테스트 개요
 
-- **대상:** 114.207.244.86 (116서버 MySQL)
+- **대상:** [SERVER-IP] (116서버 MySQL)
 - **포트:** 3306
-- **실행 위치:** NAS (SSH: `ssh -p 2222 newtalk@192.168.30.23`)
+- **실행 위치:** NAS (SSH: `ssh -p 2222 newtalk@[NAS-IP]`)
 - **실행 스크립트:** `scripts/nas_mysql_114_connection_test.sh`
 - **비밀번호 출처:** server116/application/config/database.php (보고서/커밋에 절대 포함 금지)
 

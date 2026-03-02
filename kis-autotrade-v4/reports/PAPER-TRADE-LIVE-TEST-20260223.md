@@ -2,7 +2,7 @@
 
 **작업 ID:** PAPER-TRADE-LIVE-TEST  
 **실행 일시:** 2026-02-23 14:17 KST (장중)  
-**서버:** root@211.188.51.113  
+**서버:** root@[SERVER-IP]  
 **브랜치:** phase-2c-command-center  
 **목적:** 모의계좌(openapivts, 501***) 실매매 1회 사이클 검증
 

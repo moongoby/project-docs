@@ -64,7 +64,7 @@
 - 마이그레이션: `docker compose --env-file .env.docker exec app php artisan migrate --force` → 4개 Ran
 - 라우트: `php artisan route:list --path=trade` → 14개 확인
 - API 테스트: 지시서 STEP 7 curl 실행 후 결과 기입
-- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ## 비고
 - 거래처 신청 상태 전이: pending→approved/rejected, approved→suspended/terminated, rejected→pending(재신청), suspended→approved/terminated.

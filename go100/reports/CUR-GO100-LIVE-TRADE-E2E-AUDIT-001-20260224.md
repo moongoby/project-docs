@@ -2,7 +2,7 @@
 # 실매매 테스트 전 전체 프로세스 전수 조사 보고서
 # ============================================================
 # 발행일시: 2026-02-24 11:00 KST
-# 서버: root@211.188.51.113
+# 서버: root@[SERVER-IP]
 # 프로젝트: /root/kis-autotrade-v4
 # 브랜치: phase-2c-command-center
 # DB: kisautotrade (kis_admin)

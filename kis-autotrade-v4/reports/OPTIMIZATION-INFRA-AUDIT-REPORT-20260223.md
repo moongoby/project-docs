@@ -1,7 +1,7 @@
 # OPTIMIZATION-INFRA-AUDIT 보고
 
 **작업명:** OPTIMIZATION-INFRA-AUDIT (최적화 필수 데이터 전방위 점검 + DESK2 개선 분석)  
-**서버:** 211.188.51.113  
+**서버:** [SERVER-IP]  
 **경로:** /root/kis-autotrade-v4  
 **작성일:** 2026-02-23  
 **작업 성격:** 읽기 전용 연구 (DB/파일 수정 없음)

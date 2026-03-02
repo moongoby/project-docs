@@ -119,4 +119,4 @@ cd /data/project-docs && git add -A && git commit -m "docs: R2-FRONT-005 보고�
 
 - 백엔드 입고 API 경로: `inbound-receipts` (receivings 아님)
 - 바코드 목록: GET barcodes는 paginator 직접 반환 가능 → purchase-api에서 래퍼 처리
-- V1 헬스체크: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200 확인
+- V1 헬스체크: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200 확인

@@ -2,7 +2,7 @@
 
 ## 작업 개요
 - **작업명**: DESK1-BACKTEST-VERIFY
-- **서버**: 211.188.51.113
+- **서버**: [SERVER-IP]
 - **목적**: DESK1 라이브 10/10 카드에 대한 백테스트 검증 — 월요일 실매매 투입 전 최소 검증 (DESK2 -23.25% 교훈 반영)
 - **DB/서비스 변경**: 없음 (v4_backtest_sessions, v4_backtest_trades INSERT만)
 

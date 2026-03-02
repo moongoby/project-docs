@@ -15,7 +15,7 @@
 ## 로컬에서 한 작업
 
 - **runbook 스크립트 추가**: `docs/scripts/DOCS-FIX-005-runbook.sh`
-  - 서버에서 실행: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86` 후 `/srv/newtalk-v2`에서 `bash docs/scripts/DOCS-FIX-005-runbook.sh`
+  - 서버에서 실행: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]` 후 `/srv/newtalk-v2`에서 `bash docs/scripts/DOCS-FIX-005-runbook.sh`
   - 4단계에서 CONTEXT.md, HANDOVER.md, R3-FRONT-002-report.md, R3-API-003-report.md 내 SHA 플레이스홀더를 `git log --oneline -1` 결과로 일괄 치환
   - 5단계 검사는 본 작업에서 치환한 문구만 검사 (다른 보고서의 "푸시 후 기록" 등은 제외)
 - **문서 수정 없음**: CONTEXT.md, HANDOVER.md는 runbook이 기대하는 문자열 그대로 유지 (서버에서 치환).

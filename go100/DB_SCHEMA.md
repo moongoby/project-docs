@@ -136,15 +136,15 @@
 | user_id | email | nickname |
 |---------|-------|----------|
 | 1 | system@mytrader.ai | SYSTEM_V4_LEGACY |
-| 2 | moongoby@gmail.com | 대표님 |
-| 3 | moongoby@naver.com | 오병용 |
+| 2 | [CEO-EMAIL-GM] | 대표님 |
+| 3 | [CEO-EMAIL-NV] | 오병용 |
 | 4 | test-signup-cur@test.com | 테스트 |
 
 ### legacy users (12건, id/email/name)
 | id | email | name |
 |----|-------|------|
-| 6 | moongoby@gmail.com | 대표님 |
-| 15 | moongoby@naver.com | 오병용 |
+| 6 | [CEO-EMAIL-GM] | 대표님 |
+| 15 | [CEO-EMAIL-NV] | 오병용 |
 | ... | (기타 10건) |
 
 ### 주요 카운트

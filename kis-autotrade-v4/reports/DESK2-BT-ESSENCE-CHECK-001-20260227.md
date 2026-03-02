@@ -124,4 +124,4 @@
 | Phase 3 | `/tmp/optimal_timing.py` | `/tmp/optimal_timing_result.txt` (243행) |
 
 - **DB**: localhost kisautotrade (kis_admin)  
-- **환경**: root@211.188.51.113, `.venv`, PYTHONPATH 프로젝트 기준
+- **환경**: root@[SERVER-IP], `.venv`, PYTHONPATH 프로젝트 기준

@@ -3,9 +3,9 @@
 **작성일시:** 2026-02-25 KST  
 **작업 유형:** OAuth 키 등록(newtalk) / venv 구성 / 토큰 발급  
 **상태:** 설정 완료, 토큰 발급은 대표님 인증 코드 입력 대기  
-**서버:** 114.207.244.86 (ssh root@114.207.244.86)  
+**서버:** [SERVER-IP] (ssh root@[SERVER-IP])  
 **작업 디렉터리:** /data/shortflow  
-**OAuth 프로젝트:** newtalk (moongoby@gmail.com)
+**OAuth 프로젝트:** newtalk ([CEO-EMAIL-GM])
 
 ---
 
@@ -46,15 +46,15 @@
 
 - **위치:** Google Cloud Console (newtalk 프로젝트) → OAuth 동의 화면  
 - **필요:** 테스트 사용자에 아래 계정 등록  
-  - `oby240610@gmail.com` (3분경제)  
-  - `moongo76@gmail.com` (건강한입)  
+  - `[CHANNEL-EMAIL-1]` (3분경제)  
+  - `[CHANNEL-EMAIL-2]` (건강한입)  
 - **상태:** 서버에서 확인 불가 → **대표님 조치 필요** (미등록 시 인증 불가)
 
 ---
 
 ## 5. 토큰 발급 결과 및 인증 URL
 
-### 5.1 economy (3분경제 / oby240610@gmail.com)
+### 5.1 economy (3분경제 / [CHANNEL-EMAIL-1])
 
 - **명령:** `venv/bin/python scripts/youtube_oauth_setup.py economy`  
 - **결과:** 인증 URL 출력 성공. 토큰 발급은 **인증 코드 입력 후** 완료.
@@ -65,7 +65,7 @@
 https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163214-mjupn2kn5ere0a77m4sn7qj15z69nidv.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube&state=VJgphuWkagasmugZcbxCmCrGKvwsr5&access_type=offline&prompt=consent
 ```
 
-### 5.2 health (건강한입 / moongo76@gmail.com)
+### 5.2 health (건강한입 / [CHANNEL-EMAIL-2])
 
 - **명령:** `venv/bin/python scripts/youtube_oauth_setup.py health`  
 - **결과:** 인증 URL 출력 성공. 토큰 발급은 **인증 코드 입력 후** 완료.
@@ -78,11 +78,11 @@ https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163
 
 ### 5.3 대표님 토큰 발급 절차
 
-1. SSH: `ssh root@114.207.244.86`  
+1. SSH: `ssh root@[SERVER-IP]`  
 2. economy: `cd /data/shortflow && venv/bin/python scripts/youtube_oauth_setup.py economy`  
-   - 출력된 URL을 브라우저에서 열기 → oby240610@gmail.com 로그인 → **3분경제** 채널 선택 → 승인 → 인증 코드 복사 → 서버 터미널에 붙여넣기  
+   - 출력된 URL을 브라우저에서 열기 → [CHANNEL-EMAIL-1] 로그인 → **3분경제** 채널 선택 → 승인 → 인증 코드 복사 → 서버 터미널에 붙여넣기  
 3. health: `venv/bin/python scripts/youtube_oauth_setup.py health`  
-   - 출력된 URL 열기 → moongo76@gmail.com 로그인 → **건강한입** 채널 선택 → 승인 → 인증 코드 입력  
+   - 출력된 URL 열기 → [CHANNEL-EMAIL-2] 로그인 → **건강한입** 채널 선택 → 승인 → 인증 코드 입력  
 
 ---
 
@@ -117,7 +117,7 @@ https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=651195163
 
 | 항목 | 조치 |
 |------|------|
-| OAuth 동의 화면 | 테스트 사용자에 oby240610@gmail.com, moongo76@gmail.com 추가 |
+| OAuth 동의 화면 | 테스트 사용자에 [CHANNEL-EMAIL-1], [CHANNEL-EMAIL-2] 추가 |
 | economy 토큰 | 서버에서 스크립트 실행 → URL 접속(oby240610) → 인증 코드 입력 |
 | health 토큰 | 서버에서 스크립트 실행 → URL 접속(moongo76) → 인증 코드 입력 |
 | 업로드 테스트 | 토큰 발급 후 `venv/bin/python scripts/youtube_upload_test.py economy` 실행 |

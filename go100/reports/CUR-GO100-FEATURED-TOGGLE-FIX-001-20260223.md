@@ -1,8 +1,8 @@
 # CUR-GO100-FEATURED-TOGGLE-FIX-001 결과 보고서
 
 - **일시**: 2026-02-23 16:20 KST
-- **서버**: root@211.188.51.113
-- **DB**: PGPASSWORD='KisAuto2026!Secure' psql -h localhost -U kis_admin -d kisautotrade
+- **서버**: root@[SERVER-IP]
+- **DB**: PGPASSWORD='[DB-PASSWORD]' psql -h localhost -U kis_admin -d kisautotrade
 - **코드 repo**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)
 - **문서 repo**: /root/project-docs (master)
 - **절대규칙 준수**: kis-v41-* 재시작 금지, strategy_cards ALTER/DROP/DELETE 금지

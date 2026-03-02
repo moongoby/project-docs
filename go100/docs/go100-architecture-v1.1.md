@@ -25,7 +25,7 @@ GO100은 AI 채팅 기반 전략 설계 → 백테스트 검증 → 실매매 �
   서비스명:      GO100 (백억이 AI)
   도메인:        https://go100.newtalk.kr
   프로젝트 경로: /root/kis-autotrade-v4
-  운영 서버:     211.188.51.113 (Ubuntu)
+  운영 서버:     [SERVER-IP] (Ubuntu)
   브랜치:        phase-2c-command-center
   현재 Phase:    5 완료 (UNDERSTAND+DESIGN 에이전트)
   다음 Phase:    6 (EVALUATE+OPTIMIZE 루프)

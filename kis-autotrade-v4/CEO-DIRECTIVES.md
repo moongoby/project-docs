@@ -251,6 +251,41 @@ TS-B4(거래량폭발양봉 PF3.23), TS-D1(미니갭 PF2.86), TS-C1(5봉거래�
 #### 최종 전략 포트폴리오
 D6(PF13.63) > D5(PF4.21) > D4(PF2.43) > D7(PF2.12) > D2(PF1.57) > S1(PF1.44) — D1/D3/S2 폐기
 
+### D-012: 프랙탈 추세추종 아키텍처 v2.0 확정 (2026-03-01 CEO 승인)
+
+#### 핵심 원칙
+- **트리거 = 매수 신호** (풀에 넣는 것이 아니라 돈을 넣는다).
+- **DESK5**: 1파 바닥 진입 — T5-1~T5-3 중 2개 충족 시 매수.
+- **DESK4**: 2파 눌림 추매 — T4-1~T4-4 중 2개 충족 시 추매/신규 진입.
+- **DESK3**: 3파 폭발 최대 비중 — T3-1/T3-2 단독 또는 T3-3~T3-5 중 2개.
+- **DESK2**: 위 보유 종목을 먹이감으로 장중 분봉 수확 (기존 6-Layer 유지).
+- **자본 단계별 전략**: Stage 1(4천만, DESK2 100%) → Stage 2(2억, DESK2 60%+DESK3 30%+DESK4 10%) → Stage 3(10억, 전 DESK 활성화).
+
+#### 참조 문서
+- design/DESK-FRACTAL-ARCHITECTURE-v2.0-20260301.md
+- design/DESK-FRACTAL-ARCHITECTURE-v3.0-20260301.md (v3.0 확정)
+- reports/CUR-V41-DESK543-FRACTAL-RESEARCH-001-20260301.md (실증 연구 1차)
+
+### D-013: 전 DESK 손익비 추세추종 원칙 (2026-03-01, CEO 확정)
+
+모든 DESK는 동일한 추세추종 원리로 작동한다. 넓게 뿌리고 소수 대승으로 전체를 덮는 손익비 구조.
+- DESK5 = 씨앗 농장: 10~20종목 분산, 발화→최고 전체 보유, 승률 20%여도 손익비 5:1이면 수익.
+- DESK4 = 마디 수확: 20~30종목 분산, 눌림→반등 한 마디 반복, 같은 종목 재진입 허용.
+- DESK3 = 폭발 사냥: 50~100종목 대기, 급등 1~5일 수확.
+- DESK2 = 장중 수확: 전 DESK 보유 종목 분봉 추가 수확.
+- DESK 간 독립 포지션, 공유 정보. 승격 = 신뢰도 가산점.
+- 자본 성장에 따라 DESK5 비중 확대 (Stage 1→2→3).
+- 참조: design/DESK-FRACTAL-ARCHITECTURE-v3.0-20260301.md
+
+### D-014: DESK5 코어 보유 정책 (2026-03-01, CEO 확정)
+
+DESK5 보유 종목은 아래 3가지 조건에서만 청산한다:
+1. 주봉 MA20 2주 연속 이탈.
+2. 세력 이탈: 주봉 거래량 20주 평균 3배 이상 + 음봉.
+3. 테마 사망: 30일 연속 관련 뉴스 0건.
+위 3가지 외에는 -30% 손실이어도, 일봉 MA20을 깨도 청산 금지.
++100% 도달 시 원금분 회수, 나머지 무위험 보유. +500% 이상 시 주봉 MA10 트레일링.
+
 ---
 
 ## 2. 기술적 지시
@@ -291,6 +326,121 @@ D6(PF13.63) > D5(PF4.21) > D4(PF2.43) > D7(PF2.12) > D2(PF1.57) > S1(PF1.44) —
 - 원본 테이블 READ ONLY
 - 작업 완료 시 HANDOVER.md 업데이트 필수
 - 보고서 GitHub push + HTTP 200 확인 필수
+- 보고 시 반드시 GitHub 브라우저 URL로 보고 (REPORT-001) — 아래 섹션 4-9 참조
+
+---
+
+## 4. 경로 규칙 (PATH-001) — 위반 시 보고서 미제출 처리
+
+> 이 규칙은 GO100 CEO-DIRECTIVES.md 섹션 4와 동일하며, 양쪽 프로젝트에 공통 적용된다.
+
+### 4-1. 프로젝트별 저장 경로 (교차 저장 금지)
+
+| 프로젝트 | 보고서 경로 (서버) | GitHub 경로 |
+|---------|-------------------|-------------|
+| GO100 | /root/project-docs/go100/reports/ | go100/reports/ |
+| V4.1 | /root/project-docs/kis-autotrade-v4/reports/ | kis-autotrade-v4/reports/ |
+
+GO100 보고서를 kis-autotrade-v4/reports/에 넣거나, V4.1 보고서를 go100/reports/에 넣으면 무효.
+
+### 4-2. 파일명 규칙
+
+```
+CUR-{PROJECT}-{TASK_NAME}-{SEQ}-{YYYYMMDD}.md
+```
+
+| 구분 | GO100 | V4.1 |
+|------|-------|------|
+| PROJECT | GO100 | V41 |
+| 예시 | CUR-GO100-P5-3-PORTFOLIO-OPTIMIZER-001-20260227.md | CUR-V41-ARCHITECTURE-SCAN-001-20260223.md |
+
+V4.1 DESK 계열 보고서는 `DESK2-{TASK}-{SEQ}-{YYYYMMDD}.md`도 허용.
+
+**금지 패턴:**
+- `20260223-HOTFIX-SAVE-500.md` (날짜 선행, prefix 없음)
+- `report.md` (식별 불가)
+- `HOTFIX-001.md` (날짜 없음)
+
+### 4-3. 날짜 규칙
+
+파일명 YYYYMMDD = 작업 완료일 (KST 기준).
+
+### 4-4. HANDOVER.md 단일 파일 규칙
+
+| 프로젝트 | 최신 인계서 (항상 이 파일이 최신) |
+|---------|-------------------------------|
+| GO100 | go100/HANDOVER.md |
+| V4.1 | kis-autotrade-v4/HANDOVER.md |
+
+새 세션 AI는 HANDOVER.md 하나만 읽으면 최신 상태 파악 가능해야 한다.
+
+### 4-5. 커밋 메시지 prefix
+
+| 프로젝트 | prefix |
+|---------|--------|
+| GO100 | [GO100] |
+| V4.1 | [V4.1] |
+| 공유 | [SHARED] |
+| 문서 | [DOCS] |
+
+### 4-6. push 전 셀프 검증 (필수)
+
+작업 완료 후 git add 전에 반드시 실행:
+
+```bash
+# 1) 보고서가 올바른 프로젝트 폴더에 있는가?
+# 2) 파일명이 CUR-{PROJECT}-TASK-SEQ-DATE.md 형식인가?
+# 3) 교차 저장 없는가? → git diff --cached --name-only로 확인
+# 4) HANDOVER.md 업데이트 했는가?
+# 5) push 후 HTTP 200 확인
+```
+
+스크립트: /root/project-docs/scripts/path_check.sh 실행
+
+### 4-7. 보고서 본문 하단 필수 기재
+
+```markdown
+---
+## 저장 정보
+- 서버 경로: /root/project-docs/{프로젝트}/reports/{파일명}
+- GitHub: https://github.com/moongoby/project-docs/blob/master/{경로}/{파일명}
+- 커밋: {SHA}
+- HTTP 확인: {200|미확인}
+- HANDOVER 업데이트: {완료|미완료}
+```
+
+본문에 적은 경로와 실제 push 경로가 다르면 작업 미완료 처리.
+
+### 4-9. CEO 보고 규칙 (REPORT-001) — 위반 시 미보고 처리
+
+작업 완료 후 CEO에게 보고할 때:
+
+1. **반드시 git push 먼저 완료**한다
+2. **서버 로컬 경로로 보고하지 않는다**
+   - ❌ "보고서: /root/project-docs/go100/reports/CUR-GO100-P5-3-..."
+   - ❌ "저장 완료했습니다"
+   - ❌ "/root/project-docs에 push 했습니다"
+3. **반드시 GitHub 브라우저 URL로 보고한다**
+   - ✅ https://github.com/moongoby/project-docs/blob/master/go100/reports/CUR-GO100-P5-3-PORTFOLIO-OPTIMIZER-001-20260227.md
+   - ✅ https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/DESK2-VALIDATION-ENGINE-001-20260228.md
+
+4. **보고 형식 (필수)**:
+
+보고서: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/reports/{파일명}  
+커밋: https://github.com/moongoby/project-docs/commit/{SHA}  
+HANDOVER: https://github.com/moongoby/project-docs/blob/master/{프로젝트}/HANDOVER.md  
+HTTP: 200 확인 완료
+
+5. **URL이 실제로 접근 가능한지 확인 후 보고**:
+```bash
+# push 후 반드시 실행
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  "https://raw.githubusercontent.com/moongoby/project-docs/master/{프로젝트}/reports/{파일명}")
+echo "HTTP: $HTTP_CODE"
+# 200이 아니면 보고하지 말고 원인 파악
+```
+- push 안 하고 "작성 완료"로 보고하면 미완료 처리
+- 서버 경로만 적고 GitHub URL 없으면 미보고 처리
 
 ---
 
@@ -302,3 +452,5 @@ D6(PF13.63) > D5(PF4.21) > D4(PF2.43) > D7(PF2.12) > D2(PF1.57) > S1(PF1.44) —
 | v1.2 | 2026-02-27 | D-009 CEO 실전 전략 3층 구조 + 장중 NEW 탐지 통합 |
 | v1.3 | 2026-02-28 | D-010 DESK2 멀티컨디션 엔진 + 7가설 + 5축 마스크 + DCS 평가 |
 | v1.4 | 2026-02-28 | D-011 기술적 시그널 매칭 + 60분 청산 전환 + D1/D3/S2 폐기 확정 |
+| v1.5 | 2026-02-28 | PATH-001 경로 규칙 추가 — 교차 저장 금지, 파일명 규칙, 셀프 검증 스크립트, 보고서 하단 저장 정보 필수 |
+| v1.6 | 2026-03-01 | D-012 프랙탈 추세추종 아키텍처 v2.0 확정 — 트리거=매수신호, DESK5/4/3 직접보유+피라미딩, DESK2 먹이감, 자본 Stage 1/2/3 |

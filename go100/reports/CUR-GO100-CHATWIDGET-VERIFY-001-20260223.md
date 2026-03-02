@@ -1,7 +1,7 @@
 # CUR-GO100-CHATWIDGET-VERIFY-001 보고서
 
 **일시**: 2026-02-23 (월) 15:25 KST  
-**서버**: root@211.188.51.113 (SSH)  
+**서버**: root@[SERVER-IP] (SSH)  
 **목적**: 토큰 발급 성공 확인 후 인증·JS 청크 분석 → ChatWidget FAB 원인 특정 및 수정  
 **선행**: E2E-VERIFY-001 (토큰 발급 성공, HTML에 chat-widget 0건, JS 청크 빌드 존재)
 

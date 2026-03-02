@@ -51,7 +51,7 @@
 - 마이그레이션: `docker compose --env-file .env.docker exec app php artisan migrate --force` → 3개 Ran
 - 라우트: `php artisan route:list --path=settlement` → 9개 확인
 - tinker: `Schema::hasTable('settlements')` 등 → 111 출력 확인
-- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86` → 200
+- V1 헬스: `curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]` → 200
 
 ## 비고
 - 정산 생성 시 기간 내 delivered/completed + payment_status=paid + delivered_at 기준, 이미 정산에 포함된 주문 제외(whereDoesntHave('settlementItems')).

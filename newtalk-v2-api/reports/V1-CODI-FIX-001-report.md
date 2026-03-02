@@ -1,7 +1,7 @@
 # V1-CODI-FIX-001 코디등록 버그 수정 완료 보고서
 
 - **작업일시**: 2026-02-24
-- **대상 서버**: 116 서버 (114.207.244.86, SSH port 7916)
+- **대상 서버**: 116 서버 ([SERVER-IP], SSH port 7916)
 - **대표님 승인**: 완료 (V1 운영서버 소스 수정)
 
 ---
@@ -125,7 +125,7 @@
 ## 6. Health Check 결과
 
 ```text
-$ curl -s -o /dev/null -w '%{http_code}' http://114.207.244.86
+$ curl -s -o /dev/null -w '%{http_code}' http://[SERVER-IP]
 200
 ```
 

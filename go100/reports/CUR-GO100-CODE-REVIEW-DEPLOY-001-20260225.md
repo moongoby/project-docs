@@ -40,19 +40,19 @@
 
 ## 3. 마이그레이션 결과
 
-- **실행 환경:** 코드 검수/빌드는 워크스페이스에서 수행. DB/서비스는 **서버 211.188.51.113**에서 실행 필요.
+- **실행 환경:** 코드 검수/빌드는 워크스페이스에서 수행. DB/서비스는 **서버 [SERVER-IP]**에서 실행 필요.
 - **로컬 psql:** Peer authentication 실패로 접속 불가 → **서버에서 아래 명령 실행 필요.**
 
 ```bash
 # params_hash 컬럼 추가
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 ALTER TABLE go100_backtest_runs ADD COLUMN IF NOT EXISTS params_hash VARCHAR(12);"
 
 # 확인
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "\d go100_backtest_runs" | grep params_hash
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "\d go100_backtest_runs" | grep params_hash
 
 # current_phase 타입 확인
-PGPASSWORD='KisAuto2026!Secure' psql -U kis_admin -d kisautotrade -c "
+PGPASSWORD='[DB-PASSWORD]' psql -U kis_admin -d kisautotrade -c "
 SELECT column_name, data_type FROM information_schema.columns 
 WHERE table_name='go100_goals' AND column_name='current_phase';"
 ```
@@ -66,7 +66,7 @@ WHERE table_name='go100_goals' AND column_name='current_phase';"
 - **백업:** `/root/backup/code-review-deploy-20260225-103411` (소스 goal/ai/backtest/routers/frontend-go100 복사 완료). DB 데이터 백업은 **서버에서** `pg_dump -t 'go100_*' --data-only` 실행 권장.
 - **코드:** branch `phase-2c-command-center`, 최신 pull 후 위 수정 커밋 반영.
 - **프론트엔드 빌드:** `npm run build` 성공 (exit_code 0).
-- **서비스 재시작:** **서버 211.188.51.113**에서 실행 필요.  
+- **서비스 재시작:** **서버 [SERVER-IP]**에서 실행 필요.  
   `systemctl restart go100` → `systemctl restart go100-frontend` (★ kis-v41-* 재시작 금지).
 - **헬스체크:** 서버에서  
   `curl -s http://localhost:8002/api/go100/health | python3 -m json.tool`  

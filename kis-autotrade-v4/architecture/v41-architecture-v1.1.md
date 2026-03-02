@@ -22,7 +22,7 @@ V4.1은 KIS(한국투자증권) API 기반의 한국 주식 자동매매 엔진�
 투자 스타일(데일리/스윙/중기/장기)에 맞는 전략 카드를 실행한다.
 
   프로젝트 경로: /root/kis-autotrade-v4
-  운영 서버:     211.188.51.113 (Ubuntu)
+  운영 서버:     [SERVER-IP] (Ubuntu)
   코드 버전:     4.1.0 (backend/app/main.py)
   Git 태그:      v4.1.0-phase6-batch3
   브랜치:        phase-2c-command-center
@@ -325,7 +325,7 @@ services/
 11. 인프라 / 배포
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-서버: 211.188.51.113 (Ubuntu, 99GB 디스크 / 51GB 사용)
+서버: [SERVER-IP] (Ubuntu, 99GB 디스크 / 51GB 사용)
 Nginx: 리버스 프록시
   /api/v4/* → 8002 (go100.service)
   /api/*    → 8001 (레거시 webapp)

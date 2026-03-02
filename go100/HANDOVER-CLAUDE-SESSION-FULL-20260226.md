@@ -18,7 +18,7 @@
 
 - **소스코드 레포**: github.com/moongoby/go100 (브랜치 phase-2c-command-center)
 - **문서 레포**: github.com/moongoby/project-docs (브랜치 master, 경로 go100/)
-- **서버**: root@211.188.51.113 (Ubuntu 24.04 LTS, Intel Xeon Gold 5220 4코어, 15GB RAM, 99GB SSD)
+- **서버**: root@[SERVER-IP] (Ubuntu 24.04 LTS, Intel Xeon Gold 5220 4코어, 15GB RAM, 99GB SSD)
 
 ### 1‑3. 서비스 구성
 
@@ -167,7 +167,7 @@ RPT-GO100-BAEKOGI-IMPROVEMENT-PROPOSAL-001-20260226: 5대 영역 17개 과제.
 - **0.** 대화 토큰 관리: 80% 수준에서 인계서 작성하여 보고. 토큰 소진 전 인계 완료.
 - **1.** 커서로만 작업. 중요한 사항만 대표님 승인 요청.
 - **2.** 커서 병렬 작업 적극 활용.
-- **3.** 커서 필수 규칙: 서버 root@211.188.51.113, DB localhost:5432/kisautotrade (kis_admin), 작업 전 백업(/root/backup/), 보고서 마크다운 작성, project-docs push, 상세 커밋 메시지+Co-Authored-By, systemctl restart go100 후 curl 테스트, .cursorrules 세션 시작 시 읽기.
+- **3.** 커서 필수 규칙: 서버 root@[SERVER-IP], DB localhost:5432/kisautotrade (kis_admin), 작업 전 백업(/root/backup/), 보고서 마크다운 작성, project-docs push, 상세 커밋 메시지+Co-Authored-By, systemctl restart go100 후 curl 테스트, .cursorrules 세션 시작 시 읽기.
 - **4.** 지시서는 전체를 코드블록으로 감싸서 작성.
 - **5.** 보고서 저장: /root/project-docs/go100/reports/{TICKET-ID}-{DATE}.md
 - **6.** 한국시간(KST) 동기화.

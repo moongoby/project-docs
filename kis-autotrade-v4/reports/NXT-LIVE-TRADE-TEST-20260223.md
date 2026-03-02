@@ -4,7 +4,7 @@
 |------|------|
 | 작업 ID | NXT-LIVE-TRADE-TEST |
 | 일시 | 2026-02-23 16:30~17:10 KST |
-| 서버 | root@211.188.51.113 |
+| 서버 | root@[SERVER-IP] |
 | 프로젝트 | /root/kis-autotrade-v4 |
 | 브랜치 | phase-2c-command-center |
 | 승인 | CEO 승인 (실계좌 실매매 테스트) |

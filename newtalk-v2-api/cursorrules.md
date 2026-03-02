@@ -7,9 +7,9 @@
 # ============================================================
 # 1. 서버 접속
 # ============================================================
-# - SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
+# - SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
 # - V2 작업 디렉토리: /srv/newtalk-v2/
-# - NAS (시스템 C): ssh newtalk@192.168.30.23 (별도 작업)
+# - NAS (시스템 C): ssh newtalk@[NAS-IP] (별도 작업)
 # - 작업은 반드시 서버에 접속하여 직접 실행한다.
 # - "스크립트 제공", "런북 배치", "서버에서 수동 실행 필요" 형태의
 #   작업은 허용하지 않는다. 직접 실행하고 실제 결과를 보고하라.
@@ -47,7 +47,7 @@
 # - V1 포트 (80, 443, 3306) 충돌 금지.
 # - V1 Apache/Nginx/MariaDB 설정 변경 금지.
 # - 작업 후 V1 정상 동작 확인:
-#   curl -s -o /dev/null -w "%{http_code}" http://114.207.244.86
+#   curl -s -o /dev/null -w "%{http_code}" http://[SERVER-IP]
 #   → 200 확인
 
 # ============================================================
@@ -57,7 +57,7 @@
 # - Docker Compose: cd /srv/newtalk-v2 && docker compose --env-file .env.docker
 # - Laravel 명령: docker compose --env-file .env.docker exec app php artisan <명령>
 # - Composer: docker compose --env-file .env.docker exec app composer <명령>
-# - V2 웹: http://114.207.244.86:8080
+# - V2 웹: http://[SERVER-IP]:8080
 # - V2 DB 외부: mysql -h 127.0.0.1 -P 3307 -u newtalk_v2_user -p newtalk_v2
 
 # ============================================================

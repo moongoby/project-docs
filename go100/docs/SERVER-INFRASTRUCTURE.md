@@ -8,8 +8,8 @@
 | 항목 | 값 |
 |------|-----|
 | 호스트 | root@kis-autotrade-v4 |
-| 내부 IP | 10.0.1.6/24 (eth0) |
-| 공인 IP | 211.188.51.113 |
+| 내부 IP | [INTERNAL-IP]/24 (eth0) |
+| 공인 IP | [SERVER-IP] |
 | OS | Ubuntu 24.04.1 LTS (Noble Numbat) |
 | 커널 | 6.8.0-84-generic x86_64 |
 | CPU | Intel Xeon Gold 5220 @ 2.20GHz, 4코어 |

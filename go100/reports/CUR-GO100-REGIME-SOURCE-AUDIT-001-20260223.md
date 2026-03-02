@@ -1,7 +1,7 @@
 # CUR-GO100-REGIME-SOURCE-AUDIT-001 — GO100 레짐 소스 통일 조사
 
 - **작업일**: 2026-02-23 21:30 KST  
-- **서버**: root@211.188.51.113  
+- **서버**: root@[SERVER-IP]  
 - **코드 repo**: /root/kis-autotrade-v4 (branch: phase-2c-command-center)  
 - **문서 repo**: /root/project-docs (branch: master)  
 - **작업 유형**: 읽기 전용 조사 (SELECT only, 코드/DB 변경 없음)
