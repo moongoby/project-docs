@@ -893,7 +893,7 @@ ExecStart=/root/kis-autotrade-v4/venv/bin/python3 \
 
 ```python
 async_engine = create_async_engine(
-    "postgresql+asyncpg://kis_admin:***@localhost/kisautotrade",
+    "[DB_CONNECTION_STRING]",
     pool_size=20,
     max_overflow=10,
     pool_pre_ping=True,
