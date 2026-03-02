@@ -30,7 +30,7 @@
 ## 3. 보안 조치 상세 (CUR-V41-19STRATEGY-TRIGGER-RESEARCH-001-20260301.md)
 
 - **파일**: `kis-autotrade-v4/reports/CUR-V41-19STRATEGY-TRIGGER-RESEARCH-001-20260301.md`
-- **변경**: 표 내 `211.188.51.113` → `[DB_HOST]`, 실행 가이드 `export DB_HOST=211.188.51.113` → 환경에 맞게 `[DB_HOST]` 설정 안내로 수정
+- **변경**: 표 내 `[SERVER-IP]` → `[DB_HOST]`, 실행 가이드 `export DB_HOST=[SERVER-IP]` → 환경에 맞게 `[DB_HOST]` 설정 안내로 수정
 - **project-docs**: 동일 파일은 이미 [SERVER-IP] 등 마스킹 적용된 버전 존재. 코드 레포 반영분 push 후 필요 시 project-docs 동기화
 
 ---
