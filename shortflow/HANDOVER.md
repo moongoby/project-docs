@@ -1,5 +1,5 @@
 # HANDOVER – ShortFlow YouTube Shorts 자동화 SaaS
-> 최종 업데이트: 2026-03-03 (v1.3 — V4-PUBLIC STEP2 완료, OAuth 토큰 만료)
+> 최종 업데이트: 2026-03-03 (v1.4 — OAUTH-REAUTH 완료, 6편 공개, 파이프라인 버그 수정)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -56,6 +56,7 @@
 | OLD-VIDEO-DELETE | 03-02 | v1 10편 + v3 6편 + UPLOAD-TEST 2편 YouTube 삭제 완료 (총 18건, 실패 0건) |
 | ALERT-CRON | 03-02 | send_alert_email.py → alert_on_error.sh(Python 우선) + daily_report.sh(이상감지 알림) + run_v4_pipeline.py(단계별 실패 알림) 연동 완료 |
 | V4-PUBLIC | 03-03 | 크론 업로드 모드 public 전환 완료 (auto_upload=True, e38d72d) / 기존 6편 공개 전환: OAuth 토큰 만료로 수동 재인증 필요 (STEP1 차단) |
+| OAUTH-REAUTH | 03-03 | JSON 토큰 갱신 성공, 6편 공개 전환 완료, run_v4_pipeline.py Python3.9 타입힌트 버그 수정 (367c0a4) |
 
 ---
 
@@ -64,7 +65,7 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | HISTORY-TOKEN | 대기 | history 채널 OAuth 토큰 발급 (CEO 채널ID/이메일 필요) |
-| V4-PUBLIC-STEP1 | 차단 | 기존 6편 YouTube 공개 전환 — OAuth 토큰 만료(invalid_grant), 수동 재인증 필요 |
+
 | ALERT-ACTIVATE | 대기 | .env에 ALERT_EMAIL_PASSWORD 설정 후 알림 활성화 (Gmail App Password 필요) |
 
 ---
@@ -162,5 +163,6 @@
 |------|------|------|
 | v1.0 | 2026-02-28 | 초판 – 전체 대화 내역 + 최종 보고서 기반 작성 |
 | v1.1 | 2026-03-02 | V4-BATCH/CRON/DELETE 완료, IP/이메일 마스킹, 섹션 6 갱신 |
-| v1.3 | 2026-03-03 | V4-PUBLIC STEP2 완료 (auto_upload=True, e38d72d), STEP1 차단 (OAuth 토큰 만료) |
+| v1.4 | 2026-03-03 | OAUTH-REAUTH 완료: JSON토큰 갱신, 6편 공개, Python3.9 타입힌트 버그 수정 (367c0a4) |
+| v1.3 | 2026-03-03 | V4-PUBLIC STEP2 완료 (auto_upload=True, e38d72d) |
 | v1.2 | 2026-03-02 | ALERT-CRON 완료 (alert_on_error.sh Python 우선, daily_report.sh 이상감지, run_v4_pipeline.py 에러핸들러) |
