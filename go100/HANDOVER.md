@@ -1,6 +1,6 @@
-# GO100 인수인계서 v11.0 — 단일 파일 통합 (V10 기반)
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-03 | 대상: 다음 세션 AI  
-> 이전 문서: HANDOVER-20260228-V10.md (본 파일로 통합)
+# GO100 인수인계서 v12.0 — Commander Architecture 완료 (V11 기반)
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-03 KST | 대상: 다음 세션 AI  
+> 이전 문서: HANDOVER.md v11.0 (동일 파일, 버전 이력 하단 참조)
 
 ---
 
@@ -299,10 +299,57 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 
 1. 이 문서 읽기 완료
 2. .cursorrules, CLAUDE.md 읽기
-3. 진행률 85%, Batch 6·7 반영 확인: P5-3/P5-4, P6-1/P6-2, P6-EXTRA-VERIFY·P7-1 QA 보류
-4. 다음 우선순위: Phase 7 — 30일 모의투자 1사이클, 소액 실매매 3일 검증, SaaS 준비
-5. 상태 확인: `systemctl status go100`, `psql -d kisautotrade -c "\\dt go100_*"`
-6. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
+3. **현재 브랜치**: `phase-2c-command-center`
+4. 진행률 **95%** — Commander Architecture DIR-001~009 완료, DIR-010(HANDOVER+최종보고) 대기
+5. **다음 우선순위**: DIR-010 최종보고서 + CEO 텔레그램 보고 + `GO100_COMMANDER_MODE=true` CEO 승인
+6. 상태 확인: `systemctl status go100`, `psql -d kisautotrade -c "\\dt go100_agent*"`
+7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
+8. **Commander 모드 활성화**: .env에 `GO100_COMMANDER_MODE=true` 추가 (CEO 승인 필요)
+
+---
+
+## 11. Commander Architecture 현황 (2026-03-03 완료)
+
+### 커맨더 백억이 아키텍처
+- **브랜치**: `phase-2c-command-center`
+- **에이전트 수**: 10개 (BaseAgent + 9 특화 에이전트)
+- **파일 위치**: `/root/kis-autotrade-v4/backend/app/services/go100/agents/`
+
+| 에이전트 파일 | 역할 |
+|---|---|
+| `base_agent.py` | 기반 클래스 (LLMGateway, DB 접근, JSON 출력) |
+| `news_agent.py` | 뉴스/공시 분석 (go100_news_items) |
+| `regime_agent.py` | 시장 레짐 판단 (BULL/BEAR/NEUTRAL) |
+| `risk_agent.py` | 리스크 사전 평가 (진입 허용/거부) |
+| `supply_demand_agent.py` | 수급 분석 (외인/기관 추세) |
+| `technical_agent.py` | 기술적 분석 (MA/RSI/MACD/BB) |
+| `bull_agent.py` | 강세 논거 구성 |
+| `bear_agent.py` | 약세 논거 구성 |
+| `debate.py` | 3라운드 Bull/Bear 토론 + 판정 |
+| `agent_desk2~5.py` | DESK별 특화 에이전트 (4개) |
+| `agent_researcher.py` | 가설 생성 리서처 |
+| `agent_backtester.py` | 백테스트 에이전트 |
+| `agent_performance_tracker.py` | 에이전트 성과 추적 + 동적 가중치 |
+| `commander.py` | 컨트롤 타워 (최종 판단) |
+
+### 신규 DB 테이블
+| 테이블 | 용도 |
+|---|---|
+| `go100_agent_reports` | 에이전트별 분석 보고서 |
+| `go100_debate_log` | Bull/Bear 토론 기록 |
+| `go100_agent_performance` | 에이전트 성과·가중치 |
+
+### 자기 진화 루프
+- 20거래일 롤링 정확도 → 동적 가중치 조정 (MIN 0.3, MAX 2.0)
+- LightGBM 재학습 크론: 20일 주기 (docs/go100_lightgbm_retrainer.cron)
+- 커맨더 자기 비평: `commander_self_critique` → `go100_agent_reports` 저장
+
+### 모드 전환
+```bash
+# .env에 추가하여 커맨더 모드 ON/OFF
+GO100_COMMANDER_MODE=true   # 커맨더 모드 활성화
+GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
+```
 
 ---
 
@@ -331,3 +378,4 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 | v10.9 | 03-02 | P4-A 피처 엔지니어링 완료(CUR-GO100-P4A-FEATURE-ENG-001): V3 교차피처 3개+신규피처 4개=7개 추가, feature_store 23→30개, 회귀 PASS. 30일 모의투자 사전 설정 확인(CUR-GO100-PAPER-TRADING-PREP-001): 세션 2개 ACTIVE, Telegram토큰 미설정-CEO조치필요 |
 | v10.10 | 03-02 | P4-B V3 배치 빌드 스크립트 완료(CUR-GO100-P4B-V3-BATCH-REBUILD-001): build_feature_store_batch_v3.py 완성, 1일 테스트 PASS(498종목 경고0건), 1년치 배치 실행 중(242일, PID 1672851) |
 | v11.0 | 03-03 | P4-B 배치 완료(307,608건·오류0) + P4-C V3 모델 학습 완료: 통합 AUC 0.5656(V2+0.025), Q2공격형 AUC 0.6092(목표초과), V3 신규피처 Top15 3개 진입. 모델 6종 저장(active:False, CEO 승인 대기). train_ai_model_v3.py 커밋 21af802d |
+| v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
