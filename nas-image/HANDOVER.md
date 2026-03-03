@@ -1,5 +1,5 @@
 # HANDOVER – NAS Image Auto (newtalk-image-auto) 
-> 최종 업데이트: 2026-03-03 (v1.5 — P4-C-RETOUCH 완료 반영) 
+> 최종 업데이트: 2026-03-03 (v1.6 — P4-114-API 완료 반영) 
 > 관리자: CEO (moongoby) 
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기 
  
@@ -62,6 +62,7 @@ CDN (DigitalOcean Spaces)
 | P4-A-CROP | 03-03 | ecc7e2e | 200 | MediaPipe Pose 1:1/3:4 크롭, HEIC 지원, fallback, pytest 15 PASS | 
 | P4-B-TONE | 03-03 | 4fa1f21 | 200 | 5개 보정항목, 프리셋 8종, 10% clamp, sidecar JSON, pytest 12 PASS | 
 | P4-C-RETOUCH | 03-03 | e4c996a | 200 | 체형/피부 보정, fallback, sidecar, /api/v1/retouch 표준화, 13 PASS | 
+| P4-114-API | 03-03 | e1dba3e | 200 | 114서버 이미지 등록 REST API: CI3 Goods.php, NAS 클라이언트, /api/v1/sync, pytest 9 PASS | 
  
 --- 
  
@@ -74,7 +75,7 @@ CDN (DigitalOcean Spaces)
 | P4-C-RETOUCH | **완료** | 체형/피부 보정 — 커밋 e4c996a | 
 | P4-D-INTRO | **완료** | 인트로 이미지 AI 생성 (템플릿 A~E) — 커밋 e2f115f | 
 | P4-E-DEPLOY | **스캐폴딩 완료** | 리네임+CDN dry-run+DB mock — 커밋 fdd521e (실배포 CEO 승인 필요) | 
-| P4-114-API | 개발 중 | 114 서버 이미지 등록 PHP API | 
+| P4-114-API | **완료** | 114서버 이미지 등록 REST API — 커밋 e1dba3e (실배포: SSH 접속 후 deploy_114_api.sh) | 
  
 --- 
  
@@ -170,3 +171,4 @@ CDN (DigitalOcean Spaces)
 | v1.3 | 2026-03-03 | P4-A-CROP 완료 반영 (MediaPipe 1:1/3:4, ecc7e2e) | 
 | v1.4 | 2026-03-03 | P4-B-TONE 완료 반영 (5개 보정항목+프리셋, 4fa1f21) | 
 | v1.5 | 2026-03-03 | P4-C-RETOUCH 완료 반영 (체형/피부 보정, e4c996a) | 
+| v1.6 | 2026-03-03 | P4-114-API 완료 반영 (CI3 Goods.php + NAS 클라이언트 + pytest 9 PASS, e1dba3e) | 
