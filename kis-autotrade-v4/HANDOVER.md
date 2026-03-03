@@ -18,6 +18,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **CUR-V41-TRADING-PAGE-FIX-001** | 03-03 | Nginx | 200 | **trading.html 매매현황 수정**: Nginx /api/v1/live-trading/ → 8003 라우팅 추가, Playwright 검증(10개 주문 표시), moongoby@gmail.com 확인 완료 |
 | **CUR-V41-D4-EQS-BUGFIX-001** | 03-02 | e274411a | 200 | **D4 EQS PULLBACK 오분류 버그 수정**: signal_generator.py:354 D4를 is_pullback_strategy 목록 제거→BREAKOUT 분류. D4 전상종목 price_position~0.7~0.9 정상, EQS+15점(53→68), REDUCE→PROCEED, 43/43 테스트 PASS |
 | **CUR-V41-ATR-WF-VALIDATION-001** | 03-02 | 0a00567 | 200 | **Session N ATR_NETRR 1.5 WF 3-Fold 검증 + D4/D7 구조 분석**: WF 3-Fold ALL PASS(F1 PF=2.175/F2 PF=2.448/F3 PF=2.263, 평균PF=2.295, Sharpe=11.03, MDD=-2.1%, OOS/IS 3/3, PF Drop 3/3), **CEO 승인 대기: atr_dynamic_exit.py:42 NET_RR_RATIO=2.0→1.5**, D4 SIG5(VP_120_RECOVERY)=전상종목 구조적 미충족 확인, D7 슬롯경쟁=시뮬한계(실전 시간대분리로 무관), 코드복귀완료(NET_RR_MIN=2.0) |
 | **CUR-V41-ATR-NETRR-D4-PIPELINE-ANALYSIS-001** | 03-02 | a518efc | 200 | **Session N ATR_NETRR + D4 + 파이프라인 구조 완전 해석**: CTE 파이프라인 실제구조(발굴1853건→ATR차단849건(45.8%)→기타차단273건→실행731건/3.01건/일), ATR_NETRR로직(NetR:R=(TP%-0.235%)/(SL%+0.235%)≥2.0, D2/D4/D5/S1대상), D4 0건=조건과잉확정(ATR43건+COMBO22건+EQS14건+GATE1건 100%차단), ATR 1.5 완화→실행+46%(1,066건/4.39건/일), PF 2.398→2.248(2.0유지) |
