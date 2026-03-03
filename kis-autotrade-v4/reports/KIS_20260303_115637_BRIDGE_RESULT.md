@@ -13,7 +13,7 @@ psycopg2.connect()에 직접 전달 → `ProgrammingError: invalid dsn` 발생 �
 
 ```
 psycopg2.ProgrammingError: invalid dsn: missing "=" after
-"postgresql+asyncpg://kis_admin:KisAuto2026!Secure@localhost:5432/kisautotrade"
+"postgresql+asyncpg://[MASKED_DB_URL]"
 ```
 
 ## 패치 결과

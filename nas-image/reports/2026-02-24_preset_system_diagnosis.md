@@ -21,7 +21,7 @@
 
 ### 2. 진단 스크립트 실행
 ```bash
-ssh -p 2222 newtalk@192.168.30.23 \
+ssh -p 2222 newtalk@[MASKED_IP] \
   "cd /volume1/뉴톡/newtalk-image-auto && bash scripts/nas_preset_debug_report.sh"
 ```
 

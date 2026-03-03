@@ -10,7 +10,7 @@
 
 | 항목 | 값 |
 |------|-----|
-| 서버 | rfree-0009.cafe24.com (114.207.244.86) |
+| 서버 | rfree-0009.cafe24.com ([MASKED_IP]) |
 | V2 DB | MySQL 8.0 (newtalk_v2, :3307) |
 | 라우트 파일 | /srv/newtalk-v2/src/routes/api.php |
 | 마이그레이션 경로 | /srv/newtalk-v2/src/database/migrations/ (→ /srv/newtalk-v2/database/migrations/ 심볼릭) |

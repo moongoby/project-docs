@@ -3,8 +3,8 @@ project: AADS
 task_id: CUR-AADS-PHASE2-MCP-LIVE-005
 completed_at: 2026-03-03T07:22:13 KST
 status: BLOCKED
-executor_server: kis-autotrade-v4 (10.0.1.6)
-target_server: 68.183.183.11
+executor_server: kis-autotrade-v4 ([MASKED_IP])
+target_server: [MASKED_IP]
 ---
 
 # CUR-AADS-PHASE2-MCP-LIVE-005 실행 결과 보고
@@ -17,7 +17,7 @@ target_server: 68.183.183.11
 
 ## 실행 차단 사유: SSH 접근 불가
 
-현재 실행 환경(kis-autotrade-v4, `10.0.1.6`)에서 AADS 대상 서버(`68.183.183.11`)로 SSH 연결 시도한 결과:
+현재 실행 환경(kis-autotrade-v4, `[MASKED_IP]`)에서 AADS 대상 서버(`[MASKED_IP]`)로 SSH 연결 시도한 결과:
 
 ```
 Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password)
@@ -40,9 +40,9 @@ Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password)
 
 ## 필요 조치
 
-AADS 서버(`68.183.183.11`)에서 이 작업을 수행하려면 아래 중 하나가 필요합니다:
+AADS 서버(`[MASKED_IP]`)에서 이 작업을 수행하려면 아래 중 하나가 필요합니다:
 
-1. **SSH 키 등록**: `68.183.183.11`의 `~/.ssh/authorized_keys`에 현재 서버 공개키 추가
+1. **SSH 키 등록**: `[MASKED_IP]`의 `~/.ssh/authorized_keys`에 현재 서버 공개키 추가
 2. **직접 실행**: AADS 서버에서 Claude 에이전트를 직접 실행
 3. **Genspark AADS 환경**: 해당 지시서는 AADS 서버 로컬에서 처리되어야 함
 

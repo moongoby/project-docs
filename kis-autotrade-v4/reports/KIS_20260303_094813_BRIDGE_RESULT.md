@@ -71,7 +71,7 @@ open_positions: 14
 
 ### 진단
 - `DB_PARAMS.password`: `os.getenv("DB_PASSWORD", "")` — 기본값 빈 문자열
-- `.env`에 `DB_PASSWORD=KisAuto2026!Secure` 존재 → cron 실행 시 env 미로드
+- `.env`에 `DB_PASSWORD=[MASKED]` 존재 → cron 실행 시 env 미로드
 - 실제 테스트 시 추가 오류 발견:
   ```
   PermissionError: [Errno 13] Permission denied:
@@ -80,8 +80,8 @@ open_positions: 14
 - claudebot은 `/root/kis-autotrade-v4/` 쓰기 권한 없음
 
 ### 필요 조치 (root/go100user)
-1. `monitor_virtual_run.py:26`: `os.getenv("DB_PASSWORD", "KisAuto2026!Secure")`로 기본값 수정
-2. 또는 cron에 `DB_PASSWORD=KisAuto2026!Secure` 추가
+1. `monitor_virtual_run.py:26`: `os.getenv("DB_PASSWORD", "[MASKED]")`로 기본값 수정
+2. 또는 cron에 `DB_PASSWORD=[MASKED]` 추가
 3. `/root/kis-autotrade-v4/reports/daily/` 디렉토리 권한 확인 (claudebot 쓰기 필요 시)
 
 ---

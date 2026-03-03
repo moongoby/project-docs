@@ -8,24 +8,24 @@ status: CANNOT_EXECUTE
 # CUR-AADS-PHASE2-POLISH-004 실행 결과
 
 ## 실행 서버 정보
-- 현재 서버 IP: 10.0.1.6 (kis-autotrade-v4)
-- 지시서 대상 서버: 68.183.183.11 (AADS 서버)
+- 현재 서버 IP: [MASKED_IP] (kis-autotrade-v4)
+- 지시서 대상 서버: [MASKED_IP] (AADS 서버)
 
 ## 실행 불가 사유
 
-지시서에 명시된 `/root/aads/` 디렉터리가 **현재 서버(10.0.1.6)에 존재하지 않습니다**.
+지시서에 명시된 `/root/aads/` 디렉터리가 **현재 서버([MASKED_IP])에 존재하지 않습니다**.
 
 ```
 $ ls /root/aads/
 NOT FOUND
 ```
 
-이 Claude 에이전트는 현재 **kis-autotrade-v4 서버(10.0.1.6)** 에서 실행 중이며,
-AADS 프로젝트(aads-server, aads-dashboard, aads-docs)는 **별도 서버(68.183.183.11)** 에 위치합니다.
+이 Claude 에이전트는 현재 **kis-autotrade-v4 서버([MASKED_IP])** 에서 실행 중이며,
+AADS 프로젝트(aads-server, aads-dashboard, aads-docs)는 **별도 서버([MASKED_IP])** 에 위치합니다.
 
 ## 작업 내용 (미실행)
 
-아래 작업들은 68.183.183.11 서버에서 직접 실행해야 합니다:
+아래 작업들은 [MASKED_IP] 서버에서 직접 실행해야 합니다:
 
 1. **Step 1 - auth.py 보안 강화**
    - `hmac.compare_digest` 사용 (타이밍 공격 방지)
@@ -61,7 +61,7 @@ AADS 프로젝트(aads-server, aads-dashboard, aads-docs)는 **별도 서버(68.
 
 ## 권고 사항
 
-68.183.183.11 서버에서 Cursor 또는 Claude 에이전트를 실행하여 해당 지시서를 실행하십시오.
+[MASKED_IP] 서버에서 Cursor 또는 Claude 에이전트를 실행하여 해당 지시서를 실행하십시오.
 또는 이 서버에서 SSH를 통해 원격 실행이 가능한 경우 별도 승인 필요.
 
 ## 완료 체크포인트
