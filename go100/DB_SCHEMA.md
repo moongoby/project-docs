@@ -1,35 +1,79 @@
 # GO100 데이터베이스 스키마
-> 최종 업데이트: 2026-02-23 | 문서 버전: v1.0
+> 최종 업데이트: 2026-03-03 | 문서 버전: v1.3
 
 ## 1. 접속 정보
 - DB: kisautotrade
 - User: kis_admin
 - Host: localhost:5432
 
-## 2. 전체 테이블 목록 + 행수 (public 스키마, 일부)
-| table_name | row_count |
-|------------|-----------|
-| account_rate_quotas | 7 |
-| account_snapshots | 466 |
-| accounts | 7 |
-| go100_account_reconciliation | 0 |
-| go100_backtest_runs | 0 |
-| go100_desk_allocation | 2 |
-| go100_fit_analysis | 40 |
-| go100_orders | 0 |
-| go100_portfolio_snapshots | 0 |
-| go100_portfolios | 0 |
-| go100_positions | 0 |
-| go100_risk_disclaimers | 0 |
-| go100_strategy_cards | 3 |
-| go100_trades | 0 |
-| strategy_cards | 62 |
-| users | 12 |
-| v4_users | 4 |
-| v4_positions | 24 |
-| ... | (기타 v4_*, backtest, ohlcv 등 100개 이상) |
+## 2. 전체 테이블 목록 + 행수 (2026-03-03 기준, 주요 테이블)
+
+| table_name | row_count | size | 비고 |
+|------------|-----------|------|------|
+| **go100_news_items** | **2,253,947** | **2,011 MB** | 뉴스/공시 (2020~현재 백필 중) |
+| ohlcv_daily | 2,619,583 | 806 MB | 일봉 OHLCV |
+| v4_investor_daily | 279,685 | 194 MB | 수급 데이터 |
+| go100_gap_calibrator | 108,574 | 33 MB | 갭 캘리브레이터 |
+| go100_fundamentals_pit | 30,917 | 5,952 kB | 재무 PIT |
+| go100_data_integrity_log | 22,456 | 5,696 kB | 데이터 무결성 로그 |
+| go100_delisted_ohlcv | 24,127 | 4,336 kB | 상장폐지 종목 OHLCV |
+| go100_fundamentals | 2,720 | 1,904 kB | 기업 재무 |
+| go100_sector_price | 7,047 | 1,232 kB | 섹터 가격 |
+| v4_market_regime_daily | 1,116 | 552 kB | 시장 레짐 |
+| go100_sector_correlation | 1,624 | 536 kB | 섹터 상관관계 |
+| go100_strategy_cards | 42 | 296 kB | 전략 카드 |
+| go100_global_market | 297 | 216 kB | 글로벌 시장 |
+| go100_user_memory | 47 | 200 kB | AI 에이전트 메모리 |
+| go100_backtest_runs | 20 | 192 kB | 백테스트 실행 이력 |
+| go100_reports | 316 | 168 kB | 보고서 |
+| go100_trades | 1 | 104 kB | 체결 이력 |
+| go100_orders | 1 | 96 kB | 주문 이력 |
+| go100_live_orders | 14 | 96 kB | 실시간 주문 |
+| accounts | 7 | — | 계좌 (KIS/키움) |
+| strategy_cards (레거시) | 62 | — | V4 레거시 |
 
 ## 3. GO100 테이블 상세
+
+### go100_news_items ★ (2026-03-03 신규 문서화)
+> KIS OpenAPI `FHKST01011800` 뉴스/공시 수집 데이터
+
+| column_name | data_type | nullable | 설명 |
+|-------------|-----------|----------|------|
+| id | bigint | NO | PK (auto increment) |
+| srno | varchar(30) | NO | 뉴스 일련번호 (UNIQUE) |
+| provider_code | varchar(2) | NO | 언론사 코드 (6=연합, A=매경, 2=한경 등) |
+| provider_name | varchar(30) | YES | 언론사명 |
+| data_date | date | NO | 뉴스 날짜 |
+| data_time | time | NO | 뉴스 시각 |
+| title | text | NO | 뉴스 제목 |
+| category_code | varchar(20) | YES | 카테고리 코드 |
+| stock_code1~3 | varchar(12) | YES | 연관 종목 코드 (최대 3개) |
+| stock_name1~3 | varchar(40) | YES | 연관 종목명 (최대 3개) |
+| is_disclosure | boolean | YES | 공시 여부 (F/G/H/I/N 채널) |
+| raw_json | jsonb | YES | API 원본 JSON 전체 |
+| collected_at | timestamptz | YES | 수집 시각 |
+
+**인덱스**:
+- PK: `id`
+- UNIQUE: `srno`
+- `idx_go100_news_date`: `data_date DESC`
+- `idx_go100_news_stock`: `stock_code1` (not null)
+- `idx_go100_news_disclosure`: `(is_disclosure, data_date DESC)` WHERE is_disclosure=true
+
+**수집 현황** (2026-03-03):
+- 총 건수: 2,253,947건 (백필 진행 중, 완료 시 ~750만건 예상)
+- 범위: 2024-07-15 ~ 2026-03-02 (백필 완료 시 2020-01-02~)
+- 공시: 159,467건, 언론사: 26개사
+- 크기: 2,011 MB
+
+**수집 체계**:
+- 일일: 매 평일 17:10 크론 (`scripts/cron/collect_news_daily.sh`)
+- 주간 보정: 매주 일요일 02:00 크론 (`scripts/cron/backfill_news_missing.sh`)
+- 과거 백필: `scripts/cron/backfill_news_history.sh` (2020-01-02~)
+
+**뉴스 본문**: KIS OpenAPI 미제공 (404), 키움 REST 미지원 — 제목만 수집 가능
+
+---
 
 ### go100_strategy_cards
 | column_name | data_type | is_nullable | column_default |
