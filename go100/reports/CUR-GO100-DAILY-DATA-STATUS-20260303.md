@@ -91,11 +91,27 @@
 
 ---
 
-## 5. 잔여 과제
+## 5. 크론 등록 조치 (2026-03-03 완료)
+
+| 항목 | 스크립트 | 스케줄 | 상태 |
+|------|----------|--------|------|
+| v4_market_regime_daily 일일 업데이트 | `scripts/cron/update_regime_daily.sh` | 매 평일 17:20 | ✅ 크론 등록 완료 |
+| go100_sector_price 일일 업데이트 | `scripts/cron/update_sector_price.sh` | 매 평일 17:25 | ✅ 크론 등록 완료 |
+
+**의존성 순서**:
+```
+15:45 index_daily → 15:50 VKOSPI → 16:00 ohlcv_daily → 16:50 investor_daily
+→ 17:20 regime_daily ← (신규)
+→ 17:25 sector_price ← (신규)
+```
+
+**테스트 실행 결과**:
+- `update_regime_daily.sh`: 정상 (이미 최신이므로 0건 삽입)
+- `update_sector_price.sh`: 정상 (이미 최신이므로 0건 삽입)
+
+## 6. 잔여 과제
 
 | 항목 | 내용 |
 |------|------|
-| v4_market_regime_daily 크론 등록 | 매일 장마감 후 자동 업데이트 크론 미등록 상태 |
-| go100_sector_price 크론 등록 | 매일 장마감 후 자동 업데이트 크론 미등록 상태 |
 | 뉴스 백필 완료 | 2023-03 구간 진행 중, 2020-01-02까지 완료 예정 |
 | go100_global_market 03-03 | 2026-03-04 아침 크론에서 자동 수집 예정 |
