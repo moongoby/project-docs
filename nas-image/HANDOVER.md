@@ -1,5 +1,5 @@
 # HANDOVER – NAS Image Auto (newtalk-image-auto) 
-> 최종 업데이트: 2026-03-03 (v1.3 — P4-A-CROP 완료 반영) 
+> 최종 업데이트: 2026-03-03 (v1.4 — P4-B-TONE 완료) 
 > 관리자: CEO (moongoby) 
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기 
  
@@ -68,7 +68,7 @@ CDN (DigitalOcean Spaces)
 | Task ID | 상태 | 내용 | 
 |---------|------|------| 
 | P4-A-CROP | **완료** | MediaPipe Pose 1:1/3:4 크롭 — 커밋 ecc7e2e | 
-| P4-B-TONE | 개발 중 | 자동 톤/노출/색감 보정 | 
+| P4-B-TONE | **완료** | 8프리셋+10%clamp+sidecar, pytest 7 PASS (4459d68) | 자동 톤/노출/색감 보정 | 
 | P4-C-RETOUCH | 지시서 발행 | 체형/피부 AI 보정 | 
 | P4-D-INTRO | **완료** | 인트로 이미지 AI 생성 (템플릿 A~E) — 커밋 e2f115f | 
 | P4-E-DEPLOY | **스캐폴딩 완료** | 리네임+CDN dry-run+DB mock — 커밋 fdd521e (실배포 CEO 승인 필요) | 
