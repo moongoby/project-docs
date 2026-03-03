@@ -42,8 +42,8 @@
 
 ### 2-4. `.env` 추가
 ```
-ALERT_EMAIL_FROM=moongoby@gmail.com
-ALERT_EMAIL_TO=moongoby@gmail.com
+ALERT_EMAIL_FROM=[MASKED_EMAIL]
+ALERT_EMAIL_TO=[MASKED_EMAIL]
 # ALERT_EMAIL_PASSWORD=<Gmail_App_Password_여기_입력>
 ```
 > Gmail App Password 설정 필요: https://myaccount.google.com/apppasswords

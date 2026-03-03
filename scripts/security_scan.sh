@@ -17,7 +17,8 @@ IPS=$(grep -rn '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' \
   "$REPO_DIR" --include="*.md" --include="*.sh" --include="*.py" \
   | grep -v "\.git/" \
   | grep -v "0\.0\.0\.0\|127\.0\.0\.1\|255\." \
-  | grep -v "\[.*-IP\]\|\[ROUTER\]\|\[INTERNAL\]\|\[NAS\]\|\[SERVER\]\|\[CDN\]\|\[ADMIN")
+  | grep -v "\[.*-IP\]\|\[ROUTER\]\|\[INTERNAL\]\|\[NAS\]\|\[SERVER\]\|\[CDN\]\|\[ADMIN" \
+  | grep -v "user_agent\|User-Agent\|Mozilla\|Chrome\|Safari\|AppleWebKit\|Windows NT")
 if [ -n "$IPS" ]; then
   echo "[FAIL] IP 주소 노출:"
   echo "$IPS"

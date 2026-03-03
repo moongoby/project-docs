@@ -160,4 +160,4 @@ $ bash run_pending.sh KIS
 - [x] 코드 수정 완료 (genspark_bridge.py + run_pending.sh)
 - [ ] project-docs 보고서 push 완료 (진행 중)
 
-HANDOVER.md 업데이트 완료: {커밋해시 — push 후 기재}
+HANDOVER.md 업데이트 완료: 50bd69a
