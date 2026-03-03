@@ -1,5 +1,5 @@
 # HANDOVER – NAS Image Auto (newtalk-image-auto) 
-> 최종 업데이트: 2026-03-02 (v1.2 — P4-E-DEPLOY 스캐폴딩 완료 반영) 
+> 최종 업데이트: 2026-03-03 (v1.3 — P4-A-CROP 완료 반영) 
 > 관리자: CEO (moongoby) 
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기 
  
@@ -59,6 +59,7 @@ CDN (DigitalOcean Spaces)
 | P3-BATCH-RUN | 02-28 | ✓ | — | 31개 코디 배치 완료 (시크블랙14+리엘라17+α), 타임아웃3건 재실행 성공 | 
 | P4-D-INTRO | 03-02 | e2f115f | 200 | 인트로 이미지 AI 생성 모듈: 템플릿 A~E, Gemini 카피, 배치, pytest 18 PASS | 
 | P4-E-DEPLOY | 03-02 | fdd521e | 200 | 리네임+CDN dry-run+DB mock 파이프라인: rename_map.json, pytest 17 PASS (실배포 CEO 승인 대기) | 
+| P4-A-CROP | 03-03 | ecc7e2e | 200 | MediaPipe Pose 1:1/3:4 크롭, HEIC 지원, fallback, pytest 15 PASS | 
  
 --- 
  
@@ -66,7 +67,7 @@ CDN (DigitalOcean Spaces)
  
 | Task ID | 상태 | 내용 | 
 |---------|------|------| 
-| P4-A-CROP | 개발 중 | 자동 크롭 (MediaPipe Pose, 1:1/3:4) | 
+| P4-A-CROP | **완료** | MediaPipe Pose 1:1/3:4 크롭 — 커밋 ecc7e2e | 
 | P4-B-TONE | 개발 중 | 자동 톤/노출/색감 보정 | 
 | P4-C-RETOUCH | 지시서 발행 | 체형/피부 AI 보정 | 
 | P4-D-INTRO | **완료** | 인트로 이미지 AI 생성 (템플릿 A~E) — 커밋 e2f115f | 
@@ -164,3 +165,4 @@ CDN (DigitalOcean Spaces)
 | v1.0 | 2026-02-28 | 초판 — P1~P3 완료, P4 지시서 발행, 인프라/파일명/DB 구조 문서화 | 
 | v1.1 | 2026-03-02 | P4-D-INTRO 완료 반영, P4-A/B/114-API 개발 중 상태 갱신 | 
 | v1.2 | 2026-03-02 | P4-E-DEPLOY 스캐폴딩 완료 반영 (dry-run/mock, fdd521e) | 
+| v1.3 | 2026-03-03 | P4-A-CROP 완료 반영 (MediaPipe 1:1/3:4, ecc7e2e) | 
