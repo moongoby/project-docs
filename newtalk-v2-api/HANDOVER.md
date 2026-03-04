@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.7.0
-**최종수정**: 2026-03-04 KST (지시서 완료 검증 — INTEGRATION-CHECK-001·API-TEST-001 확인, Bridge 환경 오류 발견)
+**버전**: 4.8.0
+**최종수정**: 2026-03-04 KST (SERVICE-FIX-001 완료 — 3개 서비스 구현, 500 에러 7건 해소)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -148,6 +148,7 @@ outsource@newtalk.kr (외주)
 | R5-B3-MIGRATE-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 마이그레이션 — 거래처+스토리+AI추천+셀러채널 10테이블, 87→97테이블 |
 | ROUTE-CONNECT-B3-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 라우트 연결 — 25EP, 178→203라우트 |
 | INTEGRATION-CHECK-001 | 2026-03-03 | — | — | 203라우트 전수 검사: 컨트롤러 28/33 실구현, Service 3개 미구현(500 에러 7건), 모델 fillable 2개 즉시 수정 완료 |
+| SERVICE-FIX-001 | 2026-03-04 | v4.8.0 | 0f1de87 | DropshipService·FulfillmentService·ContentPipelineService 구현 — 500 에러 7건 → 200 완전 해소 |
 | API-TEST-001 | 2026-03-03 | — | 8c4b0e1 | 스모크 테스트(203라우트): PASS 45/53, 500에러 7건(DropshipService·FulfillmentService·ContentPipelineService 미구현), Feature Test 20/20 PASS |
 
 ---
@@ -166,7 +167,7 @@ outsource@newtalk.kr (외주)
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
-| SERVICE-FIX-001 (DropshipService·FulfillmentService·ContentPipelineService 스텁 구현) | NTV2 서버(rfree-009) 직접 접근 환경 구성 | P0 즉시 |
+| ~~SERVICE-FIX-001~~ | ~~완료~~ | ~~P0 즉시~~ |
 | SEEDER-001 | NTV2 서버(rfree-009) 직접 접근 환경 구성 | P0 즉시 |
 | V1-HOTFIX-001 | CEO 승인 | P0 즉시 |
 | VERIFY-AND-SYNC-001 | — | P1 단기 |
@@ -209,7 +210,7 @@ outsource@newtalk.kr (외주)
   - PASS 45/53, 500에러 7건(DropshipService·FulfillmentService·ContentPipelineService), Feature Test 20/20 PASS
 
 **미완료/미실행 지시서:**
-- SERVICE-FIX-001: ❌ 미완료 (KIS 서버에서 실행됨, 보고서 없음)
+- SERVICE-FIX-001: ✅ 완료 (0f1de87, 2026-03-04 — 114서버 Claude Code 직접 실행)
 - SEEDER-001: ❌ 미완료 (KIS 서버에서 실행됨, 보고서 없음)
 - VERIFY-AND-SYNC-001: ❌ 미실행
 - DOCS-SYNC-002: ❌ 미실행
@@ -226,8 +227,8 @@ outsource@newtalk.kr (외주)
 - V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2~4 CEO 승인 대기
 
 ### 웹 Claude가 해야 할 일
-1. **[P0 긴급]** NTV2 서버(rfree-009) 직접 접근 환경 구성 → SERVICE-FIX-001 재실행
-2. **[P0 긴급]** SEEDER-001 NTV2 서버에서 재실행
+1. ~~[P0 긴급] NTV2 서버(rfree-009) 직접 접근 환경 구성 → SERVICE-FIX-001 재실행~~ **완료**
+2. **[P0 긴급]** SEEDER-001 NTV2 서버(server-114)에서 실행 (`ssh server-114` 접근 가능)
 3. **[P0 긴급]** V1-HOTFIX-001 CEO 승인 후 실행
 4. VERIFY-AND-SYNC-001, DOCS-SYNC-002 실행 (P1)
 5. FRONTEND-AUDIT-001 실행 (P1)
@@ -235,8 +236,8 @@ outsource@newtalk.kr (외주)
 7. R5 기획 착수 (CEO 확정 후, P2)
 
 ### 대표님 확인 필요 사항
-1. **[긴급]** Bridge 환경 오류: Cursor가 NTV2 서버(rfree-009)가 아닌 KIS 서버에서 실행 중 → NTV2 서버에서 Claude Code 실행 환경 구성 필요
-2. SERVICE-FIX-001·SEEDER-001 재실행 승인
+1. ~~[긴급] Bridge 환경 오류~~ **해소** — 114서버 Claude Code가 server-114(~/.ssh/config)로 직접 SSH 접근 가능 확인. SERVICE-FIX-001 완료됨.
+2. SEEDER-001 실행 승인 (server-114 접근 환경 이미 구성됨)
 3. V1-HOTFIX-001 내용 및 실행 승인
 4. V1-FIX-001 Phase 2 승인: V1 DB DO URL 치환 진행 여부
 5. R5 기획 범위·일정 확정
