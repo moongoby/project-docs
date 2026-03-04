@@ -205,12 +205,12 @@
 ## 4. 핵심 발견 (누적)
 
 - E2E 23/23 PASS (전 구간 통과)
-- Agent 도구 50개, 스크리닝 필터 35+
+- Agent 도구 57개, 스크리닝 필터 35+
 - 갭 데이터 108,574건 (go100_gap_calibrator)
 - 포트폴리오 최적화: Markowitz Sharpe 4.63, Risk Parity Sharpe 4.06
 - 리스크 엔진: pre-trade 4종 체크 + 일일 P&L 한도 + Kill Switch
 - 자기리뷰: 주간/월간 자동 성과 평가 + 개선안 생성
-- DB migration 035~047 (12개 테이블)
+- DB migration 035~048 (13개 테이블)
 - 크론 63+ 라인 활성
 - AI Feature Pipeline: DUAL_FLOW_20D, SMALL_CAP_QUALITY, THEME_CYCLE, MarketRegimeEncoder(Q1~Q4) 구현
 - Parquet Feature Store: data/go100/features/ 경로, 20개 피처 + 3개 라벨
@@ -252,7 +252,7 @@
 | 컨텍스트·로드맵 | go100/CONTEXT.md, go100/ROADMAP.md |
 | Agent 도구 | backend/app/services/go100/ai/agent_tools.py, tool_executors.py |
 | 리스크·주문 | backend/app/services/go100/risk_engine.py, kis_order_gateway.py |
-| 마이그레이션 | backend/migrations/035_* ~ 047_* |
+| 마이그레이션 | backend/migrations/035_* ~ 048_* |
 | 검증 스크립트 | scripts/go100/test_risk_engine_p6_1.py, test_kis_order_gateway.py |
 | AI Feature Engine | backend/app/services/go100/ai/feature_engine.py |
 | AI Feature Store | backend/app/services/go100/ai/feature_store.py |
@@ -300,7 +300,8 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 4. go100/CONTEXT.md, ROADMAP.md (v10 기준)
 5. go100/CEO-DIRECTIVES.md
 6. P6-2·Batch 6·7 관련 보고서 (CUR-GO100-*, DESK2-* 등)
-7. HANDOVER-20260228-V10.md (아카이브)
+7. HANDOVER-20260303-V11.md (아카이브 — v12 직전 스냅샷)
+8. HANDOVER-20260228-V10.md (아카이브)
 
 ---
 
@@ -379,7 +380,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v10.0 | 02-28 | Batch 6·7 반영, 진행률 85% |
 | v10.1 | 02-28 | 단일 파일 통합, 테이블 표준화, 핵심 발견·보류·웹 Claude 절차·버전 이력 추가 |
 | v10.2 | 03-01 | Batch 8 AI LightGBM V2 학습 반영, 모델 경로·다음 작업 추가 |
-| v10.4 | 03-02 | [SHARED] DB 스키마 카탈로그 통합(246테이블+8뷰=254, go100_* 65개 포함), 자동최신화 cron |
+| v10.4 | 03-02 | [SHARED] DB 스키마 카탈로그 통합(246테이블+8뷰=254, go100_* 70개 포함), 자동최신화 cron |
 | v10.3 | 03-01 | AI 보완판: 3-Fold WF, EDA, 다중타겟 회귀 3종, MFE_60MIN 실전 수준 확인 |
 | v10.5 | 03-02 | genspark_bridge.py 3종 버그 수정, 백억이 총괄매니저 세션 시작 보고 완료 |
 | v10.6 | 03-02 | P6-EXTRA-VERIFY PASS + P7-1 QA PASS(95/100): risk_engine async_generator 버그 수정, E2E 검증 완료, Agent도구 52개 확인, Phase 6 게이트 완전 통과, 진행률 90% |
