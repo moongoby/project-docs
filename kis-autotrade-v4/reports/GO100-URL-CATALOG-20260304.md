@@ -3,71 +3,70 @@
 > 작성일: 2026-03-04
 > 태스크: CUR-GO100-URL-CATALOG-001
 > 도메인: https://go100.newtalk.kr
+> **검증 방법: 서버 로컬 curl + 외부 HTTPS 직접 접속 테스트 완료**
 
 ---
 
-## 1. 프론트엔드 페이지 URL (총 52개)
+## 1. 프론트엔드 페이지 URL — 실제 접속 테스트 결과
 
-### 1.1 Public 페이지 (인증 불필요) — 8개
+### 1.1 Public 페이지 (인증 불필요) — 8개 전체 OK
 
-| # | URL | 설명 |
-|---|-----|------|
-| 1 | `/` | 홈 → 로그인/대시보드 리다이렉트 |
-| 2 | `/auth/login` | 로그인 (이메일, 카카오, 네이버, 구글) |
-| 3 | `/auth/signup` | 회원가입 |
-| 4 | `/auth/forgot-password` | 비밀번호 찾기 |
-| 5 | `/auth/callback` | OAuth 콜백 핸들러 |
-| 6 | `/terms` | 이용약관 |
-| 7 | `/privacy` | 개인정보처리방침 |
-| 8 | `/offline` | 오프라인 폴백 |
+| # | URL | HTTP | HTTPS 외부 | 설명 |
+|---|-----|------|-----------|------|
+| 1 | `/` | **200** | **200** | 홈 → 로그인/대시보드 리다이렉트 |
+| 2 | `/auth/login` | **200** | **200** | 로그인 (이메일, 카카오, 네이버, 구글) |
+| 3 | `/auth/signup` | **200** | **200** | 회원가입 |
+| 4 | `/auth/forgot-password` | **200** | - | 비밀번호 찾기 |
+| 5 | `/auth/callback` | **200** | - | OAuth 콜백 핸들러 |
+| 6 | `/terms` | **200** | **200** | 이용약관 |
+| 7 | `/privacy` | **200** | **200** | 개인정보처리방침 |
+| 8 | `/offline` | **200** | - | 오프라인 폴백 |
 
-### 1.2 GO100 코어 페이지 (인증 필요) — 14개
+### 1.2 GO100 코어 페이지 (인증 필요) — 11개 전체 OK (307→로그인 리다이렉트 정상)
 
-| # | URL | 설명 |
-|---|-----|------|
-| 1 | `/go100` | → `/dashboard` 리다이렉트 |
-| 2 | `/go100/dashboard` | GO100 트레이딩 실시간 대시보드 |
-| 3 | `/go100/strategies` | 내 전략 목록 |
-| 4 | `/go100/strategies/[id]` | 전략 상세 (초보자 친화 UI) |
-| 5 | `/go100/store` | 전략 마켓플레이스 |
-| 6 | `/go100/paper-trading` | 모의투자 목록 |
-| 7 | `/go100/paper-trading/[id]` | 모의투자 상세 |
-| 8 | `/go100/live-trading` | 실거래 목록 |
-| 9 | `/go100/live-trading/[id]` | 실거래 상세 |
-| 10 | `/go100/chat` | AI 채팅 → `/llm` 리다이렉트 |
-| 11 | `/go100/portfolio` | GO100 포트폴리오 |
-| 12 | `/go100/notifications` | GO100 알림 |
-| 13 | `/go100/settings` | GO100 설정 (리스크 프로필) |
+| # | URL | HTTP | 동작 | 설명 |
+|---|-----|------|------|------|
+| 1 | `/go100` | **307** | → `/auth/login` | 리다이렉트 정상 |
+| 2 | `/go100/dashboard` | **307** | → `/auth/login` | GO100 트레이딩 실시간 대시보드 |
+| 3 | `/go100/strategies` | **307** | → `/auth/login` | 내 전략 목록 |
+| 4 | `/go100/strategies/[id]` | **307** | → `/auth/login?from=...` | 전략 상세 (초보자 친화 UI) |
+| 5 | `/go100/store` | **307** | → `/auth/login` | 전략 마켓플레이스 |
+| 6 | `/go100/paper-trading` | **307** | → `/auth/login` | 모의투자 목록 |
+| 7 | `/go100/live-trading` | **307** | → `/auth/login` | 실거래 목록 |
+| 8 | `/go100/chat` | **307** | → `/auth/login` | AI 채팅 → `/llm` 리다이렉트 |
+| 9 | `/go100/portfolio` | **307** | → `/auth/login` | GO100 포트폴리오 |
+| 10 | `/go100/notifications` | **307** | → `/auth/login` | GO100 알림 |
+| 11 | `/go100/settings` | **307** | → `/auth/login` | GO100 설정 (리스크 프로필) |
+| 12 | `/go100/trading/dashboard` | **307** | → `/auth/login` | 트레이딩 대시보드 (NEW) |
 
-### 1.3 공통 페이지 (인증 필요) — 7개
+### 1.3 공통 페이지 — 혼합 결과
 
-| # | URL | 설명 |
-|---|-----|------|
-| 1 | `/dashboard` | 메인 대시보드 |
-| 2 | `/portfolio` | 포트폴리오 요약 |
-| 3 | `/trade` | 자동매매 (V4) |
-| 4 | `/stock/[code]` | 종목 상세 |
-| 5 | `/llm` | AI 챗 (백억이) |
-| 6 | `/notifications` | 알림센터 |
-| 7 | `/settings` | 사용자 설정 |
+| # | URL | HTTP | 동작 | 설명 |
+|---|-----|------|------|------|
+| 1 | `/dashboard` | **307** | → `/auth/login` | 메인 대시보드 (인증 필수) |
+| 2 | `/portfolio` | **200** | 직접 렌더링 | 포트폴리오 요약 |
+| 3 | `/trade` | **200** | 직접 렌더링 | 자동매매 (V4) |
+| 4 | `/stock/[code]` | **200** | 직접 렌더링 | 종목 상세 (예: /stock/005930) |
+| 5 | `/llm` | **307** | → `/auth/login` | AI 챗 (백억이, 인증 필수) |
+| 6 | `/notifications` | **200** | 직접 렌더링 | 알림센터 |
+| 7 | `/settings` | **200** | 직접 렌더링 | 사용자 설정 |
 
-### 1.4 프리미엄/관리자 전용 — 11개
+### 1.4 프리미엄/관리자 전용
 
-| # | URL | 권한 | 설명 |
-|---|-----|------|------|
-| 1 | `/accounts` | PREMIUM+ | 계좌 관리 |
-| 2 | `/strategy-cards` | PREMIUM+ | 전략카드 (V4) |
-| 3 | `/backtest` | PREMIUM+ | 백테스트 실행 |
-| 4 | `/backtest/analysis` | PREMIUM+ | 백테스트 분석 |
-| 5 | `/monitoring` | PREMIUM+ | 시스템 모니터링 |
-| 6 | `/monitoring/data-collection` | PREMIUM+ | 데이터수집 모니터 |
-| 7 | `/reports` | PREMIUM+ | 트레이딩 리포트 |
-| 8 | `/admin` | ADMIN | 관리자 대시보드 |
-| 9 | `/admin/backtest` | ADMIN | 관리자 백테스트 |
-| 10 | `/admin/backtest/[sessionId]` | ADMIN | 백테스트 세션 상세 |
-| 11 | `/admin/backtest/charts` | ADMIN | 백테스트 차트 |
+| # | URL | HTTP | 동작 | 설명 |
+|---|-----|------|------|------|
+| 1 | `/accounts` | **307** | → `/auth/login` | 계좌 관리 (인증 필수) |
+| 2 | `/strategy-cards` | **307** | → `/auth/login` | 전략카드 (인증 필수) |
+| 3 | `/backtest` | **200** | 직접 렌더링 | 백테스트 실행 |
+| 4 | `/backtest/analysis` | **200** | 직접 렌더링 | 백테스트 분석 |
+| 5 | `/monitoring` | **200** | 직접 렌더링 | 시스템 모니터링 |
+| 6 | `/monitoring/data-collection` | **200** | 직접 렌더링 | 데이터수집 모니터 |
+| 7 | `/reports` | **200** | 직접 렌더링 | 트레이딩 리포트 |
+| 8 | `/admin` | **307** | → `/auth/login` | 관리자 대시보드 (인증 필수) |
+| 9 | `/admin/backtest` | **307** | → `/auth/login` | 관리자 백테스트 (인증 필수) |
+| 10 | `/admin/backtest/charts` | **307** | → `/auth/login` | 백테스트 차트 (인증 필수) |
 
-### 1.5 관리자 상세 페이지 — 3개
+### 1.5 관리자 상세 페이지 (동적 라우트)
 
 | # | URL | 설명 |
 |---|-----|------|
@@ -359,45 +358,92 @@ go100.newtalk.kr (HTTPS)
 
 ---
 
-## 6. 요약 통계
+## 6. 백엔드 API 접속 테스트 결과 (localhost:8002)
+
+| Path | HTTP | 비고 |
+|------|------|------|
+| `/api/go100/me` | **401** | 인증 필요 (정상) |
+| `/api/go100/dashboard/summary` | **401** | 인증 필요 (정상) |
+| `/api/go100/strategy-cards` | **401** | 인증 필요 (정상) |
+| `/api/go100/paper-trading` | **307** | 리다이렉트 (정상) |
+| `/api/go100/live-trading` | **307** | 리다이렉트 (정상) |
+| `/api/go100/backtest` | **401** | 인증 필요 (정상) |
+| `/api/go100/risk/defaults/medium` | **200** | Public 엔드포인트 |
+| `/api/go100/notifications` | **401** | 인증 필요 (정상) |
+| `/api/go100/reports` | **401** | 인증 필요 (정상) |
+| `/api/go100/portfolios` | **401** | 인증 필요 (정상) |
+| `/api/go100/goals` | **401** | 인증 필요 (정상) |
+| `/api/go100/scheduler/status` | **401** | 인증 필요 (정상) |
+| `/api/go100/commander/status` | **401** | 인증 필요 (정상) |
+| `/api/go100/briefing/latest` | **401** | 인증 필요 (정상) |
+| `/api/v1/trading/dashboard/summary` | **401** | 인증 필요 (정상) |
+| `/api/v1/trading/dashboard/positions` | **401** | 인증 필요 (정상) |
+| `/api/v1/trading/dashboard/orders` | **401** | 인증 필요 (정상) |
+| `/api/go100/notifications/stream` | **401** | SSE, 인증 필요 (정상) |
+| `/health` | **200** | 헬스체크 정상 |
+| `/monitor/health` | **404** | V4.1 포트(8003)에서만 가능 |
+
+---
+
+## 7. 요약 통계
 
 | 항목 | 수치 |
 |------|------|
-| 프론트엔드 페이지 | **52개** |
+| 프론트엔드 페이지 | **43개** (빌드 출력 기준) |
 | 백엔드 라우터 | **22개** |
 | API 엔드포인트 | **150+개** |
 | SSE 스트림 | **2채널** |
-| API 연동률 | **97%** |
-| 인증 방식 | JWT (자동갱신, 401 리다이렉트) |
+| 인증 방식 | JWT (자동갱신, 307 리다이렉트) |
 
 ---
 
-## 7. 브라우저 접근 경로 (Full URL)
+## 8. 브라우저 접근 경로 (Full URL) — 실제 확인 완료
 
 ### 일반 사용자 주요 경로
-| 경로 | Full URL |
-|------|----------|
-| 로그인 | `https://go100.newtalk.kr/auth/login` |
-| 대시보드 | `https://go100.newtalk.kr/dashboard` |
-| GO100 대시보드 | `https://go100.newtalk.kr/go100/dashboard` |
-| 내 전략 | `https://go100.newtalk.kr/go100/strategies` |
-| 전략 마켓 | `https://go100.newtalk.kr/go100/store` |
-| 모의투자 | `https://go100.newtalk.kr/go100/paper-trading` |
-| 실거래 | `https://go100.newtalk.kr/go100/live-trading` |
-| 포트폴리오 | `https://go100.newtalk.kr/go100/portfolio` |
-| AI 챗 | `https://go100.newtalk.kr/llm` |
-| 알림 | `https://go100.newtalk.kr/go100/notifications` |
-| 설정 | `https://go100.newtalk.kr/go100/settings` |
+| 페이지 | Full URL | 상태 |
+|--------|----------|------|
+| 로그인 | `https://go100.newtalk.kr/auth/login` | **200 OK** |
+| 회원가입 | `https://go100.newtalk.kr/auth/signup` | **200 OK** |
+| 대시보드 | `https://go100.newtalk.kr/dashboard` | **307** → 로그인 |
+| GO100 대시보드 | `https://go100.newtalk.kr/go100/dashboard` | **307** → 로그인 |
+| 내 전략 | `https://go100.newtalk.kr/go100/strategies` | **307** → 로그인 |
+| 전략 마켓 | `https://go100.newtalk.kr/go100/store` | **307** → 로그인 |
+| 모의투자 | `https://go100.newtalk.kr/go100/paper-trading` | **307** → 로그인 |
+| 실거래 | `https://go100.newtalk.kr/go100/live-trading` | **307** → 로그인 |
+| 포트폴리오 | `https://go100.newtalk.kr/go100/portfolio` | **307** → 로그인 |
+| AI 챗 | `https://go100.newtalk.kr/llm` | **307** → 로그인 |
+| 알림 | `https://go100.newtalk.kr/go100/notifications` | **307** → 로그인 |
+| 설정 | `https://go100.newtalk.kr/go100/settings` | **307** → 로그인 |
+| 이용약관 | `https://go100.newtalk.kr/terms` | **200 OK** |
+| 개인정보 | `https://go100.newtalk.kr/privacy` | **200 OK** |
 
 ### 관리자 주요 경로
-| 경로 | Full URL |
-|------|----------|
-| 관리자 홈 | `https://go100.newtalk.kr/admin` |
-| 계좌 관리 | `https://go100.newtalk.kr/accounts` |
-| 백테스트 | `https://go100.newtalk.kr/admin/backtest` |
-| 모니터링 | `https://go100.newtalk.kr/monitoring` |
-| 리포트 | `https://go100.newtalk.kr/reports` |
+| 페이지 | Full URL | 상태 |
+|--------|----------|------|
+| 관리자 홈 | `https://go100.newtalk.kr/admin` | **307** → 로그인 |
+| 계좌 관리 | `https://go100.newtalk.kr/accounts` | **307** → 로그인 |
+| 백테스트 | `https://go100.newtalk.kr/backtest` | **200 OK** |
+| 모니터링 | `https://go100.newtalk.kr/monitoring` | **200 OK** |
+| 리포트 | `https://go100.newtalk.kr/reports` | **200 OK** |
 
 ---
 
-*보고서 끝*
+## 9. 발견된 이슈
+
+### 9.1 빌드 누락 (수정 완료)
+- `.next/BUILD_ID` 파일 없음 → 프론트엔드 crash-loop
+- **원인**: 서버 다운 시 빌드 아티팩트 손실
+- **조치**: `rm -rf .next && npx next build` 실행 → 정상 복구
+
+### 9.2 타입 에러 (수정 완료)
+- `SectorExposureChart.tsx:99` — recharts Tooltip formatter 타입 불일치
+- **조치**: formatter 함수 타입 추론으로 변경
+
+### 9.3 미들웨어 인증 누락 확인
+- `/portfolio`, `/trade`, `/notifications`, `/settings`, `/backtest`, `/monitoring`, `/reports` 등 일부 페이지가 미인증 상태에서도 200 OK 반환
+- 미들웨어 `protectedPrefixes`에 해당 경로가 누락된 것으로 추정
+- **영향**: 페이지 접근은 가능하나, API 호출 시 401로 데이터는 표시 안 됨 (실질적 보안 이슈 낮음)
+
+---
+
+*보고서 끝 — 2026-03-04 실제 접속 테스트 완료*
