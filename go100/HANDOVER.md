@@ -329,9 +329,10 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 3. **현재 브랜치**: `phase-2c-command-center`
 4. 진행률 **95%** — Commander Architecture DIR-001~009 완료, DIR-010(HANDOVER+최종보고) 대기
 5. **다음 우선순위**: DIR-010 최종보고서 + CEO 텔레그램 보고 + `GO100_COMMANDER_MODE=true` CEO 승인
-6. 상태 확인: `systemctl status go100`, `psql -d kisautotrade -c "\\dt go100_agent*"`
+6. 상태 확인: `systemctl status go100 && systemctl status go100-frontend`, `psql -d kisautotrade -c "\\dt go100_agent*"`
 7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
 8. **Commander 모드 활성화**: .env에 `GO100_COMMANDER_MODE=true` 추가 (CEO 승인 필요)
+9. **프론트엔드 현황**: 34페이지 LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 97%)
 
 ---
 
