@@ -1,7 +1,7 @@
 # 뉴톡 V2 — DB 스키마 (newtalk_v2)
 
 > 자동 생성 문서. 수동 편집 금지.
-> 생성일: 2026-02-23 17:38 KST
+> 최초생성: 2026-02-23 / 최종갱신: 2026-03-04 (DOCS-SYNC-002 — 97테이블 반영)
 > DB: newtalk_v2 (MySQL 8.0, Port 3307)
 > 민감정보 없음 확인 완료.
 
@@ -11,60 +11,105 @@
 
 | # | 테이블명 | 설명 |
 |---|---------|------|
-| 1 | activity_logs | |
-| 2 | barcodes | |
-| 3 | cache | |
-| 4 | cache_locks | |
-| 5 | cafe24_syncs | |
-| 6 | categories | |
-| 7 | code_masters | |
-| 8 | content_pipelines | |
-| 9 | contract_items | |
-| 10 | contracts | |
-| 11 | coordinations | |
-| 12 | deposit_transactions | |
-| 13 | deposits | |
-| 14 | downloads | |
-| 15 | failed_jobs | |
-| 16 | feed_items | |
-| 17 | feed_likes | |
-| 18 | follows | |
-| 19 | inbound_receipt_items | |
-| 20 | inbound_receipts | |
-| 21 | job_batches | |
-| 22 | jobs | |
-| 23 | message_logs | |
-| 24 | migrations | |
-| 25 | model_has_permissions | |
-| 26 | model_has_roles | |
-| 27 | order_items | |
-| 28 | orders | |
-| 29 | password_reset_tokens | |
-| 30 | permissions | |
-| 31 | personal_access_tokens | |
-| 32 | product_categories | |
-| 33 | product_channels | |
-| 34 | product_details | |
-| 35 | product_images | |
-| 36 | product_options | |
-| 37 | products | |
-| 38 | purchase_order_items | |
-| 39 | purchase_orders | |
-| 40 | retail_profiles | |
-| 41 | role_has_permissions | |
-| 42 | roles | |
-| 43 | sabangnet_logs | |
-| 44 | sabangnet_syncs | |
-| 45 | sessions | |
-| 46 | settings | |
-| 47 | shipment_items | |
-| 48 | shipments | |
-| 49 | shooting_schedules | |
-| 50 | users | |
-| 51 | wholesale_profiles | |
-| 52 | wishlists | |
+| 1 | activity_logs | 활동 로그 |
+| 2 | barcodes | 바코드 |
+| 3 | brand_pages | 브랜드 페이지 |
+| 4 | cache | Laravel 캐시 |
+| 5 | cache_locks | 캐시 락 |
+| 6 | cafe24_connections | Cafe24 연결 |
+| 7 | cafe24_product_mappings | Cafe24 상품 매핑 |
+| 8 | cafe24_syncs | Cafe24 동기화 |
+| 9 | cart_items | 장바구니 아이템 |
+| 10 | carts | 장바구니 |
+| 11 | categories | 카테고리 |
+| 12 | channel_connections | 채널 연결 |
+| 13 | channel_product_mappings | 채널-상품 매핑 |
+| 14 | code_masters | 코드 마스터 |
+| 15 | content_media | 콘텐츠 미디어 |
+| 16 | content_pipeline_jobs | 콘텐츠 파이프라인 작업 |
+| 17 | content_pipelines | 콘텐츠 파이프라인 |
+| 18 | content_product_tags | 콘텐츠-상품 태그 |
+| 19 | contents | 콘텐츠 |
+| 20 | contents_media | 콘텐츠 미디어(레거시) |
+| 21 | contents_product_tags | 콘텐츠-상품 태그(레거시) |
+| 22 | contract_items | 계약 아이템 |
+| 23 | contracts | 계약 |
+| 24 | conversation_participants | 대화 참여자 |
+| 25 | conversations | 대화(DM) |
+| 26 | coordinations | 코디네이션 |
+| 27 | deposit_transactions | 예치금 거래 |
+| 28 | deposits | 예치금 |
+| 29 | downloads | 다운로드 |
+| 30 | dropship_orders | 드롭십 주문 |
+| 31 | failed_jobs | 실패 잡 |
+| 32 | feed_items | 피드 아이템 |
+| 33 | feed_likes | 피드 좋아요 |
+| 34 | follows | 팔로우 |
+| 35 | fulfillment_tasks | 풀필먼트 작업 |
+| 36 | inbound_receipt_items | 입고 아이템 |
+| 37 | inbound_receipts | 입고 영수증 |
+| 38 | job_batches | 잡 배치 |
+| 39 | jobs | 큐 잡 |
+| 40 | message_logs | 메시지 로그 |
+| 41 | message_reads | 메시지 읽음 |
+| 42 | messages | 메시지 |
+| 43 | migrations | 마이그레이션 |
+| 44 | model_has_permissions | 모델-권한 |
+| 45 | model_has_roles | 모델-역할 |
+| 46 | order_items | 주문 아이템 |
+| 47 | orders | 주문 |
+| 48 | partner_prices | 거래처 가격 |
+| 49 | partnerships | 거래처 제도 |
+| 50 | password_reset_tokens | 비밀번호 재설정 토큰 |
+| 51 | payment_logs | 결제 로그 |
+| 52 | payments | 결제 |
+| 53 | permissions | 권한 |
+| 54 | personal_access_tokens | 개인 액세스 토큰 |
+| 55 | pipeline_logs | 파이프라인 로그 |
+| 56 | pipeline_media | 파이프라인 미디어 |
+| 57 | product_categories | 상품-카테고리 |
+| 58 | product_channels | 상품-채널 |
+| 59 | product_details | 상품 상세 |
+| 60 | product_images | 상품 이미지 |
+| 61 | product_options | 상품 옵션 |
+| 62 | product_scores | 상품 점수 |
+| 63 | products | 상품 |
+| 64 | purchase_order_items | 발주 아이템 |
+| 65 | purchase_orders | 발주 |
+| 66 | retail_profiles | 소매 프로필 |
+| 67 | return_requests | 반품 요청 |
+| 68 | role_has_permissions | 역할-권한 |
+| 69 | roles | 역할 |
+| 70 | sabangnet_logs | 사방넷 로그 |
+| 71 | sabangnet_syncs | 사방넷 동기화 |
+| 72 | sessions | 세션 |
+| 73 | settings | 설정 |
+| 74 | settlement_items | 정산 아이템 |
+| 75 | settlement_logs | 정산 로그 |
+| 76 | settlements | 정산 |
+| 77 | shipment_items | 배송 아이템 |
+| 78 | shipment_logs | 배송 로그 |
+| 79 | shipments | 배송 |
+| 80 | shipping_addresses | 배송지 |
+| 81 | shooting_schedules | 촬영 일정 |
+| 82 | short_comments | 쇼츠 댓글 |
+| 83 | short_likes | 쇼츠 좋아요 |
+| 84 | short_product_tags | 쇼츠-상품 태그 |
+| 85 | short_views | 쇼츠 조회 |
+| 86 | shorts | 쇼츠 |
+| 87 | sns_connections | SNS 연결 |
+| 88 | sns_post_analytics | SNS 게시물 분석 |
+| 89 | sns_posts | SNS 게시물 |
+| 90 | stories | 스토리 |
+| 91 | story_views | 스토리 조회 |
+| 92 | trade_applications | 거래처 신청 |
+| 93 | trend_snapshots | 트렌드 스냅샷 |
+| 94 | user_interests | 사용자 관심사 |
+| 95 | users | 사용자 |
+| 96 | wholesale_profiles | 도매 프로필 |
+| 97 | wishlists | 찜 목록 |
 
-**총 52개 테이블**
+**총 97개 테이블** (DOCS-SYNC-002, 2026-03-04 갱신)
 
 ---
 
