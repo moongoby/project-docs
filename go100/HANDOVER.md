@@ -1,5 +1,5 @@
-# GO100 인수인계서 v12.0 — Commander Architecture 완료 (V11 기반)
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-03 KST | 대상: 다음 세션 AI  
+# GO100 인수인계서 v13.0 — 자율 진화 루프 Part 1~10 완료 (V12 기반)
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-04 KST | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v11.0 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -113,6 +113,11 @@
 | CUR-GO100-P4B-V3-BATCH-REBUILD-001 | — | 03-02 | **PASS** | ✓ | 200 | build_feature_store_batch_v3.py 완성. 242일 배치 완료(307,608건, 12파일, 오류0건). V3 피처 NaN 0%, NEW_HIGH_52W_WITH_VOL 발생률 1.77% |
 | CUR-GO100-P4B-V3-BATCH-RESULT-001 | — | 03-03 | **PASS** | ✓ | 200 | V3 배치 최종 결과: 307,608건 × 41컬럼, 12개월 parquet, 소요79분, 오류0건, Q2 샘플 145,520건(47.3%) |
 | CUR-GO100-P4C-V3-MODEL-TRAIN-001 | — | 03-03 | **PASS** | ✓ | 200 | V3 모델 학습 완료. 통합 AUC 0.5656(V2+0.025), Q2공격형 AUC 0.6092(목표0.58 초과). V3신규피처 Top15 3개 진입(DUAL_x_Q2 6위, BB_WIDTH_x_RSI 7위, FORCE_ACC_5D 8위). 모델 6종 저장(active:False, CEO 승인 대기) |
+| **CUR-GO100-RESEARCH-CORE-BUILD-001** | EVO | 03-04 | **PASS** | ✓ | 200 | Parts 1~3 구현 확인: BacktesterAgent(agent_backtester.py) + StockProfiler(stock_profiler.py) + AnalystAgent(agent_analyst.py) import/단위테스트 ALL PASS |
+| **CUR-GO100-RESEARCH-VALIDATE-ORCH-001** | EVO | 03-04 | **PASS** | ✓ | 200 | Part 4 ValidatorAgent D등급 추가(A/B/C/D/F 5단계) 15건 테스트 PASS; Part 5 EvolutionLoop ResearcherAgent 자동 호출(_call_researcher) 통합; **52/52 ALL PASS** |
+| **CUR-GO100-RESEARCH-PARAM-SCORE-001** | EVO | 03-04 | **PASS** | ✓ | 200 | Part 6 TypeParamSearcher 신규(type_param_searcher.py) — TYPE-A~D YAML 그리드서치 120/48/27/45 조합; Part 10 HypothesisScorer parse_ceo_overrides+score_and_save 추가; **29/29 ALL PASS** |
+| **CUR-GO100-RESEARCH-UI-LAUNCH-001** | EVO | 03-04 | **PASS** | ✓ | 200 | Part 8 research-lab-status 엔드포인트 완전 재설계(evolution_loops/stock_profile_summary/pending_configs DB직접조회); CEO 승인/반려 API 추가(/pending-configs/{id}/approved, rejected); Frontend 빌드 완료 |
+| **CUR-GO100-RESEARCH-EVOLUTION-LOOP-001-PART9** | EVO | 03-04 | **PASS** | ✓ | 200 | Part 9 EvolutionLoop._generate_report()+_push_report() 추가; 보고서 자동생성(CUR-GO100-RESEARCH-EVOLUTION-{SEQ:03d}-YYYYMMDD.md) + GitHub push; 테스트 3건 PASS |
 
 ### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
