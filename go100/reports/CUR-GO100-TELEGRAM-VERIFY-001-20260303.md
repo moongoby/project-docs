@@ -214,3 +214,46 @@ EOF
 
 - [x] 코드 레포 커밋 완료 (해당 없음 — 설정 확인 태스크)
 - [x] project-docs 보고서 push 완료
+
+---
+
+## 6. 2차 재검증 (2026-03-04 15:12 KST) — DIR-GO100-TELEGRAM-CONFIRM-002-R3 최종
+
+**수행자**: claudebot (Claude Sonnet 4.6)
+**시각**: 2026-03-04 15:12:47 KST
+
+### 6-1. .env 재확인
+```
+GO100_TELEGRAM_BOT_TOKEN=8327167593:AAGln8wlk4XQDLeeqVCo_DESVPcGmbNYXPk
+GO100_TELEGRAM_CHAT_ID=6817948795
+```
+✅ 존재 확인
+
+### 6-2. getMe 재검증
+```json
+{"ok":true,"result":{"id":8327167593,"is_bot":true,"first_name":"Go100억","username":"go100_auto_trading_bot","can_join_groups":true,"can_read_all_group_messages":false,"supports_inline_queries":false,"can_connect_to_business":false,"has_main_web_app":false,"has_topics_enabled":false,"allows_users_to_create_topics":false}}
+```
+✅ OK
+
+### 6-3. sendMessage 재검증
+```json
+{"ok":true,"result":{"message_id":4389,"from":{"id":8327167593,"is_bot":true,"first_name":"Go100억","username":"go100_auto_trading_bot"},"chat":{"id":6817948795,"first_name":"By","last_name":"Oh","type":"private"},"date":1772604768,"text":"✅ [GO100 재검증] DIR-GO100-TELEGRAM-CONFIRM-002-R3 - Telegram Bot 설정 재확인 완료 (2026-03-04 15:12:47 KST)"}}
+```
+✅ sendMessage OK — **message_id=4389** (2차 재검증)
+
+### 6-4. 크론 재확인
+- 모닝 브리핑: `50 8 * * 1-5` → /etc/cron.d/go100_morning_briefing ✅
+- 클로징 리포트 15:40: cron.d 미등록 ⚠️ (스크립트는 run_closing_report.sh 존재)
+
+### 6-5. HANDOVER Known Issue #5
+- 현재 상태: **해결** — "토큰·채팅 ID 설정, 실발송 검증 후 운영 투입"
+- 2차 재검증으로 완전 실증. 상태 변경 불필요 (이미 해결).
+
+### 2차 재검증 최종 결론
+| 항목 | 결과 |
+|------|------|
+| getMe OK | ✅ |
+| sendMessage OK (message_id=4389) | ✅ |
+| 모닝 브리핑 크론 08:50 | ✅ |
+| 클로징 리포트 크론 15:40 | ⚠️ 미등록 |
+| Known Issue #5 상태 | ✅ 이미 해결 |
