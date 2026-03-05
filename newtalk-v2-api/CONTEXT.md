@@ -1,6 +1,6 @@
 # 뉴톡 V2 — 프로젝트 컨텍스트
 
-**문서 버전**: v4.9.0
+**문서 버전**: v5.0.0
 **최종 갱신**: 2026-03-05
 
 ---
@@ -52,7 +52,7 @@
 
 ---
 
-## 6. 완료 항목 (55건)
+## 6. 완료 항목 (64건)
 
 ### R0 ~ R1
 - [x] R0: 프로젝트 초기화 (Laravel 12, Docker, MySQL, Redis) — v0.1.0, 2026-02-21
@@ -127,6 +127,15 @@
 - [x] NTV2-VERIFY-001: 500 에러 7/7 해소 HTTP 재확인, DropshipService·FulfillmentService·ContentPipelineService 구현 — 0f1de87, v4.8.0, 2026-03-05
 - [x] DOCS-SYNC-003: HANDOVER v5.0 + CEO-DIRECTIVES v1.1 정합성 복구 — v4.9.0, 2026-03-05
 
+### R5 프론트엔드 + API
+- [x] R5-FRONT-SETTLE-001: 정산 프론트엔드 전체 구현 (settlement-api.ts 6함수, wholesale/admin 페이지 4개, 컴포넌트 5개, 레이아웃 2곳, 빌드 에러 0, API 200) — 5a1390b, v5.1.0, 2026-03-05
+- [x] R5-FRONT-PIPELINE-001: 콘텐츠 파이프라인 관리자 UI (파이프라인 목록·상세·생성 3페이지+6컴포넌트) — 8c63353, v5.2.0, 2026-03-05
+- [x] R5-API-HEALTH-001: GET /api/health 200, DB/Redis/Disk 모니터링 엔드포인트 추가 — d58a3fd, v5.2.0, 2026-03-05
+
+### 감사 + 스모크 테스트
+- [x] FRONTEND-AUDIT-001: 프론트엔드 전수 감사 (412 ts/tsx, 78 page.tsx, 12영역 100% 매핑) — 0ddc519, 2026-03-05
+- [x] API-SMOKE-002: 스모크 재테스트 (6계정 로그인 성공, 500에러 0, products=46/orders=2/shorts=10/settlements=5) — f793574, 2026-03-05
+
 ---
 
 ## 7. 진행 중
@@ -137,6 +146,9 @@
 
 ## 8. 다음 작업
 
+- admin 상품 CRUD (관리자 상품 등록·수정·삭제 UI)
+- 드롭십 개선 (위탁배송 드롭십 프로세스 고도화)
+- R4-FRONT-005/006/007 재검토 (SNS 자동게시·콘텐츠파이프라인·드롭십 UI 기능 보완)
 - R5 기획 확정 대기 (일본 크로스보더, 라이브 B2B)
 
 ---
