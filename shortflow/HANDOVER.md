@@ -1,5 +1,5 @@
 # HANDOVER – ShortFlow YouTube Shorts 자동화 SaaS
-> 최종 업데이트: 2026-03-03 (v1.4 — OAUTH-REAUTH 완료, 6편 공개, 파이프라인 버그 수정)
+> 최종 업데이트: 2026-03-05 (v1.5 — SF-T001~T008 재실행 중 / claudebot 권한 복구)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -57,6 +57,7 @@
 | ALERT-CRON | 03-02 | send_alert_email.py → alert_on_error.sh(Python 우선) + daily_report.sh(이상감지 알림) + run_v4_pipeline.py(단계별 실패 알림) 연동 완료 |
 | V4-PUBLIC | 03-03 | 크론 업로드 모드 public 전환 완료 (auto_upload=True, e38d72d) / 기존 6편 공개 전환: OAuth 토큰 만료로 수동 재인증 필요 (STEP1 차단) |
 | OAUTH-REAUTH | 03-03 | JSON 토큰 갱신 성공, 6편 공개 전환 완료, run_v4_pipeline.py Python3.9 타입힌트 버그 수정 (367c0a4) |
+| CLAUDEBOT-PERM | 03-05 | claudebot /data/shortflow 쓰기 권한 복구 (o+wx 적용) — SF-T001~T008 PREFLIGHT_FAIL 원인 해결 |
 
 ---
 
@@ -65,6 +66,14 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | HISTORY-TOKEN | 대기 | history 채널 OAuth 토큰 발급 (CEO 채널ID/이메일 필요) |
+| SF-T001 | 실행 중 | 파이프라인 복구 + 크론 2편 체제 전환 (2026-03-05 18:51~) |
+| SF-T002 | 실행 중 | QA 스코어 엔진 v1 구현 (2026-03-05 18:51~) |
+| SF-T003 | 실행 중 | 영상 품질 개선 (훅·제목·CTA·해시태그·전환빈도) (2026-03-05 18:51~) |
+| SF-T004 | 대기 | Gemini 2.5 Flash TTS 통합 |
+| SF-T005 | 대기 | SaaS 플랫폼 DB 스키마 + FastAPI REST API 구축 |
+| SF-T006 | 대기 | 멀티플랫폼 OAuth 연동 모듈 |
+| SF-T007 | 대기 | SaaS 온보딩 위자드 UI (Next.js 14) |
+| SF-T008 | 대기 | 멀티플랫폼 동시 업로드 엔진 |
 
 | ALERT-ACTIVATE | 대기 | .env에 ALERT_EMAIL_PASSWORD 설정 후 알림 활성화 (Gmail App Password 필요) |
 
