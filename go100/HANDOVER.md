@@ -1,5 +1,5 @@
-# GO100 인수인계서 v14.2 — 자율 진화 루프 + 프론트엔드 완전체 (Group A 감사: 모의투자+SaaS+API헬스+FE 완료)
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-05 KST (v14.2: T-012~T-016 SaaS감사+API헬스+FE감사 완료) | 대상: 다음 세션 AI
+# GO100 인수인계서 v15.0 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-05 KST (v15.0: T-017A/T-023/T-024 완료 — pandas 3.0 수정·V3모델 준비·모의투자검증) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -52,9 +52,9 @@
 
 ---
 
-## 2. 현재 상태 (2026-03-04 기준)
+## 2. 현재 상태 (2026-03-05 기준)
 
-### 진행률: **97%** (v14.2: T-012~T-016 완료 — 모의투자 상태/SaaS감사/API헬스/FE감사 반영) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영)
+### 진행률: **98%** (v15.0: T-017A/T-023/T-024 완료 — pandas 3.0 패치·V3모델 준비·모의투자검증) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영 + pandas 3.0 호환 완료)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -182,6 +182,7 @@
 | 4 | go100_fundamentals DART API 키 | LOW | **해결** — DART 발급·.env 설정 |
 | 5 | 모닝 브리핑 Telegram | LOW | **해결 완료** — 토큰·채팅 ID 설정, message_id:1981 확인 완료 (2026-03-03) |
 | 6 | P6-1 킬스위치 연동 async_generator 오류 | MED | **해결** — risk_engine.py RULE_SECTOR sum/await 버그 수정 완료 (CUR-GO100-P6-EXTRA-VERIFY-001) |
+| 7 | pandas 3.0 버전 불일치 (.venv=3.0.1 vs venv=2.3.3) | HIGH | **해결** — indicator_precompute groupby.apply include_groups=False+reset_index(level=0) 패치 (T-017/T-017A/T-023) — 모의투자 크론 정상화 |
 
 ---
 
@@ -200,6 +201,12 @@
 
 - **[완료] P6-EXTRA-VERIFY**: PASS — 보고서 push 완료 (2026-03-02)
 - **[완료] P7-1 QA**: PASS(조건부) — 보고서 push 완료 (2026-03-02)
+- **[완료] T-017 pandas 3.0 수정**: signal_evaluator.py + paper_trading_engine_30d.py 패치 완료 (2026-03-05)
+- **[완료] T-024 V3 모델 활성화 준비**: activate_v3_model.py 작성 완료, CEO 승인 후 실행 가능 (2026-03-05)
+
+- **[대기] T-025**: closing_report 자동화 (generate_closing_report.py + cron) — 작성 완료, root 설치 필요
+- **[대기] T-026**: T-025 후속 검증
+- **[대기] T-018**: 모의투자 엔진 정밀 검증 + 크론 트레이드 로그 확인
 
 - **Phase 4 AI 모델 고도화 (P2)**
   - 멀티타겟: LABEL_MFE_3D 추가 타겟 실험
@@ -401,6 +408,33 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 ---
 
+---
+
+## Phase 8 로드맵 (2026-03-05 기준)
+
+### 목표: 30일 모의투자 완주 → V3 실전 투입 → SaaS 준비
+
+| 단계 | 태스크 | 선행조건 | 목표일 | 상태 |
+|------|--------|----------|--------|------|
+| Phase 8-1 | T-025 closing_report cron 등록 | root 실행 | 03-06 | 대기 |
+| Phase 8-1 | T-026 모의투자 크론 검증 (장중 매수) | T-025 | 03-06 | 대기 |
+| Phase 8-2 | 30일 모의투자 1사이클 완주 (session_id=2) | pandas 패치 확인 | 03-29 | 진행중 |
+| Phase 8-2 | V3 모델 CEO 승인 후 실전 투입 (activate_v3_model.py --confirm) | CEO 승인 | 미정 | CEO 대기 |
+| Phase 8-3 | 자기리뷰 1사이클 (weekly_review) | 모의투자 1주 이상 | 03-14 | 대기 |
+| Phase 8-3 | Telegram 모의투자 알림 확인 | T-026 | 03-06 | 대기 |
+| Phase 8-4 | 소액 실매매 3일 검증 | 모의투자 완주 + CEO 승인 | 미정 | 대기 |
+| Phase 8-5 | SaaS agreed_terms 저장 버그 수정 (T-013) | — | 미정 | 대기 |
+| Phase 8-5 | SaaS 결제 연동 (Stripe/토스페이먼츠) | — | 미정 | 미착수 |
+| Phase 8-6 | 최종 SaaS QA + 라이브 런칭 | Phase 8-1~5 완료 | 미정 | 미착수 |
+
+### Phase 8 우선순위
+1. **즉시**: T-025/T-026 closing_report cron (root 실행, 5분)
+2. **이번 주**: 모의투자 장중 매수 신호 발생 확인 (ConvictionScore≥0.6)
+3. **이번 달**: 모의투자 1사이클 완주 + 성과 리뷰
+4. **다음**: CEO 승인 후 V3 실전 투입
+
+---
+
 ## 버전 이력
 
 | 버전 | 날짜 | 변경 |
@@ -458,3 +492,14 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-014 | 03-05 | GO100 API 전수 헬스체크 (122경로, GET 37개 401정상/공개 2개 200, 응답시간 전수 <0.06s) | PASS |
 | T-015 | 03-05 | FE 전수 페이지 접근 테스트 (44페이지: public 200/protected 307, TODO/STUB 0건) | PASS |
 | T-016 | 03-05 | HANDOVER v14.2 업데이트 및 최종 보고 | PASS |
+
+### v15.0 추가 완료 작업 (2026-03-05) — T-017A/T-023/T-024 pandas 패치+V3모델 준비
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-017A | 03-05 | stock_code KeyError 버그 원인 분석 — pandas 3.0.1 groupby.apply 그룹키 제외 확인 (분석 전용, 수정 없음) | PASS |
+| T-017B | 03-05 | paper_trading_engine_30d.py 방어적 수정 — `SELECT stock_code AS stock_code` + `row["stock_code"]` (커밋 f8bd2bee) | PASS |
+| T-023 | 03-05 | pandas 3.0 패치 검증 + 수동 1회 실행 — .venv(pandas 3.0.1)에서 indicator_precompute PASS, session_id=2 exit code 0 확인 | PASS |
+| T-024 | 03-05 | V3 모델 파일 검증 + 활성화 스크립트 작성 — 6종 로드 성공(active:True), activate_v3_model.py 작성·chmod+x (커밋 de3456c6) | PASS(CEO 승인 대기) |
+| T-025 | 03-05 | closing_report 자동화 스크립트 — generate_closing_report.py + go100_closing_report.cron 작성 | 대기 |
+| T-026 | 03-05 | T-025 후속 검증 및 크론 등록 | 대기 |
+| T-027 | 03-05 | HANDOVER v15.0 업데이트 — T-017A~T-026 반영, Known Issues #7 추가, Phase 8 로드맵 추가 | PASS |
