@@ -18,6 +18,8 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-122 KJH_CYCLE 김정환 사이클** | 03-05 | dacc29bf | — | KjhCycleEngine 7메서드(check_revenue_uptrend/check_op_uptrend/evaluate_per_band/check_roe_trend/calculate_kjh_score), YAML kjh_cycle 섹션, FunnelScore L3 GROWTH≥0.7→+0.15/MATURE≥0.5→+0.05, 13테스트 ALL PASS |
+| **T-121 BJ_SCORE 배진한 5원칙** | 03-05 | d7fea642 | — | BjScoreEngine(대재수심차 100점), FunnelScore L3 ≥80→+0.20/≥60→+0.10, YAML bj_score 섹션, 테스트 PASS |
 | **T-119 DESK5 GrowthScore fix** | 03-05 | 060786f2 | — | 근본원인: DESK5 20종목 v4_fundamental_quarterly 0건, min_quarters 8→4, default_axis1_score=0.3 fallback, 6테스트 PASS |
 | **T-118 FunnelScore WF 검증** | 03-05 | 7d1efb91 | — | 3-Fold WF: Fold1 FAIL/Fold2 PASS/Fold3 PASS→2/3 전체PASS, threshold 0.40→0.55 반영, 22테스트 PASS |
 | **T-117 D_D1_D2_ENTRY** | 03-05 | 474039d7 | — | DDayEntryEngine(장대양봉≥7%/2.5배→D+1 MA5/D+2 MA10), CTE L2.5, SL2%/TP5%/120분, 10테스트 PASS |
@@ -682,6 +684,8 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.7 | 2026-03-05 | Claude Code (Sonnet4.6) | **T-122 KJH_CYCLE 김정환 사이클 분석 엔진**: KjhCycleEngine 7메서드(매출추세/OP추세/PER밴드/ROE추세/종합점수), cycle_phase(GROWTH/MATURE/DECLINE/UNKNOWN), FunnelScore L3 GROWTH+0.15/MATURE+0.05, YAML kjh_cycle 섹션, 13테스트 ALL PASS, 커밋 dacc29bf |
+| v10.6 | 2026-03-05 | Claude Code (Sonnet4.6) | **T-121 BJ_SCORE 배진한 5원칙**: BjScoreEngine(대재수심차 100점 정량화), FunnelScore L3 ≥80→+0.20/≥60→+0.10, YAML bj_score 섹션, 커밋 d7fea642 |
 | v10.5 | 2026-03-05 | Claude Code (Sonnet4.6) | **T-120 HANDOVER.md v10.5 일괄갱신**: T-101~T-119 16건 완료 반영, DB 288테이블/37.82GB/분봉108.4M rows, Known Issues 갱신(synthetic_BLOCK T-108해결/FunnelScore threshold 0.55/DESK5 데이터미수집) |
 | v9.8 | 2026-03-05 | Claude Code (Sonnet4.6) | **T-099 깔대기 데이터 실 수집**: v4_sector_mapping(3,844종목) + v4_macro_daily 신규(062), SectorCollector, fundamental_quarterly 149종목/787행, GrowthScoreEngine Decimal 버그수정, DESK3 AXIS2=4/NONE=162(97.6%), 4테스트 ALL PASS, DB 256 |
 | v9.7 | 2026-03-05 | Claude Code (Sonnet4.6) | **T-098 펀더멘탈 Growth Score 엔진**: v4_fundamental_quarterly 테이블(061 마이그레이션), FundamentalCollector 4메서드, GrowthScoreEngine 3메서드(축1/축2/NONE 분류), node_detector_desk5/3 성장필터 연동, growth_score YAML 섹션, 10테스트 ALL PASS |
