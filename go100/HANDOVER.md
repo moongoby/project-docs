@@ -1,5 +1,5 @@
-# GO100 인수인계서 v13.3 — 자율 진화 루프 + 프론트엔드 완전체 (DIR-015 E2E 최종 검증 완료)
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-04 KST (DIR-015 BRIDGE E2E 최종) | 대상: 다음 세션 AI
+# GO100 인수인계서 v14.0 — 자율 진화 루프 + 프론트엔드 완전체 (DIR-015 E2E 최종 검증 완료)
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-05 KST (DIR-015 BRIDGE E2E 최종) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -54,7 +54,7 @@
 
 ## 2. 현재 상태 (2026-03-04 기준)
 
-### 진행률: **97%** (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영)
+### 진행률: **97%** (v14: T-001~T-004 완료, FE 서비스 재시작, closing cron 등록) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -123,7 +123,7 @@
 | **DIR-GO100-FE-CHARTS-012** | FE | 03-04 | **PASS** | ✓ | 200 | recharts + lightweight-charts 11종 차트 구현 (수익곡선/낙폭/히스토그램/캔들스틱 등) |
 | **DIR-GO100-FE-MOBILE-013** | FE | 03-04 | **PASS** | ✓ | 200 | 375/414/768/1024 반응형 완성, PWA manifest 추가 |
 | **DIR-GO100-FE-DESIGN-014** | FE | 03-04 | **PASS** | ✓ | 200 | 다크모드 기본, 통일 컬러 팔레트 적용, 백억이 채팅 마크다운+타이핑 인디케이터 |
-| **DIR-GO100-FE-FINAL-015** | FE | 03-04 | **PASS** | ✓ | 200 | BRIDGE 최종 통합: E2E API 7라우터 GREEN(strategy-cards/portfolios/paper-trading/live-trading/risk/scheduler/optimizer 200/405), FE 7페이지 auth-redirect 정상(200), API응답시간 최대0.034s(<2s), Git커밋 5cc2eaa3, HANDOVER v13.3, SaaS체크리스트 10항목 작성, closing_report cron 설정파일 준비(root 실행 필요) |
+| **DIR-GO100-FE-FINAL-015** | FE | 03-04 | **PASS** | ✓ | 200 | BRIDGE 최종 통합: E2E API 7라우터 GREEN(strategy-cards/portfolios/paper-trading/live-trading/risk/scheduler/optimizer 200/405), FE 7페이지 auth-redirect 정상(200), API응답시간 최대0.034s(<2s), Git커밋 5cc2eaa3, HANDOVER v14.0, SaaS체크리스트 10항목 작성, closing_report cron 설정파일 준비(root 실행 필요) |
 
 ### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
@@ -429,4 +429,14 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v13.0 | 03-04 | BRIDGE 갱신: 기준일 03-03, 진행률 92%, go100_* 70테이블, migration 048a/b 추가, 도구 57개, brain_predictor_v3.py 경로, 가중치 에이전트 9개, Telegram Known Issue #5 해결 완료, feature 33개(향후) |
 | v13.1 | 03-04 | **DIR-GO100-PAPER-TRADING-V3-003-R3 완료**: run_paper_trading_v3.py V3 Brain 연동 검증(ConvictionScore≥0.6 필터/상위3종/risk_engine.check_pre_trade() 통합/Telegram 3종 알림), cron 3건 등록(매수09:10/매도15:15/주간리뷰금16:30 KST), dry-run 3모드 PASS(주문미발생+Telegram HTTP 200), 세션 session_id=2 ACTIVE(원금 10,000,000원), 첫 거래일 모니터링 체크리스트 작성 |
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
-| v13.3 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
+| v14.0 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
+
+### v14.0 추가 완료 작업 (2026-03-05)
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-001 | 03-05 | 미푸시 보고서 push + closing-report cron 등록 | PASS |
+| T-002 | 03-05 | V3 모의투자 첫 매수 검증 | PASS |
+| T-003 | 03-05 | Nginx WebSocket/SSE 감사 | PASS |
+| T-004 | 03-05 | HANDOVER v14 + FE 재시작 | PASS |
+| DIR-FE-RESTORE-016 | 03-04 | dashboard 래퍼 복원 + lib/go100 중복 삭제 (e92e5315) | PASS |
+| DIR-010-C | 03-04 | src/go100 전수 파일목록 (95파일 11,086줄) | PASS |
