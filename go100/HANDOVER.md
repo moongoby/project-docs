@@ -386,18 +386,18 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 | # | 항목 | 상태 | 비고 |
 |---|------|------|------|
-| 1 | 회원가입 플로우 | 확인필요 | 이메일/소셜 OAuth 미확인 |
+| 1 | 회원가입 플로우 | ⚠️ 부분구현 | 이메일/소셜 코드 완성, agreed_terms/privacy DB 저장 버그 존재 (T-013) |
 | 2 | 결제 연동 | 미구현 | Stripe/토스페이먼츠 계획 필요 |
 | 3 | 구독 플랜 관리 | 미구현 | Free/Pro/Premium tier 미정 |
 | 4 | 마켓플레이스 | 미구현 | is_featured/is_public 백엔드 컬럼만 존재 |
-| 5 | 이용약관 최신화 | 확인필요 | /terms 페이지 존재 여부 확인 필요 |
-| 6 | 개인정보처리방침 | 확인필요 | /privacy 페이지 존재 여부 확인 필요 |
+| 5 | 이용약관 최신화 | ✅ 완료 | /terms 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
+| 6 | 개인정보처리방침 | ✅ 완료 | /privacy 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 7 | 고객지원 채널 | 미구현 | 카카오톡/이메일 채널 미개설 |
 | 8 | 온보딩 튜토리얼 | 미구현 | 첫 로그인 시 가이드 화면 없음 |
-| 9 | SEO/OG 태그 | 확인필요 | Next.js metadata API 적용 여부 확인 필요 |
+| 9 | SEO/OG 태그 | 확인필요 | Next.js metadata API 적용 여부 미검토 |
 | 10 | 에러 모니터링 | 확인필요 | Sentry 등 외부 모니터링 미설정 |
 
-> SaaS 전환을 위해서는 2, 3, 4, 7, 8 항목 우선 구현 필요. 나머지는 런칭 전 QA 단계에서 점검.
+> SaaS 전환 우선순위: 1(agreed_terms 저장 버그 수정), 2, 3, 4, 7, 8 항목. 5, 6은 완료. 나머지는 런칭 전 QA 단계 점검.
 
 ---
 
@@ -430,6 +430,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v13.1 | 03-04 | **DIR-GO100-PAPER-TRADING-V3-003-R3 완료**: run_paper_trading_v3.py V3 Brain 연동 검증(ConvictionScore≥0.6 필터/상위3종/risk_engine.check_pre_trade() 통합/Telegram 3종 알림), cron 3건 등록(매수09:10/매도15:15/주간리뷰금16:30 KST), dry-run 3모드 PASS(주문미발생+Telegram HTTP 200), 세션 session_id=2 ACTIVE(원금 10,000,000원), 첫 거래일 모니터링 체크리스트 작성 |
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
+| v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
 
 ### v14.1 추가 완료 작업 (2026-03-05)
 | Task ID | 날짜 | 내용 | 상태 |
