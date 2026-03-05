@@ -1,10 +1,26 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
 **버전**: 4.9.0
-**최종수정**: 2026-03-05 KST (NTV2-V1FIX-002 실행 시도 — Bridge 환경 오류로 DB 직접 실행 불가, 보고서 작성 완료)
+**최종수정**: 2026-03-05 KST (SEEDER-001 완료 — 시더 8개, DB 데이터 전체 투입)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
-> **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
+---
+
+## 변경 이력
+| 버전 | 날짜 | 변경 내용 |
+|------|------|-----------|
+| 1.0.0 | 2026-02-23 | R1 완료 + R2 착수 상태 기준 초판 |
+| 1.5.0 | 2026-02-24 | R2-FRONT-003 상품 상세·찜·공유 UI |
+| 1.6.0 | 2026-02-24 | R2-API-002 브랜드 페이지 API + R2-FRONT-004 브랜드 페이지 UI |
+| 2.1.0 | 2026-02-24 | DOCS-CLEANUP-001 완료: CONTEXT/CHANGELOG SHA 교체, v1.6.1, R2-FIX-002 보고서, V1-SCHEMA-SUMMARY 보완, review 정리 |
+| 2.3.0 | 2026-02-24 | R2-FRONT-006 도매 콘텐츠 업로드 UI: /wholesale/content 목록·작성·수정, MediaUploader, ContentEditor, ProductTagSelector |
+| 2.4.0 | 2026-02-25 | R2-API-003 AI 콘텐츠 처리 API: contents CRUD, contents_media, contents_product_tags, MediaController upload, ProductController::mine |
+| 2.5.0 | 2026-02-25 | R2-API-004 카페24 API 연동: cafe24_connections, cafe24_product_mappings, Cafe24ApiService, Cafe24Controller (OAuth, 상품 push/sync) |
+| 2.6.0 | 2026-02-25 | R3-API-001 사입 주문 API: carts(status/note/softDeletes), cart_items, orders(주문·배송·취소), order_items 스냅샷, CartController 5 EP, OrderController 5 EP |
+| 2.7.0 | 2026-02-25 | R3-API-002 결제 연동 API: payments, payment_logs, orders 결제 컬럼, TossPaymentService, PaymentController 6 EP (prepare/confirm/cancel/show/orderPayment/webhook) |
+| 2.8.0 | 2026-02-25 | R3-FRONT-001 사입 주문·장바구니 프론트 UI: /retail/cart, order/new, orders, orders/[id], /wholesale/orders, 컴포넌트 10개, cart-api·order-api |
+| 2.9.0 | 2026-02-26 | R4-FRONT-004 셀러 채널 관리 UI: /wholesale/channels, /wholesale/channels/[id], /admin/channels, /wholesale/products/[id]/channels, channel 10컴포넌트, channel-api 13함수 |
+| 4.9.0 | 2026-03-05 | SEEDER-001 완료: 시더 8개(UserSeeder, CategorySeeder, ProductSeeder, OrderSeeder, PurchaseOrderSeeder, ShortSeeder, SettlementSeeder, PartnershipSeeder), users=17, products=46, shorts=10, purchase_orders=36, settlements=5, partnerships=5 |
 
 ---
 
@@ -13,22 +29,24 @@
 뉴톡 V2는 V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축하는 프로젝트.
 SNS형 B2B SaaS 마켓플레이스로 진화 중.
 
-**핵심 이해관계자**: CEO ([CEO-EMAIL-GM]) – 사입 시스템 유일 의사결정자.
+**핵심 이해관계자**: CEO (moongoby@gmail.com) – 사입 시스템 유일 의사결정자.
 
-### 접속 정보
+---
 
-#### 서버 (rfree-009)
+## 2. 접속 정보
+
+### 서버 (rfree-009)
 ```
-SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
+SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
 OS: Ubuntu 20.04
 CPU: AMD EPYC 7262 8-Core
 RAM: 16 GB
 Disk: 875 GB
-IP: [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
+IP: 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
 Docker: 28.1.1, Compose v2.35.1
 ```
 
-#### V2 Docker 스택 (/srv/newtalk-v2/)
+### V2 Docker 스택 (/srv/newtalk-v2/)
 ```
 app:      PHP 8.3-FPM (Laravel 12)
 nginx:    1.25-alpine → :8080
@@ -37,7 +55,7 @@ redis:    Redis 7 → :6380
 frontend: Next.js 16 → :3000 (R2 추가)
 ```
 
-#### DB 접속
+### DB 접속
 ```
 V1 (읽기 전용): mysql -u pigupuser -p -h 127.0.0.1 -P 3306 autoda
   비밀번호: /home/danharoo/www/application/config/database.php 참조
@@ -45,26 +63,26 @@ V2 (읽기/쓰기): mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
   비밀번호: /srv/newtalk-v2/.env.docker 참조
 ```
 
-#### NAS
+### NAS
 ```
-Synology DS1821+, IP [NAS-IP]
+Synology DS1821+, IP 192.168.30.23
 image-auto 컨테이너: :8100
 ```
 
-#### Git
+### Git
 ```
 레포: git@github.com:moongoby/newtalk-v2-api-.git (끝 하이픈 주의)
 웹: https://github.com/moongoby/newtalk-v2-api-
 ```
 
-#### URL
+### URL
 ```
-V2 API: http://[SERVER-IP]:8080
-V2 Frontend: http://[SERVER-IP]:3000
-V1: http://[SERVER-IP]
+V2 API: http://114.207.244.86:8080
+V2 Frontend: http://114.207.244.86:3000
+V1: http://114.207.244.86
 ```
 
-#### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
+### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
 ```
 admin@newtalk.kr (관리자)
 md@newtalk.kr (MD)
@@ -74,231 +92,262 @@ retail@newtalk.kr (소매)
 outsource@newtalk.kr (외주)
 ```
 
-### 기존 시스템 보호 (System A~D)
+---
 
-| ID | 설명 | 규칙 |
-|---|---|---|
-| A | V1 웹 ([SERVER-IP]:80) | 수정 금지 |
-| B | V1 어드민 ([ADMIN-SERVER-IP]) | 수정 금지 |
-| C | NAS image-auto ([NAS-IP]:8100) | 별도 진행 |
-| D | ShortFlow AI 쇼츠 | 별도 진행 |
+## 3. 작업 규칙 (필독)
+
+### 3.1 절대 금지
+- V1 소스 코드 수정 금지
+- V1 DB 쓰기 금지 (읽기만 허용)
+- .env.docker, 비밀번호 등 민감정보 Git 커밋 금지
+
+### 3.2 백업
+- 파일 수정 전 반드시: .bak.{YYYYMMDD_HHMMSS}
+
+### 3.3 Git 규칙
+- 커밋 접두사: [R{라운드}-{TASK번호}] 또는 [DOCS]
+- 예: [R1-003] 발주 API, [R2-FRONT-001] Next.js 셋업, [DOCS] 기획서 수정
+- 빈 테이블 커밋 금지
+
+### 3.4 Docker 명령
+```
+docker compose --env-file .env.docker exec app php artisan {command}
+docker compose --env-file .env.docker exec app composer {command}
+```
+
+### 3.5 보고서
+- 위치: /srv/newtalk-v2/docs/reports/{TASK-ID}-report.md
+- 필수 항목: 파일 목록, 실행 결과, 테스트 결과, Git SHA
 
 ---
 
-## 2. 완료된 작업
+## 4. 완료된 작업
 
-상세 내용은 각 docs/reports/{TASK-ID}-report.md 참조.
+### R0: 인프라 구축
+- Laravel 12 + Docker 환경
+- V1 스키마 추출 (226 테이블)
+- 38 테이블 마이그레이션
+- Spatie RBAC (6 roles, 36 permissions)
+- GitHub 레포 + .cursorrules (129줄)
 
-| Task ID | 날짜 | 버전 | 커밋 SHA | 핵심 결과 |
-|---------|------|------|----------|-----------|
-| R0 | 2026-02-21 | v0.1.0 | — | Laravel 12 + Docker, V1 스키마 226테이블, 38테이블 마이그레이션, RBAC 6역할 |
-| R1-TASK-001 | 2026-02-22 | v1.0.0 | 37ad7e4 | Sanctum 인증 API |
-| R1-TASK-002 | 2026-02-22 | v1.0.0 | 876f4b3 | 상품 CRUD API, 모델·이미지·옵션·카테고리 |
-| R1-TASK-003 | 2026-02-22 | v1.0.0 | 555ee03 | 발주·입고·바코드 API, 7단계 상태 전이 |
-| R1-TASK-004 | 2026-02-22 | v1.0.0 | 67f0a64 | 사입 대시보드 API 6 엔드포인트 |
-| R1-TASK-005 | 2026-02-22 | v1.0.0 | be662c7 | 기본 대시보드 + V1 마이그레이션 3커맨드 (users/products/wholesale) |
-| R2-FRONT-001 | 2026-02-23 | v1.1.0 | ce541c5 | Next.js 16 셋업, 인증·역할별 라우팅 |
-| R2-FRONT-001-DEPLOY | 2026-02-23 | v1.2.0 | 870c007 | 프론트엔드 Docker 배포, :3000 |
-| R2-API-001 | 2026-02-23 | v1.3.0 | 520353b | SNS 소셜 엔진 API (피드·팔로우·찜) |
-| R2-FIX-001 | 2026-02-24 | v1.4.1 | — | 검수 피드백 반영 (역할체크, 바인딩, wishlist toggle) |
-| R2-FRONT-002 | 2026-02-23 | v1.4.0 | 520353b | 홈 피드 + 탐색 UI |
-| R2-FRONT-003 | 2026-02-24 | v1.5.0 | 520353b | 상품 상세·찜·공유 UI |
-| R2-API-002 | 2026-02-24 | v1.6.0 | 520353b | 브랜드 페이지 API |
-| R2-FRONT-004 | 2026-02-24 | v1.6.0 | 520353b | 브랜드 페이지 UI |
-| R2-FRONT-005 | 2026-02-24 | v1.7.0 | 520353b | 관리자 구매 대시보드 상세 |
-| R2-FRONT-006 | 2026-02-24 | v1.8.0 | 520353b | 도매 콘텐츠 업로드 UI |
-| R2-API-003 | 2026-02-25 | v1.9.0 | 520353b | AI 콘텐츠 처리 API |
-| R2-API-004 | 2026-02-25 | v2.0.0 | 520353b | 카페24 API 연동 |
-| R3-API-001 | 2026-02-25 | v2.1.0 | 87cb07b | 사입 주문 API (장바구니·주문) |
-| R3-FRONT-001 | 2026-02-25 | v2.2.0 | b798049 | 사입 주문·장바구니 UI |
-| R3-API-002 | 2026-02-25 | v2.3.0 | b798049 | 결제 연동 API (토스페이먼츠) |
-| R3-FRONT-002 | 2026-02-25 | v2.4.0 | b798049 | 결제 UI |
-| R3-API-003 | 2026-02-25 | v2.5.0 | b798049 | 배송 API |
-| R3-FRONT-003 | 2026-02-25 | v2.6.0 | b798049 | 배송 UI |
-| R3-API-004 | 2026-02-26 | v2.7.0 | b798049 | DM API |
-| R3-FRONT-004 | 2026-02-26 | v2.8.0 | b798049 | DM UI |
-| R3-API-005 | 2026-02-26 | v2.9.0 | — | Shorts API |
-| R3-FRONT-005 | 2026-02-26 | v2.10.0 | — | Shorts UI |
-| R3-API-006 | 2026-02-26 | v2.11.0 | — | 정산 API |
-| R3-FRONT-006 | 2026-02-26 | v2.12.0 | — | 정산 UI |
-| R4-API-001 | 2026-02-26 | v3.1.0 | — | 거래처 제도 API |
-| R4-API-002 | 2026-02-26 | v3.2.0 | — | 스토리 API |
-| R4-FRONT-001 | 2026-02-26 | v3.6.0 | — | 거래처 제도 UI |
-| R4-API-003 | 2026-02-26 | v3.3.0 | — | AI 맞춤 피드 + 추천 엔진 |
-| R4-API-004 | 2026-02-26 | v3.4.0 | — | 셀러 채널 관리 API |
-| R4-API-005 | 2026-02-26 | v3.5.0 | — | 콘텐츠 파이프라인 API |
-| R4-FRONT-002 | 2026-02-26 | v3.7.0 | — | 스토리 UI |
-| R4-FRONT-003 | 2026-02-26 | v3.8.0 | — | AI 추천 피드 UI + 소매 마이페이지 |
-| R4-API-006 | 2026-02-26 | v3.9.0 | — | SNS 자동 게시 API |
-| R4-API-007 | 2026-02-26 | v3.10.0 | — | 위탁배송 고도화 + 드롭십 API |
-| R4-FRONT-006 | 2026-02-26 | v3.14.0 | — | 콘텐츠 파이프라인 UI |
-| R4-FRONT-004 | 2026-02-26 | v3.12.0 | — | 셀러 채널 관리 UI |
-| R4-FRONT-005 | 2026-02-26 | v3.13.0 | — | SNS 자동 게시 UI |
-| R4-FRONT-007 | 2026-02-26 | v3.15.0 | — | 위탁배송·드롭십 UI |
-| DOCS-FIX-007 | 2026-02-26 | — | — | SHA 교체 + ARCHITECTURE 재작성 |
-| DOCS-FIX-008 | 2026-02-26 | v3.11.0 | — | 4대 핵심 문서 정합성 복구 |
-| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | 770ae91 | R4 최종 문서 정합성 복구 (push 완료) |
-| DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환, .cursorrules 인계서 규칙 추가 |
-| CODE-REVIEW-001 | 2026-02-28 | — | 946c57e | R1~R4 코드 검수 보고서 push |
-| CODE-FIX-001 | 2026-03-02 | — | e594850 | BUG-001·002·003 수정 + TS 에러 0건 달성 (frontend 빌드 정상) |
-| ROUTE-MERGE-001 | 2026-03-02 | v4.2.0 | be758c6 | 라우트 통합 Phase1+2 — Cafe24 7EP + R4 33EP 병합, 마이그레이션 9개, 107라우트·75테이블 |
-| ROUTE-CONNECT-B1-001 | 2026-03-02 | v4.3.0 | f39ef28 | B-1 라우트 연결 — 장바구니·주문·브랜드·콘텐츠·미디어·SNS 35EP, 107→142라우트 |
-| R5-B2-MIGRATE-001 | 2026-03-03 | v4.4.0 | 55c73b4 | B-2 마이그레이션 12테이블 생성, 75→87테이블 |
-| ROUTE-CONNECT-B2-001 | 2026-03-03 | v4.5.0 | 26ee445 | B-2 라우트 연결 — 결제+배송+정산+쇼츠 36EP, 142→178라우트 |
-| R5-B3-MIGRATE-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 마이그레이션 — 거래처+스토리+AI추천+셀러채널 10테이블, 87→97테이블 |
-| ROUTE-CONNECT-B3-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 라우트 연결 — 25EP, 178→203라우트 |
-| INTEGRATION-CHECK-001 | 2026-03-03 | — | — | 203라우트 전수 검사: 컨트롤러 28/33 실구현, Service 3개 미구현(500 에러 7건), 모델 fillable 2개 즉시 수정 완료 |
-| SERVICE-FIX-001 | 2026-03-04 | v4.8.0 | 0f1de87 | DropshipService·FulfillmentService·ContentPipelineService 구현 — 500 에러 7건 → 200 완전 해소 |
-| NTV2-V1FIX-002 | 2026-03-05 | v4.9.0 | — | V1-FIX-001 Phase 2 실행 시도: DB 접속 불가(Bridge 환경 오류). 보고서 작성 완료. rfree-009 직접 실행 필요 |
-| API-TEST-001 | 2026-03-03 | — | 8c4b0e1 | 스모크 테스트(203라우트): PASS 45/53, 500에러 7건(DropshipService·FulfillmentService·ContentPipelineService 미구현), Feature Test 20/20 PASS |
+### R1-TASK-001: 인증 + RBAC
+- Sanctum 인증 API
+- 커밋: 37ad7e4
+- 브랜치: feature/R1-TASK-001-auth
 
----
+### R1-TASK-002: 상품 CRUD API
+- 모델, 이미지, 옵션, 카테고리, 역할별 접근
+- 커밋: 876f4b3
+- 브랜치: feature/R1-TASK-002-products
 
-## 3. 진행 중 작업
+### R1-TASK-003: 발주·입고·바코드 API
+- 7단계 발주 상태 전이, 입고→수량 자동 갱신, 바코드 일괄 생성
+- 커밋: 555ee03 (구현 완성)
+- 브랜치: feature/R1-TASK-003-purchasing
 
-| Task ID | 상태 | 내용 |
-|---------|------|------|
+### R1-TASK-004: 사입 대시보드 API
+- admin 전용 6개 엔드포인트 (summary, suppliers, trend, recent-orders, recent-inbounds, alerts)
+- 커밋: 67f0a64
+- 브랜치: feature/R1-TASK-004-dashboard
 
+### R1-TASK-005: 기본 대시보드 + V1 마이그레이션
+- 역할별 overview + admin stats 엔드포인트
+- V1→V2 마이그레이션 커맨드 3개 (users, products, wholesale)
+  - users: 79,459건 dry-run 확인
+  - products: 77,111건 dry-run 확인 (active 12,585)
+  - wholesale: 1,818건 dry-run 확인
+- 커밋: be662c7
+- 브랜치: feature/R1-TASK-005-migration
 
-| V1-FIX-001 / NTV2-V1FIX-002 | Phase 2 실행 시도 — DB 접속 불가(Bridge 환경 오류) | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행 — rfree-009 SSH 키 없음) |
+### R2-FRONT-001: Next.js 프로젝트 셋업
+- Next.js 16 프로젝트 구조, 인증(로그인/회원가입), 역할별 라우팅
+- 관리자 대시보드 + 사입 대시보드 화면
+- 소매/도매/MD/사입자 레이아웃
+- 커밋: ce541c5
+- 브랜치: feature/R2-FRONT-001-setup
 
----
+### R2-FRONT-001-DEPLOY: 프론트엔드 배포
+- Rate Limiting + 역할 라우트 + 401 로그아웃 + Docker 기동
+- 커밋: 870c007
+- 브랜치: feature/R2-FRONT-001-setup
+- 접속: http://114.207.244.86:3000
 
-## 4. 보류/미시작
+### R2-API-001: SNS 소셜 엔진 API
+- 피드(홈/탐색/상세/작성/검색/좋아요), 팔로우(팔로우/언팔로우/팔로워·팔로잉), 찜(목록/추가/해제)
+- follows, wishlists, feed_items, feed_likes 테이블 + 4 모델 + 3 컨트롤러 (13 엔드포인트)
+- 커밋: 520353b
+- 브랜치: feature/R2-API-001-social-engine
 
-| 항목 | 선행조건 | 우선순위 |
-|------|----------|----------|
-| ~~SERVICE-FIX-001~~ | ~~완료~~ | ~~P0 즉시~~ |
-| SEEDER-001 | NTV2 서버(rfree-009) 직접 접근 환경 구성 | P0 즉시 |
-| V1-HOTFIX-001 | CEO 승인 | P0 즉시 |
-| VERIFY-AND-SYNC-001 | — | P1 단기 |
-| DOCS-SYNC-002 | — | P1 단기 |
-| FRONTEND-AUDIT-001 | — | P1 단기 |
-| V1-FIX-001 Phase 2 (DB 조사·치환) | rfree-009 서버 직접 실행 필요 (claudebot SSH 키 없음) | P0 즉시 |
-| R5 기획 | CEO 범위 확정 | P2 중기 |
+### R2-FIX-001: 검수 피드백 반영 (v1.4.1)
+- store() 역할 체크(wholesale|admin), index() orderByRaw 바인딩, feed_likes unique 확인
+- WishlistController::toggle, POST /wishlists/{productId}/toggle
+- 프론트: toggleWishlist 엔드포인트 변경, 찜 UI 상태, 팔로우 disabled, placeholder 이미지
+- 브랜치: feature/R2-FIX-001-review-feedback
 
----
+### R2-FRONT-003: 상품 상세·찜·공유 UI (v1.5.0)
+- 상품 상세 페이지 `/retail/product/[id]`, 이미지 캐러셀, 옵션(컬러·사이즈), 찜·공유, 액션바, 관련상품
+- product-api.ts (getProduct, getRelatedProducts, toggleProductWishlist, shareProduct)
+- 브랜치: feature/R2-FRONT-003-product-detail
+- Git SHA: 520353b
 
-## 5. 핵심 발견
+### R2-API-002: 브랜드 페이지 API (v1.6.0)
+- brand_pages 테이블, BrandPage·ProductImage 모델, BrandPageController 6 EP
+- GET /brands, /brands/{slug}, /brands/{slug}/products, /brands/{slug}/feed, POST follow, PUT /brands/me
+- BrandPageSeeder (wholesale@newtalk.kr), Feed API author.brand_slug·product.wholesale_name
+- 브랜치: feature/R2-API-002-brand-page
+- Git SHA: 520353b
 
-| 발견 | 날짜 | 영향 |
-|------|------|------|
-| auth_code 90 사용자 65,580명 미분류 | R1 | 소매/도매 분류 필요 |
-| V1 products 컬럼명 차이 | R1 | be662c7에서 해결 |
-| R1 브랜치 develop 미병합 | R2 이전 | 정리 필요 |
-| Docker mount path 확인 필요 | — | src/ vs 루트 |
-| 이중 라우트 파일 (routes/api.php vs src/routes/api.php) | ROUTE-MERGE-001에서 해결 (src/routes/api.php 일원화, routes/api.php.legacy 보존) | API 라우트 66→107개 |
-| Cursor git push 누락 패턴 반복 | R4 | .cursorrules 자동 push 규칙 추가 필요 |
-| DO Spaces URL이 V1에 하드코딩 | V1-FIX-001 | 소스+DB 치환 필요 (CEO 승인 완료) |
-| Bridge(Cursor)가 NTV2 서버 대신 KIS AutoTrade 서버에서 NTV2 지시서 실행 | 2026-03-03 | SERVICE-FIX-001·SEEDER-001 완료 보고 신뢰 불가 — 실제 NTV2 서버(rfree-009) 접근 환경 미구성. 커밋 이메일 cursor@kis-autotrade.local, /srv/newtalk-v2 없음·Docker 미설치·SSH 인증 실패로 확인. NTV2 서버 직접 실행 환경 구성 필요 |
-| Service 클래스 3종 미구현 (API-TEST-001 발견) | 2026-03-03 | DropshipService·FulfillmentService·ContentPipelineService 미구현으로 관련 7엔드포인트 500 에러 발생, SERVICE-FIX-001로 수정 필요 |
+### R2-FRONT-004: 브랜드 페이지 UI (v1.6.0)
+- /brand/[slug] 상세 (헤더, 탭 상품/피드), /brands 탐색, 탐색 탭 "브랜드", FeedCard·ProductInfo 브랜드 링크
+- brand-api.ts, BrandHeader, BrandCard, BrandProductGrid, BrandFeedSection
+- 브랜치: feature/R2-API-002-brand-page
+- Git SHA: 520353b
 
----
+### R2-FRONT-005: 관리자 구매 대시보드 상세 (v1.7.0)
+- 구매 대시보드 메인 /admin/purchase, 발주 목록 /admin/purchase/orders, 발주 상세 /admin/purchase/[id]
+- 입고 목록 /admin/purchase/receiving, 입고 상세 /admin/purchase/receiving/[id], 바코드 /admin/purchase/barcode
+- PurchaseStats, PurchaseFilter, PurchaseOrderTable, ReceivingTable, ReceivingDetail, BarcodeScanner
+- API: dashboard/purchasing/summary·recent-orders, purchase-orders(목록), inbound-receipts(목록/상세/complete), barcodes
+- 보고서: docs/reports/R2-FRONT-005-report.md
+- Git SHA: 520353b
 
-## 6. 웹 Claude 인수인계 사항
+### R2-FRONT-006: 도매 콘텐츠 업로드 UI (v1.8.0)
+- /wholesale/content 목록(그리드/리스트, 필터, 페이지네이션), /wholesale/content/new 작성, /wholesale/content/[id]/edit 수정
+- MediaUploader, ContentEditor, ProductTagSelector, ContentList, ContentCard, ContentPreview
+- content-api.ts, types/content.ts, UI: input, label, textarea, progress, switch, alert-dialog
+- Git SHA: 520353b
 
-### 최신 상태 (2026-03-04)
+### R2-API-003: AI 콘텐츠 처리 API (v1.9.0)
+- contents, contents_media, contents_product_tags 테이블 및 Content, ContentFile, ContentProductTagLink 모델
+- ContentController: store, mine, show, update, destroy
+- MediaController: upload (id, file_path, file_name, url), type=image|video
+- GET /api/contents/{id} 인증만(visibility=private은 본인만)
+- Git SHA: 520353b
 
-**[긴급] Bridge 환경 오류 발견 (2026-03-03)**
-- Cursor(Claude Code)가 NTV2 서버(rfree-009)가 아닌 KIS AutoTrade 서버에서 NTV2 지시서 실행 중
-- 증거: 커밋 이메일 cursor@kis-autotrade.local, /srv/newtalk-v2 없음, Docker 미설치, SSH 인증 실패
-- SERVICE-FIX-001·SEEDER-001의 "완료" 보고는 신뢰 불가 (실제 NTV2 서버에서 실행되지 않음)
+### R2-API-004: 카페24 API 연동 (v2.0.0)
+- cafe24_connections, cafe24_product_mappings 테이블 및 Cafe24Connection, Cafe24ProductMapping 모델
+- Cafe24ApiService (OAuth URL, token 교환/갱신, 상품 push/update/delete/list)
+- Cafe24Controller: connect, callback, status, pushProducts, updateProduct, deleteProduct, listProducts
+- POST/GET /api/cafe24/connect, callback, GET status, POST products/push, PUT/DELETE/GET products
+- Git SHA: 520353b
 
-**확인된 완료 작업:**
-- INTEGRATION-CHECK-001 완료: 203라우트 전수 검사 (Genspark 직접 실행, HTTP 200 확인)
-  - 컨트롤러 28/33 실구현, Service 3개 미구현(500 에러 7건), 모델 fillable 2개 즉시 수정
-- API-TEST-001 완료: 스모크 테스트 (Genspark 직접 실행, HTTP 200 확인, SHA: 8c4b0e1)
-  - PASS 45/53, 500에러 7건(DropshipService·FulfillmentService·ContentPipelineService), Feature Test 20/20 PASS
+### R3-API-001: 사입 주문 API (v2.1.0)
+- carts (status, note, softDeletes, unique user_id+status), cart_items, orders R3 컬럼, order_items 스냅샷
+- CartController: index, addItem, updateItem, removeItem, clear (장바구니 5개 엔드포인트)
+- OrderController: store(cart_id/item_ids), index, show, updateStatus, cancel (주문 5개 엔드포인트)
+- 주문번호 NT-YYYYMMDD-XXXXX, 도매처별 주문 분리, 소매 취소/도매 확인·배송/관리자 refund
+- Git SHA: 87cb07b
 
-**미완료/미실행 지시서:**
-- SERVICE-FIX-001: ✅ 완료 (0f1de87, 2026-03-04 — 114서버 Claude Code 직접 실행)
-- SEEDER-001: ❌ 미완료 (KIS 서버에서 실행됨, 보고서 없음)
-- VERIFY-AND-SYNC-001: ❌ 미실행
-- DOCS-SYNC-002: ❌ 미실행
-- FRONTEND-AUDIT-001: ❌ 미실행
-- V1-HOTFIX-001: ❌ 미실행
+### R3-API-002: 결제 연동 API (v2.3.0)
+- payments, payment_logs 테이블 및 orders 결제 컬럼 (payment_status, paid_at)
+- Payment, PaymentLog 모델. TossPaymentService (prepare, confirm, cancel, webhook)
+- PaymentController: prepare, confirm, show, cancel, orderPayment, webhook (6 엔드포인트)
+- Git SHA: 서버에서 main 푸시 후 git log --oneline -1 로 확인하여 보고서에 기입
 
-**이전 완료:**
-- R5-B3-001 완료: 97테이블·203라우트 (8013204, 2026-03-03)
-- ROUTE-CONNECT-B2-001 완료: 142→178라우트 (26ee445, 2026-03-03)
-- R5-B2-MIGRATE-001 완료: 75→87테이블 (55c73b4, 2026-03-03)
-- ROUTE-CONNECT-B1-001 완료: 107→142라우트 (f39ef28, 2026-03-02)
-- ROUTE-MERGE-001 완료: 66→107라우트, 66→75테이블 (be758c6, 2026-03-02)
-- CODE-FIX-001 완료: BUG-001·002·003 수정, TS 에러 0건 (e594850, 2026-03-02)
-- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2~4 CEO 승인 대기
+### R3-FRONT-001: 사입 주문·장바구니 프론트 UI (v2.2.0)
+- /retail/cart 장바구니 (조회, 수량 변경, 삭제, 비우기, 주문하기)
+- /retail/order/new 주문 생성 (배송정보, item_ids/cart 연동)
+- /retail/orders, /retail/orders/[id] 주문 목록·상세 (필터, 페이지네이션, 취소)
+- /wholesale/orders, /wholesale/orders/[id] 도매 주문 관리 (상태 변경, 송장)
+- CartItemCard, CartSummary, CartEmpty, ShippingForm, OrderItemList, OrderSummaryCard, OrderStatusBadge, OrderCard, OrderDetail, OrderCancelDialog
+- cart-api.ts (5함수), order-api.ts (5함수), types/cart.ts, types/order.ts
+- retail 레이아웃: 주문내역 링크. 상품 상세: 장바구니 담기 버튼
+- Git SHA: b798049
 
-### 웹 Claude가 해야 할 일
-1. ~~[P0 긴급] NTV2 서버(rfree-009) 직접 접근 환경 구성 → SERVICE-FIX-001 재실행~~ **완료**
-2. **[P0 긴급]** SEEDER-001 NTV2 서버(server-114)에서 실행 (`ssh server-114` 접근 가능)
-3. **[P0 긴급]** V1-HOTFIX-001 CEO 승인 후 실행
-4. VERIFY-AND-SYNC-001, DOCS-SYNC-002 실행 (P1)
-5. FRONTEND-AUDIT-001 실행 (P1)
-6. V1-FIX-001 Phase 2 실행 승인 → DB 조사 결과 검증 (P0)
-7. R5 기획 착수 (CEO 확정 후, P2)
-
-### 대표님 확인 필요 사항
-1. ~~[긴급] Bridge 환경 오류~~ **해소** — 114서버 Claude Code가 server-114(~/.ssh/config)로 직접 SSH 접근 가능 확인. SERVICE-FIX-001 완료됨.
-2. SEEDER-001 실행 승인 (server-114 접근 환경 이미 구성됨)
-3. V1-HOTFIX-001 내용 및 실행 승인
-4. V1-FIX-001 Phase 2 승인: V1 DB DO URL 치환 진행 여부
-5. R5 기획 범위·일정 확정
-
-### 주의사항
-- Cursor가 git push를 건너뛰는 패턴이 반복됨 → 모든 지시서에 push 단계 명시 필수
-- V1 소스는 CodeIgniter 2.x — config/database.php, config/config.php에 도메인 설정 있을 가능성 높음
-- 이전 대화에서 non-fast-forward 충돌 발생 → 작업 시작 전 git pull --rebase 선행 필수
+### R4-FRONT-004: 셀러 채널 관리 UI (v3.12.0)
+- /wholesale/channels (도매 채널 목록·새 채널 연결), /wholesale/channels/[id] (채널 상세·설정·매핑·동기화·상품 푸시)
+- /admin/channels, /admin/channels/[id] (관리자 전체 채널 현황·상세)
+- /wholesale/products/[id]/channels (상품별 채널 등록 현황)
+- channel 10컴포넌트: ChannelList, ChannelCard, ChannelConnectDialog, ChannelDetail, ChannelStatusBadge, ChannelMappingTable, ChannelPushDialog, ChannelSettingsForm, ProductChannelBadges, index
+- channel-api 13함수: getChannels, connectChannel, getAuthUrl, getChannelDetail, disconnectChannel, updateChannelSettings, pushProduct, pushBulk, deleteChannelProduct, syncChannel, getMappings, refreshToken, getProductChannels
+- 상품 상세(/retail/product/[id])에 ProductChannelBadges 삽입
+- wholesale-layout "채널 관리" → /wholesale/channels, admin-layout "채널" → /admin/channels
+- Git SHA: (푸시 후 기입)
 
 ---
 
-## 7. 문서 위치 + 업데이트 규칙
+## 5. 현재 진행 중인 작업
+
+### 별도 진행 중 (다른 Cursor 대화)
+- NAS 이미지 연동
+- 콘텐츠 파이프라인
+
+---
+
+## 6. 다음 작업 큐
+
+| 순서 | Task ID | 설명 |
+|------|---------|------|
+| 1 | R3-FRONT-002 | 결제 UI (R3-API-002 완료 후) |
+| 2 | R3-API-003 | 배송 API |
+| 3 | R4-FRONT-005 / R4-FRONT-006 / R4-FRONT-007 | 다음 R4 프론트 작업 |
+| 4 | (선택) | 카페24 실제 연동 테스트 — client_id/secret 설정 후 대표 승인 시 진행 |
+
+---
+
+## 7. 주요 문서 위치
 
 ```
 /srv/newtalk-v2/
 ├── docs/
-│   ├── CEO-DIRECTIVES.md              ← CEO 지시 (필수 읽기)
 │   ├── planning/
-│   │   └── NT-V2-PLAN-002-FINAL.md     ← 기획서 (8레이어, 66화면)
+│   │   └── NT-V2-PLAN-002-FINAL.md      ← 기획서 (8레이어, 66화면)
 │   ├── architecture/
-│   │   └── NT-V2-ARCHITECTURE.md       ← 시스템 아키텍처
+│   │   └── NT-V2-ARCHITECTURE.md         ← 시스템 아키텍처
 │   ├── handover/
-│   │   └── HANDOVER.md                 ← 이 문서 (인수인계서)
+│   │   └── HANDOVER.md                   ← 이 문서 (인수인계서)
 │   ├── reports/
 │   │   ├── R1-TASK-001-report.md
 │   │   ├── R1-TASK-002-report.md
-│   │   ├── … (기타 보고서)
+│   │   ├── R1-TASK-003-report.md
+│   │   ├── R1-TASK-004-report.md
+│   │   ├── R1-TASK-005-report.md
+│   │   ├── R2-FRONT-001-report.md
+│   │   ├── R2-API-001-report.md
+│   │   ├── R2-API-002-report.md
+│   │   └── R2-FRONT-004-report.md
 │   ├── v1-analysis/
 │   │   └── v1-purchasing-analysis.md
 │   ├── scripts/
-│   ├── CHANGELOG.md
-│   └── README.md
-├── .cursorrules
-├── frontend/                           ← Next.js 16 (R2)
-├── src/ 또는 루트                      ← Laravel 12
+│   │   └── (런북 스크립트들)
+│   ├── CHANGELOG.md                      ← 전체 변경 이력
+│   └── README.md                         ← docs 디렉터리 안내
+├── .cursorrules                          ← Cursor 작업 규칙 (129줄)
+├── frontend/                             ← Next.js 16 (R2)
+├── src/ 또는 루트                         ← Laravel 12
 ├── docker-compose.yml
-└── .env.docker                         ← DB/Redis 비밀번호 (커밋 금지)
+└── .env.docker                           ← DB/Redis 비밀번호 (커밋 금지)
 ```
-
-### 업데이트 규칙
-- 작업 완료 시: 섹션 2, 3, 5, 6 갱신
-- push 대상: V2 repo(/srv/newtalk-v2) + project-docs repo
-- 확인: curl raw URL → HTTP 200
 
 ---
 
-## 8. 버전 이력
+## 8. 기존 시스템 보호 (System A~D)
 
-| 버전 | 날짜 | 변경 |
-|------|------|------|
-| 1.0.0 | 2026-02-23 | R1 완료 + R2 착수 상태 기준 초판 |
-| 2.x | 2026-02-24~26 | R2/R3 완료, R4-API-001·002, R4-FRONT-001 |
-| 3.0.0 | 2026-02-26 | DOCS-FIX-008: 완료 항목 정합성 복구; R4-FRONT-006 콘텐츠 파이프라인 UI 완료 반영 |
-| 3.0.1 | 2026-02-27 | DOCS-FIX-009: R4-FRONT-004·005·007 완료 반영, R4 라운드 종결 |
-| 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
-| 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
-| 4.2.0 | 2026-03-02 | ROUTE-MERGE-001 완료 반영, 107라우트·75테이블, git 브랜치 main 확인 |
-| 4.9.0 | 2026-03-05 | NTV2-V1FIX-002: V1-FIX-001 Phase 2 실행 시도 — DB 접속 불가(Bridge 환경 오류), 보고서·HANDOVER 갱신, push 불가 |
-| 4.7.0 | 2026-03-04 | 지시서 완료 검증 — INTEGRATION-CHECK-001·API-TEST-001 확인, Bridge 환경 오류(KIS 서버) 발견, SERVICE-FIX-001·SEEDER-001 미완료 확인, 미실행 지시서 6건 목록화 |
-| 4.6.0 | 2026-03-03 | R5-B3-001 완료 — 10테이블+25EP, 97테이블·203라우트, R5-Phase B 종결 |
-| 4.5.0 | 2026-03-03 | ROUTE-CONNECT-B2-001 완료 반영, 36EP 라우트 연결, 142→178라우트 |
-| 4.4.0 | 2026-03-03 | R5-B2-MIGRATE-001 완료 반영, 12테이블 생성, 75→87테이블 |
-| 4.3.0 | 2026-03-02 | ROUTE-CONNECT-B1-001 완료 반영, 142라우트, B-1 연결 완료 |
+| ID | 설명 | 규칙 |
+|---|---|---|
+| A | V1 웹 (114.207.244.86:80) | 수정 금지 |
+| B | V1 어드민 (114.207.244.87) | 수정 금지 |
+| C | NAS image-auto (192.168.30.23:8100) | 별도 진행 |
+| D | ShortFlow AI 쇼츠 | 별도 진행 |
+
+---
+
+## 9. DOCS-CLEANUP-001 완료 항목 (2026-02-24)
+
+| 항목 | 우선순위 | 비고 |
+|------|----------|------|
+| CONTEXT.md SHA 교체 | ~~HIGH~~ 완료 | R2-FRONT-003, R2-API-002, R2-FRONT-004, R2-FIX-002 실제 SHA 교체 (서버 runbook 실행) |
+| CHANGELOG.md SHA + v1.6.1 | ~~HIGH~~ 완료 | SHA 2건 교체 + v1.6.1 섹션 추가 완료 |
+| R2-FIX-002 보고서 | ~~HIGH~~ 완료 | 보고서 작성 + Git SHA 기록 (서버 runbook에서 치환) |
+| HANDOVER.md 플레이스홀더 | ~~MEDIUM~~ 완료 | SHA 교체 완료 시 반영 |
+| V1-SCHEMA-SUMMARY.md | ~~MEDIUM~~ 완료 | 테이블 목록·핵심 구조 보완 (서버에서 SHOW TABLES/DESCRIBE 실행 시 완전 채움) |
+| review 폴더 | ~~LOW~~ 완료 | .gitkeep만 유지 |
+
+---
+
+## 10. 알려진 이슈
+
+1. **auth_code 90 사용자 65,580명**: V1에서 역할 미분류. 분석 후 소매/도매 분류 필요.
+2. **V1 products 마이그레이션**: 컬럼명 차이(g_idx, GoodsName 등) 해결 완료 (be662c7).
+3. **R1 브랜치 미병합**: develop에 R1 브랜치들 아직 미병합. R2 전에 정리 필요.
+4. **Docker src/ vs 루트**: app 서비스의 마운트가 ./src:/var/www/html인지 확인 필요.
