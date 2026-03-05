@@ -334,12 +334,13 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 1. 이 문서 읽기 완료
 2. .cursorrules, CLAUDE.md 읽기
 3. **현재 브랜치**: `phase-2c-command-center`
-4. 진행률 **95%** — Commander Architecture DIR-001~009 완료, DIR-010(HANDOVER+최종보고) 대기
-5. **다음 우선순위**: DIR-010 최종보고서 + CEO 텔레그램 보고 + `GO100_COMMANDER_MODE=true` CEO 승인
+4. 진행률 **98%** — v15.0: pandas 3.0 패치·V3모델 준비 완료, T-025/T-026/T-018 대기
+5. **다음 우선순위**: T-025 closing_report cron (root 실행) → T-026 검증 → T-018 모의투자 정밀 검증 → V3 CEO 승인
 6. 상태 확인: `systemctl status go100 && systemctl status go100-frontend`, `psql -d kisautotrade -c "\\dt go100_agent*"`
 7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
-8. **Commander 모드 활성화**: .env에 `GO100_COMMANDER_MODE=true` 추가 (CEO 승인 필요)
-9. **프론트엔드 현황**: 34페이지 LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 97%)
+8. **V3 모델 활성화**: CEO 승인 후 `python3 scripts/go100/activate_v3_model.py --confirm && sudo systemctl restart go100`
+9. **프론트엔드 현황**: 34페이지 LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 98%)
+10. **pandas 환경**: .venv=3.0.1(크론 사용), venv=2.3.3(직접 실행) — indicator_precompute 패치 완료
 
 ---
 
@@ -389,7 +390,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 ---
 
-## 12. SaaS 런칭 준비 체크리스트 (2026-03-04 기준)
+## 12. SaaS 런칭 준비 체크리스트 (2026-03-05 기준)
 
 | # | 항목 | 상태 | 비고 |
 |---|------|------|------|
@@ -465,6 +466,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
+| v15.0 | 03-05 | **pandas 3.0 수정 + V3 모델 준비 (T-017A/T-023/T-024)**: indicator_precompute groupby.apply include_groups=False 패치(pandas 2.x/3.x 호환), paper_trading_engine_30d 방어적 수정, 수동 1회 실행 PASS(exit 0), V3 모델 6종 로드 성공(active:True), activate_v3_model.py 스크립트 작성(CEO 승인 대기), Known Issues #7 추가, Phase 8 로드맵 신설, 진행률 98% |
 
 ### v14.1 추가 완료 작업 (2026-03-05)
 | Task ID | 날짜 | 내용 | 상태 |
