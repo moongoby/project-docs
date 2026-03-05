@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.9.0
-**최종수정**: 2026-03-05 KST (SEEDER-001 완료 — 시더 8개, DB 데이터 전체 투입)
+**버전**: 5.0.1
+**최종수정**: 2026-03-05 KST (INFRA-PERM-001 시도 — SSH키·Docker 권한 부여 root 권한 필요, project-docs 보고서 로컬 커밋 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 ---
@@ -21,6 +21,7 @@
 | 2.8.0 | 2026-02-25 | R3-FRONT-001 사입 주문·장바구니 프론트 UI: /retail/cart, order/new, orders, orders/[id], /wholesale/orders, 컴포넌트 10개, cart-api·order-api |
 | 2.9.0 | 2026-02-26 | R4-FRONT-004 셀러 채널 관리 UI: /wholesale/channels, /wholesale/channels/[id], /admin/channels, /wholesale/products/[id]/channels, channel 10컴포넌트, channel-api 13함수 |
 | 4.9.0 | 2026-03-05 | SEEDER-001 완료: 시더 8개(UserSeeder, CategorySeeder, ProductSeeder, OrderSeeder, PurchaseOrderSeeder, ShortSeeder, SettlementSeeder, PartnershipSeeder), users=17, products=46, shorts=10, purchase_orders=36, settlements=5, partnerships=5 |
+| 5.0.1 | 2026-03-05 | INFRA-PERM-001 시도: SSH키 권한 변경·docker 그룹 추가 root 권한 필요로 미완료. project-docs에 API-SMOKE-002-report.md 로컬 커밋 완료 (ec14551). newtalk-v2 6 commits push 미완료 (SSH 키 접근 불가). |
 
 ---
 
@@ -351,3 +352,5 @@ docker compose --env-file .env.docker exec app composer {command}
 2. **V1 products 마이그레이션**: 컬럼명 차이(g_idx, GoodsName 등) 해결 완료 (be662c7).
 3. **R1 브랜치 미병합**: develop에 R1 브랜치들 아직 미병합. R2 전에 정리 필요.
 4. **Docker src/ vs 루트**: app 서비스의 마운트가 ./src:/var/www/html인지 확인 필요.
+5. **[미해결] claudebot SSH 키·Docker 권한 문제 (INFRA-PERM-001)**: claudebot 계정이 /root/.ssh/id_ed25519_newtalk 접근 불가(Permission denied) + docker 그룹 미포함. root로 서버 접속 후 `chown root:claudebot /root/.ssh/id_ed25519_newtalk && chmod 640 /root/.ssh/id_ed25519_newtalk && usermod -aG docker claudebot` 실행 필요. 이로 인해 newtalk-v2 repo 6 commits + project-docs 1 commit이 GitHub push 미완료 상태.
+6. **[미해결] newtalk-v2 6 commits ahead of origin/main**: b13ae13(API-SMOKE-002), 88c6861(DOCS-SYNC-003), 012bc9c(FRONTEND-AUDIT-001), da42612, 4a51a2f(SEEDER-001), d89640e(SEEDER-001-A) 미push. SSH 권한 해결 후 즉시 push 필요.
