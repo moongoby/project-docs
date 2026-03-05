@@ -1,4 +1,4 @@
-# GO100 인수인계서 v15.0 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비
+# GO100 인수인계서 v15.1 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링
 > 작성: 2026-02-28 | 최종 업데이트: 2026-03-05 KST (v15.0: T-017A/T-023/T-024 완료 — pandas 3.0 수정·V3모델 준비·모의투자검증) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
@@ -54,7 +54,7 @@
 
 ## 2. 현재 상태 (2026-03-05 기준)
 
-### 진행률: **98%** (v15.0: T-017A/T-023/T-024 완료 — pandas 3.0 패치·V3모델 준비·모의투자검증) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영 + pandas 3.0 호환 완료)
+### 진행률: **98%** (v15.1: T-028~T-031 완료 — SaaS 버그수정·SEO완성·에러모니터링 구현) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영 + pandas 3.0 호환 완료)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -394,7 +394,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 | # | 항목 | 상태 | 비고 |
 |---|------|------|------|
-| 1 | 회원가입 플로우 | ⚠️ 버그 미수정 | 이메일/소셜 코드 완성, agreed_terms/privacy DB 저장 버그 (T-013 확인) — T-019 추가 조치 필요 |
+| 1 | 회원가입 플로우 | ✅ 완료 | T-028 완료 — migration 064, v4_users 컬럼 추가, auth_router/social_auth_router INSERT 수정, E2E PASS (커밋 4a24b943) |
 | 2 | 결제 연동 | ⚠️ 설계 완료 | T-021 설계서 완료 — 토스페이먼츠(국내) + Stripe(해외), CEO 승인 대기 |
 | 3 | 구독 플랜 관리 | ⚠️ 설계 완료 | T-021 설계서 완료 — Free/Pro(29,000원/월)/Premium(79,000원/월), CEO 승인 대기 |
 | 4 | 마켓플레이스 | ⚠️ 설계 완료 | T-021 설계서 완료 — go100_marketplace_listings DB 스키마, 판매자/평점/승인 플로우, CEO 승인 대기 |
@@ -402,8 +402,8 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | 6 | 개인정보처리방침 | ✅ 완료 | /privacy 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 7 | 고객지원 채널 | 미구현 | 카카오톡/이메일 채널 미개설 |
 | 8 | 온보딩 튜토리얼 | 미구현 | 첫 로그인 시 가이드 화면 없음 |
-| 9 | SEO/OG 태그 | ✅ 완료 | T-020 완료 — layout.tsx OG/keywords/robots 적용, robots.txt 생성 (커밋 71f51ebe) |
-| 10 | 에러 모니터링 | 확인필요 | Sentry 등 외부 모니터링 미설정 |
+| 9 | SEO/OG 태그 | ✅ 완료 | T-020 OG/robots 완료(71f51ebe) + T-029 sitemap.xml 34개 URL 동적 생성(0060ac99) — Google Search Console 등록 권장 |
+| 10 | 에러 모니터링 | ✅ 완료 | T-031 완료 — 자체 에러 모니터링 미들웨어(error_monitor.py) + go100_error_log 테이블(migration 065) + Telegram 알림(message_id 8525) (커밋 758dc8c7) |
 
 > SaaS 전환 우선순위: 1(agreed_terms 저장 버그 수정), 2, 3, 4, 7, 8 항목. 5, 6은 완료. 나머지는 런칭 전 QA 단계 점검.
 
@@ -466,6 +466,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
+| v15.1 | 03-05 | **SaaS 버그수정+SEO+에러모니터링 (T-028~T-031)**: agreed_terms DB 저장 버그 완전 수정(migration 064), sitemap.xml 34개 URL 동적 생성, closing_report cron 검증, 에러 모니터링 미들웨어+Telegram 알림 구현(migration 065). SaaS 체크리스트 #1/#9/#10 완료 |
 | v15.0 | 03-05 | **pandas 3.0 수정 + V3 모델 준비 (T-017A/T-023/T-024)**: indicator_precompute groupby.apply include_groups=False 패치(pandas 2.x/3.x 호환), paper_trading_engine_30d 방어적 수정, 수동 1회 실행 PASS(exit 0), V3 모델 6종 로드 성공(active:True), activate_v3_model.py 스크립트 작성(CEO 승인 대기), Known Issues #7 추가, Phase 8 로드맵 신설, 진행률 98% |
 
 ### v14.1 추가 완료 작업 (2026-03-05)
@@ -510,3 +511,8 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-020 | 03-05 | SEO/OG 메타태그 전수 적용 — layout.tsx OG/keywords/robots, robots.txt 생성 (커밋 71f51ebe) | PASS |
 | T-021 | 03-05 | SaaS 결제·구독 아키텍처 설계 — Free/Pro/Premium 3플랜, 토스/Stripe, DB 스키마 4종 | PASS(설계 완료, CEO 승인 대기) |
 | T-022 | 03-05 | HANDOVER v15.0 T-018~T-022 반영 — SaaS 체크리스트 #1/#2/#3/#4/#9 업데이트 | PASS |
+| T-028 | 03-05 | agreed_terms/privacy DB 저장 버그 완전 수정 — migration 064, v4_users 컬럼 추가, auth/social INSERT 수정 (커밋 4a24b943) | PASS |
+| T-029 | 03-05 | sitemap.xml 동적 생성 + SEO 완성 — 34개 URL, MetadataRoute.Sitemap, 빌드 PASS (커밋 0060ac99) | PASS |
+| T-030 | 03-05 | closing_report 크론 설치 검증 — cron 등록 확인, 자동 실행 검증 (커밋 f5a286e3) | PASS |
+| T-031 | 03-05 | 에러 모니터링 미들웨어 구현 — error_monitor.py + migration 065 + Telegram 알림(Msg 8525) (커밋 758dc8c7) | PASS |
+| T-032 | 03-05 | HANDOVER v15.1 업데이트 — T-028~T-031 SaaS+SEO+크론+모니터링 반영 | PASS |
