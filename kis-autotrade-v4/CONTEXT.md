@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-02-23
+> 최종 갱신: 2026-03-05 (T-106 기준값 현행화)
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -24,7 +24,7 @@
 3. v4_positions 직접 수정 금지
 4. 핵심 파일 수정 → review/ 업로드 → CEO+Claude 승인 후 적용
 5. .env/.bak 커밋 절대 금지
-6. 사전확인: strategy_cards=60, v4_positions OPEN=14
+6. 사전확인: strategy_cards=60, v4_positions OPEN=0 (2026-03-05 실측; 이전 14건)
 
 ## 4. DESK 구성
 | DESK | 역할 | max_hold | 라이브/전체 | 수익률 | 상태 |
@@ -43,25 +43,28 @@
 | kis-v41-scheduler | — | active |
 | kis-v41-minute-collector | — | inactive (월요일 장전) |
 
-## 6. DB 무결성 기준
+## 6. DB 무결성 기준 (2026-03-05 T-106 실측값)
 - strategy_cards: 60건
-- v4_positions OPEN: 14건 (HANDOVER v9.3 기준)
-- DB 크기: 15.7 GB (Session G 실증)
-- v4_ohlcv_minute: 19,468,781행
+- v4_positions OPEN: 0건 (2026-03-05 실측; T-100 이전 14건)
+- DB 크기: 37.82 GB (이전 15.7 GB; T-099/T-105 신규 테이블 추가 후 증가)
+- DB 테이블 수(public schema): 288개
+- v4_ohlcv_minute: 108,451,723행 (이전 19,468,781행; 분봉 대량 수집 결과)
+- v4_fundamental_quarterly: 787행 (신규; T-105 펀더멘털 수집 결과)
+- v4_macro_daily: 730행 (신규; T-099 매크로 수집 결과)
 - v4_scalping_universe: 708종목
 - 일봉 테이블: ohlcv_daily (구칭 v4_ohlcv_daily 사용 금지)
 - DESK 풀 테이블: v4_desk5_watchlist / v4_desk4_watchlist / v4_desk3_pool (개별 테이블; 구칭 v4_desk_pool 사용 금지)
 - DESK3 풀 현황: 206/ACTIVE (폭락장 풀 팽창; 이전 106/ACTIVE)
 
-## 7. 작업 큐
+## 7. 작업 큐 (2026-03-05 현행화)
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0 | MINUTE-COLLECTOR-STATUS | Cursor 결과 대기 |
-| P1 | DESK2-MINUTE-REBT | P0 후 |
+| P0 | T-106 CONTEXT 기준값 현행화 | 완료 (2026-03-05) |
+| P1 | DESK2-MINUTE-REBT | 대기 |
 | P2 | DESK5-CARD-BT | P1 후 |
 | P3 | OVERLAP-GUARD | CEO 정책 대기 |
 | P4 | REGIME-FILTER | CEO 승인 대기 |
-| P5 | DESK1-LIVE-PREP | 월요일 09:00 전 |
+| P5 | DESK1-LIVE-PREP | 보류 |
 
 ## 8. CEO 결정 대기
 1. DESK 간 중복 매수 정책
