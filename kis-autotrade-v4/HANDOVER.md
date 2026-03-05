@@ -485,6 +485,23 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-05, T-122 KJH_CYCLE 김정환 사이클 — v10.7)
+
+#### ★ T-122 완료: KJH_CYCLE 김정환 사이클 분석 엔진
+
+**[T-122 CUR-V41-KJH-CYCLE-001] KjhCycleEngine 구현 + FunnelScore L3 통합**
+- **파일**: `backend/app/services/feature_engine.py` (KjhCycleEngine 클래스)
+- **7메서드**: `__init__` / `_fetch_annual_fundamentals` / `check_revenue_uptrend` / `check_op_uptrend` / `evaluate_per_band` / `check_roe_trend` / `calculate_kjh_score`
+- **SCORE**: revenue_trend×0.30 + op_trend×0.30 + per_position×0.25 + roe_trend×0.15
+- **cycle_phase**: GROWTH(매출+OP 모두↑) / MATURE(한쪽만↑) / DECLINE(모두↓) / UNKNOWN(데이터부족)
+- **FunnelScore L3 보너스** (`funnel_score_engine.py`): GROWTH≥0.7→+0.15 / MATURE≥0.5→+0.05 / DECLINE→0
+- **YAML**: `config/param_search_space.yaml` `kjh_cycle` 섹션 (min_years/per_band/score_weights)
+- **테스트**: 13건 ALL PASS (`tests/unit/test_kjh_cycle.py`)
+- **커밋**: dacc29bf (2 files: funnel_score_engine.py + test_kjh_cycle.py)
+- **push 상태**: 로컬 커밋 완료, SSH 키 없어 원격 push 미완료
+
+---
+
 ### 최신 상태 (2026-03-05, T-097 확인매매 엔진 — v9.6)
 
 #### ★ T-097 완료: 확인매매 엔진 + 12가설 승자 전략 반영
