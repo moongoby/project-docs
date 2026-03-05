@@ -46,9 +46,12 @@
 ## 6. DB 무결성 기준
 - strategy_cards: 60건
 - v4_positions OPEN: 14건 (HANDOVER v9.3 기준)
-- DB 크기: 15.7 GB
+- DB 크기: 15.7 GB (Session G 실증)
 - v4_ohlcv_minute: 19,468,781행
 - v4_scalping_universe: 708종목
+- 일봉 테이블: ohlcv_daily (구칭 v4_ohlcv_daily 사용 금지)
+- DESK 풀 테이블: v4_desk5_watchlist / v4_desk4_watchlist / v4_desk3_pool (개별 테이블; 구칭 v4_desk_pool 사용 금지)
+- DESK3 풀 현황: 206/ACTIVE (폭락장 풀 팽창; 이전 106/ACTIVE)
 
 ## 7. 작업 큐
 | 순위 | 작업 | 상태 |
