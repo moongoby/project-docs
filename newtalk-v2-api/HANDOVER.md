@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.8.0
-**최종수정**: 2026-03-04 KST (SERVICE-FIX-001 완료 — 3개 서비스 구현, 500 에러 7건 해소)
+**버전**: 4.9.0
+**최종수정**: 2026-03-05 KST (NTV2-V1FIX-002 실행 시도 — Bridge 환경 오류로 DB 직접 실행 불가, 보고서 작성 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -149,6 +149,7 @@ outsource@newtalk.kr (외주)
 | ROUTE-CONNECT-B3-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 라우트 연결 — 25EP, 178→203라우트 |
 | INTEGRATION-CHECK-001 | 2026-03-03 | — | — | 203라우트 전수 검사: 컨트롤러 28/33 실구현, Service 3개 미구현(500 에러 7건), 모델 fillable 2개 즉시 수정 완료 |
 | SERVICE-FIX-001 | 2026-03-04 | v4.8.0 | 0f1de87 | DropshipService·FulfillmentService·ContentPipelineService 구현 — 500 에러 7건 → 200 완전 해소 |
+| NTV2-V1FIX-002 | 2026-03-05 | v4.9.0 | — | V1-FIX-001 Phase 2 실행 시도: DB 접속 불가(Bridge 환경 오류). 보고서 작성 완료. rfree-009 직접 실행 필요 |
 | API-TEST-001 | 2026-03-03 | — | 8c4b0e1 | 스모크 테스트(203라우트): PASS 45/53, 500에러 7건(DropshipService·FulfillmentService·ContentPipelineService 미구현), Feature Test 20/20 PASS |
 
 ---
@@ -159,7 +160,7 @@ outsource@newtalk.kr (외주)
 |---------|------|------|
 
 
-| V1-FIX-001 | Phase 1 완료, Phase 2 대기 | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행) |
+| V1-FIX-001 / NTV2-V1FIX-002 | Phase 2 실행 시도 — DB 접속 불가(Bridge 환경 오류) | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행 — rfree-009 SSH 키 없음) |
 
 ---
 
@@ -173,7 +174,7 @@ outsource@newtalk.kr (외주)
 | VERIFY-AND-SYNC-001 | — | P1 단기 |
 | DOCS-SYNC-002 | — | P1 단기 |
 | FRONTEND-AUDIT-001 | — | P1 단기 |
-| V1-FIX-001 Phase 2 (DB 조사·치환) | CEO 승인 + Cursor 실행 | P0 즉시 |
+| V1-FIX-001 Phase 2 (DB 조사·치환) | rfree-009 서버 직접 실행 필요 (claudebot SSH 키 없음) | P0 즉시 |
 | R5 기획 | CEO 범위 확정 | P2 중기 |
 
 ---
@@ -295,6 +296,7 @@ outsource@newtalk.kr (외주)
 | 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
 | 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
 | 4.2.0 | 2026-03-02 | ROUTE-MERGE-001 완료 반영, 107라우트·75테이블, git 브랜치 main 확인 |
+| 4.9.0 | 2026-03-05 | NTV2-V1FIX-002: V1-FIX-001 Phase 2 실행 시도 — DB 접속 불가(Bridge 환경 오류), 보고서·HANDOVER 갱신, push 불가 |
 | 4.7.0 | 2026-03-04 | 지시서 완료 검증 — INTEGRATION-CHECK-001·API-TEST-001 확인, Bridge 환경 오류(KIS 서버) 발견, SERVICE-FIX-001·SEEDER-001 미완료 확인, 미실행 지시서 6건 목록화 |
 | 4.6.0 | 2026-03-03 | R5-B3-001 완료 — 10테이블+25EP, 97테이블·203라우트, R5-Phase B 종결 |
 | 4.5.0 | 2026-03-03 | ROUTE-CONNECT-B2-001 완료 반영, 36EP 라우트 연결, 142→178라우트 |
