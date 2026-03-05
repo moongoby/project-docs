@@ -1,5 +1,5 @@
 # CEO DIRECTIVES – NewTalk V2 프로젝트
-> 최종 업데이트: 2026-02-28 (v1.0)
+> 최종 업데이트: 2026-03-05 (v1.1)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션에서 필수 읽기. 이 문서의 지시를 위반하는 설계/작업은 무효.
 
@@ -106,9 +106,12 @@ docker compose --env-file .env.docker exec app composer {command}
 | R2 프론트+API | ✅ 완료 | UI 6건 + API 4건 (10건) |
 | R3 마켓플레이스 | ✅ 완료 | API 6건 + FRONT 6건 (12건) |
 | R4 확장 기능 | ✅ 완료 | API 7건 + FRONT 7건 + DOCS-FIX 2건 (16건) |
-| V1-FIX | 🔄 진행중 | V1 이미지 URL 도메인 치환 |
-| CODE-REVIEW | ⏳ 대기 | R1~R4 전체 코드 검수 |
-| R5 | ⏳ 기획대기 | 일본 크로스보더 + 라이브 B2B |
+| CODE-REVIEW | ✅ 완료 | R1~R4 전체 코드 검수 (203라우트, 97테이블) |
+| V1-FIX | 🔄 Phase 1 완료, Phase 2 대기 | V1 이미지 URL 도메인 치환 (CEO 승인 대기) |
+| R5 Phase A~B | ✅ 완료 | 203라우트, 97테이블 구축 |
+| SEEDER | ✅ 완료 | 시더 8개, users=17, products=46 |
+| V1-HOTFIX | ✅ 완료 | 001+002 (이미지 캐시 버스팅, 덮어쓰기 수정) |
+| R5 기획 | ⏳ 기획대기 | 일본 크로스보더 + 라이브 B2B (CEO 확정 대기) |
 
 ---
 
@@ -117,3 +120,4 @@ docker compose --env-file .env.docker exec app composer {command}
 | 버전 | 날짜 | 변경 |
 |------|------|------|
 | v1.0 | 2026-02-28 | 초판 – D-001~D-005, T-001~T-007, 절대 규칙 7항, 로드맵 |
+| v1.1 | 2026-03-05 | DOCS-SYNC-003: 로드맵 갱신 — CODE-REVIEW ✅, V1-FIX Phase 1 완료/Phase 2 대기, R5 Phase A~B ✅, SEEDER ✅, V1-HOTFIX ✅ |
