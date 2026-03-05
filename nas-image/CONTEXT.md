@@ -108,7 +108,7 @@ PhotoRoom API Basic $20/월 (1,000장, 초과 $0.02/장) - 결제 보류
 ## 지시서 작성규칙
 
 ```
->>>DIRECTIVE_START
+[지시서 예시 형식]
 Task ID: T-NNN
 제목: (한글 제목)
 서버: 114 (nas)
@@ -118,7 +118,7 @@ Task ID: T-NNN
 의존성: (없음 또는 선행 Task ID)
 
 (작업 내용 상세 기술)
->>>DIRECTIVE_END
+[예시 끝]
 ```
 
 - 타임스탬프: KST 기준 (UTC 금지)
