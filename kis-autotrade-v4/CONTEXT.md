@@ -4,7 +4,7 @@
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
-- DESK 1~5 멀티 전략 운영 (62개 전략카드)
+- DESK 1~5 멀티 전략 운영 (60개 전략카드)
 - V4.1 코드베이스, 동일 서버/DB에서 타 서비스와 공유
 - 도메인: trading41.newtalk.kr
 - GitHub: moongoby/kis-autotrade-v4 (private), 문서: moongoby/project-docs (public)
@@ -24,7 +24,7 @@
 3. v4_positions 직접 수정 금지
 4. 핵심 파일 수정 → review/ 업로드 → CEO+Claude 승인 후 적용
 5. .env/.bak 커밋 절대 금지
-6. 사전확인: strategy_cards=62, v4_positions OPEN=5
+6. 사전확인: strategy_cards=60, v4_positions OPEN=14
 
 ## 4. DESK 구성
 | DESK | 역할 | max_hold | 라이브/전체 | 수익률 | 상태 |
@@ -44,9 +44,9 @@
 | kis-v41-minute-collector | — | inactive (월요일 장전) |
 
 ## 6. DB 무결성 기준
-- strategy_cards: 62건
-- v4_positions OPEN: 5건 (ID 49, 51, 53, 55, 61)
-- DB 크기: 6,152 MB
+- strategy_cards: 60건
+- v4_positions OPEN: 14건 (HANDOVER v9.3 기준)
+- DB 크기: 15.7 GB
 - v4_ohlcv_minute: 19,468,781행
 - v4_scalping_universe: 708종목
 
