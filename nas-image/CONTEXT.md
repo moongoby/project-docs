@@ -104,3 +104,23 @@ PhotoRoom API Basic $20/월 (1,000장, 초과 $0.02/장) - 결제 보류
 - 2월 4주차: Work C/D, Docker 빌드, Phase 2 완료, P1 착수
 - 3월 초중: 실사진 테스트, Phase 3 (P3 A컷 선별, P4 배너/인트로 자동생성)
 - 4월: Phase 4 (P5 114 DB 자동 업데이트, P6 상세페이지 자동 정렬)
+
+## 지시서 작성규칙
+
+```
+>>>DIRECTIVE_START
+Task ID: T-NNN
+제목: (한글 제목)
+서버: 114 (nas)
+우선순위: P0-CRITICAL / P1-HIGH / P2-NORMAL
+예상 시간: N분
+예상 비용: $0
+의존성: (없음 또는 선행 Task ID)
+
+(작업 내용 상세 기술)
+>>>DIRECTIVE_END
+```
+
+- 타임스탬프: KST 기준 (UTC 금지)
+- 작업 완료 후 HANDOVER.md 반드시 갱신
+- git commit + push 필수

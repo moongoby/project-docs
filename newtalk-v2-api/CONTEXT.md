@@ -188,3 +188,23 @@ routes/api.php, app/Http/Controllers/
 
 - 커밋 접두사: `[R{라운드}-{TASK}]` 또는 `[DOCS]`
 - 코드 변경 시 테스트·린트 확인 후 커밋
+
+## 지시서 작성규칙
+
+```
+>>>DIRECTIVE_START
+Task ID: T-NNN
+제목: (한글 제목)
+서버: 114 (newtalk-v2-api)
+우선순위: P0-CRITICAL / P1-HIGH / P2-NORMAL
+예상 시간: N분
+예상 비용: $0
+의존성: (없음 또는 선행 Task ID)
+
+(작업 내용 상세 기술)
+>>>DIRECTIVE_END
+```
+
+- 타임스탬프: KST 기준 (UTC 금지)
+- 작업 완료 후 HANDOVER.md 반드시 갱신
+- git commit + push 필수

@@ -88,3 +88,23 @@
 - UPLOAD_OFFSET_MINUTES=30
 - YOUTUBE_DAILY_LIMIT=12
 - 영상 규격: 1080x1920, H.264, AAC, 29.97fps, ≤60초
+
+## 지시서 작성규칙
+
+```
+>>>DIRECTIVE_START
+Task ID: T-NNN
+제목: (한글 제목)
+서버: 114 (shortflow)
+우선순위: P0-CRITICAL / P1-HIGH / P2-NORMAL
+예상 시간: N분
+예상 비용: $0
+의존성: (없음 또는 선행 Task ID)
+
+(작업 내용 상세 기술)
+>>>DIRECTIVE_END
+```
+
+- 타임스탬프: KST 기준 (UTC 금지)
+- 작업 완료 후 HANDOVER.md 반드시 갱신
+- git commit + push 필수

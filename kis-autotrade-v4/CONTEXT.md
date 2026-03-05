@@ -83,3 +83,23 @@
 1. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md (이 파일)
 2. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
 3. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/CLAUDE.md
+
+## 12. 지시서 작성규칙
+
+```
+>>>DIRECTIVE_START
+Task ID: T-NNN
+제목: (한글 제목)
+서버: 211 (kis-autotrade-v4)
+우선순위: P0-CRITICAL / P1-HIGH / P2-NORMAL
+예상 시간: N분
+예상 비용: $0
+의존성: (없음 또는 선행 Task ID)
+
+(작업 내용 상세 기술)
+>>>DIRECTIVE_END
+```
+
+- 타임스탬프: KST 기준 (UTC 금지)
+- 작업 완료 후 HANDOVER.md 반드시 갱신
+- git commit + push 필수
