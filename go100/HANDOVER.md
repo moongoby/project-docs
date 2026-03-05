@@ -394,15 +394,15 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 | # | 항목 | 상태 | 비고 |
 |---|------|------|------|
-| 1 | 회원가입 플로우 | ⚠️ 부분구현 | 이메일/소셜 코드 완성, agreed_terms/privacy DB 저장 버그 존재 (T-013) |
-| 2 | 결제 연동 | 미구현 | Stripe/토스페이먼츠 계획 필요 |
-| 3 | 구독 플랜 관리 | 미구현 | Free/Pro/Premium tier 미정 |
-| 4 | 마켓플레이스 | 미구현 | is_featured/is_public 백엔드 컬럼만 존재 |
+| 1 | 회원가입 플로우 | ⚠️ 버그 미수정 | 이메일/소셜 코드 완성, agreed_terms/privacy DB 저장 버그 (T-013 확인) — T-019 추가 조치 필요 |
+| 2 | 결제 연동 | ⚠️ 설계 완료 | T-021 설계서 완료 — 토스페이먼츠(국내) + Stripe(해외), CEO 승인 대기 |
+| 3 | 구독 플랜 관리 | ⚠️ 설계 완료 | T-021 설계서 완료 — Free/Pro(29,000원/월)/Premium(79,000원/월), CEO 승인 대기 |
+| 4 | 마켓플레이스 | ⚠️ 설계 완료 | T-021 설계서 완료 — go100_marketplace_listings DB 스키마, 판매자/평점/승인 플로우, CEO 승인 대기 |
 | 5 | 이용약관 최신화 | ✅ 완료 | /terms 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 6 | 개인정보처리방침 | ✅ 완료 | /privacy 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 7 | 고객지원 채널 | 미구현 | 카카오톡/이메일 채널 미개설 |
 | 8 | 온보딩 튜토리얼 | 미구현 | 첫 로그인 시 가이드 화면 없음 |
-| 9 | SEO/OG 태그 | 확인필요 | Next.js metadata API 적용 여부 미검토 |
+| 9 | SEO/OG 태그 | ✅ 완료 | T-020 완료 — layout.tsx OG/keywords/robots 적용, robots.txt 생성 (커밋 71f51ebe) |
 | 10 | 에러 모니터링 | 확인필요 | Sentry 등 외부 모니터링 미설정 |
 
 > SaaS 전환 우선순위: 1(agreed_terms 저장 버그 수정), 2, 3, 4, 7, 8 항목. 5, 6은 완료. 나머지는 런칭 전 QA 단계 점검.
@@ -495,7 +495,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-015 | 03-05 | FE 전수 페이지 접근 테스트 (44페이지: public 200/protected 307, TODO/STUB 0건) | PASS |
 | T-016 | 03-05 | HANDOVER v14.2 업데이트 및 최종 보고 | PASS |
 
-### v15.0 추가 완료 작업 (2026-03-05) — T-017A/T-023/T-024 pandas 패치+V3모델 준비
+### v15.0 추가 완료 작업 (2026-03-05) — T-017A/T-023/T-024 pandas 패치+V3모델 준비 + T-018~T-022 모의투자검증+SEO+결제설계
 | Task ID | 날짜 | 내용 | 상태 |
 |---------|------|------|------|
 | T-017A | 03-05 | stock_code KeyError 버그 원인 분석 — pandas 3.0.1 groupby.apply 그룹키 제외 확인 (분석 전용, 수정 없음) | PASS |
@@ -505,3 +505,8 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-025 | 03-05 | closing_report 자동화 스크립트 — generate_closing_report.py + go100_closing_report.cron 작성 | 대기 |
 | T-026 | 03-05 | T-025 후속 검증 및 크론 등록 | 대기 |
 | T-027 | 03-05 | HANDOVER v15.0 업데이트 — T-017A~T-026 반영, Known Issues #7 추가, Phase 8 로드맵 추가 | PASS |
+| T-018 | 03-05 | 모의투자 엔진 정밀 검증 — 크론 정상, 패치 후 실행 PASS, entry_rules 포맷 불일치(거래 0건) | PASS(조건부) |
+| T-019 | 03-05 | agreed_terms 저장 버그 수정 | 추가 조치 필요 (미완료) |
+| T-020 | 03-05 | SEO/OG 메타태그 전수 적용 — layout.tsx OG/keywords/robots, robots.txt 생성 (커밋 71f51ebe) | PASS |
+| T-021 | 03-05 | SaaS 결제·구독 아키텍처 설계 — Free/Pro/Premium 3플랜, 토스/Stripe, DB 스키마 4종 | PASS(설계 완료, CEO 승인 대기) |
+| T-022 | 03-05 | HANDOVER v15.0 T-018~T-022 반영 — SaaS 체크리스트 #1/#2/#3/#4/#9 업데이트 | PASS |
