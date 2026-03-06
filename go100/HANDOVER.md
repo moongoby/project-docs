@@ -473,6 +473,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
+| v15.4 | 03-06 | **어드민 시그널·리스크 + 매매 관리 + 거래 상세 (T-046)**: /admin/signals(시그널타임라인+리스크게이지4종+Kill Switch+도넛차트) + /admin/trading(세션+포지션+수익곡선+체결이력) + /admin/trading/[tradeId](거래상세+시그널역추적+슬리피지) 구현. 컴포넌트 6개 신규. API 5개 추가. 커밋 b8f247ca. 페이지 수 45→48 |
 | v15.3 | 03-06 | **Commander 군단 대시보드 + entry_rules 정규화 + 매니저 스냅샷**: T-033B entry_rules 포맷 정규화 완료(SignalEvaluator+DB UPDATE, 커밋 ba7f2431) + T-036 Commander 대시보드 구현(go100.newtalk.kr/go100/commander) + T-037 API 연동 + T-038/T-040 HANDOVER 갱신. 페이지 수 44→45, T-039 매니저 스냅샷 공개 URL(go100.newtalk.kr/manager/snapshot.json) 추가, Known Issue #8 해결 완료 |
 | v15.2 | 03-06 | **entry_rules 검증 + T-157 토글UI + 전체 세션 종합**: T-157 실매매/모의 토글 스위치 연동(커밋 fc398d2d), T-033/T-034 entry_rules 포맷 불일치 진단·수동실행 0건 확인, 페이지 수 34→44 갱신, migration 범위 035~065 갱신(064/065 추가), Known Issues #8 추가, 다음 작업 섹션 전면 갱신 |
 | v15.1 | 03-05 | **SaaS 버그수정+SEO+에러모니터링 (T-028~T-031)**: agreed_terms DB 저장 버그 완전 수정(migration 064), sitemap.xml 44개 URL 동적 생성, closing_report cron 검증, 에러 모니터링 미들웨어+Telegram 알림 구현(migration 065). SaaS 체크리스트 #1/#9/#10 완료 |
@@ -525,6 +526,11 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-030 | 03-05 | closing_report 크론 설치 검증 — cron 등록 확인, 자동 실행 검증 (커밋 f5a286e3) | PASS |
 | T-031 | 03-05 | 에러 모니터링 미들웨어 구현 — error_monitor.py + migration 065 + Telegram 알림(Msg 8525) (커밋 758dc8c7) | PASS |
 | T-032 | 03-05 | HANDOVER v15.1 업데이트 — T-028~T-031 SaaS+SEO+크론+모니터링 반영 | PASS |
+
+### v15.4 추가 완료 작업 (2026-03-06) — T-046 어드민 시그널·리스크 + 매매 관리 + 거래 상세
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-046 | 03-06 | 어드민 시그널·리스크 + 매매 관리 + 거래 상세 페이지 — /admin/signals(시그널 타임라인+리스크 게이지4종+Kill Switch+도넛차트), /admin/trading(세션정보+포지션+수익곡선+체결이력), /admin/trading/[tradeId](거래상세+시그널역추적+슬리피지) 구현. 컴포넌트 6개 신규. 백엔드 API 5개 추가(risk/status, risk/kill-switch, signal-timeline, trade-detail, trading-status). npm run build PASS. 커밋 b8f247ca | PASS |
 
 ### v15.3 추가 완료 작업 (2026-03-06) — T-033B entry_rules 정규화 + T-036/T-037 Commander 대시보드 + T-038 HANDOVER v15.3 + T-039 매니저 스냅샷 + T-040 HANDOVER 갱신
 | Task ID | 날짜 | 내용 | 상태 |
