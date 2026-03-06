@@ -280,9 +280,10 @@
 | /api/v4/regime | 에러 | **미구현 또는 장외** → T-234 작업 대기 |
 
 ### 백테스트 루프 현황 (2026-03-07 기준)
-- **총 세션**: 162 COMPLETED, 1 RUNNING (stuck)
-- **크론 설치**: ❌ 미설치 (research_backtest_loop.py 크론 미등록) → T-228 참조
-- **APPROVED 가설**: 0건 (dry-run SKIPPED 정상, 실가설 승인 후 자동 실행 가능)
+- **총 세션**: 162 COMPLETED, 0 RUNNING (Session116 FAILED 처리 완료)
+- **크론 설치**: ✅ 설치됨 (/etc/cron.d/v41_research_loop 매일5회 실행중)
+- **iterations**: 3행 (H08-B PF=25.93 / H05-D PF=2.18 / H12-D PF=3.15 — T-096 시드 완료)
+- **APPROVED 가설**: 0건 (Phase A SKIPPED 정상, 가설 APPROVED 처리 후 자동 실행 가능)
 
 ---
 
@@ -293,7 +294,7 @@
 | # | 이슈 | 심각도 | 처리 방안 |
 |---|------|--------|----------|
 | 1 | **FunnelScore 구조적 저점** (max FS=0.2415 < 임계값 0.35) — 전 종목 구조적 차단 | 🔴 P0 | T-227: 방안A(Fail-Open)/방안B(재가중)/방안C(임계값0.20) CEO승인대기 |
-| 2 | **백테스트 루프 stuck** (1건 RUNNING 상태 고착) + research_backtest_loop.py 크론 미설치 | 🟠 P1 | T-228: 크론 설치 + stuck 세션 강제 종료 |
+| 2 | ~~**백테스트 루프 stuck** (1건 RUNNING 상태 고착) + research_backtest_loop.py 크론 미설치~~ → **T-228 해결**: Session116 FAILED/크론 기설치확인/3행시드 | ✅ 해결 | T-228 완료 (2026-03-07) |
 | 3 | **/api/v4/backtest/progress 404** (백테스트 진행률 API 미구현) | 🟡 P2 | T-226: 라우터 구현 |
 | 4 | **/api/v4/regime 에러** (레짐 API 미구현 또는 장외 시간대 오류) | 🟡 P2 | T-234: 엔드포인트 구현 또는 장외 fallback |
 | 5 | **v4_fundamental_quarterly 7.1% 커버리지** (3,844종목 중 273개) — L3 FunnelScore 점수 항상 0 | 🟠 P1 | 전종목 fundamental 수집 확대 필요 |
