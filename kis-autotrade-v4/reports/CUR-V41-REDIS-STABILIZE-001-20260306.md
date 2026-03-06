@@ -258,6 +258,74 @@ connected_clients: 13 (복구 후, 정상 범위)
 
 ---
 
+## 3차 재검증 (21:07 KST) — KIS_20260306_200724_BRIDGE
+
+### 3-1. redis-cli ping
+```
+PONG
+```
+→ Redis 서버 정상 응답 ✅
+
+### 3-2. curl localhost:8002/health (GO100 API)
+```json
+{"status":"ok","version":"4.1.0","orchestrator_state":"IDLE","database":"connected","redis":"connected"}
+```
+→ redis: connected ✅
+
+### 3-3. curl localhost:8003/health (kis-v41-api)
+```json
+{"status":"ok","version":"4.1.0","orchestrator_state":"CLOSING","database":"connected","redis":"connected"}
+```
+→ redis: connected ✅ (상태: CLOSING — 장마감 이후 정상 전환)
+
+### 3-4. systemctl status V4.1 3서비스
+```
+● kis-v41-api.service     Active: active (running) since 20:03:31 KST (1h 3min ago)
+● kis-v41-monitor.service Active: active (running) since 2026-03-04 16:06:08 KST (2 days)
+● kis-v41-scheduler.service Active: active (running) since 2026-03-04 16:06:08 KST (2 days)
+```
+→ 3서비스 모두 active(running) ✅
+
+### 3-5. kis-v41-minute-collector
+```
+Active: inactive (dead) since 2026-03-06 15:11:40 KST; 5h 54min ago
+Duration: 6h 17min 36.530s  Process: exited, status=0/SUCCESS
+```
+→ 장외 정상 inactive, 66일치 분봉 수집 완료 후 종료 ✅
+
+### 3-6. Redis CONFIG GET maxmemory maxclients
+```
+maxclients: 10000
+maxmemory:  0 (unlimited)
+```
+
+### 3-7. Redis 연결 통계
+```
+connected_clients: 13  rejected_connections: 0
+total_connections: 193,220  used_memory: 1.54MB
+mem_fragmentation_ratio: 4.16  db0: keys=6, expires=6
+```
+→ rejected_connections=0 ✅, 연결 정상 범위
+
+### 3-8. journalctl -u redis-server (2026-03-06 15:00 이후)
+```
+-- No entries --
+```
+→ Redis 서버 레벨 오류 없음 ✅
+
+### 3-9. 연결 풀 설정 확인 (수정 없음)
+```python
+max_connections=20, socket_timeout=5.0, socket_connect_timeout=3.0,
+socket_keepalive=True, health_check_interval=30, retry_on_timeout=True,
+retry_on_error=[ConnectionError, TimeoutError],
+retry=Retry(ExponentialBackoff(cap=3, base=1), 3)
+```
+→ T-173에서 이미 모든 권장 설정 적용됨 ✅ — 추가 수정 불필요
+
+**결론: 20:03 재시작 후 21:07까지 64분간 재단절 없음 → T-186 PASS 확정**
+
+---
+
 ## 5. 성공 기준 달성 여부
 
 | 기준 | 상태 |
@@ -267,6 +335,7 @@ connected_clients: 13 (복구 후, 정상 범위)
 | GO100 서비스(go100, go100-frontend) 재시작 금지 | ✅ 금지 준수 |
 | strategy_cards/v4_positions 수정 금지 | ✅ 준수 |
 | .env 커밋 금지 | ✅ 준수 |
+| 30분간 재단절 없음 | ✅ 20:03 재시작 후 21:07까지 64분간 유지 |
 
 ---
 
@@ -294,4 +363,4 @@ connected_clients: 13 (복구 후, 정상 범위)
 
 ---
 
-HANDOVER.md 업데이트 완료: (push 후 커밋해시 기재 예정)
+HANDOVER.md 업데이트 완료: v10.23 (T-186 반영, 3차 재검증 21:07 KST 추가)
