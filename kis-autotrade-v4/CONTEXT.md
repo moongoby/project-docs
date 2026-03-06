@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-06 (T-205 v10.24 동기화 — strategy_cards 60, OPEN 0, DB 42GB, 282테이블, scalping_universe 1354)
+> 최종 갱신: 2026-03-07 (T-233 v10.25 동기화 — strategy_cards 60, OPEN 0, DB 42GB, 290테이블, scalping_universe 1354, T-212~T-218 완료 반영, T-226~T-235 작업큐 갱신, 불일치 0건)
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -49,19 +49,29 @@
 - strategy_cards: 60건 (D1:10, D2:16, D3:11, D4:9, D5:10, 미배정:4)
 - v4_positions OPEN: 0건 (03-06 기준 전량 청산)
 - DB 크기: 42 GB
-- 테이블 수: 282개
+- 테이블 수: 290개 (snapshot 2026-03-07 기준)
 - v4_ohlcv_minute (2026-03 파티션): 403,915행 (누적 ~118M+)
 - v4_scalping_universe: 1,354종목
 - ohlcv_daily max: 2026-03-06
 
-## 7. 최근 완료 작업 (T-187~T-205)
+## 7. 최근 완료 작업 (T-187~T-235)
 | Task | 커밋 | 내용 |
 |------|------|------|
-| T-187 | 854466b8 | exit_manager.py SL/TP/TIMEOUT 조정 (D-ORB/D4/D6) |
+| T-235 | 20017658 | SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 구현 (D-008-KR P0): feature_engine.py compute_small_cap_quality + universe_builder.py flag_sector_leaders_v2; TC-01~08 8/8 PASS |
+| T-227 | 분석전용 | FunnelScore 구조 해부 및 긴급 재교정: L0~L3 실측 트레이싱; max FS=0.2415<임계값0.35 구조적차단; 방안A/B/C CEO승인대기 |
+| T-219 | 7f27b7b4 | THEME_CYCLE feature variable (D-008-KR P0): compute_theme_cycle_100b_count/ul_count 추가; 3케이스 6테스트 PASS |
+| T-218 | faa85636 | DUAL_FLOW_5D/20D feature variable (D-008-KR P0): compute_dual_flow_5d/20d 추가; 4케이스 8테스트 PASS |
+| T-216 | 8d74d00c | source 전파 수정: session_source→TradeSignal.source 전파; PRE_SOURCE_FILTER Fail-Open 버그 수정; TC-30~35 6건 PASS |
+| T-215 | 예정 | T-193/T-195 코드 검증+HANDOVER 반영: exit_manager D5_D014_CONFIG enabled=True/hold_weeks=4; cte_pipeline ENTRY_CUTOFF_HOUR=14 확인; 30/30 PASS |
+| T-214 | faf1c576 | DESK3→DESK2 pool_link 크론 연결: desk2_pool_link.py 엔트리포인트; v4_desk2_candidates 10→255건 |
+| T-213 | 1cfc435c | DESK4 node_detector watchlist 연결 수정: v4_node_realtime(0행)→v4_desk4_watchlist(11종목) |
+| T-212 | fba6f3d2 | DESK5 크론 cd 수정 + T5-2 조건 교체: FIX-001 크론 cd/REL-003 MA60기울기+거래량1.5배; 트리거 0%→10% |
+| T-207 | 4cf5a6fe | ATR SL Cap: D-ORB 2.5%/D4 2.0%/D6 2.0%; calculate_atr_sl() 신규; 3/3 PASS |
 | T-189 | 7df7dc81 | BEAR 레짐 FunnelScore: bear_min_score_for_entry=0.28, 통과율 +25%p |
-| T-193 | — | D5 4주 보유기간 테스트 모드 (D5_LONG_HOLD_CONFIG.enabled=True) |
-| T-199 | — | migration 067 (go100_research_iterations), 자율 루프 크론 2건 |
-| T-200 | 5703449 | 03-07 장전 8항목 사전점검 PASS |
+| T-193 | bd8d4620 | D5 4주 보유기간 테스트 모드 (D5_D014_CONFIG.enabled=True) |
+| T-195 | bd8d4620 | 14:00 이후 진입 차단 게이트 (ENTRY_CUTOFF_HOUR=14) |
+| T-199 | 5fa5eb3e | migration 067 (go100_research_iterations), v41_research_loop 크론 |
+| T-187 | 854466b8 | exit_manager.py SL/TP/TIMEOUT 조정 (D-ORB/D4/D6) |
 
 ## 8. 작업 큐 (2026-03-06 기준)
 | 순위 | 작업 | 상태 |
