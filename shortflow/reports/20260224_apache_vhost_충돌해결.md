@@ -3,7 +3,7 @@
 **작성일시:** 2026-02-24 KST  
 **작업 유형:** 버그 수정 / 설정 변경  
 **상태:** 완료  
-**서버:** [SERVER-HOSTNAME] ([SERVER-IP])  
+**서버:** rfree-0009.cafe24.com (114.207.244.86)  
 **프로젝트:** /data/shortflow  
 **도메인:** shotflow.newtalk.kr  
 
@@ -25,7 +25,7 @@ VirtualHost configuration:
 *:80                   is a NameVirtualHost
          default server shotflow.newtalk.kr (/etc/apache2/sites-enabled/00-shotflow.newtalk.kr.conf:10)
          port 80 namevhost shotflow.newtalk.kr (/etc/apache2/sites-enabled/00-shotflow.newtalk.kr.conf:10)
-         port 80 namevhost [SERVER-IP] (/etc/apache2/sites-enabled/000-default.conf:1)
+         port 80 namevhost 114.207.244.86 (/etc/apache2/sites-enabled/000-default.conf:1)
          port 80 namevhost wp.newtalk.kr (/etc/apache2/sites-enabled/000-default.conf:61)
                  alias wp.newtalk.kr
          port 80 namevhost html.newtalk.kr (/etc/apache2/sites-enabled/000-default.conf:79)
@@ -66,7 +66,7 @@ HTTP 200
 
 ### Step 0-5: default VirtualHost 확인
 
-- `000-default.conf`: ServerName [SERVER-IP], wp.newtalk.kr, html.newtalk.kr, newtalk.kr + ServerAlias www.newtalk.kr `*.newtalk.kr` (포트 80).
+- `000-default.conf`: ServerName 114.207.244.86, wp.newtalk.kr, html.newtalk.kr, newtalk.kr + ServerAlias www.newtalk.kr `*.newtalk.kr` (포트 80).
 - `default-ssl.conf`: ServerName newtalk.kr, ServerAlias `*.newtalk.kr` (포트 443), DocumentRoot /home/danharoo/www.
 
 ### Step 0-6: 모든 VirtualHost에서 newtalk 검색
@@ -125,7 +125,7 @@ HTTP 200
 |--------|------|
 | apache2ctl configtest | Syntax OK |
 | curl 127.0.0.1 Host:shotflow /login | HTTP 200 |
-| curl [SERVER-IP] Host:shotflow /login | HTTP 200 |
+| curl 114.207.244.86 Host:shotflow /login | HTTP 200 |
 | curl https://shotflow.newtalk.kr/ | HTTP 307 (→ 로그인 등 정상 리다이렉트) |
 | curl https://shotflow.newtalk.kr/login | HTTP 200 |
 | 로그인 페이지 내용 | "뉴톡 V2 로그인", "로그인" 등 포함 (Next.js 대시보드) |

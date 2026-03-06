@@ -1,7 +1,7 @@
 # Python 업그레이드 + Gemini 정상화
 
 **일시:** 2026-02-27 10:00 KST  
-**서버:** ssh root@[SERVER-IP]  
+**서버:** ssh root@114.207.244.86  
 **작업 디렉터리:** /data/shortflow
 
 ---
@@ -48,7 +48,7 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 load_dotenv()
-genai.configure(api_key="[.env:GEMINI_API_KEY]")
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 model = genai.GenerativeModel('gemini-2.5-flash')
 resp = model.generate_content('한국 경제 뉴스 3줄 요약해줘')
 print(resp.text[:200])

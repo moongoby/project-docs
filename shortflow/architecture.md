@@ -8,8 +8,8 @@
 ## 1. 인프라 구성도
 
 ```
-[NAS Synology]                    [서버 [SERVER-ID] ([SERVER-IP])]
-[NAS-IP] ──SSH:[NAS-SSH-PORT]──────▶  /data/shortflow (심볼릭 → goodscode 11TB)
+[NAS Synology]                    [서버 rfree-0009 (114.207.244.86)]
+192.168.30.23 ──SSH:2222──────▶  /data/shortflow (심볼릭 → goodscode 11TB)
   │                               /data/styleflow (심볼릭 → goodscode 11TB)
   │  sync_nas.sh (30분)           │
   └──────────────────────────────▶│

@@ -6,9 +6,9 @@ This repository contains two SaaS products sharing the same infrastructure:
 2. **StyleFlow v1.0** (B2B) – Shopping mall video-to-reel automation for SNS
 
 ## Server
-- Host: [SERVER-ID], IP: [SERVER-IP]
+- Host: rfree-0009, IP: 114.207.244.86
 - Project: /data/shortflow, Data: /data/styleflow
-- NAS: Synology [NAS-IP] (public [NAS-PUBLIC-IP], SSH port [NAS-SSH-PORT])
+- NAS: Synology 192.168.30.23 (public 183.96.69.193, SSH port 2222)
 
 ## Tech Stack
 - Backend: FastAPI (Python 3.11), Supabase (PostgreSQL + Auth + RLS)
@@ -227,3 +227,40 @@ This repository contains two SaaS products sharing the same infrastructure:
   7. 다음 작업
 - Claude 확인 URL: https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/reports/파일명.md
 - CONTEXT.md도 함께 갱신하여 push
+
+## 인계서 관리 규칙 (2026-02-28 추가)
+
+### 필수 문서
+- HANDOVER.md: /data/project-docs/shortflow/HANDOVER.md (로컬 사본: /data/shortflow/docs/HANDOVER.md)
+- CEO-DIRECTIVES.md: /data/project-docs/shortflow/CEO-DIRECTIVES.md (로컬 사본: /data/shortflow/docs/CEO-DIRECTIVES.md)
+
+### 작업 완료 시 의무
+1. 보고서 작성: docs/reports/{YYYYMMDD}_{제목}.md
+2. HANDOVER.md 업데이트:
+   - 섹션 2 완료 작업에 본 Task 추가
+   - 섹션 3 진행 중 작업 갱신
+   - 섹션 5 핵심 발견 추가
+   - 섹션 6 웹 Claude 인수인계 갱신
+3. project-docs에 push:
+   cd /data/project-docs
+   /usr/bin/git add shortflow/HANDOVER.md
+   /usr/bin/git commit -m "docs: HANDOVER 업데이트 ({TASK-ID} 완료)"
+   /usr/bin/git push origin master
+4. HTTP 200 확인:
+   curl -s -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/moongoby/project-docs/master/shortflow/HANDOVER.md
+
+### Gemini 모델 규칙
+- 사용 모델: gemini-2.5-flash (model ID)
+- gemini-2.0-flash 사용 금지 (404 에러)
+- 절대 규칙: CEO-DIRECTIVES.md 섹션 3 참조
+
+### 보고서 상단 체크포인트 (필수)
+```
+[인계 확인] 직전 완료: {TASK-ID}  현재 단계: {Phase X}  CEO 지시 적용: {D-001, D-002, ...}
+```
+
+### CEO 보고 규칙
+- 보고서 URL은 반드시 GitHub 브라우저 경로 사용 (blob/master/...)
+- raw.githubusercontent.com URL 사용 금지
+- project-docs 레포 push 완료 확인 후 보고
+- 예시: https://github.com/moongoby/project-docs/blob/master/shortflow/reports/{파일명}.md

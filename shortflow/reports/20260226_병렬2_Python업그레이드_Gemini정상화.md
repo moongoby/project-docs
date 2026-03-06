@@ -1,7 +1,7 @@
 # [병렬2/4] Python 3.10+ 업그레이드 + Gemini SDK 정상화
 
 **작성일시:** 2026-02-26 20:10 KST  
-**서버:** ssh root@[SERVER-IP]  
+**서버:** ssh root@114.207.244.86  
 **작업 디렉터리:** /data/shortflow  
 **관련:** `venv`, `venv_test`, `pyenv`, `requirements*.txt`, `.env`
 
@@ -83,7 +83,7 @@
 ## 7. Gemini 호출 테스트 결과
 
 - **테스트 코드 (venv_test):**
-  - `genai.configure(api_key="[.env:GEMINI_API_KEY]")`
+  - `genai.configure(api_key=os.getenv('GEMINI_API_KEY'))`
   - `model = genai.GenerativeModel('gemini-2.0-flash')`
   - `resp = model.generate_content('한국 경제 뉴스 3줄 요약')`
 - **결과:**

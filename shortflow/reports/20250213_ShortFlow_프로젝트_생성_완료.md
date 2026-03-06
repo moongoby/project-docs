@@ -75,5 +75,5 @@ docker compose up -d --build
 
 ## 5. 비고
 
-- 기존 서버([SERVER-IP]) 여성의류 B2B와의 격리를 위해 모든 서비스는 Docker로 구성됨.
+- 기존 서버(114.207.244.86) 여성의류 B2B와의 격리를 위해 모든 서비스는 Docker로 구성됨.
 - 이후 작업 완료 시 `reports/` 디렉터리에 일시_제목 형태 보고서를 추가하고 `reports/INDEX.md`를 갱신할 예정.

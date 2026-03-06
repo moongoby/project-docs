@@ -3,7 +3,7 @@
 **작성일시:** 2026-02-25 11:12 KST
 **작업 유형:** 배포 / 검증
 **상태:** 스크립트 반영 완료 (실행 환경 포트 3000 충돌로 기동 생략)
-**서버:** [SERVER-HOSTNAME] ([SERVER-IP])
+**서버:** rfree-0009.cafe24.com (114.207.244.86)
 **프로젝트:** /data/shortflow
 
 ## 1. 작업 개요
@@ -21,7 +21,7 @@ Docker saas-dashboard 컨테이너에 반영하기 위해 재배포 스크립트
 - 명령: docker compose up -d --build saas-dashboard
 - 서비스명: saas-dashboard / 컨테이너명: shortflow-saas-dashboard
 - 빌드: 성공 (이미지 shortflow-saas-dashboard 생성됨)
-- 기동: 실행 환경에서 포트 3000 충돌로 생략 → 대상 서버([SERVER-IP])에서 실행 시 정상 기동 예상
+- 기동: 실행 환경에서 포트 3000 충돌로 생략 → 대상 서버(114.207.244.86)에서 실행 시 정상 기동 예상
 
 ## 4. 검증 결과 (대상 서버 실행 시)
 

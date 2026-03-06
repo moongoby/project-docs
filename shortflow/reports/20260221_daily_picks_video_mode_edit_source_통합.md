@@ -67,7 +67,7 @@
 2. **.env**  
    필요 시 `DEFAULT_VIDEO_MODE`, `DEFAULT_EDIT_SPEED`, `DEFAULT_EDIT_STYLE`, `DEFAULT_EDIT_DURATION` 추가.
 
-### 4.2 Docker 재빌드 후 통합 테스트 ([SERVER-ID], `/data/shortflow`)
+### 4.2 Docker 재빌드 후 통합 테스트 (rfree-0009, `/data/shortflow`)
 
 1. Worker 이미지 재빌드  
    `docker compose build worker` (또는 프로젝트별 compose 파일 기준).

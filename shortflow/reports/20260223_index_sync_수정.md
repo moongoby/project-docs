@@ -10,7 +10,7 @@
 ## 1. 작업 개요
 
 - **목적:** project-docs 저장소에 shortflow `INDEX.md`를 shortflow 루트(`shortflow/INDEX.md`)로 동기화하고, 동기화 스크립트에 해당 복사 로직을 추가.
-- **서버:** [SERVER-HOSTNAME]  
+- **서버:** rfree-0009.cafe24.com  
 - **프로젝트:** /data/shortflow  
 - **GitHub (public):** git@github.com:moongoby/project-docs.git (master)
 
