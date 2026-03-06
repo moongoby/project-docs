@@ -71,7 +71,7 @@ ShortFlow v3.0과 합산: 월 약 24,520,000원.
 
 ### 3.1 서버 환경
 
-ShortFlow v3.0과 동일 서버([SERVER-ID], [SERVER-IP]) 공유.
+ShortFlow v3.0과 동일 서버(rfree-0009, 114.207.244.86) 공유.
 프로젝트 경로: /data/shortflow (StyleFlow 전용 모듈 포함).
 데이터 경로: /data/styleflow (촬영 원본 RAW, 생성 결과물 output).
 
@@ -104,8 +104,8 @@ ShortFlow v3.0과 동일 서버([SERVER-ID], [SERVER-IP]) 공유.
 | 항목 | 값 |
 |------|-----|
 | NAS | Synology DSM 7.2.1 |
-| 내부 IP | [NAS-IP] |
-| 외부 IP | [NAS-PUBLIC-IP] |
+| 내부 IP | 192.168.30.23 |
+| 외부 IP | 183.96.69.193 |
 | SSH 포트 | 2222 (라우터 포트포워딩) |
 | 사용자 | newtalk |
 | SSH 키 | /root/.ssh/id_nas |
@@ -519,7 +519,7 @@ goods 테이블 (77,109건)에서 상품명, 가격, 색상, 사이즈 등을 �
 
 ```bash
 # === StyleFlow 전용 ===
-STYLEFLOW_NAS_HOST=[NAS-PUBLIC-IP]
+STYLEFLOW_NAS_HOST=183.96.69.193
 STYLEFLOW_NAS_PORT=2222
 STYLEFLOW_NAS_USER=newtalk
 STYLEFLOW_NAS_KEY=/root/.ssh/id_nas
@@ -689,8 +689,8 @@ Instagram/YouTube/TikTok 비즈니스 계정 OAuth 연결 완료 상태에서
 
 | 용도 | URL |
 |------|-----|
-| 릴스 미리보기 (데모) | http://[SERVER-IP]:8888/index.html |
-| 대시보드 (구축 예정) | http://[SERVER-IP]:3000 |
+| 릴스 미리보기 (데모) | http://114.207.244.86:8888/index.html |
+| 대시보드 (구축 예정) | http://114.207.244.86:3000 |
 | 뉴톡 관리자 | (내부 URL) |
 | 뉴톡 쇼핑몰 | (시크블랙 등) |
 | Instagram Graph API | https://developers.facebook.com/docs/instagram-api |

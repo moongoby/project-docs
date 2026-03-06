@@ -69,7 +69,7 @@
 ## 4. 주의사항 / 후속 작업
 
 - **NEWTALK_DB_PASSWORD**: `.env`에 실제 비밀번호 설정 후 DB 조회·워처 자동 상품 매핑 사용 가능.
-- **브라우저 확인**: `http://[SERVER-IP]:8888/` 등에서 `output/chicblack/`를 서빙하도록 웹 서버 docroot 설정 시 index.html로 전체 릴스 확인 가능.
+- **브라우저 확인**: `http://114.207.244.86:8888/` 등에서 `output/chicblack/`를 서빙하도록 웹 서버 docroot 설정 시 index.html로 전체 릴스 확인 가능.
 - **템플릿 B~E**: 추후 길이·자막·BGM 등 스펙에 맞게 구현 필요.
 - **BGM**: 저작권 프리 BGM 추가는 별도 작업.
 - **crontab**: NAS 동기화 30분마다 실행 시 `crontab -e`에 `*/30 * * * * /data/shortflow/engine/sync_nas.sh` 등록 권장.

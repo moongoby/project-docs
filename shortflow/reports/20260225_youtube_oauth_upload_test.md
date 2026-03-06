@@ -1,7 +1,7 @@
 # YouTube OAuth 토큰 발급 + 업로드 테스트 보고서
 
 **일시**: 2026-02-25 KST  
-**서버**: ssh root@[SERVER-IP]  
+**서버**: ssh root@114.207.244.86  
 **작업 디렉터리**: /data/shortflow  
 
 ---
@@ -129,4 +129,4 @@ AttributeError: module 'lib' has no attribute 'X509_V_FLAG_NOTIFY_POLICY'
 ---
 
 **보고서 작성**: 2026-02-25  
-**채널 정보**: 3분경제 UC1qhhty2MDsF4worImq6-dQ ([CHANNEL-EMAIL-1]), 건강한입 UCKRf4X2fOwhTGcKSVO8rLYQ ([CHANNEL-EMAIL-2])
+**채널 정보**: 3분경제 UC1qhhty2MDsF4worImq6-dQ (oby240610@gmail.com), 건강한입 UCKRf4X2fOwhTGcKSVO8rLYQ (moongo76@gmail.com)

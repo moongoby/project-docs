@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 5.5.0
-**최종수정**: 2026-03-06 KST (HANDOVER v5.5.0 — NT-001 Phase 1-B 메신저 프론트엔드 채팅 UI 완료 반영)
+**버전**: 5.6.0
+**최종수정**: 2026-03-06 KST (HANDOVER v5.6.0 — Git push 동기화, 프론트엔드 빌드, v2.newtalk.kr 도메인 연결, Reverb 활성화 완료)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -160,14 +160,17 @@ outsource@newtalk.kr (외주)
 | R5-FRONT-PRODUCTS-001 | 2026-03-06 | v5.4.0 | 3c649f6 | 관리자 상품 CRUD 관리 페이지: AdminProductTable·Detail·DeleteDialog·Filter 4컴포넌트, admin-product-api.ts 6함수 |
 | NT-001-Phase-1A | 2026-03-06 | — | 2fd517e | 메신저 백엔드 MVP: DB 스키마 확장, Events 3개, MessengerController 8EP, MessengerService, Reverb 설정 |
 | NT-001-Phase-1B | 2026-03-06 | v5.5.0 | — | 메신저 프론트엔드 채팅 UI: types/messenger.ts, messenger-api.ts(8함수), echo.ts(Reverb준비), components/messenger 7컴포넌트, 페이지 3개(admin/wholesale/retail), 레이아웃 메뉴 3곳 |
+| NTV2-027 | 2026-03-06 | v5.6.0 | 9cc3f52 | Git 미push 커밋 전량 동기화 완료 (origin/main 최신화) |
+| NTV2-028 | 2026-03-06 | v5.6.0 | 9cc3f52 | 프론트엔드 --no-cache 재빌드 성공, admin 6페이지+컴포넌트 7개 확인 |
+| NTV2-029 | 2026-03-06 | v5.6.0 | — | v2.newtalk.kr Nginx 프록시 연결 완료 (HTTPS 접근 정상) |
+| NTV2-030 | 2026-03-06 | v5.6.0 | — | 테스트 계정 6개 비밀번호 일괄 변경 완료 |
+| NTV2-031 | 2026-03-06 | v5.6.0 | 22b4fa3 | Reverb WebSocket 설정 추가 (.env.docker BROADCAST_CONNECTION=reverb, echo.ts 활성화) |
 
 ---
 
 ## 3. 진행 중 작업
 
-| Task ID | 상태 | 내용 |
-|---------|------|------|
-| NT-001-Phase-1B | 완료 | 메신저 프론트엔드 채팅 UI — 7컴포넌트, 8 API함수, 3페이지, 레이아웃 메뉴 3곳 |
+현재 진행 중 작업 없음.
 
 ---
 
@@ -286,4 +289,5 @@ outsource@newtalk.kr (외주)
 | 5.2.0 | 2026-03-05 | T-011~T-019 완료 반영: API-SMOKE-002(6계정 로그인·500에러 0), FRONTEND-AUDIT-001(412 ts/tsx·78 page.tsx·12영역), DOCS-SYNC-003, R5-FRONT-SETTLE-001(정산 4페이지), R5-FRONT-PIPELINE-001(파이프라인 3페이지), R5-API-HEALTH-001(헬스체크), 알려진 이슈 2건 추가 |
 | 5.3.0 | 2026-03-05 | T-020 R5-FRONT-DROPSHIP-001: 드롭십 타입·API 분리, wholesale 2페이지 개선, 컴포넌트 4개 신규 |
 | 5.4.0 | 2026-03-06 | T-022 R5-FRONT-USERS-001: 관리자 사용자 관리 페이지 (목록+상세), types/admin-user.ts, admin-user-api.ts(4함수), 컴포넌트 3개, admin-layout 메뉴 추가 |
+| 5.6.0 | 2026-03-06 | NTV2-027~031: Git push 동기화, 프론트엔드 빌드, v2.newtalk.kr 도메인 연결, 테스트 계정 변경, Reverb 설정 + HANDOVER 갱신 |
 | 5.5.0 | 2026-03-06 | NT-001-Phase-1B: 메신저 프론트엔드 채팅 UI — types/messenger.ts, messenger-api.ts(8함수), echo.ts(Reverb준비), 7컴포넌트(MessengerLayout·ConversationList·ConversationItem·MessageView·MessageBubble·MessageInput·TypingIndicator), 페이지 3개, 레이아웃 메뉴 3곳(admin/wholesale/retail) |
