@@ -149,7 +149,7 @@
 - **자기리뷰:** get_self_review, run_self_review
 - **리스크·실주문:** get_risk_status, activate_kill_switch, set_risk_rule, optimize_portfolio, get_portfolio_optimization_history, execute_buy, execute_sell, get_account_balance
 
-### DB migration: 035~047 (12개)
+### DB migration: 035~065 (16개)
 
 | 마이그레이션 | 테이블/용도 |
 |-------------|-------------|
@@ -167,6 +167,8 @@
 | 047 | go100_live_orders side 컬럼·인덱스 (KIS 주문 게이트웨이) |
 | 048a | go100_position_sizing (동적 포지션 사이징 — P7-2) |
 | 048b | go100_strategy_knowledge (전략 지식 베이스) |
+| 064 | v4_users agreed_terms·privacy_agreed 컬럼 추가 (SaaS 이용약관 저장 — T-028) |
+| 065 | go100_error_log 테이블 (에러 모니터링 미들웨어 — T-031) |
 
 ### 크론
 - **전체 라인 수**: 약 100라인 (비주석·활성 약 60라인)
@@ -186,8 +188,8 @@
 
 ---
 
-### 프론트엔드 현황 (2026-03-04 기준)
-- **페이지**: 34개 전수 LIVE (STUB/BROKEN 0)
+### 프론트엔드 현황 (2026-03-06 기준)
+- **페이지**: 44개 전수 LIVE (STUB/BROKEN 0)
 - **API 연동**: 10/10 GO100 라우터 GREEN
 - **차트**: recharts + lightweight-charts, 11종 차트 구현
 - **모바일**: 375/414/768/1024 반응형, PWA manifest
@@ -199,30 +201,31 @@
 
 ## 3. 다음 작업
 
+### 완료된 최근 작업
 - **[완료] P6-EXTRA-VERIFY**: PASS — 보고서 push 완료 (2026-03-02)
 - **[완료] P7-1 QA**: PASS(조건부) — 보고서 push 완료 (2026-03-02)
-- **[완료] T-017 pandas 3.0 수정**: signal_evaluator.py + paper_trading_engine_30d.py 패치 완료 (2026-03-05)
+- **[완료] T-017A/T-023 pandas 3.0 수정**: indicator_precompute 패치 완료 (2026-03-05)
 - **[완료] T-024 V3 모델 활성화 준비**: activate_v3_model.py 작성 완료, CEO 승인 후 실행 가능 (2026-03-05)
+- **[완료] T-025/T-030 closing_report cron**: generate_closing_report.py + cron 설치 완료 (커밋 f5a286e3)
+- **[완료] T-028 agreed_terms DB 수정**: migration 064, SaaS 이용약관 저장 버그 완전 수정 (커밋 4a24b943)
+- **[완료] T-029 sitemap.xml**: 44개 URL 동적 생성 완료 (커밋 0060ac99) — 34 → **44페이지** 확인
+- **[완료] T-031 에러 모니터링**: error_monitor.py + migration 065 + Telegram 알림 (커밋 758dc8c7)
+- **[완료] T-157 토글 UI**: accounts·settings 페이지 실매매/모의 토글 스위치 연동 완료 (커밋 fc398d2d, 2026-03-06)
+- **[분석완료] T-033/T-034 entry_rules 검증**: 모의투자 수동실행 0건 원인 확인 — go100_strategy_cards (card_id=35,36)의 entry_rules `logic/conditions/indicator` 포맷이 SignalEvaluator 기대 포맷(`type` 기반)과 불일치 (2026-03-06)
 
-- **[대기] T-025**: closing_report 자동화 (generate_closing_report.py + cron) — 작성 완료, root 설치 필요
-- **[대기] T-026**: T-025 후속 검증
-- **[대기] T-018**: 모의투자 엔진 정밀 검증 + 크론 트레이드 로그 확인
+### 즉시 필요 작업
+- **[필요] entry_rules 포맷 수정 (T-033)**: go100_strategy_cards card_id=35,36 DB UPDATE 또는 SignalEvaluator.evaluate_entry `logic/conditions` 포맷 처리 추가
+  ```sql
+  -- 방법 A: DB 직접 수정 (권장)
+  UPDATE go100_strategy_cards SET entry_rules = '[{"type":"ma_cross","short":5,"long":20,"direction":"golden"},{"type":"volume_surge","period":20,"ratio":2.0}]' WHERE go100_card_id IN (35,36);
+  ```
+- **[대기] T-034 재실행**: T-033 완료 후 모의투자 수동 1회 재실행 → 거래 발생 확인
 
-- **Phase 4 AI 모델 고도화 (P2)**
-  - 멀티타겟: LABEL_MFE_3D 추가 타겟 실험
-  - BB_WIDTH × RSI_14 교차 피처, SEC_LEADER × V_RVOL 조합
-  - Regime 조건부 모델 분리 (Q2/Q4)
-  - predict_proba threshold 최적화 (Precision 우선)
-- **Phase 4 AI 피처 확장 (P1)**
-  - `FORCE_ACC` 세력 매집 패턴 (120일선 수렴도 + 급등봉)
-  - `D_D1_D2_ENTRY` 홍인기 장대양봉 타점
-  - `MKT_SEASON` DESK2 가중치 연동 (Q2 ×1.2, Q4 ×0.7)
-  - 과거 1년치 배치 빌드 크론 스크립트 (`run_feature_pipeline.sh`)
-- **Phase 7 나머지**
-  - 30일 모의투자 1사이클 완주
-  - 소액 실매매 3일 검증
-  - SaaS 준비 (셀프서비스, 마켓플레이스, 최종 QA, 라이브 런칭)
-- **보고서 보강**: CUR-GO100-P6-EXTRA-VERIFY-20260227.md, CUR-GO100-P7-1-FULL-QA-20260227.md push 후 Phase 6 게이트·P7-1 판정 반영
+### 중기 작업
+- **30일 모의투자 1사이클 완주** (session_id=2, 2026-02-27~03-29)
+- **V3 모델 CEO 승인 후 실전 투입**: `python3 scripts/go100/activate_v3_model.py --confirm`
+- **소액 실매매 3일 검증** (모의투자 완주 + CEO 승인 후)
+- **SaaS 결제 연동** (Stripe/토스페이먼츠, CEO 승인 대기)
 
 ---
 
