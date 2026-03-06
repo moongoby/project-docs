@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-192 DESK별 전략 성과 주간 리뷰 + 파라미터 최적화 방향** | 03-06 | — | 200 | 주간 성과 종합(02-28~03-06): 총 184신호/45청산(24.5%)/수익3건(1.6%); D6 최선(-0.433%/2건수익), D4 최악(-1.021%); D5 청산 1/34건(exit미작동); DESK5/4 트리거 전원 미발동; DESK3→DESK2 파이프라인 0건; T-096 승자(H08 PF=25.93) 실전 미반영; 최적화방향5개(exit_manager 정비P0/D5 4주hold P1/파이프라인복원P1/D-ORB·D4 SL상한P1/S1재검증P2); 보고서 CUR-V41-WEEKLY-DESK-REVIEW-001-20260306.md push 200 확인 |
 | **T-186 Redis 연결 복구 + V4.1 서비스 안정화** | 03-06 | — | 8003 ok | kis-v41-api(8003) redis:disconnected → systemctl restart kis-v41-api → redis:connected 복구; Redis 서버 자체 정상(업타임 2일)/rejected_connections=0/maxclients=10000; redis.py T-173 설정 전부 기적용(retry_on_timeout/health_check_interval=30/socket_keepalive); minute-collector inactive(dead) status=0/SUCCESS 장외 정상 확인; GO100 재시작 금지 준수 |
 | **T-183 Root 인프라 일괄적용** | 03-06 | — | 8/9 PASS | Nginx reload/go100·frontend 재시작/스냅샷cron 2건(/etc/cron.d/) 확인/RESEARCH가설 11건/서비스 6개 active/GO100_EVOLUTION_LOOP_ENABLED=true/research/ 존재; B-3 evolution_loop cron root 수동 설치 필요 |
 | **T-180 리서치팀 연구과제** | 03-06 | 34f65a77 | — | RES-201~205 5건 DB시딩(go100_strategy_hypotheses RESEARCH), research_collector.py 신규(275줄), run_evolution_loop.py RESEARCH분기 추가(+259줄) |
@@ -529,6 +530,21 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-06, T-192 주간 DESK 리뷰 — v10.21)
+
+#### ★ T-192 완료: DESK별 전략 성과 주간 리뷰 + 파라미터 최적화 방향
+
+**[T-192 CUR-V41-WEEKLY-DESK-REVIEW-001] 2026-03-06 KST**
+- **주간 성과 (02-28~03-06)**: 총 184 신호 / 45 청산(24.5%) / **수익 3건(1.6%)**
+- **전략 순위**: D6(-0.433%, 최선) > D5(0.000%) > S1/D2(-0.470%) > D7(-0.788%) > D-ORB(-0.801%) > D4(-1.021%, 최악)
+- **긴급 이슈**: D5 청산 1/34건 — exit_manager 미작동 / DESK3→DESK2 파이프라인 0건
+- **DESK 트리거 현황**: DESK5 20종목 전원 미발동 / DESK4 11 WATCHING 전원 미발동
+- **T-096 승자 실전 갭**: H08 PF=25.93 실전 미작동(D5 exit 없음) / MA20 트레일 미적용
+- **최적화 방향 P0**: exit_manager MA20 트레일링 전면 적용 (T-195 신규)
+- **보고서**: CUR-V41-WEEKLY-DESK-REVIEW-001-20260306.md HTTP 200 ✅
+
+---
+
 ### 최신 상태 (2026-03-06, T-186 Redis 연결 복구 — v10.20)
 
 #### ★ T-186 완료: Redis 연결 복구 + V4.1 서비스 안정화
@@ -776,6 +792,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.21 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-192 DESK별 전략 성과 주간 리뷰**: 주간(02-28~03-06) 총184신호/45청산/수익3건(1.6%); D6최선(-0.433%/2수익)/D4최악(-1.021%); D5 청산 1/34건(exit미작동); DESK5/4 트리거 전원 미발동; DESK3→DESK2 파이프라인 0건; T-096 H08 PF=25.93 실전 미반영; 최적화방향5개(exit_manager MA20 트레일 P0/D5 4주hold P1/파이프라인복원P1/D-ORB·D4 SL상한P1/S1재검증P2); 보고서 push 247e6ca |
 | v10.20 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-186 Redis 연결 복구 + V4.1 서비스 안정화**: kis-v41-api(8003) redis:disconnected → systemctl restart → redis:connected 복구; Redis 서버 자체 정상(업타임 2일/rejected_connections=0); redis.py T-173 설정 전부 기적용 확인(추가 수정 없음); minute-collector inactive status=0/SUCCESS 장외 정상; 전체 포트 redis:connected 확인(8002/8003) |
 | v10.19 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-184 인프라확인+리서치수집+RES-301~306 시딩**: 서비스 6/6 active/Nginx HTTPS 200/스냅샷cron 기설치/evolution_loop cron root 수동 필요; research_collector.py 11건 수집실행(RES-201~306 전부 JSON 저장); RES-301~306 이미 T-183 시딩됨(created_at 15:51); 11건 COLLECTED→ANALYZED 전환; EvolutionLoop 수동1회 실행(T-182분기 RES-301~306→TrendEntryResearcher); snapshot research_lab.total=16; 커밋 4020fc56 |
 | v10.18 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-183 Root 인프라 일괄적용**: Nginx reload(기설정 확인)/스냅샷cron 2건(/etc/cron.d/)/go100·frontend 재시작/RESEARCH가설 11건/서비스 6개 active/8/9 PASS; B-3 evolution_loop cron root 수동 설치 필요; T-180 반영(34f65a77) |
