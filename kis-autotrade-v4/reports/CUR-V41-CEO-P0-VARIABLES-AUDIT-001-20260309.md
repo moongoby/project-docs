@@ -360,6 +360,6 @@ tests/test_funnel_score_t237.py::TestMockReplay184::test_avg_score_above_030 PAS
 
 - 서버 경로: `/root/project-docs/kis-autotrade-v4/reports/CUR-V41-CEO-P0-VARIABLES-AUDIT-001-20260309.md`
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-CEO-P0-VARIABLES-AUDIT-001-20260309.md
-- 커밋: (push 후 기재)
-- HTTP 확인: (push 후 기재)
-- HANDOVER 업데이트: (완료 후 기재)
+- 커밋: 0137655
+- HTTP 확인: 200 ✅
+- HANDOVER 업데이트: v10.41 완료 (커밋 0137655)
