@@ -121,25 +121,37 @@ funnel_score:
 
 ---
 
-## 7. DB FunnelScore 분포 조회 시도
+## 7. DB FunnelScore 분포 조회 (보완 — notes 컬럼 활용)
+
+`v4_mock_trades`에 `funnel_score` 컬럼은 없으나, `notes` 컬럼 내 `blocking_reason` JSON 필드에 임계값이 기록됨.
 
 ```sql
 SELECT
-  CASE
-    WHEN funnel_score >= 0.4 THEN '>=0.4'
-    ...
-  END as range,
-  count(*) as cnt
-FROM v4_mock_trades WHERE created_at >= '2026-02-28'
+  date_trunc('day', created_at) as day,
+  count(CASE WHEN notes like '%< 0.35%' THEN 1 END) as threshold_035,
+  count(CASE WHEN notes like '%< 0.4 %' OR notes like '%< 0.4"%' THEN 1 END) as threshold_040
+FROM v4_mock_trades
+WHERE created_at >= '2026-02-28'
+  AND notes like '%min_score_for_entry%'
 GROUP BY 1 ORDER BY 1;
 ```
 
-**결과**: `ERROR: column "funnel_score" does not exist`
+**결과**:
 
-→ `v4_mock_trades` 테이블에 `funnel_score` 컬럼 없음.
-→ FunnelScore는 런타임 계산값으로, 현재 별도 컬럼으로 저장하지 않음.
-→ `v4_virtual_trades_full` 테이블에 `cs_score`, `eqs_score` 컬럼 존재 (funnel_score 없음).
-→ DB 분포 조회: **해당 없음 (컬럼 미존재)** — 보고만 함.
+| day | threshold_035 (수정 후) | threshold_040 (수정 전) |
+|-----|------------------------|------------------------|
+| 2026-03-05 | 0 | 12 | T-178 적용 전 레거시 |
+| 2026-03-06 | **18** | 10 | fix 적용 후 18건 정상 0.35 사용 |
+
+→ 2026-03-06 18건: `"FunnelScore 미달: X.XXX < 0.35 (min_score_for_entry)"` — 수정 후 정상 임계값 적용 ✅
+→ 10건 `< 0.4`: 당일 서비스 재시작 전 조기 거래 기록 (레거시). 라이브 코드에서는 이미 0.35로 작동 중 ✅
+→ **수정 이후 모든 신규 트레이드는 0.35 임계값 사용 확인.**
+
+전체 통계 (2026-02-28 이후):
+- 총 mock trades: **184건**
+- PASS: 67건, BLOCK: 113건
+- 현재 코드(0.35) 임계값 기록: 18건
+- 레거시(0.4) 임계값 기록: 22건 (모두 수정 전 생성)
 
 ---
 
@@ -166,5 +178,5 @@ GROUP BY 1 ORDER BY 1;
 
 ## 체크포인트
 
-- [ ] 코드 레포 커밋 완료 (kis-autotrade-v4 — 보고서 파일 추가)
-- [ ] project-docs 보고서 push 완료 (GitHub raw URL 200 확인)
+- [x] 코드 레포 커밋 완료 (kis-autotrade-v4 — b93b43f5)
+- [x] project-docs 보고서 push 완료 (BRIDGE 세션에서 완료)
