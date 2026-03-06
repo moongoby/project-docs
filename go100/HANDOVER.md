@@ -185,6 +185,7 @@
 | 5 | 모닝 브리핑 Telegram | LOW | **해결 완료** — 토큰·채팅 ID 설정, message_id:1981 확인 완료 (2026-03-03) |
 | 6 | P6-1 킬스위치 연동 async_generator 오류 | MED | **해결** — risk_engine.py RULE_SECTOR sum/await 버그 수정 완료 (CUR-GO100-P6-EXTRA-VERIFY-001) |
 | 7 | pandas 3.0 버전 불일치 (.venv=3.0.1 vs venv=2.3.3) | HIGH | **해결** — indicator_precompute groupby.apply include_groups=False+reset_index(level=0) 패치 (T-017/T-017A/T-023) — 모의투자 크론 정상화 |
+| 8 | entry_rules 포맷 불일치 (card_id=35,36) | HIGH | **미수정 — T-033 필요** — go100_strategy_cards card_id=35,36의 `logic/conditions/indicator` 포맷이 SignalEvaluator.evaluate_entry 기대 포맷(`type` 기반)과 불일치. T-034 수동실행 결과 KOSPI 80종목 전체 매수 0건 확인 (2026-03-06). DB UPDATE 또는 SignalEvaluator 확장 필요 |
 
 ---
 
@@ -337,13 +338,14 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 1. 이 문서 읽기 완료
 2. .cursorrules, CLAUDE.md 읽기
 3. **현재 브랜치**: `phase-2c-command-center`
-4. 진행률 **98%** — v15.0: pandas 3.0 패치·V3모델 준비 완료, T-025/T-026/T-018 대기
-5. **다음 우선순위**: T-025 closing_report cron (root 실행) → T-026 검증 → T-018 모의투자 정밀 검증 → V3 CEO 승인
+4. 진행률 **98%** — v15.2: T-033/T-034/T-157 entry_rules 검증·토글UI 완료, entry_rules 포맷 수정(T-033) 필요
+5. **다음 우선순위**: T-033 entry_rules DB 수정 (card_id=35,36) → T-034 재실행 (거래 발생 확인) → V3 CEO 승인 → 모의투자 1사이클 완주
 6. 상태 확인: `systemctl status go100 && systemctl status go100-frontend`, `psql -d kisautotrade -c "\\dt go100_agent*"`
 7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
 8. **V3 모델 활성화**: CEO 승인 후 `python3 scripts/go100/activate_v3_model.py --confirm && sudo systemctl restart go100`
-9. **프론트엔드 현황**: 34페이지 LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 98%)
+9. **프론트엔드 현황**: **44페이지** LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 98%)
 10. **pandas 환경**: .venv=3.0.1(크론 사용), venv=2.3.3(직접 실행) — indicator_precompute 패치 완료
+11. **entry_rules 이슈**: go100_strategy_cards card_id=35,36 — `logic/conditions` 포맷 → `[{"type":"ma_cross",...}]` 포맷으로 DB UPDATE 필요
 
 ---
 
@@ -405,7 +407,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | 6 | 개인정보처리방침 | ✅ 완료 | /privacy 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 7 | 고객지원 채널 | 미구현 | 카카오톡/이메일 채널 미개설 |
 | 8 | 온보딩 튜토리얼 | 미구현 | 첫 로그인 시 가이드 화면 없음 |
-| 9 | SEO/OG 태그 | ✅ 완료 | T-020 OG/robots 완료(71f51ebe) + T-029 sitemap.xml 34개 URL 동적 생성(0060ac99) — Google Search Console 등록 권장 |
+| 9 | SEO/OG 태그 | ✅ 완료 | T-020 OG/robots 완료(71f51ebe) + T-029 sitemap.xml **44개** URL 동적 생성(0060ac99) — Google Search Console 등록 권장 |
 | 10 | 에러 모니터링 | ✅ 완료 | T-031 완료 — 자체 에러 모니터링 미들웨어(error_monitor.py) + go100_error_log 테이블(migration 065) + Telegram 알림(message_id 8525) (커밋 758dc8c7) |
 
 > SaaS 전환 우선순위: 1(agreed_terms 저장 버그 수정), 2, 3, 4, 7, 8 항목. 5, 6은 완료. 나머지는 런칭 전 QA 단계 점검.
