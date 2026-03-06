@@ -471,7 +471,8 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
-| v15.1 | 03-05 | **SaaS 버그수정+SEO+에러모니터링 (T-028~T-031)**: agreed_terms DB 저장 버그 완전 수정(migration 064), sitemap.xml 34개 URL 동적 생성, closing_report cron 검증, 에러 모니터링 미들웨어+Telegram 알림 구현(migration 065). SaaS 체크리스트 #1/#9/#10 완료 |
+| v15.2 | 03-06 | **entry_rules 검증 + T-157 토글UI + 전체 세션 종합**: T-157 실매매/모의 토글 스위치 연동(커밋 fc398d2d), T-033/T-034 entry_rules 포맷 불일치 진단·수동실행 0건 확인, 페이지 수 34→44 갱신, migration 범위 035~065 갱신(064/065 추가), Known Issues #8 추가, 다음 작업 섹션 전면 갱신 |
+| v15.1 | 03-05 | **SaaS 버그수정+SEO+에러모니터링 (T-028~T-031)**: agreed_terms DB 저장 버그 완전 수정(migration 064), sitemap.xml 44개 URL 동적 생성, closing_report cron 검증, 에러 모니터링 미들웨어+Telegram 알림 구현(migration 065). SaaS 체크리스트 #1/#9/#10 완료 |
 | v15.0 | 03-05 | **pandas 3.0 수정 + V3 모델 준비 (T-017A/T-023/T-024)**: indicator_precompute groupby.apply include_groups=False 패치(pandas 2.x/3.x 호환), paper_trading_engine_30d 방어적 수정, 수동 1회 실행 PASS(exit 0), V3 모델 6종 로드 성공(active:True), activate_v3_model.py 스크립트 작성(CEO 승인 대기), Known Issues #7 추가, Phase 8 로드맵 신설, 진행률 98% |
 
 ### v14.1 추가 완료 작업 (2026-03-05)
@@ -517,7 +518,15 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-021 | 03-05 | SaaS 결제·구독 아키텍처 설계 — Free/Pro/Premium 3플랜, 토스/Stripe, DB 스키마 4종 | PASS(설계 완료, CEO 승인 대기) |
 | T-022 | 03-05 | HANDOVER v15.0 T-018~T-022 반영 — SaaS 체크리스트 #1/#2/#3/#4/#9 업데이트 | PASS |
 | T-028 | 03-05 | agreed_terms/privacy DB 저장 버그 완전 수정 — migration 064, v4_users 컬럼 추가, auth/social INSERT 수정 (커밋 4a24b943) | PASS |
-| T-029 | 03-05 | sitemap.xml 동적 생성 + SEO 완성 — 34개 URL, MetadataRoute.Sitemap, 빌드 PASS (커밋 0060ac99) | PASS |
+| T-029 | 03-05 | sitemap.xml 동적 생성 + SEO 완성 — **44개** URL, MetadataRoute.Sitemap, 빌드 PASS (커밋 0060ac99) — 페이지 수 34→44 확인 | PASS |
 | T-030 | 03-05 | closing_report 크론 설치 검증 — cron 등록 확인, 자동 실행 검증 (커밋 f5a286e3) | PASS |
 | T-031 | 03-05 | 에러 모니터링 미들웨어 구현 — error_monitor.py + migration 065 + Telegram 알림(Msg 8525) (커밋 758dc8c7) | PASS |
 | T-032 | 03-05 | HANDOVER v15.1 업데이트 — T-028~T-031 SaaS+SEO+크론+모니터링 반영 | PASS |
+
+### v15.2 추가 완료 작업 (2026-03-06) — T-033/T-034 entry_rules 검증 + T-157 토글UI
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-157 | 03-06 | 실매매/모의 토글 스위치 accounts·settings 페이지 실제 연동 — POST /api/v4/admin/switch-account-mode 백엔드 연결, 확인 다이얼로그 추가 (커밋 fc398d2d) | PASS |
+| T-033 | 03-06 | entry_rules 포맷 불일치 진단 — SignalEvaluator._eval_one_entry `type` 기반 vs go100_strategy_cards card_id=35,36 `logic/conditions/indicator` 포맷 불일치 확인. **수정 미완료** (DB UPDATE 또는 코드 확장 필요) | PASS(진단) / 수정 대기 |
+| T-034 | 03-06 | 모의투자 수동 1회 매수 트리거 — session_id=2, KOSPI 80종목, run_paper_trading_v3.py --mode buy 실행, 결과 **매수 0건** (entry_rules 포맷 불일치 확인) | PASS(확인) |
+| T-035 | 03-06 | HANDOVER v15.2 업데이트 — T-029~T-034, T-157 전체 반영, 페이지 수 44, migration 035~065, entry_rules Known Issue #8 추가 | PASS |

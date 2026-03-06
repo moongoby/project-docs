@@ -1,6 +1,6 @@
 # GO100 프로젝트 컨텍스트 (Claude PM용)
-> 최종 갱신: 2026-02-28  
-> 인계서: HANDOVER-20260228-V10.md
+> 최종 갱신: 2026-03-06 (T-035 HANDOVER v15.2 반영)
+> 인계서: HANDOVER.md v15.2
 
 ## 1. 프로젝트 개요
 - **GO100 (백억이)**: 증권사급 AI 투자 에이전트 (조건검색 + 자동매매 + 자율 전략 진화)
@@ -17,17 +17,21 @@
 - 가상환경: source /root/kis-autotrade-v4/venv/bin/activate
 - **환경**: DART API 발급·설정 완료 (.env DART_API_KEY/OPENDART_API_KEY). Telegram 설정 완료 (GO100_TELEGRAM_BOT_TOKEN, GO100_TELEGRAM_CHAT_ID). 모닝 브리핑 자동 발송 가능.
 
-## 3. 작업 큐 (v10 기준)
+## 3. 작업 큐 (v15.2 기준, 2026-03-06)
 | 순위 | 작업 | 상태 |
 |------|------|------|
 | P0 | Agent Mode 활성화, 크론 검증, 무결성 모니터 | ✅ 완료 |
 | P1 | E2E 풀테스트, Cron 이슈, 시드 백테스트, Freshness 경고 | ✅ 완료 |
-| P2 | 세션/에피소드 메모리, 경험 DB, 모닝 브리핑 (Telegram 설정 완료) | 🔧 진행 중 |
+| P2 | 세션/에피소드 메모리, 경험 DB, 모닝 브리핑 (Telegram 설정 완료) | ✅ 완료 |
 | P3 | 전략 진화·호가창 백테스트·이벤트 엔진·전략 편집(P3-R1)·지표 20개(P3-R2) | ✅ 완료 |
-| P4 | 갭 캘리브레이터(P4-2), 메모리(P4-1), 30일 모의투자(P4-3), 스캘핑(P4-4) | ✅ 완료 |
+| P4 | 갭 캘리브레이터(P4-2), 메모리(P4-1), 30일 모의투자(P4-3), AI Feature V3 | ✅ 완료 |
 | P5 | 자기리뷰(P5-1), Telegram+섹터(P5-2), 포트폴리오 최적화(P5-3), 개인화(P5-4) | ✅ 완료 |
 | P6 | 리스크+킬스위치(P6-1), KIS API 실주문 게이트웨이(P6-2) | ✅ 완료 |
-| P7 | P7-1 QA 완료, 30일 모의투자 1사이클·소액 실매매 검증·SaaS 준비 | 🔧 진행 중 |
+| P7 | P7-1 QA 완료, SaaS 버그수정(T-028), SEO(T-029/T-020), 에러모니터링(T-031) | ✅ 완료 |
+| P8 | entry_rules 포맷 수정(T-033), 모의투자 거래 발생 확인(T-034 재실행) | 🔥 즉시 필요 |
+| P9 | 30일 모의투자 1사이클 완주 (session_id=2, ~03-29) | 🔧 진행 중 |
+| P10 | V3 모델 CEO 승인 후 실전 투입 | ⏳ CEO 대기 |
+| SaaS | 결제(T-021), 마켓플레이스, 최종 QA, 라이브 런칭 | 📋 설계 완료 |
 
 ## 4. 서비스 현황
 | 서비스 | 포트 | 상태 |
@@ -38,17 +42,19 @@
 | PostgreSQL | 5432 | active |
 
 ## 5. 진행률
-- **전체**: 85% (천재 100% 기준)
-- E2E 23/23 PASS, Agent Tool **50개 (43+)**, Screening Filters 35+, Gap 데이터 108,574건
-- Batch 5 완료: P4-3(30일 모의투자), P5-1(자기리뷰), P5-2(Telegram+섹터+DART)
-- Batch 6 완료: P5-3(포트폴리오 최적화), P5-4(개인화), P6-1(리스크+킬스위치)
-- Batch 7 반영: P6-2(KIS 게이트웨이), P6-EXTRA-VERIFY, P7-1 QA
-- DB 마이그레이션 035~047 (044, 045, 046, 047 포함)
+- **전체**: 98%+ (천재 100% 기준)
+- E2E 23/23 PASS, Agent Tool **57개**, Screening Filters 35+, Gap 데이터 108,574건
+- DB 마이그레이션 035~065 (064 v4_users terms, 065 go100_error_log)
+- **페이지**: 44개 전수 LIVE (T-029에서 34→44 확인)
+- **크론**: 활성 약 60라인 (closing_report cron 포함 — T-030 완료)
+- **SaaS**: 회원가입(T-028 완료), SEO(T-020/T-029 완료), 에러모니터링(T-031 완료)
+- **토글UI**: accounts·settings 실매매/모의 토글 연동 완료(T-157, 커밋 fc398d2d)
+- **⚠️ 잔여이슈**: entry_rules 포맷 불일치 (card_id=35,36) — T-033 수정 필요
 
 ## 6. 필수 읽기 (세션 시작 시)
 1. /root/kis-autotrade-v4/.cursorrules
 2. /root/kis-autotrade-v4/CLAUDE.md
-3. go100/HANDOVER-20260228-V10.md
+3. go100/HANDOVER.md v15.2
 4. go100/ARCHITECTURE.md, DB_SCHEMA.md
 
 ## 7. 규칙 요약
