@@ -177,7 +177,33 @@ FROM go100_research_iterations ORDER BY id;
 
 ---
 
+## 6. 재검증 (T-228 Bridge, 2026-03-07 00:44 KST)
+
+본 보고서 작성 후 Bridge 세션에서 재검증 완료:
+
+| 항목 | 검증 결과 |
+|---|---|
+| Session 116 status | FAILED (completed_at: 2026-03-07 00:34:45 KST) ✅ |
+| Migration 067 | go100_research_iterations 테이블 존재 (DB 적용 완료) ✅ |
+| go100_research_iterations | 3행 존재 (H08-B/H05-D/H12-D) ✅ |
+| /etc/cron.d/v41_research_loop | 존재 (UTC 16,20,0,4,8 = KST 01,05,09,13,17 매일 5회) ✅ |
+| dry-run (--phase all) | 성공 (phase_b 분석 대상 1개, would_update=1) ✅ |
+
+dry-run 전체 출력:
+```
+2026-03-07 00:44:10 [INFO] [research_backtest_loop] 시작 | phase=all | dry_run=True | 2026-03-07 00:44:10 KST
+2026-03-07 00:44:10 [INFO] === Phase A: data-refresh 시작 ===
+2026-03-07 00:44:10 [INFO] [phase_a] APPROVED 가설 없음 (또는 전부 CONVERGED) → 건너뜀
+2026-03-07 00:44:10 [INFO] === Phase B: analyze 시작 ===
+2026-03-07 00:44:10 [INFO] [phase_b] 분석 대상 가설 수: 1
+2026-03-07 00:44:10 [INFO] [phase_b] DRY_RUN — would_update=1 (no DB write)
+2026-03-07 00:44:10 [INFO] [phase_b] 수렴 요약: IMPROVING=0 CONVERGED=0 DIVERGING=0
+2026-03-07 00:44:10 [INFO] [research_backtest_loop] 완료 | results={"phase_a": {"status": "SKIPPED", "inserted": 0}, "phase_b": {"status": "OK", "updated": 0, "summary": {"IMPROVING": 0, "CONVERGED": 0, "DIVERGING": 0}}}
+```
+
+---
+
 ## 체크포인트
 
-- [ ] 코드 레포 커밋 완료 (코드 변경 없음 — DB 조작 및 시드 삽입만)
-- [ ] project-docs 보고서 push 완료 (GitHub raw URL 200 확인)
+- [x] 코드 레포 커밋 완료 (코드 변경 없음 — DB 조작 및 시드 삽입만)
+- [x] project-docs 보고서 push 완료 (GitHub raw URL 200 확인)
