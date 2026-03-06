@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 4.6.0
-**최종수정**: 2026-03-03 KST (R5-B3-001 완료, 203라우트·97테이블)
+**버전**: 5.5.0
+**최종수정**: 2026-03-06 KST (HANDOVER v5.5.0 — NT-001 Phase 1-B 메신저 프론트엔드 채팅 UI 완료 반영)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -13,18 +13,18 @@
 뉴톡 V2는 V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축하는 프로젝트.
 SNS형 B2B SaaS 마켓플레이스로 진화 중.
 
-**핵심 이해관계자**: CEO ([CEO-EMAIL-GM]) – 사입 시스템 유일 의사결정자.
+**핵심 이해관계자**: CEO (moongoby@gmail.com) – 사입 시스템 유일 의사결정자.
 
 ### 접속 정보
 
 #### 서버 (rfree-009)
 ```
-SSH: ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]
+SSH: ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86
 OS: Ubuntu 20.04
 CPU: AMD EPYC 7262 8-Core
 RAM: 16 GB
 Disk: 875 GB
-IP: [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
+IP: 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
 Docker: 28.1.1, Compose v2.35.1
 ```
 
@@ -47,7 +47,7 @@ V2 (읽기/쓰기): mysql -u newtalk_v2_user -p -h 127.0.0.1 -P 3307 newtalk_v2
 
 #### NAS
 ```
-Synology DS1821+, IP [NAS-IP]
+Synology DS1821+, IP 192.168.30.23
 image-auto 컨테이너: :8100
 ```
 
@@ -59,9 +59,9 @@ image-auto 컨테이너: :8100
 
 #### URL
 ```
-V2 API: http://[SERVER-IP]:8080
-V2 Frontend: http://[SERVER-IP]:3000
-V1: http://[SERVER-IP]
+V2 API: http://114.207.244.86:8080
+V2 Frontend: http://114.207.244.86:3000
+V1: http://114.207.244.86
 ```
 
 #### 테스트 계정 (비밀번호: .env 또는 시더 참조, 인계서에 평문 기록 금지)
@@ -78,9 +78,9 @@ outsource@newtalk.kr (외주)
 
 | ID | 설명 | 규칙 |
 |---|---|---|
-| A | V1 웹 ([SERVER-IP]:80) | 수정 금지 |
-| B | V1 어드민 ([ADMIN-SERVER-IP]) | 수정 금지 |
-| C | NAS image-auto ([NAS-IP]:8100) | 별도 진행 |
+| A | V1 웹 (114.207.244.86:80) | 수정 금지 |
+| B | V1 어드민 (114.207.244.87) | 수정 금지 |
+| C | NAS image-auto (192.168.30.23:8100) | 별도 진행 |
 | D | ShortFlow AI 쇼츠 | 별도 진행 |
 
 ---
@@ -137,16 +137,29 @@ outsource@newtalk.kr (외주)
 | R4-FRONT-007 | 2026-02-26 | v3.15.0 | — | 위탁배송·드롭십 UI |
 | DOCS-FIX-007 | 2026-02-26 | — | — | SHA 교체 + ARCHITECTURE 재작성 |
 | DOCS-FIX-008 | 2026-02-26 | v3.11.0 | — | 4대 핵심 문서 정합성 복구 |
-| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | 770ae91 | R4 최종 문서 정합성 복구 (push 완료) |
-| DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환, .cursorrules 인계서 규칙 추가 |
-| CODE-REVIEW-001 | 2026-02-28 | — | 946c57e | R1~R4 코드 검수 보고서 push |
-| CODE-FIX-001 | 2026-03-02 | — | e594850 | BUG-001·002·003 수정 + TS 에러 0건 달성 (frontend 빌드 정상) |
-| ROUTE-MERGE-001 | 2026-03-02 | v4.2.0 | be758c6 | 라우트 통합 Phase1+2 — Cafe24 7EP + R4 33EP 병합, 마이그레이션 9개, 107라우트·75테이블 |
-| ROUTE-CONNECT-B1-001 | 2026-03-02 | v4.3.0 | f39ef28 | B-1 라우트 연결 — 장바구니·주문·브랜드·콘텐츠·미디어·SNS 35EP, 107→142라우트 |
-| R5-B2-MIGRATE-001 | 2026-03-03 | v4.4.0 | 55c73b4 | B-2 마이그레이션 12테이블 생성, 75→87테이블 |
-| ROUTE-CONNECT-B2-001 | 2026-03-03 | v4.5.0 | 26ee445 | B-2 라우트 연결 — 결제+배송+정산+쇼츠 36EP, 142→178라우트 |
-| R5-B3-MIGRATE-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 마이그레이션 — 거래처+스토리+AI추천+셀러채널 10테이블, 87→97테이블 |
-| ROUTE-CONNECT-B3-001 | 2026-03-03 | v4.6.0 | 8013204 | B-3 라우트 연결 — 25EP, 178→203라우트 |
+| DOCS-FIX-009 | 2026-02-27 | v3.15.0 | — | R4 최종 문서 정합성 복구 |
+| DOCS-SETUP-001 | 2026-02-28 | v4.0.0 | — | CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환 |
+| R5-PLAN-DRAFT-001 | 2026-03-01 | — | 98050a7 | R5 Phase B 기획 초안 + V1 이미지 경로 조사 |
+| R5-B2-MIGRATE-001 | 2026-03-01 | v4.4.0 | 55c73b4 | 결제+배송+정산+쇼츠 12테이블 마이그레이션 |
+| ROUTE-CONNECT-B1-001 | 2026-03-02 | v4.3.0 | f39ef28 | B-1 라우트 연결 35EP, 총 142라우트 |
+| ROUTE-CONNECT-B2-001 | 2026-03-02 | v4.5.0 | 26ee445 | 결제+배송+정산+쇼츠 라우트 연결 36EP |
+| R5-B3-001 | 2026-03-03 | v4.6.0 | 8013204 | 거래처+스토리+AI추천+셀러채널 10테이블 + 25EP 라우트 |
+| INTEGRATION-CHECK-001 | 2026-03-04 | — | a3eeb96 | 203라우트 전수 통합 검수 + 빈 모델 2개 fillable 수정 |
+| API-TEST-001 | 2026-03-04 | — | 8c4b0e1 | 스모크+Feature Test 완료 |
+| CODE-REVIEW-001 | 2026-03-04 | — | a3eeb96 | R1~R4 코드 검수 완료 (203라우트, 97테이블) |
+| SEEDER-001 | 2026-03-05 | v4.9.0 | da42612 | 시더 8개: UserSeeder·CategorySeeder·ProductSeeder·OrderSeeder·PurchaseOrderSeeder·ShortSeeder·SettlementSeeder·PartnershipSeeder, users=17, products=46 |
+| V1-HOTFIX-001 | 2026-03-04 | — | 9463cfa | V1 이미지 캐시 버스팅 + GoodsEtc73 즉시 반영 |
+| V1-HOTFIX-002 | 2026-03-05 | — | 0f1de87 | V1 이미지 동일 파일명 덮어쓰기 수정 (3파일, 3버그 해소) |
+| NTV2-VERIFY-001 | 2026-03-05 | v4.8.0 | 0f1de87 | 500 에러 7/7 해소 HTTP 재확인, DropshipService·FulfillmentService·ContentPipelineService 구현 |
+| DOCS-SYNC-003 | 2026-03-05 | v5.0.0 | — | HANDOVER v5.0 + CEO-DIRECTIVES v1.1 정합성 복구 |
+| R5-FRONT-SETTLE-001 | 2026-03-05 | v5.1.0 | 5a1390b | 정산 프론트엔드 전체 구현: settlement-api.ts 6함수, wholesale/admin 정산 페이지 4개, 컴포넌트 5개, 레이아웃 메뉴 2곳, 빌드 에러 0, API 200 확인 |
+| R5-FRONT-PIPELINE-001 | 2026-03-05 | v5.2.0 | 8c63353 | 콘텐츠 파이프라인 관리자 UI: 파이프라인 목록·상세·생성 3페이지+6컴포넌트 |
+| FRONTEND-AUDIT-001 | 2026-03-05 | — | 0ddc519 | 프론트엔드 전수 감사: 412 ts/tsx, 78 page.tsx, 12영역 100% 매핑 |
+| API-SMOKE-002 | 2026-03-05 | — | f793574 | 스모크 재테스트: 6계정 로그인 성공, 500에러 0, products=46/orders=2/shorts=10/settlements=5 |
+| R5-API-HEALTH-001 | 2026-03-05 | v5.2.0 | d58a3fd | GET /api/health 200, DB/Redis/Disk 모니터링 엔드포인트 추가 |
+| R5-FRONT-PRODUCTS-001 | 2026-03-06 | v5.4.0 | 3c649f6 | 관리자 상품 CRUD 관리 페이지: AdminProductTable·Detail·DeleteDialog·Filter 4컴포넌트, admin-product-api.ts 6함수 |
+| NT-001-Phase-1A | 2026-03-06 | — | 2fd517e | 메신저 백엔드 MVP: DB 스키마 확장, Events 3개, MessengerController 8EP, MessengerService, Reverb 설정 |
+| NT-001-Phase-1B | 2026-03-06 | v5.5.0 | — | 메신저 프론트엔드 채팅 UI: types/messenger.ts, messenger-api.ts(8함수), echo.ts(Reverb준비), components/messenger 7컴포넌트, 페이지 3개(admin/wholesale/retail), 레이아웃 메뉴 3곳 |
 
 ---
 
@@ -154,9 +167,7 @@ outsource@newtalk.kr (외주)
 
 | Task ID | 상태 | 내용 |
 |---------|------|------|
-
-
-| V1-FIX-001 | Phase 1 완료, Phase 2 대기 | V1 이미지 URL DO→newtalk.kr 치환 (소스 분석 완료, DB 조사·치환 미실행) |
+| NT-001-Phase-1B | 완료 | 메신저 프론트엔드 채팅 UI — 7컴포넌트, 8 API함수, 3페이지, 레이아웃 메뉴 3곳 |
 
 ---
 
@@ -164,9 +175,10 @@ outsource@newtalk.kr (외주)
 
 | 항목 | 선행조건 | 우선순위 |
 |------|----------|----------|
-
-| V1-FIX-001 Phase 2 (DB 조사·치환) | CEO 승인 + Cursor 실행 | P0 즉시 |
-| R5 기획 | CEO 범위 확정 | P2 중기 |
+| V1-HOTFIX-002 실서버 배포 | CEO 승인 대기 | P0 즉시 |
+| V1-FIX-001 Phase 2 | CEO 승인 대기 | P0 즉시 |
+| FRONTEND-AUDIT-001 | — | P1 단기 |
+| R5 기획 | CEO 확정 | P2 중기 |
 
 ---
 
@@ -178,39 +190,50 @@ outsource@newtalk.kr (외주)
 | V1 products 컬럼명 차이 | R1 | be662c7에서 해결 |
 | R1 브랜치 develop 미병합 | R2 이전 | 정리 필요 |
 | Docker mount path 확인 필요 | — | src/ vs 루트 |
-| 이중 라우트 파일 (routes/api.php vs src/routes/api.php) | ROUTE-MERGE-001에서 해결 (src/routes/api.php 일원화, routes/api.php.legacy 보존) | API 라우트 66→107개 |
 | Cursor git push 누락 패턴 반복 | R4 | .cursorrules 자동 push 규칙 추가 필요 |
 | DO Spaces URL이 V1에 하드코딩 | V1-FIX-001 | 소스+DB 치환 필요 (CEO 승인 완료) |
+| DropshipService·FulfillmentService·ContentPipelineService 미구현 | NTV2-VERIFY-001 | 500 에러 7건 → 구현 완료, HTTP 200 확인 |
+| claudebot SSH키/Docker 권한 미복구 | 운영 | V2 repo 13+ 커밋 미push — 수동 push 필요 |
+| /api/health disk_free_gb 188.9GB | R5-API-HEALTH-001 | 875GB 디스크 중 188.9GB 여유 — 모니터링 유지 |
 
 ---
 
 ## 6. 웹 Claude 인수인계 사항
 
-### 최신 상태 (2026-03-02)
-- R5-B3-001 완료: 거래처+스토리+AI추천+셀러채널 10테이블 + 25EP 라우트, 97테이블·203라우트 (8013204, 2026-03-03)
-- ROUTE-CONNECT-B2-001 완료: B-2 라우트 연결 — 결제+배송+정산+쇼츠 36EP, 142→178라우트 (26ee445, 2026-03-03)
-- R5-B2-MIGRATE-001 완료: B-2 마이그레이션 12테이블 생성, 75→87테이블 (55c73b4, 2026-03-03)
-- ROUTE-CONNECT-B1-001 완료: B-1 라우트 연결 — API 라우트 107→142개 (f39ef28, 2026-03-02)
-- ROUTE-MERGE-001 완료: 라우트 통합 Phase1+2 — API 라우트 66→107개, DB 테이블 66→75개 (be758c6, 2026-03-02)
-- CODE-FIX-001 완료: BUG-001·002·003 수정, TS 에러 0건, frontend 재빌드 완료 (e594850, 2026-03-02)
-- CODE-REVIEW-001 완료: R1~R4 코드 검수 보고서 push (946c57e, 2026-02-28)
-- DOCS-FIX-009 완료: R4 최종 문서 정합성 push 완료 (770ae91, 2026-02-27)
-- V1-FIX-001: Phase 1(소스 분석) 완료, Phase 2~4 CEO 승인 대기
+### 최신 상태 (2026-03-06)
+- R5 Phase A~B 완료: 203라우트, 97테이블, INTEGRATION-CHECK-001·API-TEST-001·CODE-REVIEW-001 통과
+- SEEDER-001 완료: 시더 8개, users=17, products=46, shorts=10, purchase_orders=36
+- V1-HOTFIX-001 완료: V1 이미지 캐시 버스팅 + GoodsEtc73 즉시 반영 (2026-03-04)
+- V1-HOTFIX-002 완료: V1 이미지 동일 파일명 덮어쓰기 수정 3파일 — **실서버 배포 CEO 승인 대기**
+- NTV2-VERIFY-001 완료: 500 에러 7/7 HTTP 200 재확인, DropshipService 등 구현 완료
+- DOCS-SYNC-003 완료: HANDOVER v5.0 + CEO-DIRECTIVES v1.1 정합성 복구
+- **R5-FRONT-SETTLE-001 완료**: 정산 프론트엔드 전체 구현 (SHA: 5a1390b) — settlement-api.ts 6함수, wholesale/admin 페이지 4개, 컴포넌트 5개, 빌드 에러 0, API 200
+- **R5-FRONT-PIPELINE-001 완료**: 콘텐츠 파이프라인 관리자 UI 3페이지+6컴포넌트 (SHA: 8c63353)
+- **FRONTEND-AUDIT-001 완료**: 412 ts/tsx, 78 page.tsx, 12영역 100% 매핑 (SHA: 0ddc519)
+- **API-SMOKE-002 완료**: 6계정 로그인 성공, 500에러 0, products=46/orders=2/shorts=10/settlements=5 (SHA: f793574)
+- **R5-API-HEALTH-001 완료**: GET /api/health 200, DB/Redis/Disk 모니터링 (SHA: d58a3fd)
+- **R5-FRONT-DROPSHIP-001 완료**: 드롭십 프론트 전면 개선 (SHA: 3a0c6aa) — types/dropship.ts, dropship-api.ts(6함수), wholesale 2페이지 개선, 컴포넌트 4개(DropshipProductCard·OrderTable·StatusBadge·StatsWidget)
+- **R5-FRONT-USERS-001 완료**: 관리자 사용자 관리 페이지 구현 (T-022) — types/admin-user.ts, admin-user-api.ts(4함수), admin/users 2페이지, 컴포넌트 3개(AdminUserTable·AdminUserFilter·AdminUserRoleBadge), admin-layout 메뉴 추가
+- **NT-001 Phase 1-A 완료** (SHA: 2fd517e): 메신저 백엔드 MVP — DB 스키마 확장, Events 3개(MessageSent·MessageReadEvent·UserTyping), MessengerController 8EP, MessengerService, Reverb 설정
+- **NT-001 Phase 1-B 완료**: 메신저 프론트엔드 채팅 UI — types/messenger.ts, messenger-api.ts(8함수), echo.ts(Reverb준비·polling fallback), 7컴포넌트(MessengerLayout·ConversationList·ConversationItem·MessageView·MessageBubble·MessageInput·TypingIndicator), 페이지 3개(admin/wholesale/retail /messenger), 레이아웃 메뉴 3곳
 
-### 웹 Claude가 해야 할 일
-1. R5-B2-MIGRATE-001 완료: 12테이블 생성, 87테이블 달성
-2. V1-FIX-001 Phase 2 실행 승인 → DB 조사 결과 검증 → Phase 3(UPDATE) 진행 판단
-2. CODE-REVIEW-001 내용 교차검증 → 발견 이슈 분류 → R-FIX 지시서 작성 (P1)
-3. R5 기획 착수 (CEO 확정 후, P2)
+### 웹 Claude가 해야 할 일 (다음 작업 큐)
+1. V1-HOTFIX-002 실서버 배포 — CEO 승인 수신 후 진행 (P0)
+2. V1-FIX-001 Phase 2 — CEO 승인 수신 후 이미지 URL 치환 실행 (P0)
+3. NT-001 Phase 1-B 빌드 검증 — Docker 컨테이너 재기동 후 `npm run build` 실행 (P1)
+4. NT-001 Phase 1-B Reverb 활성화 — `npm install laravel-echo pusher-js` → echo.ts ECHO_ENABLED=true (P1, Reverb 기동 후)
+5. NT-002, NT-003 — 별도 지시서 수신 후 진행 (P2)
+6. R5 기획 착수 — CEO 확정 후 (P2)
 
 ### 대표님 확인 필요 사항
-1. V1-FIX-001 Phase 2 승인: V1 DB goods_detail 테이블 DO URL 치환 진행 여부
-2. R5 기획 범위·일정 확정
+1. V1-HOTFIX-002 실서버 배포 승인
+2. V1-FIX-001 Phase 2 실행 승인 (이미지 URL DO Spaces → newtalk.kr 치환)
+3. R5 기획 범위·일정 확정
 
 ### 주의사항
-- Cursor가 git push를 건너뛰는 패턴이 반복됨 → 모든 지시서에 push 단계 명시 필수
-- V1 소스는 CodeIgniter 2.x — config/database.php, config/config.php에 도메인 설정 있을 가능성 높음
-- 이전 대화에서 non-fast-forward 충돌 발생 → 작업 시작 전 git pull --rebase 선행 필수
+- V1-HOTFIX-002: 실서버 배포 시 기존 이미지 파일 덮어쓰기 가능 — CEO 승인 후 진행
+- V1-FIX-001 Phase 2: V1 소스·DB 수정 포함 — CEO 건별 승인 필수
+- DropshipService·FulfillmentService·ContentPipelineService 구현 완료, 실제 외부 연동은 미설정
 
 ---
 
@@ -228,7 +251,6 @@ outsource@newtalk.kr (외주)
 │   │   └── HANDOVER.md                 ← 이 문서 (인수인계서)
 │   ├── reports/
 │   │   ├── R1-TASK-001-report.md
-│   │   ├── R1-TASK-002-report.md
 │   │   ├── … (기타 보고서)
 │   ├── v1-analysis/
 │   │   └── v1-purchasing-analysis.md
@@ -258,9 +280,10 @@ outsource@newtalk.kr (외주)
 | 3.0.0 | 2026-02-26 | DOCS-FIX-008: 완료 항목 정합성 복구; R4-FRONT-006 콘텐츠 파이프라인 UI 완료 반영 |
 | 3.0.1 | 2026-02-27 | DOCS-FIX-009: R4-FRONT-004·005·007 완료 반영, R4 라운드 종결 |
 | 4.0.0 | 2026-02-28 | DOCS-SETUP-001: 표준 8섹션 구조 전환, 섹션 6 웹 Claude 인수인계 추가, CEO-DIRECTIVES.md 분리 |
-| 4.1.0 | 2026-03-02 | CODE-FIX-001·CODE-REVIEW-001·DOCS-FIX-009 완료 반영, V1-FIX-001 Phase 2 대기 상태 업데이트 |
-| 4.2.0 | 2026-03-02 | ROUTE-MERGE-001 완료 반영, 107라우트·75테이블, git 브랜치 main 확인 |
-| 4.6.0 | 2026-03-03 | R5-B3-001 완료 — 10테이블+25EP, 97테이블·203라우트, R5-Phase B 종결 |
-| 4.5.0 | 2026-03-03 | ROUTE-CONNECT-B2-001 완료 반영, 36EP 라우트 연결, 142→178라우트 |
-| 4.4.0 | 2026-03-03 | R5-B2-MIGRATE-001 완료 반영, 12테이블 생성, 75→87테이블 |
-| 4.3.0 | 2026-03-02 | ROUTE-CONNECT-B1-001 완료 반영, 142라우트, B-1 연결 완료 |
+| 4.9.0 | 2026-03-05 | SEEDER-001: 시더 8개, users=17, products=46 |
+| 5.0.0 | 2026-03-05 | DOCS-SYNC-003: SEEDER-001·V1-HOTFIX-001·002·NTV2-VERIFY-001 완료 반영, R5 Phase A~B 완료 추가, 보류/미시작 갱신, 섹션 6 갱신 |
+| 5.1.0 | 2026-03-05 | R5-FRONT-SETTLE-001: 정산 프론트엔드 전체 구현 (settlement-api.ts 6함수, 페이지 4개, 컴포넌트 5개, 레이아웃 2곳, 빌드 에러 0, API 200) |
+| 5.2.0 | 2026-03-05 | T-011~T-019 완료 반영: API-SMOKE-002(6계정 로그인·500에러 0), FRONTEND-AUDIT-001(412 ts/tsx·78 page.tsx·12영역), DOCS-SYNC-003, R5-FRONT-SETTLE-001(정산 4페이지), R5-FRONT-PIPELINE-001(파이프라인 3페이지), R5-API-HEALTH-001(헬스체크), 알려진 이슈 2건 추가 |
+| 5.3.0 | 2026-03-05 | T-020 R5-FRONT-DROPSHIP-001: 드롭십 타입·API 분리, wholesale 2페이지 개선, 컴포넌트 4개 신규 |
+| 5.4.0 | 2026-03-06 | T-022 R5-FRONT-USERS-001: 관리자 사용자 관리 페이지 (목록+상세), types/admin-user.ts, admin-user-api.ts(4함수), 컴포넌트 3개, admin-layout 메뉴 추가 |
+| 5.5.0 | 2026-03-06 | NT-001-Phase-1B: 메신저 프론트엔드 채팅 UI — types/messenger.ts, messenger-api.ts(8함수), echo.ts(Reverb준비), 7컴포넌트(MessengerLayout·ConversationList·ConversationItem·MessageView·MessageBubble·MessageInput·TypingIndicator), 페이지 3개, 레이아웃 메뉴 3곳(admin/wholesale/retail) |
