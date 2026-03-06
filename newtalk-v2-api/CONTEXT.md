@@ -1,7 +1,7 @@
 # 뉴톡 V2 — 프로젝트 컨텍스트
 
-**문서 버전**: v4.8.0
-**최종 갱신**: 2026-03-05 KST (NTV2-VERIFY-001 — CONTEXT.md v3.15.0→v4.8.0 동기화)
+**문서 버전**: v5.0.0
+**최종 갱신**: 2026-03-05
 
 ---
 
@@ -9,16 +9,16 @@
 
 - **V2 목표**: V1(CodeIgniter 2.x/PHP 5.4)을 Laravel 12 + Next.js 16으로 재구축, SNS형 B2B SaaS 마켓플레이스로 진화.
 - **GitHub**: https://github.com/moongoby/newtalk-v2-api- (끝 하이픈 주의)
-- **V1**: [SERVER-IP] (운영), [ADMIN-SERVER-IP] (어드민) — 수정 금지.
+- **V1**: 114.207.244.86 (운영), 114.207.244.87 (어드민) — 수정 금지.
 
 ---
 
 ## 2. 인프라
 
-- **서버**: rfree-009, Ubuntu 20.04, IP [SERVER-IP] (V2), [ADMIN-SERVER-IP] (V1 어드민)
-- **SSH**: `ssh -p [SSH-PORT] -i ~/.ssh/id_ed25519_newtalk root@[SERVER-IP]`
+- **서버**: rfree-009, Ubuntu 20.04, IP 114.207.244.86 (V2), 114.207.244.87 (V1 어드민)
+- **SSH**: `ssh -p 7916 -i ~/.ssh/id_ed25519_newtalk root@114.207.244.86`
 - **Docker**: Docker 28.1.1, Compose v2.35.1. 프로젝트 경로: `/srv/newtalk-v2` (또는 워크스페이스 `/root/newtalk-v2`)
-- **NAS**: Synology DS1821+, [NAS-IP], image-auto :8100
+- **NAS**: Synology DS1821+, 192.168.30.23, image-auto :8100
 
 ---
 
@@ -52,7 +52,7 @@
 
 ---
 
-## 6. 완료 항목 (63건)
+## 6. 완료 항목 (64건)
 
 ### R0 ~ R1
 - [x] R0: 프로젝트 초기화 (Laravel 12, Docker, MySQL, Redis) — v0.1.0, 2026-02-21
@@ -108,20 +108,33 @@
 - [x] DOCS-FIX-008: 4대 핵심 문서 정합성 복구 (이 작업) — v3.11.0, 2026-02-26
 - [x] DOCS-FIX-009: R4 최종 문서 정합성 복구 — v3.15.0, 2026-02-27
 - [x] R4 라운드 종결 (API 7 + FRONT 7) — 2026-02-27
-
-### R5 Phase A ~ B (라우트·테이블 완성 + 서비스 구현)
 - [x] DOCS-SETUP-001: CEO-DIRECTIVES.md 생성 + HANDOVER.md 표준 8섹션 전환 — v4.0.0, 2026-02-28
-- [x] CODE-REVIEW-001: R1~R4 코드 검수 보고서 push — 946c57e, 2026-02-28
-- [x] CODE-FIX-001: BUG-001·002·003 수정, TS 에러 0건 달성 — e594850, 2026-03-02
-- [x] ROUTE-MERGE-001: 라우트 통합 Phase1+2 (Cafe24 7EP + R4 33EP 병합), 107라우트·75테이블 — be758c6, v4.2.0, 2026-03-02
-- [x] ROUTE-CONNECT-B1-001: B-1 라우트 연결 (장바구니·주문·브랜드·콘텐츠·미디어·SNS 35EP), 107→142라우트 — f39ef28, v4.3.0, 2026-03-02
-- [x] R5-B2-MIGRATE-001: B-2 마이그레이션 12테이블 생성, 75→87테이블 — 55c73b4, v4.4.0, 2026-03-03
-- [x] ROUTE-CONNECT-B2-001: B-2 라우트 연결 (결제+배송+정산+쇼츠 36EP), 142→178라우트 — 26ee445, v4.5.0, 2026-03-03
-- [x] R5-B3-MIGRATE-001: B-3 마이그레이션 (거래처+스토리+AI추천+셀러채널 10테이블), 87→97테이블 — 8013204, v4.6.0, 2026-03-03
-- [x] ROUTE-CONNECT-B3-001: B-3 라우트 연결 (25EP), 178→203라우트 — 8013204, v4.6.0, 2026-03-03
-- [x] INTEGRATION-CHECK-001: 203라우트 전수 검사 (컨트롤러 28/33 실구현, Service 3개 미구현 500에러 7건 확인, fillable 2개 수정) — 2026-03-03
-- [x] API-TEST-001: 스모크 테스트(203라우트) PASS 45/53, 500에러 7건 확인, Feature Test 20/20 PASS — 8c4b0e1, 2026-03-03
-- [x] SERVICE-FIX-001: DropshipService·FulfillmentService·ContentPipelineService 구현 — 500에러 7건 완전 해소 — 0f1de87, v4.8.0, 2026-03-04
+
+### R5 (Phase A~B)
+- [x] R5-PLAN-DRAFT-001: R5 Phase B 기획 초안 + V1 이미지 경로 조사 — 98050a7, 2026-03-01
+- [x] R5-B2-MIGRATE-001: 결제+배송+정산+쇼츠 12테이블 마이그레이션 — 55c73b4, v4.4.0, 2026-03-01
+- [x] ROUTE-CONNECT-B1-001: B-1 라우트 연결 35EP, 총 142라우트 — f39ef28, v4.3.0, 2026-03-02
+- [x] ROUTE-CONNECT-B2-001: 결제+배송+정산+쇼츠 라우트 연결 36EP — 26ee445, v4.5.0, 2026-03-02
+- [x] R5-B3-001: 거래처+스토리+AI추천+셀러채널 10테이블 + 25EP 라우트 — 8013204, v4.6.0, 2026-03-03
+- [x] INTEGRATION-CHECK-001: 203라우트 전수 통합 검수 + 빈 모델 2개 fillable 수정 — a3eeb96, 2026-03-04
+- [x] API-TEST-001: 스모크+Feature Test 완료 — 8c4b0e1, 2026-03-04
+- [x] CODE-REVIEW-001: R1~R4 코드 검수 완료 (203라우트, 97테이블) — 2026-03-04
+
+### 운영 + 데이터
+- [x] V1-HOTFIX-001: V1 이미지 캐시 버스팅 + GoodsEtc73 즉시 반영 — 9463cfa, 2026-03-04
+- [x] SEEDER-001: 시더 8개 (UserSeeder·CategorySeeder·ProductSeeder·OrderSeeder·PurchaseOrderSeeder·ShortSeeder·SettlementSeeder·PartnershipSeeder), users=17, products=46 — da42612, v4.9.0, 2026-03-05
+- [x] V1-HOTFIX-002: V1 이미지 동일 파일명 덮어쓰기 수정 (3파일, 3버그) — 0f1de87, 2026-03-05
+- [x] NTV2-VERIFY-001: 500 에러 7/7 해소 HTTP 재확인, DropshipService·FulfillmentService·ContentPipelineService 구현 — 0f1de87, v4.8.0, 2026-03-05
+- [x] DOCS-SYNC-003: HANDOVER v5.0 + CEO-DIRECTIVES v1.1 정합성 복구 — v4.9.0, 2026-03-05
+
+### R5 프론트엔드 + API
+- [x] R5-FRONT-SETTLE-001: 정산 프론트엔드 전체 구현 (settlement-api.ts 6함수, wholesale/admin 페이지 4개, 컴포넌트 5개, 레이아웃 2곳, 빌드 에러 0, API 200) — 5a1390b, v5.1.0, 2026-03-05
+- [x] R5-FRONT-PIPELINE-001: 콘텐츠 파이프라인 관리자 UI (파이프라인 목록·상세·생성 3페이지+6컴포넌트) — 8c63353, v5.2.0, 2026-03-05
+- [x] R5-API-HEALTH-001: GET /api/health 200, DB/Redis/Disk 모니터링 엔드포인트 추가 — d58a3fd, v5.2.0, 2026-03-05
+
+### 감사 + 스모크 테스트
+- [x] FRONTEND-AUDIT-001: 프론트엔드 전수 감사 (412 ts/tsx, 78 page.tsx, 12영역 100% 매핑) — 0ddc519, 2026-03-05
+- [x] API-SMOKE-002: 스모크 재테스트 (6계정 로그인 성공, 500에러 0, products=46/orders=2/shorts=10/settlements=5) — f793574, 2026-03-05
 
 ---
 
@@ -133,10 +146,10 @@
 
 ## 8. 다음 작업
 
-- FRONTEND-AUDIT-001 실행 (P1)
-- SEEDER-001 재실행 (114서버에서 직접 실행 필요, P1)
-- V1-FIX-001 Phase 2: DB 조사·치환 (CEO 승인 후, P0)
-- R5 기획 확정 대기 (일본 크로스보더, 라이브 B2B, P2)
+- admin 상품 CRUD (관리자 상품 등록·수정·삭제 UI)
+- 드롭십 개선 (위탁배송 드롭십 프로세스 고도화)
+- R4-FRONT-005/006/007 재검토 (SNS 자동게시·콘텐츠파이프라인·드롭십 UI 기능 보완)
+- R5 기획 확정 대기 (일본 크로스보더, 라이브 B2B)
 
 ---
 
@@ -145,8 +158,7 @@
 - R2 완료 (프론트 셋업, 인증, 피드, 상품 상세, 브랜드, 콘텐츠, 카페24)
 - R3 완료 (사입 주문, 결제, 배송, DM, 쇼츠, 정산)
 - R4 **완료** (거래처, 스토리, AI 추천, 셀러 채널, 콘텐츠 파이프라인, SNS 자동게시, 위탁배송·드롭십 — API 7건 + FRONT 7건)
-- R5 Phase A~B **완료** (203라우트·97테이블, SERVICE-FIX-001 완료)
-- R5 Phase C 대기 (일본 크로스보더, 라이브 B2B)
+- R5 대기 (일본 크로스보더, 라이브 B2B)
 
 ---
 
@@ -188,23 +200,3 @@ routes/api.php, app/Http/Controllers/
 
 - 커밋 접두사: `[R{라운드}-{TASK}]` 또는 `[DOCS]`
 - 코드 변경 시 테스트·린트 확인 후 커밋
-
-## 지시서 작성규칙
-
-```
-[지시서 예시 형식]
-Task ID: T-NNN
-제목: (한글 제목)
-서버: 114 (newtalk-v2-api)
-우선순위: P0-CRITICAL / P1-HIGH / P2-NORMAL
-예상 시간: N분
-예상 비용: $0
-의존성: (없음 또는 선행 Task ID)
-
-(작업 내용 상세 기술)
-[예시 끝]
-```
-
-- 타임스탬프: KST 기준 (UTC 금지)
-- 작업 완료 후 HANDOVER.md 반드시 갱신
-- git commit + push 필수
