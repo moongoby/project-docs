@@ -1,7 +1,7 @@
 # 뉴톡 V2 프로젝트 인수인계서
 
-**버전**: 5.2.0
-**최종수정**: 2026-03-05 KST (HANDOVER v5.2.0 — T-011~T-019 완료 반영)
+**버전**: 5.3.0
+**최종수정**: 2026-03-05 KST (HANDOVER v5.3.0 — T-020 R5-FRONT-DROPSHIP-001 완료 반영)
 **목적**: 신규 개발자·AI 에이전트가 프로젝트를 즉시 이해하고 작업할 수 있도록 하는 종합 인계 문서
 
 > **작업 규칙**: docs/CEO-DIRECTIVES.md 참조
@@ -209,14 +209,14 @@ outsource@newtalk.kr (외주)
 - **FRONTEND-AUDIT-001 완료**: 412 ts/tsx, 78 page.tsx, 12영역 100% 매핑 (SHA: 0ddc519)
 - **API-SMOKE-002 완료**: 6계정 로그인 성공, 500에러 0, products=46/orders=2/shorts=10/settlements=5 (SHA: f793574)
 - **R5-API-HEALTH-001 완료**: GET /api/health 200, DB/Redis/Disk 모니터링 (SHA: d58a3fd)
+- **R5-FRONT-DROPSHIP-001 완료**: 드롭십 프론트 전면 개선 (SHA: 3a0c6aa) — types/dropship.ts, dropship-api.ts(6함수), wholesale 2페이지 개선, 컴포넌트 4개(DropshipProductCard·OrderTable·StatusBadge·StatsWidget)
 
 ### 웹 Claude가 해야 할 일 (다음 작업 큐)
 1. V1-HOTFIX-002 실서버 배포 — CEO 승인 수신 후 진행 (P0)
 2. V1-FIX-001 Phase 2 — CEO 승인 수신 후 이미지 URL 치환 실행 (P0)
 3. admin 상품 CRUD — 관리자 상품 등록·수정·삭제 UI (P1)
-4. 드롭십 개선 — 위탁배송 드롭십 프로세스 고도화 (P1)
-5. R4-FRONT-005/006/007 재검토 — SNS 자동게시·콘텐츠파이프라인·드롭십 UI 기능 보완 (P1)
-6. R5 기획 착수 — CEO 확정 후 (P2)
+4. R4-FRONT-005/006/007 재검토 — SNS 자동게시·콘텐츠파이프라인 UI 기능 보완 (P1)
+5. R5 기획 착수 — CEO 확정 후 (P2)
 
 ### 대표님 확인 필요 사항
 1. V1-HOTFIX-002 실서버 배포 승인
@@ -277,3 +277,4 @@ outsource@newtalk.kr (외주)
 | 5.0.0 | 2026-03-05 | DOCS-SYNC-003: SEEDER-001·V1-HOTFIX-001·002·NTV2-VERIFY-001 완료 반영, R5 Phase A~B 완료 추가, 보류/미시작 갱신, 섹션 6 갱신 |
 | 5.1.0 | 2026-03-05 | R5-FRONT-SETTLE-001: 정산 프론트엔드 전체 구현 (settlement-api.ts 6함수, 페이지 4개, 컴포넌트 5개, 레이아웃 2곳, 빌드 에러 0, API 200) |
 | 5.2.0 | 2026-03-05 | T-011~T-019 완료 반영: API-SMOKE-002(6계정 로그인·500에러 0), FRONTEND-AUDIT-001(412 ts/tsx·78 page.tsx·12영역), DOCS-SYNC-003, R5-FRONT-SETTLE-001(정산 4페이지), R5-FRONT-PIPELINE-001(파이프라인 3페이지), R5-API-HEALTH-001(헬스체크), 알려진 이슈 2건 추가 |
+| 5.3.0 | 2026-03-05 | T-020 R5-FRONT-DROPSHIP-001: 드롭십 타입·API 분리, wholesale 2페이지 개선, 컴포넌트 4개 신규 |
