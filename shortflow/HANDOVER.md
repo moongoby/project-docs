@@ -1,5 +1,5 @@
 # HANDOVER – ShortFlow YouTube Shorts 자동화 SaaS
-> 최종 업데이트: 2026-03-06 (v1.7 — SF-T005/T008/T009/T011/T013/T014/T016/T017 완료 + Git push 복구)
+> 최종 업데이트: 2026-03-06 (v1.8 — SF-T020~T040 완료: 멀티플랫폼 계정UI/Supabase 스키마/헬스체크 API + git push 완전 복구)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -68,7 +68,12 @@
 | SF-T016 | 03-06 | Pipeline v5 통합 (run_v5_pipeline.py 514라인), 크론 v5 교체 |
 | SF-T017 | 03-06 | QA Score Engine v2 (qa_score_engine.py + run_qa_check.py) |
 | SF-T021 | 03-06 | Gmail SMTP SSL 알림 활성화 (bqizbhzrlixvovvv), 이메일 발송 성공 |
+| SF-T022 | 03-06 | 멀티플랫폼 계정 등록 — DB SQL(002_platform_accounts.sql) + API 6엔드포인트 + Next.js 계정 관리 UI + 마이그레이션 스크립트 |
 | SF-T030 | 03-06 | Git push 복구 (root SSH 키 인증 성공, 3커밋 동기화) + HANDOVER v1.7 |
+| SF-T031 | 03-06 | Supabase 스키마 점검 — DATABASE_URL 없음 확인, REST API로 2/12 테이블 존재 확인, 알림 이메일 ALERT_TEST_OK |
+| SF-T032 | 03-06 | 멀티플랫폼 계정 DB + FastAPI API — platforms.json + api/routes/platform_accounts.py + migrate 스크립트 |
+| SF-T033 | 03-06 | 멀티플랫폼 계정 관리 대시보드 UI (Next.js) — /dashboard/accounts 페이지, AccountCard, AddAccountModal, 사이드바 수정 |
+| SF-T040 | 03-06 | 외부 헬스체크 API 구축 — /api/health (server/disk/git/pipeline/db/env), HEALTH_API_KEY 보호, ALERT_EMAIL_PASSWORD 등록 |
 
 ---
 
@@ -77,10 +82,8 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | HISTORY-TOKEN | 대기 | history 채널 OAuth 토큰 발급 (CEO 채널ID/이메일 필요) |
-| SF-T004 | 대기 | Gemini 2.5 Flash TTS 통합 |
-| SF-T006 | 대기 | 멀티플랫폼 OAuth 연동 모듈 |
-| SF-T007 | 대기 | SaaS 온보딩 위자드 UI (Next.js 14) |
-| SF-T022 | 대기 | 멀티플랫폼 계정 관리 UI (platforms.json + DB 연동) |
+| SF-T006 | 대기 | 멀티플랫폼 OAuth 실제 연동 모듈 (현재 UI만 구현) |
+| SUPABASE-SCHEMA | 대기 | CEO가 Supabase SQL Editor에서 001_saas_schema.sql 실행 필요 (DATABASE_URL 미설정으로 자동화 불가) |
 
 ---
 
@@ -175,6 +178,7 @@
 
 | 버전 | 날짜 | 변경 |
 |------|------|------|
+| v1.8 | 2026-03-06 | SF-T022/T031/T032/T033/T040 완료, 멀티플랫폼 계정 UI + 헬스체크 API + git push 완전 복구, pending 15건 아카이브 |
 | v1.7 | 2026-03-06 | SF-T005/T008/T009/T011/T013/T014/T016/T017/T021/T030 완료, Git push 복구, HANDOVER 갱신 |
 | v1.0 | 2026-02-28 | 초판 – 전체 대화 내역 + 최종 보고서 기반 작성 |
 | v1.1 | 2026-03-02 | V4-BATCH/CRON/DELETE 완료, IP/이메일 마스킹, 섹션 6 갱신 |
