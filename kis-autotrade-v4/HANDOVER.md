@@ -890,6 +890,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.38 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-232 D-ORB/D4 ATR SL Cap 강화 + S1 전략 재검증**: MAX_SL_CAP 강화(D-ORB 2.5%→2.0%/D4 2.0%→1.8%/D6 2.0% 유지); CEO 파라미터(SL2%/TP3%/E2A) 정합성 확인(충돌없음); S1 16건 전량 분석(실행5건 전부FORCED_CLOSE_EOD -0.47%/SUPPLY차단7/SIGNAL_COMBO차단3/FUNNEL차단1/승률0%); 개선안3건(A시간13:30/B gap3%/C BLOCK완화); TC-04~06+TC-S1-01~03 신규테스트; 39/39 ALL PASS; 커밋 4df4a39a |
 | v10.37 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-233 HANDOVER+CONTEXT 동기화**: API 헬스체크 경로 테이블(헬스체크 200/스냅샷 200/백테스트목록 200/progress 404/regime 에러) 추가; 백테스트 루프 162COMPLETED+1RUNNING(stuck)+크론미설치(T-228); 시스템문제점 6건(FunnelScore구조적차단/BT루프stuck+크론미설치/progress404/regime에러/fundamental7.1%/MA20미적용); CONTEXT.md v10.25(테이블282→290/T-212~T-218완료/T-226~T-235작업큐/T-229CEO결정대기); 불일치 0건 |
 | v10.36 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-208 S1 트리거 이징 분석**: 03-01~03-06 16건 분석; 차단 3대원인(SUPPLY synthetic_BLOCK 64%/SIGNAL_COMBO 27%/FUNNEL 9%); 이징안A(gap3%)+이징안B(close_pos0.25)+이징안C(FS0.30: max0.2415<0.30 효과없음); 추천 수급연결+Fail-Open+FORCED_EOD개선; 보고서 HTTP 200 |
 | v10.32 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-227 FunnelScore 구조 해부 및 재교정**: L0~L3 실측 트레이싱 — L0=0.360(NEUTRAL+VIX_NULL+KOSPI오염)/L1=0.300(섹터미등록)/L2=0.300(수급없음)/L3=0.075(fundamental 7.1%커버); 최대FS=0.2415 구조적차단 확정; 방안A(Fail-Open 164/184)/방안B(재가중 53/184)/방안C(임계값0.20 166/184) CEO승인대기; 보고서작성 완료 |
