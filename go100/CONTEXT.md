@@ -1,5 +1,5 @@
 # GO100 프로젝트 컨텍스트 (Claude PM용)
-> 최종 갱신: 2026-03-06 (T-038 HANDOVER v15.3 반영 — Commander 대시보드 + 페이지 45개)
+> 최종 갱신: 2026-03-06 (T-040 HANDOVER v15.3 갱신 — T-033B entry_rules 정규화 + T-039 매니저 스냅샷 반영)
 > 인계서: HANDOVER.md v15.3
 
 ## 1. 프로젝트 개요
@@ -28,7 +28,7 @@
 | P5 | 자기리뷰(P5-1), Telegram+섹터(P5-2), 포트폴리오 최적화(P5-3), 개인화(P5-4) | ✅ 완료 |
 | P6 | 리스크+킬스위치(P6-1), KIS API 실주문 게이트웨이(P6-2) | ✅ 완료 |
 | P7 | P7-1 QA 완료, SaaS 버그수정(T-028), SEO(T-029/T-020), 에러모니터링(T-031) | ✅ 완료 |
-| P8 | entry_rules 포맷 수정(T-033), 모의투자 거래 발생 확인(T-034 재실행) | 🔥 즉시 필요 |
+| P8 | entry_rules 포맷 수정(T-033B 완료), 모의투자 거래 발생 확인(T-034 재실행 필요) | ✅ T-033B 완료 / T-034 대기 |
 | P9 | 30일 모의투자 1사이클 완주 (session_id=2, ~03-29) | 🔧 진행 중 |
 | P10 | V3 모델 CEO 승인 후 실전 투입 | ⏳ CEO 대기 |
 | SaaS | 결제(T-021), 마켓플레이스, 최종 QA, 라이브 런칭 | 📋 설계 완료 |
@@ -46,11 +46,12 @@
 - E2E 23/23 PASS, Agent Tool **57개**, Screening Filters 35+, Gap 데이터 108,574건
 - DB 마이그레이션 035~065 (064 v4_users terms, 065 go100_error_log)
 - **페이지**: 45개 전수 LIVE (T-029에서 34→44, T-036/T-037 Commander 대시보드 추가로 45 확인)
-- **크론**: 활성 약 60라인 (closing_report cron 포함 — T-030 완료)
+- **크론**: 활성 약 60라인 (closing_report cron — T-030 완료, manager_snapshot cron — T-039 완료)
 - **SaaS**: 회원가입(T-028 완료), SEO(T-020/T-029 완료), 에러모니터링(T-031 완료)
 - **토글UI**: accounts·settings 실매매/모의 토글 연동 완료(T-157, 커밋 fc398d2d)
 - **Commander 대시보드**: go100.newtalk.kr/go100/commander (T-036/T-037 완료)
-- **⚠️ 잔여이슈**: entry_rules 포맷 불일치 (card_id=35,36) — T-033 수정 필요
+- **매니저 스냅샷**: https://go100.newtalk.kr/manager/snapshot.json (T-039 완료, 30분 갱신, 인증 불필요)
+- **✅ entry_rules 해결**: card_id=35,36 SignalEvaluator+DB UPDATE 완료 (T-033B, 커밋 ba7f2431)
 
 ## 6. 필수 읽기 (세션 시작 시)
 1. /root/kis-autotrade-v4/.cursorrules
