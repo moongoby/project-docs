@@ -266,7 +266,39 @@
 
 ---
 
-## 3-1. Known Issues (갱신: 2026-03-05 v10.5)
+## 3-1. API 헬스체크 경로 현황 (갱신: 2026-03-07 T-233)
+
+| 엔드포인트 | 상태 | 비고 |
+|-----------|------|------|
+| /health | 200 | 기본 헬스체크 (kis-v41-api:8003) |
+| /api/v4/system/snapshot | 200 | 전체 스냅샷 |
+| /api/v4/backtest/sessions | 200 | 백테스트 목록 (162건 COMPLETED) |
+| /api/v4/backtest/progress | 404 | **미구현** → T-226 작업 대기 |
+| /api/v4/regime | 에러 | **미구현 또는 장외** → T-234 작업 대기 |
+
+### 백테스트 루프 현황 (2026-03-07 기준)
+- **총 세션**: 162 COMPLETED, 1 RUNNING (stuck)
+- **크론 설치**: ❌ 미설치 (research_backtest_loop.py 크론 미등록) → T-228 참조
+- **APPROVED 가설**: 0건 (dry-run SKIPPED 정상, 실가설 승인 후 자동 실행 가능)
+
+---
+
+## 3-2. Known Issues (갱신: 2026-03-07 T-233)
+
+### 시스템 문제점 6건
+
+| # | 이슈 | 심각도 | 처리 방안 |
+|---|------|--------|----------|
+| 1 | **FunnelScore 구조적 저점** (max FS=0.2415 < 임계값 0.35) — 전 종목 구조적 차단 | 🔴 P0 | T-227: 방안A(Fail-Open)/방안B(재가중)/방안C(임계값0.20) CEO승인대기 |
+| 2 | **백테스트 루프 stuck** (1건 RUNNING 상태 고착) + research_backtest_loop.py 크론 미설치 | 🟠 P1 | T-228: 크론 설치 + stuck 세션 강제 종료 |
+| 3 | **/api/v4/backtest/progress 404** (백테스트 진행률 API 미구현) | 🟡 P2 | T-226: 라우터 구현 |
+| 4 | **/api/v4/regime 에러** (레짐 API 미구현 또는 장외 시간대 오류) | 🟡 P2 | T-234: 엔드포인트 구현 또는 장외 fallback |
+| 5 | **v4_fundamental_quarterly 7.1% 커버리지** (3,844종목 중 273개) — L3 FunnelScore 점수 항상 0 | 🟠 P1 | 전종목 fundamental 수집 확대 필요 |
+| 6 | **MA20 trailing 미적용** (exit_manager MA20 트레일링 코드 없음) — H05-D PF=2.18 실전 미반영 | 🟠 P1 | T-229: CEO 승인 후 구현 |
+
+---
+
+## 3-3. Known Issues 상세 (갱신: 2026-03-05 v10.5)
 
 | 이슈 | 상태 | 처리 |
 |------|------|------|
@@ -554,6 +586,18 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-07, T-233 HANDOVER+CONTEXT 동기화 — v10.37)
+
+#### ★ T-233 완료: HANDOVER v10.37 + CONTEXT v10.25 동기화
+
+**[T-233 HANDOVER-CONTEXT-SYNC-001] 2026-03-07 KST**
+- **HANDOVER v10.37**: API 헬스체크 경로 테이블 추가 + 백테스트 루프 현황 + 시스템문제점 6건 목록
+- **CONTEXT v10.25**: 테이블 수 282→290, T-212~T-218 완료 반영, T-226~T-235 작업큐, CEO결정대기 T-229 추가
+- **불일치 0건**: HANDOVER ↔ CONTEXT 교차 검증 통과
+- **핵심 발견 T-218/T-216/T-217**: 모두 HANDOVER 섹션2에 기존 기록 확인 ✅
+
+---
+
 ### 최신 상태 (2026-03-07, T-227 FunnelScore 재교정 분석 — v10.32)
 
 #### ★ T-227 완료: FunnelScore 구조 해부 및 긴급 재교정 분석
@@ -831,6 +875,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.37 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-233 HANDOVER+CONTEXT 동기화**: API 헬스체크 경로 테이블(헬스체크 200/스냅샷 200/백테스트목록 200/progress 404/regime 에러) 추가; 백테스트 루프 162COMPLETED+1RUNNING(stuck)+크론미설치(T-228); 시스템문제점 6건(FunnelScore구조적차단/BT루프stuck+크론미설치/progress404/regime에러/fundamental7.1%/MA20미적용); CONTEXT.md v10.25(테이블282→290/T-212~T-218완료/T-226~T-235작업큐/T-229CEO결정대기); 불일치 0건 |
 | v10.36 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-208 S1 트리거 이징 분석**: 03-01~03-06 16건 분석; 차단 3대원인(SUPPLY synthetic_BLOCK 64%/SIGNAL_COMBO 27%/FUNNEL 9%); 이징안A(gap3%)+이징안B(close_pos0.25)+이징안C(FS0.30: max0.2415<0.30 효과없음); 추천 수급연결+Fail-Open+FORCED_EOD개선; 보고서 HTTP 200 |
 | v10.32 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-227 FunnelScore 구조 해부 및 재교정**: L0~L3 실측 트레이싱 — L0=0.360(NEUTRAL+VIX_NULL+KOSPI오염)/L1=0.300(섹터미등록)/L2=0.300(수급없음)/L3=0.075(fundamental 7.1%커버); 최대FS=0.2415 구조적차단 확정; 방안A(Fail-Open 164/184)/방안B(재가중 53/184)/방안C(임계값0.20 166/184) CEO승인대기; 보고서작성 완료 |
 | v10.33 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-219 THEME_CYCLE feature variable (D-008-KR P0)**: feature_engine.py compute_theme_cycle_100b_count(rows,threshold=100억)/compute_theme_cycle_ul_count(rows,upper_limit_pct=29.0) 순수 계산 함수 추가; DB 의존 없음; 3케이스 6테스트 ALL PASS; DESK3/4/5 pool scan feature 전달용; 커밋 7f27b7b4 |

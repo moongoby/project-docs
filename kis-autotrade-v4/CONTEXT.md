@@ -73,21 +73,25 @@
 | T-199 | 5fa5eb3e | migration 067 (go100_research_iterations), v41_research_loop 크론 |
 | T-187 | 854466b8 | exit_manager.py SL/TP/TIMEOUT 조정 (D-ORB/D4/D6) |
 
-## 8. 작업 큐 (2026-03-06 기준)
+## 8. 작업 큐 (2026-03-07 기준)
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0-CRITICAL | T-201 Exit Manager 정비 (D5 청산 미작동 + MA20 트레일링) | 대기 |
-| P0-CRITICAL | T-202 DESK5→4→3 파이프라인 복원 (프랙탈 트리거) | 대기 |
-| P1-HIGH | T-193 D5 Exit Manager 4주 보유기간 테스트 | 완료 |
-| P1-HIGH | T-194 SL/TP 파라미터 조정 (ATR 기반 동적 SL) | 대기 |
-| P1-HIGH | T-195 14:00 이후 진입 차단 게이트 | 대기 |
-| P1-MEDIUM | T-205 CONTEXT.md v10.24 동기화 | 이 작업 완료 |
+| P0-CRITICAL | T-229 exit_manager MA20 trailing 전면 적용 | CEO결정대기 |
+| P1-HIGH | T-228 research_backtest_loop 크론 설치 | 대기 (162 COMPLETED, 1 RUNNING stuck) |
+| P1-HIGH | T-227 FunnelScore 재교정 (방안A Fail-Open / 방안C 임계값0.20) | CEO승인대기 |
+| P1-HIGH | T-226 백테스트 /api/v4/backtest/progress 구현 | 대기 (현재 404) |
+| P1-MEDIUM | T-233 HANDOVER v10.37 + CONTEXT v10.25 동기화 | 이 작업 완료 |
+| P1-MEDIUM | T-235 SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 | 완료 (20017658) |
+| P1-MEDIUM | T-219 THEME_CYCLE feature variable | 완료 (7f27b7b4) |
+| P1-MEDIUM | T-218 DUAL_FLOW_5D/20D feature variable | 완료 (faa85636) |
+| P1-MEDIUM | T-216 source 전파 수정 | 완료 (8d74d00c) |
+| P2-LOW | T-234 API /api/v4/regime 구현 | 대기 (현재 에러) |
 
 ## 9. CEO 결정 대기
-1. T-201 Exit Manager D5 청산 로직 수정 승인
-2. T-202 DESK5→4→3 프랙탈 트리거 복원 승인
-3. T-194 ATR 기반 동적 SL 파라미터 승인
-4. T-195 14:00 이후 진입 차단 정책 승인
+1. T-227 FunnelScore 재교정 방안 승인 (방안A: Fail-Open→89% 통과 / 방안B: 재가중→29% / 방안C: 임계값 0.20→90%)
+2. T-229 exit_manager MA20 trailing 전면 적용 승인 (H05-D PF=2.18, H08-B PF=25.93 기반)
+3. T-194 ATR 기반 동적 SL 파라미터 승인 (D-ORB 2.5% Cap 기적용, T-207 완료)
+4. T-195 14:00 이후 진입 차단 정책 (완료, T-195 bd8d4620)
 
 ## 10. 핵심 파일 (수정 시 검수 필수)
 - exit_manager.py (T-187/T-193 적용됨), cte_pipeline.py (T-189 BEAR 분기)
