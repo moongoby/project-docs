@@ -1,5 +1,5 @@
-# GO100 인수인계서 v15.2 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링 + entry_rules 검증
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-06 KST (v15.2: entry_rules 검증 + 모의투자 수동실행 + T-157 토글UI + 전체 세션 종합) | 대상: 다음 세션 AI
+# GO100 인수인계서 v15.3 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링 + Commander 대시보드
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-06 KST (v15.3: Commander 군단 대시보드 구현 + 페이지 45개) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -190,7 +190,7 @@
 ---
 
 ### 프론트엔드 현황 (2026-03-06 기준)
-- **페이지**: 44개 전수 LIVE (STUB/BROKEN 0)
+- **페이지**: 45개 전수 LIVE (STUB/BROKEN 0)
 - **API 연동**: 10/10 GO100 라우터 GREEN
 - **차트**: recharts + lightweight-charts, 11종 차트 구현
 - **모바일**: 375/414/768/1024 반응형, PWA manifest
@@ -530,3 +530,6 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-033 | 03-06 | entry_rules 포맷 불일치 진단 — SignalEvaluator._eval_one_entry `type` 기반 vs go100_strategy_cards card_id=35,36 `logic/conditions/indicator` 포맷 불일치 확인. **수정 미완료** (DB UPDATE 또는 코드 확장 필요) | PASS(진단) / 수정 대기 |
 | T-034 | 03-06 | 모의투자 수동 1회 매수 트리거 — session_id=2, KOSPI 80종목, run_paper_trading_v3.py --mode buy 실행, 결과 **매수 0건** (entry_rules 포맷 불일치 확인) | PASS(확인) |
 | T-035 | 03-06 | HANDOVER v15.2 업데이트 — T-029~T-034, T-157 전체 반영, 페이지 수 44, migration 035~065, entry_rules Known Issue #8 추가 | PASS |
+| T-036 | 03-06 | Commander 군단 대시보드 구현 — /go100/commander 페이지 신규 구현, 에이전트 10개 실시간 상태/가중치 표시, agent_performance_tracker API 연동 | PASS |
+| T-037 | 03-06 | Commander 대시보드 프론트엔드 완성 — 페이지 수 44→45, API 엔드포인트 연동, 에이전트 성과 차트 구현 | PASS |
+| T-038 | 03-06 | HANDOVER v15.3 업데이트 — T-036/T-037 Commander 대시보드 반영, 페이지 수 45, Commander Architecture §11 URL 추가 | PASS |
