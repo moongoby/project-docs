@@ -1,5 +1,5 @@
-# HANDOVER – NAS Image Auto (newtalk-image-auto) 
-> 최종 업데이트: 2026-03-03 (v1.5 — P4-114-API 완료) 
+# HANDOVER – NAS Image Auto (newtalk-image-auto)
+> 최종 업데이트: 2026-03-04 (v2.0 — P4 전 모듈 완료, INTEGRATION 파이프라인, Claude Code 권한 이슈 기록)
 > 관리자: CEO (moongoby) 
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기 
  
@@ -59,20 +59,25 @@ CDN (DigitalOcean Spaces)
 | P3-BATCH-RUN | 02-28 | ✓ | — | 31개 코디 배치 완료 (시크블랙14+리엘라17+α), 타임아웃3건 재실행 성공 | 
 | P4-D-INTRO | 03-02 | e2f115f | 200 | 인트로 이미지 AI 생성 모듈: 템플릿 A~E, Gemini 카피, 배치, pytest 18 PASS | 
 | P4-E-DEPLOY | 03-02 | fdd521e | 200 | 리네임+CDN dry-run+DB mock 파이프라인: rename_map.json, pytest 17 PASS (실배포 CEO 승인 대기) | 
-| P4-A-CROP | 03-03 | ecc7e2e | 200 | MediaPipe Pose 1:1/3:4 크롭, HEIC 지원, fallback, pytest 15 PASS | 
- 
---- 
- 
+| P4-A-CROP | 03-03 | ecc7e2e | 200 | MediaPipe Pose 1:1/3:4 크롭, HEIC 지원, fallback, pytest 15 PASS |
+| P4-B-TONE | 03-03 | 4fa1f21 | 200 | 8프리셋 톤보정, pytest 12 PASS |
+| P4-C-RETOUCH | 03-03 | e4c996a | 200 | 체형/피부 보정, pytest 13 PASS |
+| P4-INTEGRATION | 03-03 | b0c9894 | 200 | E2E 파이프라인, pytest 10 PASS — [보고서](reports/CUR-NASIMG-P4-INTEGRATION-001-20260303.md) |
+
+---
+
 ## 3. 진행 중 작업 
  
-| Task ID | 상태 | 내용 | 
-|---------|------|------| 
-| P4-A-CROP | **완료** | MediaPipe Pose 1:1/3:4 크롭 — 커밋 ecc7e2e | 
-| P4-B-TONE | **완료** | 8프리셋+10%clamp+sidecar, pytest 7 PASS (4459d68) | 자동 톤/노출/색감 보정 | 
-| P4-C-RETOUCH | 지시서 발행 | 체형/피부 AI 보정 | 
-| P4-D-INTRO | **완료** | 인트로 이미지 AI 생성 (템플릿 A~E) — 커밋 e2f115f | 
-| P4-E-DEPLOY | **스캐폴딩 완료** | 리네임+CDN dry-run+DB mock — 커밋 fdd521e (실배포 CEO 승인 필요) | 
-| P4-114-API | **완료** | 114서버 PHP REST API — getImages/updateImages/healthcheck, X-API-Key, 트랜잭션 (a51772a) | 
+| Task ID | 상태 | 내용 |
+|---------|------|------|
+| P4-A-CROP | **완료** | MediaPipe Pose 1:1/3:4 크롭 — 커밋 ecc7e2e |
+| P4-B-TONE | **완료** | 8프리셋 톤보정, pytest 12 PASS — 커밋 4fa1f21 |
+| P4-C-RETOUCH | **완료** | 체형/피부 AI 보정, pytest 13 PASS — 커밋 e4c996a |
+| P4-D-INTRO | **완료** | 인트로 이미지 AI 생성 (템플릿 A~E) — 커밋 e2f115f |
+| P4-E-DEPLOY | **완료** | 리네임+CDN dry-run+DB mock — 커밋 fdd521e (실배포 CEO 승인 필요) |
+| P4-114-API | **완료** | 114서버 PHP REST API — getImages/updateImages/healthcheck, X-API-Key, 트랜잭션 (a51772a) |
+| P4-INTEGRATION | **완료** | E2E 파이프라인 통합 — 커밋 b0c9894 |
+| P5-DEPLOY-PREP | 대기 | Docker rebuild + 환경 검증 |
  
 --- 
  
@@ -89,11 +94,13 @@ CDN (DigitalOcean Spaces)
  
 ## 5. 핵심 발견 (누적) 
  
-### 인프라 
-- Docker 내부 경로: /data/photos/ (NAS /volume1/★제품사진/) 
-- NAS SSH 유저(newtalk)는 Docker 권한 없음 → DSM 스케줄러(root) 필수 
-- 스크립트 CRLF → sed -i 's/\r$//' 변환 필수 
-- Docker 내부에서 /volume1/ 접근 불가 → Python 스크립트 대체 
+### 인프라
+- Docker 내부 경로: /data/photos/ (NAS /volume1/★제품사진/)
+- NAS SSH 유저(newtalk)는 Docker 권한 없음 → DSM 스케줄러(root) 필수
+- 스크립트 CRLF → sed -i 's/\r$//' 변환 필수
+- Docker 내부에서 /volume1/ 접근 불가 → Python 스크립트 대체
+- Claude Code claudebot 유저 /root 쓰기 권한 문제 → 작업 디렉토리 변경 필요 (/root/project-docs 사용)
+- BRIDGE 에러 2건 기록 (PREFLIGHT_FAIL): NAS_20260305_084212, NAS_20260305_084415 — claudebot /root 쓰기 불가
  
 ### P3 A컷 선별 
 - Gemini PROHIBITED_CONTENT 차단 → fallback 상위 N장 복사 
@@ -129,12 +136,11 @@ CDN (DigitalOcean Spaces)
  
 ## 6. 웹 Claude 인수인계 사항 
  
-### 최신 상태 (2026-03-02) 
-- P3 배치 31코디 완료, 실무자 피드백 대기 
-- P4-D-INTRO 완료 (템플릿 A~E, pytest 18 PASS) 
-- P4-E-DEPLOY 스캐폴딩 완료 (리네임+CDN dry-run+DB mock, pytest 17 PASS — 실배포 CEO 승인 대기)
-- P4-A-CROP, P4-B-TONE, P4-114-API 개발 중 
-- P4-C-RETOUCH 지시서 발행 상태 
+### 최신 상태 (2026-03-04)
+- P4 전 모듈 완료 (P4-A-CROP, P4-B-TONE, P4-C-RETOUCH, P4-D-INTRO, P4-E-DEPLOY, P4-114-API)
+- P4-INTEGRATION E2E 파이프라인 완료 (pytest 10 PASS, 커밋 b0c9894)
+- P5-DEPLOY-PREP 대기 중 (Docker rebuild + 환경 검증 필요)
+- Claude Code claudebot /root 쓰기 권한 문제 확인 → /root/project-docs 작업 디렉토리로 해결
  
 ### 웹 Claude가 해야 할 일 
 1. P4 커서 결과 수신 → 각 모듈 보고서 교차검증 
@@ -173,4 +179,5 @@ CDN (DigitalOcean Spaces)
 | v1.0 | 2026-02-28 | 초판 — P1~P3 완료, P4 지시서 발행, 인프라/파일명/DB 구조 문서화 | 
 | v1.1 | 2026-03-02 | P4-D-INTRO 완료 반영, P4-A/B/114-API 개발 중 상태 갱신 | 
 | v1.2 | 2026-03-02 | P4-E-DEPLOY 스캐폴딩 완료 반영 (dry-run/mock, fdd521e) | 
-| v1.3 | 2026-03-03 | P4-A-CROP 완료 반영 (MediaPipe 1:1/3:4, ecc7e2e) | 
+| v1.3 | 2026-03-03 | P4-A-CROP 완료 반영 (MediaPipe 1:1/3:4, ecc7e2e) |
+| v2.0 | 2026-03-04 | P4 전 모듈 완료 (B-TONE, C-RETOUCH, INTEGRATION), Claude Code 권한 이슈 기록, P5-DEPLOY-PREP 추가 |
