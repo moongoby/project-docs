@@ -21,6 +21,7 @@
 |---------|------|------|------|-----------|
 | **T-231 DESK 파이프라인 전 구간 수동 검증 (DESK5→4→3→2)** | 03-07 | 코드변경없음 | — | DESK5: processed=0(장외)/워치리스트20종목/T5-2트리거0%(장외정상); DESK4: FIX-002 primary=11종목로드 ✅/RISING=8/PULLBACK=3/promote=0(장외); DESK3: ACTIVE=401건/최신일=2026-03-06; DESK2 pool_link: D3=401/inserted=249/boosted=0/total=249건; 전구간 수동실행 10/10 PASS; 코드변경없음(검증전용Task); 보고서 CUR-V41-DESK-PIPELINE-VERIFY-001-20260307.md |
 | **T-235 SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 구현 (D-008-KR P0)** | 03-09 | 20017658 | — | feature_engine.py compute_small_cap_quality(fundamental_rows,market_cap) 순수 계산 함수 추가(DB 의존 없음); CEO 3대조건(ROE>0/영업이익흑자≥75%/부채비율<200%); 출력:quality_grade(A/B/C/REJECT)/quality_score[0.0~1.0]; universe_builder.py flag_sector_leaders_v2(sector_symbols,investor_rows_by_symbol,price_rows_by_symbol) 추가; 수급 상위10%+모멘텀 상위20% 섹터 리더 판정; FunnelScore L1_SECTOR leader_score 연결; 테스트 TC-01~08 8/8 ALL PASS; FunnelScore 시뮬: pass율=20%(≥20%목표 달성)/평균score=0.55(≥0.35목표 달성); 보고서 CUR-V41-SMALL-CAP-SEC-LEADER-IMPL-001-20260309.md |
+| **T-232 D-ORB/D4 ATR SL Cap 강화 + S1 전략 재검증** | 03-07 | 4df4a39a | — | MAX_SL_CAP 강화: D-ORB 2.5%→2.0%(avg PnL -0.801% 대응)/D4 2.0%→1.8%(avg PnL -1.021% 대응)/D6 2.0% 유지; S1 16건 전량 분석: 실행5건(전부FORCED_CLOSE_EOD -0.47%)/L3.3_SUPPLY차단7건/SIGNAL_COMBO차단3건(S1 1/2)/FUNNEL차단1건; 개선안3건(A:진입마감13:30/B:gap 3%완화/C:synthetic_BLOCK 재설정); TC-04~06+TC-S1-01~03 신규 테스트; 39/39 ALL PASS; 보고서 CUR-V41-ATR-SL-CAP-S1-REVIEW-001-20260309.md |
 | **T-208 S1 전략 재검증 + 진입 트리거 이징 분석** | 03-07 | 분석전용 | 200 | S1 03-01~03-06 총16건/승인5(31%)/차단11(69%); 체결5건 전부 FORCED_CLOSE_EOD pnl=-0.47%; 차단원인: L3.3_SUPPLY synthetic_BLOCK(7건/64%)·SIGNAL_COMBO(3건/27%)·L3.1_FUNNEL(1건/9%); 이징안A(gap5%→3%: +0.26건/일 추정)/이징안B(close_pos 0.30→0.25: 수급데이터연결 전제 시 +1건/일)/이징안C(FunnelScore 0.30: max=0.2415<0.30 → 효과 0건); 추천: 수급데이터연결+FunnelScore Fail-Open+FORCED_CLOSE_EOD 정책개선이 선결과제; 보고서 CUR-V41-S1-TRIGGER-EASING-001-20260307.md HTTP 200 |
 | **T-207 D-ORB/D4/D6 ATR SL 상한 Cap 설정 (T-192 지시)** | 03-07 | 4cf5a6fe | — | MAX_SL_CAP 딕셔너리(D-ORB:2.5%/D4:2.0%/D6:2.0%) + calculate_atr_sl() 함수 신규 추가; min(atr_sl, cap) 적용; v4_mock_trades 184건 시뮬: Cap 초과 2건(D-ORB id=77 -3.612%→-2.5% 절약1.112%/D4 id=122 -2.673%→-2.0% 절약0.673%/D6 0건 미발동); TC-01/TC-02/TC-03 단위테스트 3/3 PASS; exit_manager 누적 33/33 PASS; 보고서 CUR-V41-ATR-SL-CAP-001-20260307.md |
 | **T-227 FunnelScore 구조 해부 및 긴급 재교정** | 03-07 | 분석전용 | — | L0~L3 실측값 트레이싱: L0=0.360(NEUTRAL+VIX_NULL+KOSPI오염), L1=0.300(섹터미등록/97%), L2=0.300(수급데이터없음/fallback), L3=0.075(v4_fundamental_quarterly 7.1%커버=273/3844); 최대FunnelScore=0.2415<임계값0.35=구조적차단; 방안A(Fail-Open→164/184=89%)/방안B(재가중→53/184=29%)/방안C(임계값0.20→166/184=90%) CEO승인대기; 보고서 CUR-V41-FUNNEL-SCORE-RECALIBRATION-001-20260309.md |
@@ -585,6 +586,20 @@
 
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
+
+### 최신 상태 (2026-03-07, T-232 D-ORB/D4 ATR SL Cap 강화 + S1 재검증 — v10.38)
+
+#### ★ T-232 완료: D-ORB/D4 ATR SL Cap 강화 + S1 전략 재검증
+
+**[T-232 CUR-V41-ATR-SL-CAP-S1-REVIEW-001] 2026-03-07 KST**
+- **MAX_SL_CAP 강화**: D-ORB 2.5%→2.0% / D4 2.0%→1.8% (avg PnL 악화 대응)
+- **기존 CEO 파라미터 정합성 확인**: SL2%/TP3%/E2A와 충돌 없음 (ATR 극단값만 발동)
+- **S1 16건 전량 분석**: 실행 5건(전부 FORCED_CLOSE_EOD, -0.47%) / L3.3_SUPPLY 7건 / SIGNAL_COMBO 3건 / FUNNEL 1건 / 승률 0%
+- **S1 3개 개선안**: A(진입 마감 13:30 제한) / B(gap 5%→3%) / C(synthetic_BLOCK 완화)
+- **테스트**: 39/39 ALL PASS (TC-04~06 ATR cap 신규 + TC-S1-01~03 MA20 신규)
+- **커밋**: 4df4a39a
+
+---
 
 ### 최신 상태 (2026-03-07, T-233 HANDOVER+CONTEXT 동기화 — v10.37)
 
