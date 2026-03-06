@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-186 Redis 연결 복구 + V4.1 서비스 안정화** | 03-06 | — | 8003 ok | kis-v41-api(8003) redis:disconnected → systemctl restart kis-v41-api → redis:connected 복구; Redis 서버 자체 정상(업타임 2일)/rejected_connections=0/maxclients=10000; redis.py T-173 설정 전부 기적용(retry_on_timeout/health_check_interval=30/socket_keepalive); minute-collector inactive(dead) status=0/SUCCESS 장외 정상 확인; GO100 재시작 금지 준수 |
 | **T-183 Root 인프라 일괄적용** | 03-06 | — | 8/9 PASS | Nginx reload/go100·frontend 재시작/스냅샷cron 2건(/etc/cron.d/) 확인/RESEARCH가설 11건/서비스 6개 active/GO100_EVOLUTION_LOOP_ENABLED=true/research/ 존재; B-3 evolution_loop cron root 수동 설치 필요 |
 | **T-180 리서치팀 연구과제** | 03-06 | 34f65a77 | — | RES-201~205 5건 DB시딩(go100_strategy_hypotheses RESEARCH), research_collector.py 신규(275줄), run_evolution_loop.py RESEARCH분기 추가(+259줄) |
 | **T-178 FunnelScore+EvolutionLoop+Dashboard** | 03-06 | 2206e2ab | 4×200 | FunnelScore min_score_for_entry 0.4→0.35(cte_pipeline.py 동적로드), .env GO100_EVOLUTION_LOOP_ENABLED=true/AUTO_APPROVE=true/MIN_GRADE=C, go100-dashboard.html 829줄(섹션A~G), snapshot research_lab 포함, 서비스 6개 active |
@@ -528,6 +529,21 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-06, T-186 Redis 연결 복구 — v10.20)
+
+#### ★ T-186 완료: Redis 연결 복구 + V4.1 서비스 안정화
+
+**[T-186 CUR-V41-REDIS-STABILIZE-001] 2026-03-06 20:04 KST**
+- **문제**: kis-v41-api(port 8003) `redis: disconnected` → status degraded
+- **원인**: 장마감 후 POST_MARKET 장시간 idle → TCP 세션 만료 → 자동 재연결 실패
+- **조치**: `sudo systemctl restart kis-v41-api` → redis: connected 복구
+- **redis.py**: T-173 설정 전부 기적용 (retry_on_timeout/health_check_interval=30/socket_keepalive) → 추가 수정 불필요
+- **최종 상태**: 8001 healthy ✅ / 8002 redis:connected ✅ / 8003 redis:connected ✅
+- **minute-collector**: inactive(dead) status=0/SUCCESS → 장외 정상 완료 상태
+- **Redis 서버**: 업타임 2일, rejected_connections=0, connected_clients=13
+
+---
+
 ### 최신 상태 (2026-03-06, T-151 장중 전체 시스템 점검 — v10.11)
 
 #### ★ T-151 완료: 03-06 장중 전체 시스템 점검
@@ -760,6 +776,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.20 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-186 Redis 연결 복구 + V4.1 서비스 안정화**: kis-v41-api(8003) redis:disconnected → systemctl restart → redis:connected 복구; Redis 서버 자체 정상(업타임 2일/rejected_connections=0); redis.py T-173 설정 전부 기적용 확인(추가 수정 없음); minute-collector inactive status=0/SUCCESS 장외 정상; 전체 포트 redis:connected 확인(8002/8003) |
 | v10.19 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-184 인프라확인+리서치수집+RES-301~306 시딩**: 서비스 6/6 active/Nginx HTTPS 200/스냅샷cron 기설치/evolution_loop cron root 수동 필요; research_collector.py 11건 수집실행(RES-201~306 전부 JSON 저장); RES-301~306 이미 T-183 시딩됨(created_at 15:51); 11건 COLLECTED→ANALYZED 전환; EvolutionLoop 수동1회 실행(T-182분기 RES-301~306→TrendEntryResearcher); snapshot research_lab.total=16; 커밋 4020fc56 |
 | v10.18 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-183 Root 인프라 일괄적용**: Nginx reload(기설정 확인)/스냅샷cron 2건(/etc/cron.d/)/go100·frontend 재시작/RESEARCH가설 11건/서비스 6개 active/8/9 PASS; B-3 evolution_loop cron root 수동 설치 필요; T-180 반영(34f65a77) |
 | v10.15 | 2026-03-06 | Claude Code (Sonnet4.6) | **T-173 장마감 일괄재시작+인프라**: 스냅샷 갱신(V4.1+GO100)/서비스 8개 active/코드 push c57d8344/root 실행 스크립트 생성(nginx /manager/+크론 대기) |
