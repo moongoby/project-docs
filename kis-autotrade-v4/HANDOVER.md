@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-213 DESK4 node_detector watchlist 연결 수정 (FIX-002)** | 03-07 | 1cfc435c | 200 | load_watchlist() v4_node_realtime(0행) → v4_desk4_watchlist primary 수정; 11종목 정상 로드(FIX 전:0→후:11); 트리거재평가: RISING×8/PULLBACK×3; py_compile PASS; pytest 40/40 ALL PASS; 보고서 HTTP 200 |
 | **T-202 DESK5→4→3 파이프라인 복원 분석** | 03-07 | — | 200 | 단절점 4개 식별: ①DESK5 크론 cd 없음(ModuleNotFoundError매일실패) ②T5-2 바닥탈출 조건과 논리모순(120일고점돌파→바닥권종목에불가) ③DESK4 node_detector가 빈v4_node_realtime읽음(v4_desk4_watchlist11종목무시) ④desk2_pool_link 함수미연결(크론/엔진없음); 완화안 3개(A:T5-2→MA60기울기+1.5배, B:T5-1거래량2→1.6배+T5-3정배열완화, C:T4-2조정범위-10~30%); diff 4개(FIX-001크론수정/FIX-002load_watchlist수정/REL-003T5-2교체/PIPE-001pool_link크론); 20종목트리거0%→T5-2모순 확인; v4_desk_positions DESK4/5 0건; DESK3 401 ACTIVE 정상 |
 | **T-189 BEAR 레짐 FunnelScore 전면 차단 해소 (방안C)** | 03-06 | 7df7dc81 | 200 | funnel_score.yaml bear_min_score_for_entry=0.28 추가; funnel_score_engine.py macro_regime 저장/반환; cte_pipeline.py L3.1 BEAR 동적 threshold 적용; BEAR 통과율 50%→75%(+25%p); 보고서 push HTTP 200 |
 | **T-191 T-185 자율 반복 백테스트 루프 구현 검증** | 03-06 | — | 200 | research_backtest_loop.py(✅428줄)/shadow_compare.py(✅8434B)/DB go100_research_iterations(✅0행)/iteration_count·best_pf·converge_status 컬럼(✅)/EvolutionLoop CONVERGED/IMPROVING/CONFIG_PROPOSED(✅)/크론 미설치(❌)/migration 파일명 불일치(❌ 066→실제067)/APPROVED가설 0건→dry-run SKIPPED 정상/go100_paper_trading_30d 테이블 없음 WARN; 보고서 CUR-V41-RESEARCH-LOOP-VERIFY-001-20260306.md push a65fae5 HTTP 200 |
