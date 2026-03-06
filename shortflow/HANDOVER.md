@@ -1,5 +1,5 @@
 # HANDOVER – ShortFlow YouTube Shorts 자동화 SaaS
-> 최종 업데이트: 2026-03-05 (v1.5 — SF-T001~T008 재실행 중 / claudebot 권한 복구)
+> 최종 업데이트: 2026-03-06 (v1.7 — SF-T005/T008/T009/T011/T013/T014/T016/T017 완료 + Git push 복구)
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
 
@@ -59,6 +59,17 @@
 | OAUTH-REAUTH | 03-03 | JSON 토큰 갱신 성공, 6편 공개 전환 완료, run_v4_pipeline.py Python3.9 타입힌트 버그 수정 (367c0a4) |
 | CLAUDEBOT-PERM | 03-05 | claudebot /data/shortflow 쓰기 권한 복구 (o+wx 적용) — SF-T001~T008 PREFLIGHT_FAIL 원인 해결 |
 
+| SF-T005 | 03-06 | SaaS DB 스키마 12테이블 (001_saas_schema.sql), verify_schema.py |
+| SF-T008 | 03-06 | 멀티플랫폼 동시 업로드 엔진 |
+| SF-T009 | 03-06 | hook_presets.json + Prompt v2 (llm_script_engine.py) |
+| SF-T011 | 03-06 | upload_metadata.json + 크론 피크타임 (07:30/12:00/19:00) |
+| SF-T013 | 03-06 | performance_tracker.py + collect_analytics.py + video_registry.json |
+| SF-T014 | 03-06 | content_planner.py + plan_content.py + topic_history |
+| SF-T016 | 03-06 | Pipeline v5 통합 (run_v5_pipeline.py 514라인), 크론 v5 교체 |
+| SF-T017 | 03-06 | QA Score Engine v2 (qa_score_engine.py + run_qa_check.py) |
+| SF-T021 | 03-06 | Gmail SMTP SSL 알림 활성화 (bqizbhzrlixvovvv), 이메일 발송 성공 |
+| SF-T030 | 03-06 | Git push 복구 (root SSH 키 인증 성공, 3커밋 동기화) + HANDOVER v1.7 |
+
 ---
 
 ## 3. 진행 중 작업
@@ -66,16 +77,10 @@
 | Task ID | 상태 | 내용 |
 |---------|------|------|
 | HISTORY-TOKEN | 대기 | history 채널 OAuth 토큰 발급 (CEO 채널ID/이메일 필요) |
-| SF-T001 | 실행 중 | 파이프라인 복구 + 크론 2편 체제 전환 (2026-03-05 18:51~) |
-| SF-T002 | 실행 중 | QA 스코어 엔진 v1 구현 (2026-03-05 18:51~) |
-| SF-T003 | 실행 중 | 영상 품질 개선 (훅·제목·CTA·해시태그·전환빈도) (2026-03-05 18:51~) |
 | SF-T004 | 대기 | Gemini 2.5 Flash TTS 통합 |
-| SF-T005 | 대기 | SaaS 플랫폼 DB 스키마 + FastAPI REST API 구축 |
 | SF-T006 | 대기 | 멀티플랫폼 OAuth 연동 모듈 |
 | SF-T007 | 대기 | SaaS 온보딩 위자드 UI (Next.js 14) |
-| SF-T008 | 대기 | 멀티플랫폼 동시 업로드 엔진 |
-
-| ALERT-ACTIVATE | 대기 | .env에 ALERT_EMAIL_PASSWORD 설정 후 알림 활성화 (Gmail App Password 필요) |
+| SF-T022 | 대기 | 멀티플랫폼 계정 관리 UI (platforms.json + DB 연동) |
 
 ---
 
@@ -170,6 +175,7 @@
 
 | 버전 | 날짜 | 변경 |
 |------|------|------|
+| v1.7 | 2026-03-06 | SF-T005/T008/T009/T011/T013/T014/T016/T017/T021/T030 완료, Git push 복구, HANDOVER 갱신 |
 | v1.0 | 2026-02-28 | 초판 – 전체 대화 내역 + 최종 보고서 기반 작성 |
 | v1.1 | 2026-03-02 | V4-BATCH/CRON/DELETE 완료, IP/이메일 마스킹, 섹션 6 갱신 |
 | v1.4 | 2026-03-03 | OAUTH-REAUTH 완료: JSON토큰 갱신, 6편 공개, Python3.9 타입힌트 버그 수정 (367c0a4) |
