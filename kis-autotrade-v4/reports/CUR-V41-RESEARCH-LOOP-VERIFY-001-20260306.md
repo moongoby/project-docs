@@ -180,6 +180,6 @@ chmod 644 /etc/cron.d/go100_research_loop
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-RESEARCH-LOOP-VERIFY-001-20260306.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-RESEARCH-LOOP-VERIFY-001-20260306.md
-- 커밋: (push 후 기재)
-- HTTP 확인: (push 후 확인)
-- HANDOVER 업데이트: 완료 예정
+- 커밋: a65fae5
+- HTTP 확인: 200
+- HANDOVER 업데이트: 완료
