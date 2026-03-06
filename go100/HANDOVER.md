@@ -1,5 +1,5 @@
-# GO100 인수인계서 v15.3 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링 + Commander 대시보드
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-06 KST (v15.3: Commander 군단 대시보드 구현 + 페이지 45개) | 대상: 다음 세션 AI
+# GO100 인수인계서 v15.3 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링 + Commander 대시보드 + entry_rules 정규화 + 매니저 스냅샷
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-06 KST (v15.3 갱신: T-033B entry_rules 정규화 + T-039 매니저 스냅샷 + T-040 HANDOVER 갱신) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -52,9 +52,9 @@
 
 ---
 
-## 2. 현재 상태 (2026-03-05 기준)
+## 2. 현재 상태 (2026-03-06 기준)
 
-### 진행률: **98%** (v15.2: T-033/T-034 entry_rules 검증 + T-157 토글UI + v15.1: T-028~T-031 완료 — SaaS 버그수정·SEO완성·에러모니터링 구현) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영 + pandas 3.0 호환 완료)
+### 진행률: **98%** (v15.3: T-033B entry_rules 정규화 완료 + T-039 매니저 스냅샷 + T-036/T-037 Commander 대시보드 구현 + v15.1: T-028~T-031 완료 — SaaS 버그수정·SEO완성·에러모니터링 구현) (P6 게이트 완전 통과 + P7-1 QA PASS + FE 완전체 반영 + pandas 3.0 호환 완료)
 
 ### Batch 6 결과
 | 항목 | 점수/비고 |
@@ -185,7 +185,7 @@
 | 5 | 모닝 브리핑 Telegram | LOW | **해결 완료** — 토큰·채팅 ID 설정, message_id:1981 확인 완료 (2026-03-03) |
 | 6 | P6-1 킬스위치 연동 async_generator 오류 | MED | **해결** — risk_engine.py RULE_SECTOR sum/await 버그 수정 완료 (CUR-GO100-P6-EXTRA-VERIFY-001) |
 | 7 | pandas 3.0 버전 불일치 (.venv=3.0.1 vs venv=2.3.3) | HIGH | **해결** — indicator_precompute groupby.apply include_groups=False+reset_index(level=0) 패치 (T-017/T-017A/T-023) — 모의투자 크론 정상화 |
-| 8 | entry_rules 포맷 불일치 (card_id=35,36) | HIGH | **미수정 — T-033 필요** — go100_strategy_cards card_id=35,36의 `logic/conditions/indicator` 포맷이 SignalEvaluator.evaluate_entry 기대 포맷(`type` 기반)과 불일치. T-034 수동실행 결과 KOSPI 80종목 전체 매수 0건 확인 (2026-03-06). DB UPDATE 또는 SignalEvaluator 확장 필요 |
+| 8 | entry_rules 포맷 불일치 (card_id=35,36) | HIGH | **해결 완료 (T-033B)** — SignalEvaluator._eval_one_entry에 `logic/conditions` 포맷 처리 분기 추가 + go100_strategy_cards card_id=35,36 DB UPDATE 완료 (커밋 ba7f2431, 2026-03-06) |
 
 ---
 
@@ -215,12 +215,8 @@
 - **[분석완료] T-033/T-034 entry_rules 검증**: 모의투자 수동실행 0건 원인 확인 — go100_strategy_cards (card_id=35,36)의 entry_rules `logic/conditions/indicator` 포맷이 SignalEvaluator 기대 포맷(`type` 기반)과 불일치 (2026-03-06)
 
 ### 즉시 필요 작업
-- **[필요] entry_rules 포맷 수정 (T-033)**: go100_strategy_cards card_id=35,36 DB UPDATE 또는 SignalEvaluator.evaluate_entry `logic/conditions` 포맷 처리 추가
-  ```sql
-  -- 방법 A: DB 직접 수정 (권장)
-  UPDATE go100_strategy_cards SET entry_rules = '[{"type":"ma_cross","short":5,"long":20,"direction":"golden"},{"type":"volume_surge","period":20,"ratio":2.0}]' WHERE go100_card_id IN (35,36);
-  ```
-- **[대기] T-034 재실행**: T-033 완료 후 모의투자 수동 1회 재실행 → 거래 발생 확인
+- **[완료] entry_rules 포맷 수정 (T-033B)**: SignalEvaluator + DB UPDATE 완료 (커밋 ba7f2431)
+- **[필요] T-034 재실행**: T-033B 완료 후 모의투자 수동 1회 재실행 → 거래 발생 확인 필요
 
 ### 중기 작업
 - **30일 모의투자 1사이클 완주** (session_id=2, 2026-02-27~03-29)
@@ -290,6 +286,10 @@
 | AI 모델 V2 | data/go100/models/go100_brain_v2_lightgbm.joblib |
 | AI 브레인 V3 예측기 | backend/app/services/go100/ai/brain_predictor_v3.py |
 | AI 모델 V3 | data/go100/models/v3/go100_brain_v3_*.joblib |
+| 매니저 스냅샷 스크립트 | scripts/go100/generate_manager_snapshot.py |
+| 매니저 스냅샷 크론 | scripts/go100/go100_manager_snapshot.cron (30분마다) |
+| 매니저 스냅샷 정적 파일 | frontend/public/manager/{snapshot,agents,trades,errors}.json |
+| 매니저 스냅샷 공개 URL | https://go100.newtalk.kr/manager/snapshot.json (인증 불필요) |
 
 ---
 
@@ -525,12 +525,15 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-031 | 03-05 | 에러 모니터링 미들웨어 구현 — error_monitor.py + migration 065 + Telegram 알림(Msg 8525) (커밋 758dc8c7) | PASS |
 | T-032 | 03-05 | HANDOVER v15.1 업데이트 — T-028~T-031 SaaS+SEO+크론+모니터링 반영 | PASS |
 
-### v15.3 추가 완료 작업 (2026-03-06) — T-036/T-037 Commander 대시보드 + T-038 HANDOVER v15.3
+### v15.3 추가 완료 작업 (2026-03-06) — T-033B entry_rules 정규화 + T-036/T-037 Commander 대시보드 + T-038 HANDOVER v15.3 + T-039 매니저 스냅샷 + T-040 HANDOVER 갱신
 | Task ID | 날짜 | 내용 | 상태 |
 |---------|------|------|------|
+| T-033B | 03-06 | entry_rules 포맷 정규화 — SignalEvaluator._eval_one_entry `logic/conditions/indicator` 포맷 처리 분기 추가 + go100_strategy_cards card_id=35,36 DB UPDATE 완료 (커밋 ba7f2431) | PASS |
 | T-036 | 03-06 | Commander 군단 대시보드 구현 — /go100/commander 페이지 신규, 에이전트 10개 실시간 상태/가중치 표시, agent_performance_tracker API 연동 | PASS |
 | T-037 | 03-06 | Commander 대시보드 프론트엔드 완성 — 페이지 수 44→45, API 엔드포인트 연동, 에이전트 성과 차트 구현 | PASS |
 | T-038 | 03-06 | HANDOVER v15.3 업데이트 — Commander 대시보드 반영, 페이지 수 45, Commander Architecture §11 URL 추가 | PASS |
+| T-039 | 03-06 | 매니저 스냅샷 생성기 — generate_manager_snapshot.py (T-039) 구현, frontend/public/manager/*.json 30분마다 갱신, go100_manager_snapshot.cron 등록. CEO·외부 AI용 공개 URL https://go100.newtalk.kr/manager/snapshot.json | PASS |
+| T-040 | 03-06 | HANDOVER v15.3 갱신 — T-033B~T-040 결과 전체 반영, Known Issue #8 해결 표시, 매니저 스냅샷 URL 추가, CONTEXT.md 동기화 | PASS |
 
 ### v15.2 추가 완료 작업 (2026-03-06) — T-033/T-034 entry_rules 검증 + T-157 토글UI
 | Task ID | 날짜 | 내용 | 상태 |
