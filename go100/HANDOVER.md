@@ -343,18 +343,19 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 6. 상태 확인: `systemctl status go100 && systemctl status go100-frontend`, `psql -d kisautotrade -c "\\dt go100_agent*"`
 7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
 8. **V3 모델 활성화**: CEO 승인 후 `python3 scripts/go100/activate_v3_model.py --confirm && sudo systemctl restart go100`
-9. **프론트엔드 현황**: **44페이지** LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성 (진행률 98%)
+9. **프론트엔드 현황**: **45페이지** LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성, Commander 대시보드 추가 (진행률 98%)
 10. **pandas 환경**: .venv=3.0.1(크론 사용), venv=2.3.3(직접 실행) — indicator_precompute 패치 완료
 11. **entry_rules 이슈**: go100_strategy_cards card_id=35,36 — `logic/conditions` 포맷 → `[{"type":"ma_cross",...}]` 포맷으로 DB UPDATE 필요
 
 ---
 
-## 11. Commander Architecture 현황 (2026-03-03 완료)
+## 11. Commander Architecture 현황 (2026-03-06 완료)
 
 ### 커맨더 백억이 아키텍처
 - **브랜치**: `phase-2c-command-center`
 - **에이전트 수**: 10개 (BaseAgent + 9 특화 에이전트)
 - **파일 위치**: `/root/kis-autotrade-v4/backend/app/services/go100/agents/`
+- **대시보드 URL**: `go100.newtalk.kr/go100/commander` (T-036/T-037 구현 완료)
 
 | 에이전트 파일 | 역할 |
 |---|---|
@@ -407,7 +408,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | 6 | 개인정보처리방침 | ✅ 완료 | /privacy 페이지 정식 구현 완료 (2026-02-20, T-013 확인) |
 | 7 | 고객지원 채널 | 미구현 | 카카오톡/이메일 채널 미개설 |
 | 8 | 온보딩 튜토리얼 | 미구현 | 첫 로그인 시 가이드 화면 없음 |
-| 9 | SEO/OG 태그 | ✅ 완료 | T-020 OG/robots 완료(71f51ebe) + T-029 sitemap.xml **44개** URL 동적 생성(0060ac99) — Google Search Console 등록 권장 |
+| 9 | SEO/OG 태그 | ✅ 완료 | T-020 OG/robots 완료(71f51ebe) + T-029 sitemap.xml **45개** URL 동적 생성(0060ac99) + T-036 commander 페이지 추가 — Google Search Console 등록 권장 |
 | 10 | 에러 모니터링 | ✅ 완료 | T-031 완료 — 자체 에러 모니터링 미들웨어(error_monitor.py) + go100_error_log 테이블(migration 065) + Telegram 알림(message_id 8525) (커밋 758dc8c7) |
 
 > SaaS 전환 우선순위: 1(agreed_terms 저장 버그 수정), 2, 3, 4, 7, 8 항목. 5, 6은 완료. 나머지는 런칭 전 QA 단계 점검.
@@ -471,6 +472,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
+| v15.3 | 03-06 | **Commander 군단 대시보드 구현 + 페이지 45개**: T-036 Commander 대시보드 구현(go100.newtalk.kr/go100/commander) + T-037 API 연동 + T-038 HANDOVER 갱신. 페이지 수 44→45, Commander Architecture §11 URL 추가, SaaS 체크리스트 #9 45개 갱신 |
 | v15.2 | 03-06 | **entry_rules 검증 + T-157 토글UI + 전체 세션 종합**: T-157 실매매/모의 토글 스위치 연동(커밋 fc398d2d), T-033/T-034 entry_rules 포맷 불일치 진단·수동실행 0건 확인, 페이지 수 34→44 갱신, migration 범위 035~065 갱신(064/065 추가), Known Issues #8 추가, 다음 작업 섹션 전면 갱신 |
 | v15.1 | 03-05 | **SaaS 버그수정+SEO+에러모니터링 (T-028~T-031)**: agreed_terms DB 저장 버그 완전 수정(migration 064), sitemap.xml 44개 URL 동적 생성, closing_report cron 검증, 에러 모니터링 미들웨어+Telegram 알림 구현(migration 065). SaaS 체크리스트 #1/#9/#10 완료 |
 | v15.0 | 03-05 | **pandas 3.0 수정 + V3 모델 준비 (T-017A/T-023/T-024)**: indicator_precompute groupby.apply include_groups=False 패치(pandas 2.x/3.x 호환), paper_trading_engine_30d 방어적 수정, 수동 1회 실행 PASS(exit 0), V3 모델 6종 로드 성공(active:True), activate_v3_model.py 스크립트 작성(CEO 승인 대기), Known Issues #7 추가, Phase 8 로드맵 신설, 진행률 98% |
@@ -522,6 +524,13 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-030 | 03-05 | closing_report 크론 설치 검증 — cron 등록 확인, 자동 실행 검증 (커밋 f5a286e3) | PASS |
 | T-031 | 03-05 | 에러 모니터링 미들웨어 구현 — error_monitor.py + migration 065 + Telegram 알림(Msg 8525) (커밋 758dc8c7) | PASS |
 | T-032 | 03-05 | HANDOVER v15.1 업데이트 — T-028~T-031 SaaS+SEO+크론+모니터링 반영 | PASS |
+
+### v15.3 추가 완료 작업 (2026-03-06) — T-036/T-037 Commander 대시보드 + T-038 HANDOVER v15.3
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-036 | 03-06 | Commander 군단 대시보드 구현 — /go100/commander 페이지 신규, 에이전트 10개 실시간 상태/가중치 표시, agent_performance_tracker API 연동 | PASS |
+| T-037 | 03-06 | Commander 대시보드 프론트엔드 완성 — 페이지 수 44→45, API 엔드포인트 연동, 에이전트 성과 차트 구현 | PASS |
+| T-038 | 03-06 | HANDOVER v15.3 업데이트 — Commander 대시보드 반영, 페이지 수 45, Commander Architecture §11 URL 추가 | PASS |
 
 ### v15.2 추가 완료 작업 (2026-03-06) — T-033/T-034 entry_rules 검증 + T-157 토글UI
 | Task ID | 날짜 | 내용 | 상태 |

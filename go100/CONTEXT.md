@@ -1,6 +1,6 @@
 # GO100 프로젝트 컨텍스트 (Claude PM용)
-> 최종 갱신: 2026-03-06 (T-035 HANDOVER v15.2 반영)
-> 인계서: HANDOVER.md v15.2
+> 최종 갱신: 2026-03-06 (T-038 HANDOVER v15.3 반영 — Commander 대시보드 + 페이지 45개)
+> 인계서: HANDOVER.md v15.3
 
 ## 1. 프로젝트 개요
 - **GO100 (백억이)**: 증권사급 AI 투자 에이전트 (조건검색 + 자동매매 + 자율 전략 진화)
@@ -17,7 +17,7 @@
 - 가상환경: source /root/kis-autotrade-v4/venv/bin/activate
 - **환경**: DART API 발급·설정 완료 (.env DART_API_KEY/OPENDART_API_KEY). Telegram 설정 완료 (GO100_TELEGRAM_BOT_TOKEN, GO100_TELEGRAM_CHAT_ID). 모닝 브리핑 자동 발송 가능.
 
-## 3. 작업 큐 (v15.2 기준, 2026-03-06)
+## 3. 작업 큐 (v15.3 기준, 2026-03-06)
 | 순위 | 작업 | 상태 |
 |------|------|------|
 | P0 | Agent Mode 활성화, 크론 검증, 무결성 모니터 | ✅ 완료 |
@@ -45,16 +45,17 @@
 - **전체**: 98%+ (천재 100% 기준)
 - E2E 23/23 PASS, Agent Tool **57개**, Screening Filters 35+, Gap 데이터 108,574건
 - DB 마이그레이션 035~065 (064 v4_users terms, 065 go100_error_log)
-- **페이지**: 44개 전수 LIVE (T-029에서 34→44 확인)
+- **페이지**: 45개 전수 LIVE (T-029에서 34→44, T-036/T-037 Commander 대시보드 추가로 45 확인)
 - **크론**: 활성 약 60라인 (closing_report cron 포함 — T-030 완료)
 - **SaaS**: 회원가입(T-028 완료), SEO(T-020/T-029 완료), 에러모니터링(T-031 완료)
 - **토글UI**: accounts·settings 실매매/모의 토글 연동 완료(T-157, 커밋 fc398d2d)
+- **Commander 대시보드**: go100.newtalk.kr/go100/commander (T-036/T-037 완료)
 - **⚠️ 잔여이슈**: entry_rules 포맷 불일치 (card_id=35,36) — T-033 수정 필요
 
 ## 6. 필수 읽기 (세션 시작 시)
 1. /root/kis-autotrade-v4/.cursorrules
 2. /root/kis-autotrade-v4/CLAUDE.md
-3. go100/HANDOVER.md v15.2
+3. go100/HANDOVER.md v15.3
 4. go100/ARCHITECTURE.md, DB_SCHEMA.md
 
 ## 7. 규칙 요약
