@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-07 (T-233 v10.25 동기화 — strategy_cards 60, OPEN 0, DB 42GB, 290테이블, scalping_universe 1354, T-212~T-218 완료 반영, T-226~T-235 작업큐 갱신, 불일치 0건)
+> 최종 갱신: 2026-03-07 (T-273 v10.26 동기화 — DQI Grade B(81.3) 달성, DB 44GB, 290테이블, T-248/T-260/T-270/T-271/T-272/T-273 완료 반영, FunnelScore 100%, 불일치 0건)
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -45,18 +45,36 @@
 | redis-server | 6379 | active |
 | postgresql | 5432 | active (exited=정상) |
 
-## 6. DB 무결성 기준 (2026-03-06 실측)
+## 6. DB 무결성 기준 (2026-03-07 실측)
 - strategy_cards: 60건 (D1:10, D2:16, D3:11, D4:9, D5:10, 미배정:4)
-- v4_positions OPEN: 0건 (03-06 기준 전량 청산)
-- DB 크기: 42 GB
+- v4_positions OPEN: 0건 (03-07 기준 전량 청산)
+- DB 크기: 44 GB
 - 테이블 수: 290개 (snapshot 2026-03-07 기준)
 - v4_ohlcv_minute (2026-03 파티션): 403,915행 (누적 ~118M+)
 - v4_scalping_universe: 1,354종목
 - ohlcv_daily max: 2026-03-06
+- **DQI: 81.3 (Grade B) — T-273 산출 (Grade D→B 달성)**
+  - L0_KOSPI: 2.6% (프록시값 범위 이탈, T-270 신규수집 적용완료)
+  - L0_VIX_60D: 97.4% (T-270 VIX 백필 완료)
+  - L1_SECTOR_MAP: 99.1% (T-248/T-260 완료)
+  - L1_SECTOR_IDX: 100.0% (60일+ 확보)
+  - L2_INVESTOR: 75.0% (추정, KIS API 30일 한계)
+  - L3_FUNDAMENTAL: 100.0% (T-271, PER 100%, PBR 100%)
+  - OHLCV_FRESH: 100.0%
+- **FunnelScore: 30/30 PASS (100%), 임계값 0.35, Fail-Open 유지**
+- **섹터 매핑: 99.1% (T-248/T-260 완료)**
+- **펀더멘탈: 100% (T-271, 전종목 PER/PBR 수집완료)**
+- **매크로: KOSPI 정규화 로직 추가(T-270), VIX 60일 백필 완료(97.4%)**
 
-## 7. 최근 완료 작업 (T-187~T-235)
+## 7. 최근 완료 작업 (T-187~T-273)
 | Task | 커밋 | 내용 |
 |------|------|------|
+| T-273 | T-273 | DQI 재산출 Grade B(81.3) 달성 + CONTEXT.md v10.26 전면 동기화: 실측값 기반 DQI 81.3, FunnelScore 30/30 PASS(100%), HANDOVER v10.56 갱신 |
+| T-272 | 분석전용 | DQI Grade D(58.1) 현황 분석 + 복구 로드맵: L0~L3 실측, T-248/T-260/T-271/T-270 복구 순서 정의 |
+| T-271 | 7c90c931 | 펀더멘탈 전종목 수집기 + 백필: v4_fundamental_quarterly 전종목 PER/PBR 100% |
+| T-270 | 04b2a1de | 매크로 KOSPI 오염복구 + VIX 60일 백필: normalize_kospi() 추가, yfinance+FRED fallback, VIX 97.4% |
+| T-248 | 38e6b840 | KRX 업종분류 전체 매핑 스크립트 + 검증 |
+| T-260 | 8779048c | 섹터 매핑 전수확보 + 섹터지수 60일 백필: 4.2%→99.1%, 3일→68일 |
 | T-235 | 20017658 | SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 구현 (D-008-KR P0): feature_engine.py compute_small_cap_quality + universe_builder.py flag_sector_leaders_v2; TC-01~08 8/8 PASS |
 | T-227 | 분석전용 | FunnelScore 구조 해부 및 긴급 재교정: L0~L3 실측 트레이싱; max FS=0.2415<임계값0.35 구조적차단; 방안A/B/C CEO승인대기 |
 | T-219 | 7f27b7b4 | THEME_CYCLE feature variable (D-008-KR P0): compute_theme_cycle_100b_count/ul_count 추가; 3케이스 6테스트 PASS |
@@ -77,10 +95,16 @@
 | 순위 | 작업 | 상태 |
 |------|------|------|
 | P0-CRITICAL | T-229 exit_manager MA20 trailing 전면 적용 | CEO결정대기 |
+| P0-CRITICAL | L0_KOSPI 과거 데이터 재백필 (현재 2.6%, 목표 95%+) | 후속작업 필요 |
 | P1-HIGH | T-228 research_backtest_loop 크론 설치 | 대기 (162 COMPLETED, 1 RUNNING stuck) |
 | P1-HIGH | T-227 FunnelScore 재교정 (방안A Fail-Open / 방안C 임계값0.20) | CEO승인대기 |
 | P1-HIGH | T-226 백테스트 /api/v4/backtest/progress 구현 | 대기 (현재 404) |
-| P1-MEDIUM | T-233 HANDOVER v10.37 + CONTEXT v10.25 동기화 | 이 작업 완료 |
+| P1-MEDIUM | T-273 DQI 재산출 + CONTEXT v10.26 | **완료** (Grade B 81.3) |
+| P1-MEDIUM | T-272 DQI 분석 로드맵 | 완료 (분석전용) |
+| P1-MEDIUM | T-271 펀더멘탈 전종목 수집 | 완료 (7c90c931) |
+| P1-MEDIUM | T-270 매크로 KOSPI+VIX 복구 | 완료 (04b2a1de) |
+| P1-MEDIUM | T-260 섹터 매핑+지수 백필 | 완료 (8779048c) |
+| P1-MEDIUM | T-248 KRX 업종분류 매핑 | 완료 (38e6b840) |
 | P1-MEDIUM | T-235 SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 | 완료 (20017658) |
 | P1-MEDIUM | T-219 THEME_CYCLE feature variable | 완료 (7f27b7b4) |
 | P1-MEDIUM | T-218 DUAL_FLOW_5D/20D feature variable | 완료 (faa85636) |
@@ -88,10 +112,16 @@
 | P2-LOW | T-234 API /api/v4/regime 구현 | 대기 (현재 에러) |
 
 ## 9. CEO 결정 대기
-1. T-227 FunnelScore 재교정 방안 승인 (방안A: Fail-Open→89% 통과 / 방안B: 재가중→29% / 방안C: 임계값 0.20→90%)
-2. T-229 exit_manager MA20 trailing 전면 적용 승인 (H05-D PF=2.18, H08-B PF=25.93 기반)
-3. T-194 ATR 기반 동적 SL 파라미터 승인 (D-ORB 2.5% Cap 기적용, T-207 완료)
-4. T-195 14:00 이후 진입 차단 정책 (완료, T-195 bd8d4620)
+1. **T-227 FunnelScore 재교정 방안 승인 (현황: Fail-Open 유지 중)**
+   - T-273 실측: FunnelScore 30/30 PASS(100%), 임계값 0.35, Fail-Open 유지
+   - 방안A: Fail-Open 계속 유지 (현행 → 실전 검증 우선)
+   - 방안B: 임계값 재조정 (T-237 적용 검토)
+   - 03-10(월) 장 개시 후 T-245R 모의매매 실전 검증 예정
+2. **T-229 exit_manager MA20 trailing 전면 적용 승인** (H05-D PF=2.18, H08-B PF=25.93 기반)
+3. **L0_KOSPI 과거 데이터 재백필 승인** (현재 2.6%, yfinance 실제 KOSPI 데이터로 교체 필요)
+   - T-270 normalize_kospi() 추가됨, 과거 730행 중 711행이 범위 외 (프록시값)
+4. T-194 ATR 기반 동적 SL 파라미터 승인 (D-ORB 2.5% Cap 기적용, T-207 완료)
+5. T-195 14:00 이후 진입 차단 정책 (완료, T-195 bd8d4620)
 
 ## 10. 핵심 파일 (수정 시 검수 필수)
 - exit_manager.py (T-187/T-193 적용됨), cte_pipeline.py (T-189 BEAR 분기)
