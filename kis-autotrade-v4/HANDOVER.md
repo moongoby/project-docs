@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-276 큐 정리 + 03-10 장전 최종 점검 + HANDOVER v10.60** | 03-07 | 보고서전용 | — | running=2건/pending=4건(파이프라인전용 이동불가); T-251 크론4건 설치확인(v41_data_collection), 정합성 PASS=3/FAIL=3/SKIP=4(토요일 정상); 서비스 7개 active running ✅; API /health degraded(go100 Redis disconnected — root restart 필요); DB 지표: strategy_cards=60/open_positions=0/scalping_universe=1354/VIX_null=2.6%/fundamental=100%/sector=99.1%/KOSPI_90d=0%(정규화이슈); v41_* 크론 6개; root 수동 필요 2건: go100 restart + DESK4 scan cron; 보고서 CUR-V41-PRE-MARKET-FINAL-CHECK-001-20260307.md |
 | **T-251 데이터 수집 자동화 크론 + 정합성 모니터링 체계 구축** | 03-07 | 2e358dd8 | 200 | scripts/collectors/macro_collector_daily.py(평일17:00KST)+investor_collector_daily.py(17:30KST)+fundamental_full_collect.py(토02:00KST) 신규; install_v41_data_collection_cron.sh 크론4건 설치스크립트(root 수동: sudo bash); data_integrity_check.py 10규칙 실행 8/10 PASS(CRITICAL=0/WARNING=2: C-8 장외/C-10 분봉장외); v41_manager/snapshot.json data_integrity 섹션 추가; 보고서 CUR-V41-DATA-AUTOMATION-MONITOR-001-20260307.md HTTP200 |
 | **T-275 DQI 최종 재산출 Grade A 달성 + CONTEXT v10.27 동기화** | 03-07 | 보고서전용 | — | DQI 실측 92.8(Grade A) — 이전 Grade B(81.3) → Grade A 달성 ✅; L0_KOSPI 기준 변경(범위비율2.6%→NOT NULL 100%); L0_VIX=97.4%/L1_MAP=100%/L1_IDX=68.3%/L2_INV=75%(추정)/L3=100%/OHLCV=99.8%; FunnelScore 30/30 PASS(100%) avg=0.862 범위=0.762~0.938; CONTEXT.md v10.27 갱신(DQI/FunnelScore/T-275 반영); 보고서 CUR-V41-DQI-RESCORE-CONTEXT-SYNC-001-20260307.md |
 | **T-273 DQI 재산출 Grade B 달성 + CONTEXT v10.26 동기화** | 03-07 | 보고서전용 | — | DQI 실측 81.3(Grade B) — 이전 Grade D(58.1) → Grade B 달성 ✅; 레이어 실측: L0_KOSPI=2.6%(프록시범위이탈)/L0_VIX=97.4%/L1_MAP=99.1%/L1_IDX=100%/L2_INV=75%(추정)/L3_FUND=100%/OHLCV=100%; FunnelScore 30/30 PASS(100%) 임계값0.35 Fail-Open 유지; DB 44GB(+2GB); CONTEXT.md v10.26 전면 동기화(섹션6+7+8+9 갱신); L0_KOSPI 후속과제=yfinance 실제 KOSPI 재백필 CEO승인필요; 보고서 CUR-V41-DQI-RESCORE-CONTEXT-SYNC-001-20260307.md |
@@ -606,6 +607,29 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-07, T-276 03-10 장전 최종 점검 + HANDOVER v10.60)
+
+#### ★ T-276 완료: 03-10 장전 최종 점검 + 큐 상태 확인
+
+**[T-276 CUR-V41-PRE-MARKET-FINAL-CHECK-001] 2026-03-07 15:32 KST**
+- **큐 상태**: running=2건, pending=4건 (파이프라인 전용, claudebot 이동 불가)
+- **T-251 크론 4건 설치 확인**: `/etc/cron.d/v41_data_collection` ✅ (매크로17:00/수급17:30/펀더멘탈토02:00/정합성18:00)
+- **정합성 체크 결과**: PASS=3, FAIL=3, SKIP=4 (토요일 기준 CRITICAL FAIL 0건 ✅)
+  - C-05 펀더멘탈 커버리지: 100.2% PASS (T-247 완료, 이전 7.1% 해소)
+  - C-11, C-12: 미존재 (10개 규칙만 구현됨)
+- **서비스 7개 all active running** ✅
+- **API /health 이슈**: go100(8002) Redis disconnected → `sudo systemctl restart go100` 필요
+- **DB 지표**: strategy_cards=60 / open_positions=0 / scalping_universe=1354 / VIX_null=2.6% / fundamental=100.0% / sector=99.1%
+- **KOSPI DQI 이슈**: kr_kospi 저장값 ~275 (정규화, 1800-3500 범위 쿼리 0% 반환) — CEO 결정 대기
+- **v41_* 크론**: 6개 파일 설치됨
+- **후속 root 수동 실행 필요**:
+  1. `sudo systemctl restart go100` (API Redis 연결 복구)
+  2. `sudo bash /root/kis-autotrade-v4/scripts/desk4/install_desk4_scan.sh` (DESK4 크론 미설치 T-239)
+  3. L0_KOSPI 재백필 (CEO 승인 후)
+  4. T-245R 2026-03-10 검증 크론 설치 (CEO 승인 후)
+
+---
+
 ### 최신 상태 (2026-03-07, T-275 DQI 최종 재산출 Grade A(92.8) + CONTEXT v10.27 — v10.59)
 
 #### ★ T-275 완료: DQI Grade A(92.8) 달성 + FunnelScore 100% + CONTEXT v10.27
@@ -1015,6 +1039,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.60 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-276 03-10 장전 최종 점검+큐 상태 확인+HANDOVER v10.60**: running=2/pending=4(파이프라인전용이동불가); T-251 크론4건 설치확인(v41_data_collection ✅); 정합성 PASS=3/FAIL=3/SKIP=4(토요일 CRITICAL FAIL 0건 ✅)/C-05 100.2% PASS; 서비스 7개 active running ✅/Redis PONG ✅; API /health degraded(Redis disconnected — go100 restart 필요); DB 지표 7개: cards=60/positions=0/scalping=1354/VIX_null=2.6%/fundamental=100%/sector=99.1%/KOSPI_90d=0%(정규화이슈); v41_* 크론6개; root 수동 필요: go100 restart + DESK4 scan cron + L0_KOSPI재백필(CEO승인대기); 보고서 CUR-V41-PRE-MARKET-FINAL-CHECK-001-20260307.md |
 | v10.59 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-275 DQI 최종 재산출 Grade A(92.8) 달성+CONTEXT v10.27 동기화**: DQI=92.8(Grade D→B→A), L0_KOSPI=100%(NOT NULL 기준변경)/L0_VIX=97.4%/L1_MAP=100%/L1_IDX=68.3%/L2_INV=75%/L3=100%/OHLCV=99.8%; FunnelScore 30/30 PASS(100%) avg=0.862 범위0.762~0.938; CONTEXT.md v10.27 갱신; KOSPI 범위이탈 잔존(CEO결정대기); 보고서 CUR-V41-DQI-RESCORE-CONTEXT-SYNC-001-20260307.md |
 | v10.58 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-273 DQI 재산출 Grade B(81.3) 달성+CONTEXT v10.26 동기화**: 실측 DQI=81.3(Grade D→B), L0_KOSPI=2.6%/L0_VIX=97.4%/L1_MAP=99.1%/L1_IDX=100%/L2_INV=75%/L3=100%/OHLCV=100%; FunnelScore 30/30 PASS(100%); DB 44GB; CONTEXT.md v10.26 갱신(섹션6+7+8+9); L0_KOSPI 후속 재백필 CEO승인 필요; 보고서 CUR-V41-DQI-RESCORE-CONTEXT-SYNC-001-20260307.md |
 | v10.57 | 2026-03-07 | Claude Code (Sonnet4.6) | **T-274 bridge PID 재시작 확인+T-T- 이중prefix 근본해결**: PID 4142416→3553557 재시작 확인(파일수정09:05/프로세스시작09:32 KST); _extract_label() L859/L862 startswith("T-") 패치 실적용 ✅; pending/done 큐 T-T- 0건; claudebot sudo kill 불가→bridge 이미 수정 후 시작됨; 보고서 KIS_20260307_111434_BRIDGE_RESULT.md |
