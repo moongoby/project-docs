@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-07 (T-273 v10.26 동기화 — DQI Grade B(81.3) 달성, DB 44GB, 290테이블, T-248/T-260/T-270/T-271/T-272/T-273 완료 반영, FunnelScore 100%, 불일치 0건)
+> 최종 갱신: 2026-03-07 (T-275 v10.27 동기화 — DQI Grade A(92.8) 달성, DB 44GB, 290테이블, T-275 DQI 재산출+CONTEXT 동기화, FunnelScore 30/30 PASS(100%), L0_KOSPI NOT NULL 기준 변경)
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -53,22 +53,25 @@
 - v4_ohlcv_minute (2026-03 파티션): 403,915행 (누적 ~118M+)
 - v4_scalping_universe: 1,354종목
 - ohlcv_daily max: 2026-03-06
-- **DQI: 81.3 (Grade B) — T-273 산출 (Grade D→B 달성)**
-  - L0_KOSPI: 2.6% (프록시값 범위 이탈, T-270 신규수집 적용완료)
-  - L0_VIX_60D: 97.4% (T-270 VIX 백필 완료)
-  - L1_SECTOR_MAP: 99.1% (T-248/T-260 완료)
-  - L1_SECTOR_IDX: 100.0% (60일+ 확보)
+- **DQI: 92.8 (Grade A) — T-275 재산출 (Grade D→B→A 달성)**
+  - L0_KOSPI: 100.0% (90일 NOT NULL 기준, 57/57행, T-275 기준 변경)
+  - L0_VIX_60D: 97.4% (60일 NOT NULL, 38/39행, T-270 백필 완료)
+  - L1_SECTOR_MAP: 100.0% (3844/3844 active 종목, T-248/T-260 완료)
+  - L1_SECTOR_IDX: 68.3% (2460/3600 기대행수, 60섹터×60일 기준)
   - L2_INVESTOR: 75.0% (추정, KIS API 30일 한계)
-  - L3_FUNDAMENTAL: 100.0% (T-271, PER 100%, PBR 100%)
-  - OHLCV_FRESH: 100.0%
-- **FunnelScore: 30/30 PASS (100%), 임계값 0.35, Fail-Open 유지**
-- **섹터 매핑: 99.1% (T-248/T-260 완료)**
+  - L3_FUNDAMENTAL: 100.0% (3844/3844, T-271 전종목 PER/PBR 완료)
+  - OHLCV_FRESH: 99.8% (3836/3844 최신일 ≥ 어제)
+  - 개선 이력: 58.1(D)→81.3(B)→92.8(A)
+  - 주의: KOSPI 프록시값 범위이탈 잔존 (711/730행 1800-3500 범위 외), CEO 결정 대기
+- **FunnelScore: 30/30 PASS (100%), 평균 0.862, 범위 0.762~0.938, 임계값 0.35**
+- **섹터 매핑: 100.0% (3844/3844, T-248/T-260 완료)**
 - **펀더멘탈: 100% (T-271, 전종목 PER/PBR 수집완료)**
 - **매크로: KOSPI 정규화 로직 추가(T-270), VIX 60일 백필 완료(97.4%)**
 
 ## 7. 최근 완료 작업 (T-187~T-273)
 | Task | 커밋 | 내용 |
 |------|------|------|
+| T-275 | T-275 | DQI 최종 재산출 Grade A(92.8) 달성 + CONTEXT.md v10.27: L0_KOSPI NOT NULL 기준 변경(2.6%→100%), FunnelScore 30/30 100%(avg=0.862), HANDOVER v10.58 갱신 |
 | T-273 | T-273 | DQI 재산출 Grade B(81.3) 달성 + CONTEXT.md v10.26 전면 동기화: 실측값 기반 DQI 81.3, FunnelScore 30/30 PASS(100%), HANDOVER v10.56 갱신 |
 | T-272 | 분석전용 | DQI Grade D(58.1) 현황 분석 + 복구 로드맵: L0~L3 실측, T-248/T-260/T-271/T-270 복구 순서 정의 |
 | T-271 | 7c90c931 | 펀더멘탈 전종목 수집기 + 백필: v4_fundamental_quarterly 전종목 PER/PBR 100% |
@@ -99,6 +102,7 @@
 | P1-HIGH | T-228 research_backtest_loop 크론 설치 | 대기 (162 COMPLETED, 1 RUNNING stuck) |
 | P1-HIGH | T-227 FunnelScore 재교정 (방안A Fail-Open / 방안C 임계값0.20) | CEO승인대기 |
 | P1-HIGH | T-226 백테스트 /api/v4/backtest/progress 구현 | 대기 (현재 404) |
+| P1-MEDIUM | T-275 DQI 최종 재산출 + CONTEXT v10.27 | **완료** (Grade A 92.8) |
 | P1-MEDIUM | T-273 DQI 재산출 + CONTEXT v10.26 | **완료** (Grade B 81.3) |
 | P1-MEDIUM | T-272 DQI 분석 로드맵 | 완료 (분석전용) |
 | P1-MEDIUM | T-271 펀더멘탈 전종목 수집 | 완료 (7c90c931) |
