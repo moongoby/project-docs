@@ -205,6 +205,6 @@ push: To github.com:moongoby/go100.git  7c90c931..04b2a1de
 ## 저장 정보
 - 서버 경로: /root/project-docs/kis-autotrade-v4/reports/CUR-V41-MACRO-DATA-REPAIR-001-20260307.md
 - GitHub: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/CUR-V41-MACRO-DATA-REPAIR-001-20260307.md
-- 커밋: {SHA}
-- HTTP 확인: {200|미확인}
+- 커밋: 9f19679 (보고서), 0fd5963 (HANDOVER)
+- HTTP 확인: 200
 - HANDOVER 업데이트: 완료 (v10.55)
