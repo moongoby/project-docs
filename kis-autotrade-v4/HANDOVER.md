@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1 DESK 시스템
-> 최종 업데이트: 2026-03-08 (v10.75 — KIS-293 Nginx 차트 API 프록시 설정: apply_nginx_kis293.sh 생성(root 실행 필요)/CONTEXT.md v11.2; v10.74 — KIS-291 claude_exec.sh SIZE 타이머 211배포; v10.73 — KIS-290 03-10 장전 사전점검 9/9 PASS; v10.71 — KIS-001 CONTEXT.md v11.1; v10.70 — T-283 문서 4계층 재구성; v10.67 — T-284 브릿지 큐 정리+Phase2 확인; v10.66 — T-283 trades.html Phase2; v10.65 — T-282-S4S5 HTML 조립; v10.64 — T-282 키움 영웅문4 차트)
+> 최종 업데이트: 2026-03-08 (v10.76 — KIS-295 trades.html 빈화면 수정: INIT SCRIPT 재작성+날짜 형식 YYYY-MM-DD 수정/CONTEXT.md v11.3; v10.75 — KIS-293 Nginx 차트 API 프록시 설정: apply_nginx_kis293.sh 생성(root 실행 필요)/CONTEXT.md v11.2; v10.74 — KIS-291 claude_exec.sh SIZE 타이머 211배포; v10.73 — KIS-290 03-10 장전 사전점검 9/9 PASS; v10.71 — KIS-001 CONTEXT.md v11.1; v10.70 — T-283 문서 4계층 재구성)
 > **이 파일은 History 계층입니다. Core는 CONTEXT.md를 참조하세요.**
 > 관리자: CEO (moongoby)
 > 용도: 모든 AI 세션(웹 Claude, Cursor, Claude Code) 시작 시 필수 읽기
@@ -20,6 +20,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **KIS-295 trades.html 빈화면 수정** | 03-08 | bad34b3f | 완료 | INIT SCRIPT 완전 재작성(new KWChartEngine()/fetchTrades/fetchChartData/renderList/bindTrades+buildMarkers/addPane·removePane); v4_trades_unified.py get_trade_daily_chart candle time YYYYMMDD→YYYY-MM-DD(LWCharts v5 호환); 검증: API 4개 200OK/JS AST PASS/candle time 2025-12-08 확인; 커밋 bad34b3f push; CONTEXT.md v11.3; HANDOVER v10.76 |
 | **KIS-293 Nginx 차트 API 프록시 설정** | 03-08 | scripts 전용 | 스크립트 생성 | /api/chart-data, /api/stocks, /api/trades → 8003 location 블록 추가; apply_nginx_kis293.sh 생성(root 실행 필요); CONTEXT.md v11.2 업데이트(§7/§8.8/§8.9/§9/§15); HANDOVER v10.75 |
 | **KIS-291 claude_exec.sh SIZE 기반 차등 타이머 구현 + 211 배포** | 03-08 | 인프라 전용 | 211 배포 완료 | /root/.genspark/claude_exec.sh SIZE 파싱 로직 추가(XS/S=1200s/M=2400s/L=3600s/XL=5400s/없음=2400s); HARD_TIMEOUT=MAX+600s/SOFT_WARNING=HARD-300s 동적 계산; bash -n syntax OK; SIZE 파싱 테스트 3케이스 PASS(XS=1200s/XL=5400s/없음=2400s); 백업 claude_exec.sh.bak.T291.20260308_124734; 68 서버=SSH 권한 없음→AADS 큐 배포 요청 전송; 보고서 KIS_20260308_124607_BRIDGE_RESULT.md |
 | **KIS-290 03-10 장전 사전점검 + T-286 서비스 반영 + T-245R 준비** | 03-08 | 코드변경없음 | 9/9 PASS | 서비스 5개 active(kis-v41-api/monitor/scheduler/redis/postgresql); kis-v41-api 재시작+T-286 /api/v4/backtest/progress 200 확인(API Key 필요); strategy_cards=60/OPEN=0/mock_trades=184건/avg-0.622%/최신분봉=2026-03-06; DQI 주말 예외(C-01/06/07 FAIL 정상) Grade A 유지; 크론 5종 확인(v41_data_collection/desk2_pool_link/desk5_scan/research_loop/evolution_loop); KIS 토큰 갱신(모의계좌)/Redis PONG/FunnelScore threshold=0.35 Fail-Open=0.5/FORCE_LIVE=CONFIRMED; trading41.newtalk.kr 200/trades.html 200; 보고서 CUR-V41-0310-PRECHECK-001-20260308.md |
@@ -135,28 +136,30 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
-### 최신 상태 (2026-03-08, KIS-293 Nginx 차트 API 프록시 설정 + HANDOVER v10.75)
+### 최신 상태 (2026-03-08, KIS-295 trades.html 빈화면 수정 완료 + HANDOVER v10.76)
 
-#### ★ KIS-293 완료: Nginx 차트 API 프록시 설정
+#### ★ KIS-295 완료: trades.html 빈화면 원인 진단 및 수정
 
-**[KIS-293] 2026-03-08 KST**
-- **목적**: trades.html 차트 데이터 미표시 해결 — /api/chart-data, /api/stocks, /api/trades → 8003
-- **스크립트 생성**: `scripts/v41/apply_nginx_kis293.sh` (root 실행 필요)
-  - HTTP/HTTPS 양 서버 블록에 3개 location 추가
-  - `python3` 코드로 nginx 설정 파싱 및 삽입
-  - nginx -t && systemctl reload nginx 자동 실행
-- **제약**: claudebot은 /etc/nginx/ 쓰기 권한 없음 → 스크립트 생성 후 root 수동 실행 필요
-- **실제 API 상태**: trades.html은 /api/v4/ 경로 사용 중 (기존 nginx /api/v4/→8003으로 정상 작동)
-- **CONTEXT.md**: v11.2 업데이트 (§7/§8.8/§8.9/§9/§15)
-- **HANDOVER**: v10.75
+**[KIS-295] 2026-03-08 KST**
+- **목적**: trades.html 빈화면 수정 — MA값 "-", 거래목록 빈칸, 차트 미표시
+- **근본 원인 3가지**:
+  1. INIT SCRIPT가 잘못된 URL 호출 (`/api/trades/unified` → 실제: `/api/v4/trades/unified`)
+  2. 존재하지 않는 모듈 메서드 10+개 호출 (`KWChartEngine.init()` 등)
+  3. `/api/v4/trades/{id}/chart/daily` 응답 날짜 `YYYYMMDD` → LW Charts v5는 `YYYY-MM-DD` 요구
+- **수정 파일**:
+  - `frontend/trades.html` + `frontend/static/trades.html`: INIT SCRIPT 완전 재작성
+  - `backend/app/routers/v4_trades_unified.py`: `_v8_to_iso()` 헬퍼 추가, candle time YYYY-MM-DD 변환
+- **커밋**: bad34b3f (phase-2c-command-center)
+- **검증**: API 4개 200OK, JS AST PASS, candle time 2025-12-08 확인
+- **CONTEXT.md**: v11.3
+- **HANDOVER**: v10.76
 
 #### 웹 Claude가 해야 할 일
-- root에게 `bash /root/kis-autotrade-v4/scripts/v41/apply_nginx_kis293.sh` 실행 요청
-- 실행 후 3개 API 200 확인:
-  - `curl -s -o /dev/null -w "%{http_code}" https://trading41.newtalk.kr/api/stocks/search?q=삼성`
-  - `curl -s -o /dev/null -w "%{http_code}" https://trading41.newtalk.kr/api/chart-data?symbol=005930`
-  - `curl -s -o /dev/null -w "%{http_code}" https://trading41.newtalk.kr/api/trades/unified`
-- 다음 작업: KIS-003 백테스트 trade stock_name null 해결
+- `https://trading41.newtalk.kr/trades.html` 접속 → 거래 목록 조회 → 거래 클릭 → 차트+MA 표시 확인
+- 다음 작업: KIS-003 백테스트 trade stock_name null 해결 또는 CEO 지시 대기
+
+#### 대표님 확인 필요 사항
+- trades.html에서 종목명 검색: `filter-stock` 입력은 `stock_name` LIKE 검색만 가능 (stock_code 직접 검색 미지원, API 제한)
 
 ---
 

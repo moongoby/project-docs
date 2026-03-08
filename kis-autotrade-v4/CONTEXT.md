@@ -243,6 +243,7 @@ path_check: {PASS|FAIL}
 ## 7. 최근 완료 작업 (최근 10건)
 | Task | 커밋 | 내용 |
 |------|------|------|
+| KIS-295 | bad34b3f | trades.html 빈화면 수정: INIT SCRIPT 재작성(올바른 v4 API 경로+모듈 API), v4_trades_unified.py 날짜 형식 YYYYMMDD→YYYY-MM-DD(LWCharts 호환) |
 | T-280 | — | trades.html 배포: kis-v41-api 재시작+Nginx, API 3개 200OK |
 | T-278 | 296742a9 | CEO 통합 거래 뷰어 Phase 1: trades.html+API 7개, TC-13/13 PASS |
 | T-277 | — | 큐정리+장전점검: pending 0건, bridge PID 확인, 서비스 4개 active |
@@ -307,6 +308,7 @@ exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.p
 ## 15. 버전 이력 (최근 10건)
 | 버전 | 날짜 | Task | 변경 |
 |------|------|------|------|
+| v11.3 | 2026-03-08 | KIS-295 | §7 KIS-295 trades.html 빈화면 수정 반영 |
 | v11.0 | 2026-03-07 | T-283 | 4계층 재구성, 매니저 프로토콜, 지시서 자동화 반영, Task ID 전환 |
 | v10.62 | 2026-03-07 | T-280 | trades.html 배포 |
 | v10.61 | 2026-03-07 | T-278 | CEO 통합 거래 뷰어 |
