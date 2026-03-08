@@ -1064,6 +1064,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.68 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-285 브릿지 큐 잔류 정리+CONTEXT v10.28 동기화**: running 디렉토리 T-282/283/284 0건 확인(T-284에서 이미 정리됨); CONTEXT.md v10.28 갱신(섹션7 T-282~285추가/섹션8 trades.html차트현황신규/섹션9 작업큐갱신); trades.html Phase2(c6bc6a4b) — RSI/MACD/Rectangle/전체화면 7파일; Phase3(자동추세선/VP/분봉실연동) 예정; 커밋 5d50e86; 보고서 CUR-V41-T285-CONTEXT-SYNC-001-20260308.md |
 | v10.67 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-284 브릿지 큐 정리+Phase2 확인**: T-282-S5/T-282-S4S5 completed처리; T-283 Phase2(c6bc6a4b) 검증 7/7PASS(7파일존재+node-c5/5+addPane/removePane/addHoldingRectangle/clearRectangles 14match+kw-fullscreen CSS+HTML+HTTP200+보고서URL200); 보고서 CUR-V41-T284-CHART-PHASE2-001-20260308.md; 다음: T-283-Phase3 자동추세선+거래량프로파일+분봉실연동 |
 | v10.66 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-283 trades.html Phase2**: kw-chart-engine.js addPane(rsi|macd)/removePane/addHoldingRectangle/clearRectangles; RSI pane(14기간/70/30수평선)/MACD pane(12/26/9); CSS .kw-pane-rsi(80px)/.kw-pane-macd(100px)/.kw-fullscreen; trades.html F키전체화면/ESC해제/onSelect Rectangle자동표시; 커밋 c6bc6a4b; HTTP200 |
 | v10.65 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-282-S4S5 trades.html HTML 조립**: frontend/trades.html+static/trades.html 동기화; LWCharts v5.1.0 6모듈; 검증 7/7+5/5JS+5/5Export; HTTP 7/7=200; 커밋 4b327d12 |
