@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **T-286 /api/v4/backtest/progress 엔드포인트 구현** | 03-08 | 88502672 | 코드완료/서비스재시작필요 | v4_backtest_api.py GET /backtest/progress 신규 추가(go100_research_iterations 기반); converge_status 집계(CONVERGED/RUNNING/FAILED/PENDING)/total_sessions/completion_pct/latest_session/sessions(10건); 정적라우트를 동적라우트(/backtest/progress/{session_id}) 앞에 배치; 문법검증 AST PASS; curl 403→API Key헤더 추가 후 400 확인(서비스 --workers 2 hot-reload 없음); 서비스재시작(kis-v41-api) 후 반영 예정; 커밋 88502672 push phase-2c-command-center; 보고서 CUR-V41-T286-BACKTEST-PROGRESS-001-20260308.md |
 | **T-284 브릿지: T-282 큐 정리 + T-283 Phase2 검증** | 03-08 | 보고서전용 | 200 | T-282-S5/T-282-S4S5 completed 처리(실작업 09e539d6+4b327d12로 완료됨); T-283 Phase2 검증 7/7PASS: 7파일존재+node-c5/5+addPane/removePane(pane index2/3)/addHoldingRectangle(HTML overlay)/clearRectangles(14 grep match)+kw-fullscreen(F키토글/ESC해제)+HTTP200+보고서URL200; 보고서 CUR-V41-T284-CHART-PHASE2-001-20260308.md; HANDOVER v10.67; 다음: T-283 Phase3 자동추세선+거래량프로파일+분봉실연동 |
 | **T-283 trades.html Phase2: RSI/MACD pane + 보유구간 Rectangle + 전체화면** | 03-08 | c6bc6a4b | 200 | kw-chart-engine.js: addPane(rsi|macd) LWCharts pane index 2/3; removePane; addHoldingRectangle(buyTime,sellTime,color) HTML 오버레이 + timeScale.subscribeVisibleLogicalRangeChange 위치갱신; clearRectangles; _updateAllRectangles; RSI 14기간 과매수70/과매도30 수평선; MACD 12/26/9 MACD선(#2196F3)+Signal(#FF9800)+Histogram; trades-kiwoom.css .kw-pane-rsi(80px)/.kw-pane-macd(100px)/.kw-holding-rect/.kw-fullscreen/.kw-hidden 추가; trades.html new KWChartEngine() 인스턴스 방식 전환; RSI/MACD 토글→addPane/removePane 연결; F키 CSS 전체화면 토글/ESC 해제; onTradeSelect Rectangle 자동표시; node -c 5/5 문법검사 PASS; 검증 grep 3종 PASS; HTTP 200; 보고서 CUR-V41-T283-CHART-PHASE2-001-20260308.md; 다음: T-283-Phase3 자동추세선+거래량프로파일 |
 | **T-282-S4S5 trades.html 키움 스타일 HTML 조립 + 검증 + 커밋** | 03-08 | 4b327d12 | 200 | frontend/trades.html(292줄) 신규 생성 + frontend/static/trades.html(292줄) 동기화; LWCharts v5.1.0 INIT스크립트 조립(KWChartEngine/KWIndicators/KWTradeList/KWMarkersTooltip/KWDataGrid); 검증: 7/7파일PASS+5/5JS문법+5/5Export+COLORS.UP20회+kw-up/down 14회+HTML모듈참조6개; 외부HTTP 7/7=200(trading41.newtalk.kr); 커밋 4b327d12 push phase-2c-command-center; 보고서 CUR-V41-T282-KIWOOM-CHART-001-20260308.md; Pending: RSI/MACD pane+사각형하이라이트+자동추세선 |
@@ -612,6 +613,27 @@
 > Cursor/Claude Code는 작업 완료 시 이 섹션을 반드시 업데이트한다.
 > 웹 Claude는 새 세션 시작 시 이 섹션을 최우선 확인한다.
 
+### 최신 상태 (2026-03-08, T-286 /api/v4/backtest/progress 구현 + HANDOVER v10.69)
+
+#### ★ T-286 완료: /api/v4/backtest/progress 엔드포인트 구현
+
+**[T-286 CUR-V41-T286-BACKTEST-PROGRESS-001] 2026-03-08 KST**
+- **구현 파일**: backend/app/api/v4_backtest_api.py
+- **엔드포인트**: GET /api/v4/backtest/progress (신규)
+- **데이터 소스**: go100_research_iterations 테이블
+  - converge_status 기반 집계 (CONVERGED/RUNNING/FAILED/PENDING)
+  - total_sessions/completed/running/failed/pending/completion_pct
+  - latest_session (최신 행)/sessions(최근 10건)
+- **라우팅 안전**: 정적 `/backtest/progress` → 동적 `/backtest/progress/{session_id}` 앞에 배치
+- **문법 검증**: AST PASS
+- **curl**: API Key 헤더 포함 시 404→코드 미반영 (서비스 --workers 2, hot-reload 없음)
+- **코드 커밋**: 88502672 push phase-2c-command-center
+- **HANDOVER**: v10.69
+- **서비스 재시작 필요**: kis-v41-api restart 후 자동 반영 (지시서 절대 규칙: 재시작 금지 → CEO 확인 후 수동 재시작)
+- **다음**: T-283 Phase3 자동추세선 + 거래량프로파일 + 분봉 실연동 (지시 대기)
+
+---
+
 ### 최신 상태 (2026-03-08, T-284 브릿지 완료 + HANDOVER v10.67)
 
 #### ★ T-284 완료: T-282 큐 정리 + T-283 Phase2 검증
@@ -1064,6 +1086,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.69 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-286 /api/v4/backtest/progress 엔드포인트 구현**: v4_backtest_api.py GET /backtest/progress 신규(go100_research_iterations 기반); converge_status 집계/completion_pct/latest_session/sessions(10건); 정적라우트 앞배치(라우팅 안전); AST문법검증PASS; 서비스재시작필요(hot-reload없음/재시작금지→CEO확인후); 커밋 88502672 push phase-2c-command-center; 보고서 CUR-V41-T286-BACKTEST-PROGRESS-001-20260308.md |
 | v10.68 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-285 브릿지 큐 잔류 정리+CONTEXT v10.28 동기화**: running 디렉토리 T-282/283/284 0건 확인(T-284에서 이미 정리됨); CONTEXT.md v10.28 갱신(섹션7 T-282~285추가/섹션8 trades.html차트현황신규/섹션9 작업큐갱신); trades.html Phase2(c6bc6a4b) — RSI/MACD/Rectangle/전체화면 7파일; Phase3(자동추세선/VP/분봉실연동) 예정; 커밋 5d50e86; 보고서 CUR-V41-T285-CONTEXT-SYNC-001-20260308.md |
 | v10.67 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-284 브릿지 큐 정리+Phase2 확인**: T-282-S5/T-282-S4S5 completed처리; T-283 Phase2(c6bc6a4b) 검증 7/7PASS(7파일존재+node-c5/5+addPane/removePane/addHoldingRectangle/clearRectangles 14match+kw-fullscreen CSS+HTML+HTTP200+보고서URL200); 보고서 CUR-V41-T284-CHART-PHASE2-001-20260308.md; 다음: T-283-Phase3 자동추세선+거래량프로파일+분봉실연동 |
 | v10.66 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-283 trades.html Phase2**: kw-chart-engine.js addPane(rsi|macd)/removePane/addHoldingRectangle/clearRectangles; RSI pane(14기간/70/30수평선)/MACD pane(12/26/9); CSS .kw-pane-rsi(80px)/.kw-pane-macd(100px)/.kw-fullscreen; trades.html F키전체화면/ESC해제/onSelect Rectangle자동표시; 커밋 c6bc6a4b; HTTP200 |
