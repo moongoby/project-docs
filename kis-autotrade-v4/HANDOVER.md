@@ -38,6 +38,22 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### KIS-297 — trades.html 빈화면 API 진단 (2026-03-08)
+- **HANDOVER 버전**: v10.73
+- **커밋**: project-docs d200cb7
+- **작업 내용**:
+  - 6개 진단 항목 전부 실행 및 기록 (진단 전용, 코드 수정 없음)
+  - 내부/외부 API 테스트: 지시서 URL `/api/chart-data`, `/api/stocks/search`, `/api/trades/unified` 모두 404 (잘못된 경로, `/api/v4/` 프리픽스 누락)
+  - Nginx 설정 확인: `/api/v4/` → 8003 + X-Internal-API-Key 주입 정상 / `/api/` → 8001
+  - 라우터 등록 확인: v4_trades_unified_router import+include 모두 정상 (line 131, 439)
+  - JS fetch URL 확인: kw-chart-engine.js가 `/api/v4/` 올바른 경로 사용. `kw-chart-data.js` 파일 없음 (지시서 오류)
+  - claude_exec.sh 타이머: XS/S→1200, M→2400, L→3600, XL→5400
+  - 추가 확인: 올바른 경로 `/api/v4/trades/unified` → HTTP 200 (105,526건) 정상 작동
+  - INTERNAL_API_KEY (.env = nginx) 일치 확인
+  - 빈화면 결론: KIS-295에서 이미 수정됨, 현재 정상 작동
+  - 잔여 이슈: ①날짜 DOM ID 불일치(kwFilterDateFrom↔filter-date-from) ②한글 검색 400 ③stock_name null
+- **보고서**: CUR-V41-KIS297-TRADES-API-DIAG-001-20260308.md (HTTP 200 확인)
+
 ### KIS-001 — CONTEXT.md v11.1 종합 업데이트 (2026-03-08)
 - **HANDOVER 버전**: v10.71
 - **커밋**: (project-docs)
@@ -194,6 +210,7 @@
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
 | v11.0 | 2026-03-08 | — | History 계층 재구성, 85K→15건 정리, 구조화 |
+| v10.73 | 2026-03-08 | KIS-297 | trades.html 빈화면 API 진단 (진단 전용, 정상 확인) |
 | v10.72 | 2026-03-08 | AADS-178 | 좀비 프로세스 근본수정 5건, 211+68 배포 |
 | v10.71 | 2026-03-08 | KIS-001 | CONTEXT.md v11.1 종합 업데이트 |
 | v10.70 | 2026-03-08 | T-283 | 문서 4계층 재구성, 매니저 프로토콜, 자동화 |
