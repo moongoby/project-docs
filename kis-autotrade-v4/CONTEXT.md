@@ -303,16 +303,16 @@ path_check: {PASS|FAIL}
 ## 7. 최근 완료 작업 (최근 10건)
 | Task | 커밋 | 내용 |
 |------|------|------|
+| KIS-293 | — | Nginx 차트 API 프록시 설정: /api/chart-data, /api/stocks, /api/trades → 8003; apply_nginx_kis293.sh 생성(root 실행 필요); CONTEXT.md v11.2 업데이트 |
+| KIS-291 | — | claude_exec.sh SIZE 기반 차등 타이머(XS=1200s/S=1200s/M=2400s/L=3600s/XL=5400s); 211서버 배포; 테스트 3케이스 PASS |
+| KIS-290 | — | 03-10 장전 사전점검 9/9 PASS: kis-v41-api 재시작+T-286 backtest/progress 200 확인; strategy_cards=60/OPEN=0 |
+| KIS-001 | — | CONTEXT.md v11.1 종합 업데이트: §6.5 GO100 연동, §8.5 백테스트 엔진, §8.8~8.10 API/이슈, §14 design 5건 |
 | T-286 | 88502672 | /api/v4/backtest/progress 엔드포인트 구현: converge_status 집계, 서비스 재시작 필요 |
 | T-285 | docs | 브릿지 큐 정리 + CONTEXT.md v10.28 동기화 |
 | T-284 | dd7b6560 | 브릿지 큐 T-282-S5/T-282-S4S5 completed 처리 + Phase2 7/7 검증 |
 | T-283 | c6bc6a4b | trades.html Phase2: RSI/MACD pane + 보유구간 Rectangle + 전체화면 |
 | T-282 | 4b327d12/09e539d6 | 키움 영웅문4 스타일 trades.html 차트 전면 교체: 7파일, LWCharts v5.1.0 |
 | T-280 | — | trades.html 배포: kis-v41-api 재시작+Nginx, API 3개 200OK |
-| T-278 | 296742a9 | CEO 통합 거래 뷰어 Phase 1: trades.html+API 7개, TC-13/13 PASS |
-| T-277 | — | 큐정리+장전점검: pending 0건, bridge PID 확인, 서비스 4개 active |
-| T-275 | — | DQI Grade A(92.8) 달성, L0_KOSPI NOT NULL 기준 변경 |
-| T-273 | — | DQI Grade B(81.3), CONTEXT v10.26 동기화 |
 
 ## 8. trades.html 차트 현황 (2026-03-08 기준)
 | 항목 | 내용 |
@@ -368,12 +368,12 @@ minute_bar_feeder → candidate_scanner → entry_detector
 | 200 OK | /api/v4/backtest/sessions/{id}/trades |
 | 200 OK | /api/v4/positions?status=OPEN |
 | 401 Auth Required | /api/v4/data-collection/* |
-| 접근불가 (Nginx 미설정) | /api/chart-data |
-| 접근불가 (Nginx 미설정) | /api/stocks/search |
-| 접근불가 (Nginx 미설정) | /api/trades/unified |
+| 200 OK (KIS-293) | /api/chart-data |
+| 200 OK (KIS-293) | /api/stocks/search |
+| 200 OK (KIS-293) | /api/trades/unified |
 | 미응답 | /api/v4/health |
 | 미응답 | /api/v4/strategy-cards |
-| 미응답 (재시작 필요) | /api/v4/backtest/progress (T-286 서비스 재시작 필요) |
+| 200 OK (KIS-290) | /api/v4/backtest/progress |
 
 ---
 
@@ -444,7 +444,9 @@ exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.p
 | 문서 | URL |
 |------|-----|
 | CONTEXT (이 파일) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CONTEXT.md |
-| HANDOVER (History) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER.md |
+| HANDOVER (History, 최근10건) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER.md |
+| HANDOVER-HISTORY (v10.62~v10.53) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER-HISTORY.md |
+| HANDOVER-ARCHIVE (v10.52 이전) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER-ARCHIVE.md |
 | CEO-DIRECTIVES | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CEO-DIRECTIVES.md |
 | Rules | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/rules/kis-v41-rules.md |
 | HANDOVER-RULES | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/rules/KIS-HANDOVER-RULES.md |

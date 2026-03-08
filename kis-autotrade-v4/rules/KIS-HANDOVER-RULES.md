@@ -10,7 +10,9 @@
 | Core | CONTEXT.md | 매 세션 필수 |
 | Directives | CEO-DIRECTIVES.md | 매 세션 필수 |
 | Rules | 이 파일 + kis-v41-rules.md | 온보딩/규칙확인 |
-| History | HANDOVER.md | 이전 작업 참조 |
+| History | HANDOVER.md | 최근 10건 작업 참조 |
+| History-중기 | HANDOVER-HISTORY.md | v10.62~v10.53 작업 참조 |
+| Archive | HANDOVER-ARCHIVE.md | v10.52 이전 + 핵심 발견 |
 
 ---
 
