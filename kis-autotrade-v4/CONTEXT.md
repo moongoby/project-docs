@@ -221,7 +221,7 @@ GO100 매니저: https://www.genspark.ai/agents?id=167071cf-c8b5-476a-8953-6168d
 - **[해결] DOM ID 불일치**: kw-trade-list.js setDefaultDates() getElementById ID 수정 완료 (KIS-298)
 - **[해결] 한글 검색 400**: kw-chart-engine.js fetchSearch() 추가 (encodeURIComponent 처리), v4_trades_unified.py max_length=50/q.strip() 강화 (KIS-298)
 - **[대기] Nginx 프록시 미설정**: /api/chart-data, /api/stocks, /api/trades (비-v4 경로) — KIS-293 스크립트 생성 완료, root 실행 필요. 실제 경로 /api/v4/는 정상
-- **[대기] stock_name null**: backtest sessions/{id}/trades 응답에서 stock_name 전부 null — KIS-299 해결 예정
+- **[해결] stock_name null**: backtest sessions/{id}/trades 응답에서 stock_name 전부 null — KIS-301에서 해결 (stock_universe LEFT JOIN + COALESCE 추가)
 
 ---
 
@@ -264,9 +264,11 @@ Look-ahead Bias 차단 (4항목): ①후보 D-1 일봉만 사용, ②진입 다�
 **참고**: /api/chart-data, /api/stocks/search, /api/trades/unified 는 잘못된 경로였음. 실제 경로는 /api/v4/ 접두사 필요. KIS-297 진단에서 확인.
 
 ### §12.1 백테스트 trade stock_name null 이슈
-- backtest sessions/{id}/trades 응답에서 stock_name이 전부 null
-- 원인 추정: API 조인 누락 (stock_universe 미조인)
-- 해결: KIS-299 대기
+- ~~backtest sessions/{id}/trades 응답에서 stock_name이 전부 null~~
+- **KIS-301 해결 완료** (2026-03-08)
+- 원인: v4_backtest_api.py에서 stock_universe JOIN 누락 + `"stock_name": None` 하드코딩
+- 수정: `LEFT JOIN stock_universe u ON u.stock_code = t.stock_code` + `COALESCE(u.stock_name, t.stock_code)` 추가
+- 검증: curl 응답 74건 전부 non-null (흥구석유 등 실제 종목명 포함)
 
 ---
 
@@ -274,6 +276,7 @@ Look-ahead Bias 차단 (4항목): ①후보 D-1 일봉만 사용, ②진입 다�
 
 | Task | 커밋 | 내용 |
 |------|------|------|
+| KIS-301 | — | backtest sessions/trades stock_name null 수정: stock_universe LEFT JOIN 추가, kis-v41-api 재시작 |
 | KIS-298 | 22bf9f23 | trades.html DOM ID 불일치 수정 + 한글검색 fetchSearch 추가 (encodeURIComponent) |
 | KIS-297 | project-docs d200cb7 | trades.html 빈화면 API 진단 6항목 (진단 전용, 정상 확인, claude_exec.sh XS/S:1200/M:2400/L:3600/XL:5400) |
 | KIS-295 | bad34b3f | trades.html 빈화면 수정: API 경로(/api/v4/) + 모듈 API + 날짜 형식 |
@@ -296,7 +299,7 @@ Look-ahead Bias 차단 (4항목): ①후보 D-1 일봉만 사용, ②진입 다�
 
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0 | KIS-299 stock_name null 해결 (trades API 조인 수정) | 신규 대기 (KIS-003 대체) |
+| P0 | KIS-299/KIS-301 stock_name null — 해결 완료 | ✅ 완료 (KIS-301) |
 | P0 | KIS-293 Nginx 차트 API 프록시 — apply_nginx_kis293.sh root 실행 | root 실행 대기 |
 | P0 | T-229 MA20 trailing 전면 적용 | CEO 결정 대기 |
 | P0 | L0_KOSPI 과거 재백필 | 후속 필요 |
@@ -480,6 +483,7 @@ KIS API xlsx 8개: 기본시세, 순위분석, 시세분석, 실시간시세, �
 
 | 버전 | 날짜 | Task | 변경 |
 |------|------|------|------|
+| v12.1 | 2026-03-08 | KIS-301 | §10.1 stock_name null 해결, §12.1 KIS-301 완료, §13 KIS-301 추가, §14 KIS-299 완료 처리 |
 | v12.0 | 2026-03-08 | KIS-300 | §7 서비스 현황(kis-v41-api 재시작 12:31), §10.1 Known Issues 해결, §12 API 상태(backtest/progress 200 + 잘못된 경로 삭제), §13 KIS-290~298 추가, §14 큐 정리(T-226/KIS-002/003 삭제+KIS-299), §2.6 SIZE별 타이머, §20 연번체계 KIS-288부터 |
 | v12.0 | 2026-03-08 | KIS-005 | 전면 재작성: §번호 재정렬, 누락 섹션 23건 복원, KIS-295 오기재 정정, Task ID 현황 명시 |
 | v11.3 | 2026-03-08 | KIS-295(오기재) | §7에 trades.html 빈화면 수정 반영 (KIS-295는 존재하지 않는 번호) |

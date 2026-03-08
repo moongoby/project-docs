@@ -38,6 +38,19 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### KIS-301 — backtest sessions/trades stock_name null 수정 (2026-03-08)
+- **HANDOVER 버전**: v11.3
+- **커밋**: phase-2c-command-center (코드레포), project-docs (문서레포)
+- **작업 내용**:
+  - 파일: `backend/app/api/v4_backtest_api.py` (라인 225-248)
+  - 원인: `data_sql`에 `stock_universe` JOIN 누락, `"stock_name": None` 하드코딩
+  - 수정: `LEFT JOIN stock_universe u ON u.stock_code = t.stock_code` 추가
+  - 수정: `COALESCE(u.stock_name, t.stock_code) AS stock_name` 적용
+  - 수정: `"stock_name": m.get("stock_name")` 으로 실제 값 매핑
+  - 재시작: `go100` (8002), `kis-v41-api` (8003) 모두 재시작
+  - 검증: 외부 URL curl → 74건 전부 non-null (흥구석유 등 실제 종목명)
+- **보고서**: KIS_20260308_141842_BRIDGE_RESULT.md
+
 ### KIS-300 — CONTEXT.md v12.0 전면 최신화 (2026-03-08)
 - **HANDOVER 버전**: v11.2
 - **커밋**: project-docs (git push 완료)
@@ -229,9 +242,9 @@
 | 구분 | 범위 | 상태 |
 |------|------|------|
 | 레거시 T-xxx | T-001 ~ T-286 | 읽기 전용, 신규 발행 금지 |
-| 신규 KIS-xxx (연번) | KIS-288 ~ KIS-300 (현재 최신) | 활성 (CEO 지시: KIS-288부터 연번) |
+| 신규 KIS-xxx (연번) | KIS-288 ~ KIS-301 (현재 최신) | 활성 (CEO 지시: KIS-288부터 연번) |
 | 문서 전용 | KIS-001 ~ KIS-004 | CONTEXT/HANDOVER 업데이트 전용 |
-| 다음 발행 번호 | KIS-301 | — |
+| 다음 발행 번호 | KIS-302 | — |
 
 ---
 
@@ -239,6 +252,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.3 | 2026-03-08 | KIS-301 | backtest sessions/trades stock_name null 해결 — stock_universe LEFT JOIN, COALESCE |
 | v11.2 | 2026-03-08 | KIS-300 | CONTEXT.md v12.0 최신화 — KIS-290~298 반영, 연번체계 KIS-288부터, API 상태 갱신 |
 | v11.1 | 2026-03-08 | KIS-298 | trades.html DOM ID 수정 + 한글 검색 fetchSearch 추가 |
 | v11.0 | 2026-03-08 | — | History 계층 재구성, 85K→15건 정리, 구조화 |
