@@ -223,11 +223,14 @@ path_check: {PASS|FAIL}
 
 ## 4.5 프랙탈 추세추종 아키텍처 (CEO 확정 v3.0)
 
+> 핵심: 프랙탈 구조로 DESK 간 동일한 추세추종 원리를 자기유사(fractal)하게 적용한다.
+> 프랙탈 아키텍처의 모든 DESK는 넓게 뿌리고 소수 대승으로 전체를 덮는 손익비 구조를 공유한다.
+
 ### 제1원칙: 전 DESK 손익비 추세추종 (코어-새틀라이트 폐기)
-- DESK5 = 씨앗 농장: 10~20종목 분산, 승률 15~25%, 손익비 ≥ 5:1
-- DESK4 = 마디 수확: 20~30종목 분산, 승률 35~45%, 손익비 ≥ 2.5:1
-- DESK3 = 폭발 사냥: 50~100 대기, 승률 50~60%, 손익비 ≥ 1.5:1
-- DESK2 = 장중 수확: 6-Layer (전 DESK 보유 종목 분봉 추가 수확)
+- DESK5 = 씨앗 농장: 10~20종목 분산, 승률 15~25%, 손익비 ≥ 5:1 (프랙탈 최장주기)
+- DESK4 = 마디 수확: 20~30종목 분산, 승률 35~45%, 손익비 ≥ 2.5:1 (프랙탈 중주기)
+- DESK3 = 폭발 사냥: 50~100 대기, 승률 50~60%, 손익비 ≥ 1.5:1 (프랙탈 단주기)
+- DESK2 = 장중 수확: 6-Layer (전 DESK 보유 종목 분봉 추가 수확, 프랙탈 초단주기)
 
 ### 자본 배분 (Stage별)
 | Stage | 자본 | DESK2 | DESK3 | DESK4 | DESK5 |
@@ -271,6 +274,31 @@ path_check: {PASS|FAIL}
   - 이력: 58.1(D) → 81.3(B) → 92.8(A)
   - 주의: KOSPI 프록시값 711/730행 범위 외, CEO 결정 대기
 - **FunnelScore: 30/30 PASS (100%), avg 0.862, 임계값 0.35**
+  - ⚠️ **Fail-Open 모드 동작 중 (null_fallback_score=0.5), CEO 재교정 승인 대기(T-227)**
+
+## 6.5 GO100(백억이) 연동 아키텍처
+
+### 연동 기반 문서
+- V41-GO100-INTEGRATION-ARCHITECTURE-v1.0.md 기반
+
+### 3대 브릿지
+| 브릿지 | 역할 | 구현 상태 |
+|--------|------|-----------|
+| ① 자본 컨트롤 | 포트폴리오 옵티마이저, Kelly 베팅 | Phase2 대기 |
+| ② 리스크/킬스위치 | go100_risk_events 테이블, 매 주문 전 조회 | Phase2 대기 |
+| ③ 에피소드 메모리 | 매매결과+5축마스크 JSON 적재, agent_id=V4.1_DESK_AGENT | Phase2 대기 |
+
+### 안전 수칙 (절대 원칙)
+- 코드 침범 금지 (REST API만 사용)
+- Read-Only / Append-Only 원칙
+- 독립 네임스페이스 유지 (V4.1 DB ↔ GO100 DB 직접 연결 금지)
+
+### 현황
+- Phase 1: 기획 완료
+- Phase 2~3: 구현 대기
+- GO100 매니저: https://www.genspark.ai/agents?id=167071cf-c8b5-476a-8953-6168dd6c910c
+
+---
 
 ## 7. 최근 완료 작업 (최근 10건)
 | Task | 커밋 | 내용 |
@@ -295,11 +323,83 @@ path_check: {PASS|FAIL}
 | Phase2 (T-283) | RSI pane(14기간/70·30 수평선) + MACD pane(12/26/9) + 보유구간 Rectangle + 전체화면(F키/ESC) (c6bc6a4b) |
 | 다음 예정 | Phase3: 자동추세선, 거래량프로파일(VP), 분봉 실시간 연동 |
 
+## 8.5 백테스트 엔진 현황
+
+### 엔진 종류
+| 엔진 | 용도 | 상태 |
+|------|------|------|
+| backtest_engine_v2.py | 통계 시뮬레이션 | 164세션 완료 |
+| replay/ 패키지 | 분봉 리플레이 | 6모듈 구성 |
+
+### 분봉 리플레이 아키텍처 (6모듈)
+```
+minute_bar_feeder → candidate_scanner → entry_detector
+→ exit_simulator → result_aggregator → replay_engine
+```
+
+### Look-ahead Bias 차단 (4항목)
+1. 후보: D-1 일봉만 사용
+2. 진입: 다음 바 시가 기준
+3. 지표: 현재 바까지만 계산
+4. 오버나이트: D+1 첫 바 시가
+
+### 청산 5모드
+① Hard Stop(-3%), ② ATR Trailing, ③ Time Close(15:20), ④ Partial TP(+3%→50%), ⑤ DD Force
+
+### 비용 모델
+- 편도 수수료 0.015% + 증권거래세 0.2% + 슬리피지 0.04% = **0.47% (편도)**
+
+### 최신 세션 결과
+- 세션 #164: DESK2 DAILY 1W, +0.07%, WR56.76%, PF1.074, Sharpe3.307
+- 분봉 리플레이 (2025-03~2026-02): 포트폴리오 PF=0.834(FAIL), D6만 PF=1.144(CONDITIONAL)
+
+### CLI
+- `scripts/run_replay_backtest.py`
+- 참조: CUR-V41-REPLAY-BACKTEST-001-20260302.md
+
+---
+
+## 8.8 API 엔드포인트 상태 (외부 접근 기준, 2026-03-08)
+
+| 상태 | 엔드포인트 |
+|------|-----------|
+| 200 OK | /api/v4/backtest/sessions |
+| 200 OK | /api/v4/backtest/sessions/{id} |
+| 200 OK | /api/v4/backtest/sessions/{id}/trades |
+| 200 OK | /api/v4/positions?status=OPEN |
+| 401 Auth Required | /api/v4/data-collection/* |
+| 접근불가 (Nginx 미설정) | /api/chart-data |
+| 접근불가 (Nginx 미설정) | /api/stocks/search |
+| 접근불가 (Nginx 미설정) | /api/trades/unified |
+| 미응답 | /api/v4/health |
+| 미응답 | /api/v4/strategy-cards |
+| 미응답 (재시작 필요) | /api/v4/backtest/progress (T-286 서비스 재시작 필요) |
+
+---
+
+## 8.9 trades.html Known Issues
+
+- HTML 로드 성공, **차트 데이터 미표시** (MA 전부 "-", 거래 목록 빈칸)
+- **원인**: /api/chart-data, /api/stocks/search, /api/trades/unified — 3개 API Nginx proxy 미설정
+- **해결 방안**: Nginx에 `proxy_pass http://127.0.0.1:8003` 추가 필요 (별도 KIS-002 작업)
+
+---
+
+## 8.10 백테스트 trade stock_name null 이슈
+
+- backtest sessions/{id}/trades 응답에서 **stock_name이 전부 null**
+- **원인 추정**: API 조인 누락 (stock_universe 미조인)
+- **해결**: 별도 작업 (KIS-003)
+
+---
+
 ## 9. 작업 큐 (2026-03-08 기준)
 | 순위 | 작업 | 상태 |
 |------|------|------|
+| P0 | KIS-002 Nginx 차트 API 프록시 설정 | 신규 대기 |
 | P0 | T-229 MA20 trailing 전면 적용 | CEO 결정 대기 |
 | P0 | L0_KOSPI 과거 재백필 | 후속 필요 |
+| P1 | KIS-003 백테스트 trade stock_name 해결 | 신규 대기 |
 | P1 | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
 | P1 | T-228 backtest_loop 크론 | 대기 |
 | P1 | T-227 FunnelScore 재교정 | CEO 승인 대기 |
@@ -312,6 +412,21 @@ path_check: {PASS|FAIL}
 3. L0_KOSPI 재백필 (711/730행 프록시값)
 4. T-194 ATR SL 파라미터 (T-207 적용 완료)
 5. T-195 14:00 진입 차단 (완료)
+
+## 10.5 03-10 모의매매 사전 체크리스트
+
+장 개시 전 반드시 확인할 항목 (T-245R):
+
+| # | 항목 | 확인 명령 |
+|---|------|-----------|
+| 1 | bridge.py PID 확인 | `ps aux \| grep bridge` |
+| 2 | FunnelScore Fail-Open 모드 확인 | `null_fallback_score=0.5` 설정 확인 |
+| 3 | 서비스 4개 active 확인 | kis-v41-api, monitor, scheduler, postgresql |
+| 4 | strategy_cards=60, OPEN=0 확인 | DB 쿼리 |
+| 5 | Redis 연결 상태 확인 | `redis-cli ping` |
+| 6 | 크론 5건+ 확인 | `crontab -l \| wc -l` |
+
+---
 
 ## 11. 긴급 주의사항
 - GitHub PAT 만료: 2026-05-27 (잔여 ~80일)
@@ -336,11 +451,25 @@ exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.p
 | 보고서 | https://github.com/moongoby/project-docs/tree/master/kis-autotrade-v4/reports |
 | AADS 공통 규칙 | https://github.com/moongoby-GO100/aads-docs/blob/main/CEO-DIRECTIVES.md |
 | AADS RULES | https://github.com/moongoby-GO100/aads-docs/blob/main/HANDOVER-RULES.md |
+| DESK-FRACTAL-ARCHITECTURE-v3.0 | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/design/DESK-FRACTAL-ARCHITECTURE-v3.0-20260301.md |
+| V41-GO100-INTEGRATION-ARCHITECTURE-v1.0 | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/design/V41-GO100-INTEGRATION-ARCHITECTURE-v1.0.md |
+| DESK2-DESIGN-SPEC-v3.0 | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/design/DESK2-DESIGN-SPEC-v3.0-20260228.md |
+| SYSTEM-ARCHITECTURE-FLOWCHART-v1.0 | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/design/SYSTEM-ARCHITECTURE-FLOWCHART-v1.0-20260301.md |
+| CUR-V41-REPLAY-BACKTEST-001 | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CUR-V41-REPLAY-BACKTEST-001-20260302.md |
 
-## 15. 버전 이력 (최근 10건)
+## 15. 버전 이력 (최근 20건)
 | 버전 | 날짜 | Task | 변경 |
 |------|------|------|------|
+| v11.1 | 2026-03-08 | KIS-001 | §6.5 GO100 연동, §8.5 백테스트 엔진, §8.8~8.10 API/이슈, §10.5 체크리스트, §14 design문서 5건, §15 누락버전 보강 |
 | v11.0 | 2026-03-08 | T-283 | 4계층 재구성, 매니저 프로토콜, 지시서 자동화 반영, Task ID 전환 |
+| v10.70 | 2026-03-08 | T-283 | 문서 4계층 재구성 |
+| v10.69 | 2026-03-08 | T-284 | Phase2 7/7 검증, 브릿지 큐 정리 |
+| v10.68 | 2026-03-08 | T-285 | 컨텍스트 동기화 v10.28 |
+| v10.67 | 2026-03-08 | T-286 | /api/v4/backtest/progress 엔드포인트 구현 |
+| v10.66 | 2026-03-08 | T-284 | RSI/MACD pane, 보유구간 Rectangle, 전체화면 |
+| v10.65 | 2026-03-08 | T-283 | trades.html Phase2 구현 |
+| v10.64 | 2026-03-08 | T-282 | LWCharts v5.1.0 키움 영웅문4 스타일 전면 교체 |
+| v10.63 | 2026-03-07 | T-282 | Nginx static, 차트 7파일 배포 |
 | v10.62 | 2026-03-07 | T-280 | trades.html 배포 |
 | v10.61 | 2026-03-07 | T-278 | CEO 통합 거래 뷰어 |
 | v10.60 | 2026-03-07 | T-277 | 큐정리+장전점검 |
