@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-08 | 버전: v11.0
+> 최종 업데이트: 2026-03-08 | 버전: v11.1
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,21 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### KIS-298 — trades.html DOM ID 불일치 + 한글 검색 400 수정 (2026-03-08)
+- **HANDOVER 버전**: v11.1
+- **커밋**: phase-2c-command-center (코드레포)
+- **작업 내용**:
+  - ① kw-trade-list.js setDefaultDates() DOM ID 수정: kwFilterDateFrom→filter-date-from, kwFilterDateTo→filter-date-to
+    - 영향: 날짜 기본값(최근 3개월) 정상 설정, 초기 쿼리 부하 감소 (전체 105,526건 → 3개월 데이터)
+  - ② kw-chart-engine.js fetchSearch() 신규 추가: encodeURIComponent로 한글 URL 인코딩 처리
+    - `KWChartEngine.prototype.fetchSearch(q)` — 빈 쿼리 시 빈 배열 즉시 반환, 비어있지 않으면 `/api/v4/stocks/search?q=<encoded>` 호출
+  - ③ v4_trades_unified.py stocks/search 엔드포인트 강화: max_length=50 추가, q.strip() 처리, 공백만인 경우 [] 반환
+  - ④ CONTEXT.md §8.9 KIS-298 완료 사항 추가 (최종 갱신: 2026-03-08)
+  - 검증: URL-encoded Korean search → HTTP 200 + 20건 반환 ✅, trades API Korean stock_name → 2,089건 ✅
+  - 보안 스캔: SQL injection 0건 (:q 파라미터 바인딩), XSS 0건
+  - 한계: raw 한글 URL (encodes 미적용 curl) → nginx/uvicorn HTTP 400은 HTTP 프로토콜 제약으로 수정 불가. 브라우저 fetch는 encodeURIComponent로 정상 처리됨
+- **보고서**: CUR-V41-KIS298-BRIDGE-001-20260308.md
 
 ### KIS-297 — trades.html 빈화면 API 진단 (2026-03-08)
 - **HANDOVER 버전**: v10.73
@@ -209,6 +224,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.1 | 2026-03-08 | KIS-298 | trades.html DOM ID 수정 + 한글 검색 fetchSearch 추가 |
 | v11.0 | 2026-03-08 | — | History 계층 재구성, 85K→15건 정리, 구조화 |
 | v10.73 | 2026-03-08 | KIS-297 | trades.html 빈화면 API 진단 (진단 전용, 정상 확인) |
 | v10.72 | 2026-03-08 | AADS-178 | 좀비 프로세스 근본수정 5건, 211+68 배포 |
