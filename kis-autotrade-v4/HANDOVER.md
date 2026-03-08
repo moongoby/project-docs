@@ -19,6 +19,7 @@
 
 | Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
 |---------|------|------|------|-----------|
+| **KIS-291 claude_exec.sh SIZE 기반 차등 타이머 구현 + 211 배포** | 03-08 | 인프라 전용 | 211 배포 완료 | /root/.genspark/claude_exec.sh SIZE 파싱 로직 추가(XS/S=1200s/M=2400s/L=3600s/XL=5400s/없음=2400s); HARD_TIMEOUT=MAX+600s/SOFT_WARNING=HARD-300s 동적 계산; bash -n syntax OK; SIZE 파싱 테스트 3케이스 PASS(XS=1200s/XL=5400s/없음=2400s); 백업 claude_exec.sh.bak.T291.20260308_124734; 68 서버=SSH 권한 없음→AADS 큐 배포 요청 전송; 보고서 KIS_20260308_124607_BRIDGE_RESULT.md |
 | **KIS-290 03-10 장전 사전점검 + T-286 서비스 반영 + T-245R 준비** | 03-08 | 코드변경없음 | 9/9 PASS | 서비스 5개 active(kis-v41-api/monitor/scheduler/redis/postgresql); kis-v41-api 재시작+T-286 /api/v4/backtest/progress 200 확인(API Key 필요); strategy_cards=60/OPEN=0/mock_trades=184건/avg-0.622%/최신분봉=2026-03-06; DQI 주말 예외(C-01/06/07 FAIL 정상) Grade A 유지; 크론 5종 확인(v41_data_collection/desk2_pool_link/desk5_scan/research_loop/evolution_loop); KIS 토큰 갱신(모의계좌)/Redis PONG/FunnelScore threshold=0.35 Fail-Open=0.5/FORCE_LIVE=CONFIRMED; trading41.newtalk.kr 200/trades.html 200; 보고서 CUR-V41-0310-PRECHECK-001-20260308.md |
 | **T-286 /api/v4/backtest/progress 엔드포인트 구현** | 03-08 | 88502672 | 코드완료/서비스재시작필요 | v4_backtest_api.py GET /backtest/progress 신규 추가(go100_research_iterations 기반); converge_status 집계(CONVERGED/RUNNING/FAILED/PENDING)/total_sessions/completion_pct/latest_session/sessions(10건); 정적라우트를 동적라우트(/backtest/progress/{session_id}) 앞에 배치; 문법검증 AST PASS; curl 403→API Key헤더 추가 후 400 확인(서비스 --workers 2 hot-reload 없음); 서비스재시작(kis-v41-api) 후 반영 예정; 커밋 88502672 push phase-2c-command-center; 보고서 CUR-V41-T286-BACKTEST-PROGRESS-001-20260308.md |
 | **T-284 브릿지: T-282 큐 정리 + T-283 Phase2 검증** | 03-08 | 보고서전용 | 200 | T-282-S5/T-282-S4S5 completed 처리(실작업 09e539d6+4b327d12로 완료됨); T-283 Phase2 검증 7/7PASS: 7파일존재+node-c5/5+addPane/removePane(pane index2/3)/addHoldingRectangle(HTML overlay)/clearRectangles(14 grep match)+kw-fullscreen(F키토글/ESC해제)+HTTP200+보고서URL200; 보고서 CUR-V41-T284-CHART-PHASE2-001-20260308.md; HANDOVER v10.67; 다음: T-283 Phase3 자동추세선+거래량프로파일+분봉실연동 |
@@ -636,6 +637,23 @@
 
 ---
 
+### 최신 상태 (2026-03-08, KIS-291 claude_exec.sh SIZE 타이머 + HANDOVER v10.74)
+
+#### ★ KIS-291 완료: claude_exec.sh SIZE 기반 차등 타이머 구현 (211 서버)
+
+**[KIS-291] 2026-03-08 12:47 KST**
+- **변경 파일**: `/root/.genspark/claude_exec.sh` (백업: claude_exec.sh.bak.T291.20260308_124734)
+- **SIZE → MAX_TIMEOUT 매핑**:
+  - XS/S: 1200s | M: 2400s | L: 3600s | XL: 5400s | SIZE 없음: 2400s (기본값 1200→2400 상향)
+- **HARD_TIMEOUT**: `MAX_TIMEOUT + 600`s (동적 계산, 기존 1800s 고정 제거)
+- **SOFT_WARNING**: `HARD_TIMEOUT - 300`s (동적 계산, 기존 1500s 고정 제거)
+- **검증**: bash -n syntax OK / SIZE 파싱 3케이스 PASS (XS=1200s/XL=5400s/없음=2400s)
+- **211 서버**: 배포 완료 ✅
+- **68 서버**: SSH 권한 없음 → AADS 큐 배포 요청 전송 (수동 배포 필요)
+  - `scp /root/.genspark/claude_exec.sh root@68.183.183.11:/root/.genspark/claude_exec.sh`
+
+---
+
 ### 최신 상태 (2026-03-08, T-284 브릿지 완료 + HANDOVER v10.67)
 
 #### ★ T-284 완료: T-282 큐 정리 + T-283 Phase2 검증
@@ -1088,6 +1106,7 @@
 ## 버전 이력
 | 버전 | 날짜 | 변경자 | 변경 |
 |------|------|--------|------|
+| v10.74 | 2026-03-08 | Claude Code (Sonnet4.6) | **KIS-291 claude_exec.sh SIZE 기반 차등 타이머**: SIZE 파싱(XS/S=1200s/M=2400s/L=3600s/XL=5400s/없음=2400s); HARD_TIMEOUT=MAX+600s/SOFT_WARNING=HARD-300s 동적 계산; bash syntax OK; 테스트 3케이스 PASS; 211서버 배포 ✅; 68서버=AADS 큐 배포 요청(SSH 권한 없음) |
 | v10.73 | 2026-03-08 | Claude Code (Sonnet4.6) | **KIS-290 03-10 장전 사전점검 9/9 PASS**: kis-v41-api 재시작+T-286 /api/v4/backtest/progress 200 확인(API Key 필요); strategy_cards=60/OPEN=0/mock_trades=184건/avg-0.622%; DQI 주말예외 Grade A; 크론 5종 확인; KIS 토큰 갱신(모의계좌)/Redis PONG/FunnelScore=0.35 Fail-Open=0.5; trading41.newtalk.kr+trades.html 200; 보고서 CUR-V41-0310-PRECHECK-001-20260308.md GitHub raw 200 |
 | v10.71 | 2026-03-08 | Claude Code (Sonnet4.6) | **KIS-001 CONTEXT.md v11.1 종합 업데이트**: §6.5 GO100 연동 아키텍처(3대 브릿지/안전수칙/Phase현황) 신규; §8.5 백테스트 엔진 현황(backtest_engine_v2+replay/분봉리플레이6모듈/Look-ahead차단4항목/청산5모드/비용모델) 신규; §8.8 API 엔드포인트 상태표(200OK 4개/401 1그룹/접근불가3개/미응답3개) 신규; §8.9 trades.html Known Issues(Nginx proxy 미설정 → KIS-002) 신규; §8.10 stock_name null 이슈(→ KIS-003) 신규; §9 작업큐에 KIS-002/KIS-003 P0/P1 추가; §10.5 03-10 모의매매 체크리스트(6항목) 신규; §6 FunnelScore Fail-Open 모드 주석 추가; §14 design 문서 5건 URL 추가(FRACTAL-ARCH/GO100-INTEGRATION/DESK2-SPEC/SYS-FLOWCHART/REPLAY-BACKTEST); §15 버전이력 v10.63~v10.70 8건 보강; CEO-DIRECTIVES D-009 D1/D3/S2 RETIRED 표시(~~취소선~~ + RETIRED — D-011) |
 | v10.70 | 2026-03-08 | Claude Code (Sonnet4.6) | **T-283 문서 4계층 재구성**: CONTEXT.md v11.0(매니저 프로토콜+지시서 자동화+Task ID 전환)/CEO-DIRECTIVES v2.0(§0운영원칙/§5 AADS공통/§9-10자동화/§9-11자기인식)/KIS-HANDOVER-RULES.md 신규(9섹션) |
