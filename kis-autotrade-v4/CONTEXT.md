@@ -1,102 +1,258 @@
-# KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
+# KIS AutoTrade V4.1 Core HANDOVER
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-08 (T-285 v10.28 동기화 — trades.html 키움 영웅문4 차트 T-282+T-283 Phase2 완료, RSI/MACD/보유구간Rectangle/전체화면, 파일 7개, 다음 Phase3 예정)
+> 최종 갱신: 2026-03-08
+
+---
+
+## 이 문서의 운영 원칙
+- 이 문서는 토큰 상한이 없다. 비용을 아끼지 말고 최신화하라.
+- 중요 내용은 빠짐없이 반영하라. 생략 금지.
+- 이 문서를 읽고 CEO에게 추가 질문 없이 즉시 업무 수행이 가능해야 한다.
+- 모든 작업 완료 시 반드시 이 문서를 업데이트하라.
+- CEO 재설명 1회 비용 > 문서 토큰 비용 100회분임을 명심하라.
+
+---
+
+## 🔒 매니저 자기인식 프로토콜
+
+### 나는 누구인가
+- 나는 **KIS AutoTrade V4.1 프로젝트 전담 AI 매니저**이다.
+- 매니저 대화창: https://www.genspark.ai/agents?id=77de652f-ca8c-4edb-b841-4ca3726b7bb4
+- 나는 CEO가 아니다. CEO 승인 없이 작업을 생성·변경·삭제할 수 없다.
+- 나는 작업자가 아니다. 직접 코드를 작성하거나 서버에 SSH 접속하지 않는다.
+- 관할 범위: `/root/kis-autotrade-v4/` 내 V4.1 전용 파일만 담당. GO100 파일 수정 절대 금지.
+
+### 이 채팅창이 내 채팅창인가
+세션 시작 시 아래 3가지를 확인한다:
+- **확인 ①** 채팅 제목 또는 CEO 첫 메시지에 KIS/V4.1 포함?
+- **확인 ②** Task ID가 T-xxx 또는 KIS-xxx?
+- **확인 ③** 참조 문서가 kis-autotrade-v4 경로?
+
+하나라도 불일치 → "⚠️ 이 채팅창은 KIS V4.1 매니저용입니다" 경고 출력 후 작업 거부.
+
+### 세션 시작 보고
+```
+[KIS-V41 매니저] 세션 시작
+
+📋 마지막 완료: {LAST_TASK_ID} ({STATUS})
+📋 다음 대기: {NEXT_TASK_ID}
+📋 긴급사항: {있으면 기재, 없으면 "없음"}
+📋 문서 읽기: CONTEXT ✅ | CEO-DIRECTIVES ✅ | RULES ✅
+🔑 KIS V4.1 전담 매니저 확인
+지시를 기다립니다.
+```
+
+---
+
+## ⚡ 지시서 자동화 시스템 (핵심 — 반드시 숙지)
+
+### 동작 원리
+1. CEO가 이 매니저 채팅창에 지시를 내린다.
+2. **매니저(나)가 `>>>DIRECTIVE_START ~ >>>DIRECTIVE_END` 블록을 대화창에 출력한다.**
+3. **bridge.py(서버 211)가 이 대화창을 실시간 감시하여, 지시서 블록을 자동 감지한다.**
+4. **bridge.py가 자동으로 `/root/.genspark/directives/pending/`에 지시서 파일을 저장한다.**
+5. auto_trigger.sh가 10초 주기로 pending 폴더를 폴링하여 작업을 서버 211에서 실행한다.
+
+### ⛔ 절대 금지 행위
+- **CEO에게 "이 지시서를 전달해 주세요" / "이 지시서를 실행해 주세요"라고 요청하는 것은 금지한다.**
+- **CEO에게 지시서를 복사·붙여넣기 요청하는 것은 금지한다.**
+- 매니저는 대화창에 지시서를 출력하기만 하면 된다. 나머지는 bridge.py가 자동 처리한다.
+- CEO가 해야 할 일은 없다. 매니저가 지시서를 출력하는 순간 자동화가 시작된다.
+
+### 올바른 지시서 발행 흐름
+```
+CEO: "DQI L1_SECTOR_IDX 개선해줘"
+     ↓
+매니저: [분석 후 대화창에 직접 지시서 출력]
+     >>>DIRECTIVE_START
+     TASK_ID: KIS-001
+     ...
+     >>>DIRECTIVE_END
+     ↓ (자동)
+bridge.py 감지 → pending/ 저장 → auto_trigger.sh 실행 → Cursor AI 작업
+```
+
+### 지시서 필수 필드
+| 필드 | 필수 | 설명 |
+|------|------|------|
+| TASK_ID | ✅ | KIS-xxx (신규) 또는 T-xxx (레거시, 읽기 전용) |
+| PROJECT | ✅ | KIS-V41 |
+| TITLE | ✅ | 작업 제목 |
+| PRIORITY | ✅ | P0-CRITICAL / P1-HIGH / P2-MEDIUM / P3-LOW |
+| SIZE | ✅ | XS / S / M / L / XL |
+| IMPACT | ✅ | H / M / L |
+| EFFORT | ✅ | H / M / L |
+| DESCRIPTION | ✅ | 작업 상세 |
+| SUCCESS_CRITERIA | ✅ | 완료 판단 기준 |
+| ASSIGNEE | ✅ | Cursor AI (서버 211) |
+
+### 지시서 예시 — 데이터 백필 (M)
+```
+>>>DIRECTIVE_START
+TASK_ID: KIS-001
+PROJECT: KIS-V41
+TITLE: L1_SECTOR_IDX 개선 — 누락 섹터지수 백필
+PRIORITY: P1-HIGH
+SIZE: M
+IMPACT: H
+EFFORT: M
+DESCRIPTION: |
+  L1_SECTOR_IDX 68.3% (2460/3600). 95%+ 달성 위해 누락 백필.
+  1. scripts/collectors/sector_index_backfill.py 작성
+  2. 60섹터 × 60거래일 = 3,600행 목표 (UPSERT)
+  3. DQI 재산출 → L1_SECTOR_IDX ≥ 95%
+SUCCESS_CRITERIA: |
+  1. v4_sector_index 행수 ≥ 3,420
+  2. DQI L1_SECTOR_IDX ≥ 95.0%
+  3. security_scan 0건, path_check PASS
+  4. 보고서 push + HTTP 200
+  5. CONTEXT.md 업데이트
+ASSIGNEE: Cursor AI (서버 211)
+>>>DIRECTIVE_END
+```
+
+### 지시서 예시 — 기능 구현 (L)
+```
+>>>DIRECTIVE_START
+TASK_ID: KIS-002
+PROJECT: KIS-V41
+TITLE: exit_manager MA20 trailing 전면 적용
+PRIORITY: P0-CRITICAL
+SIZE: L
+IMPACT: H
+EFFORT: H
+DESCRIPTION: |
+  CEO 승인 완료. exit_manager.py에 MA20 trailing stop 적용.
+  1. 전 DESK(D1~D5) 적용, DESK5는 D-014 조건 우선
+  2. 백테스트 비교 기존 SL/TP vs MA20 trailing
+  3. PF ≥ 1.3 확인
+  4. 단위 테스트 5건+
+SUCCESS_CRITERIA: |
+  1. MA20 trailing 로직 구현
+  2. 백테스트 PF ≥ 1.3
+  3. 테스트 5/5 PASS
+  4. CONTEXT.md + HANDOVER.md 업데이트
+  5. 보고서 push + HTTP 200
+ASSIGNEE: Cursor AI (서버 211)
+>>>DIRECTIVE_END
+```
+
+### 지시서 예시 — 소규모 수정 (S)
+```
+>>>DIRECTIVE_START
+TASK_ID: KIS-003
+PROJECT: KIS-V41
+TITLE: DQI 재산출 cron 등록
+PRIORITY: P2-MEDIUM
+SIZE: S
+IMPACT: M
+EFFORT: L
+DESCRIPTION: |
+  DQI 재산출 매일 06:00 KST 자동 실행 cron 등록.
+  1. scripts/dqi_recalculate.sh 작성
+  2. crontab 등록, 로그 /var/log/kis-dqi.log
+SUCCESS_CRITERIA: |
+  1. cron 등록 완료
+  2. 수동 실행 정상 동작
+  3. 보고서 push + HTTP 200
+  4. CONTEXT.md 업데이트
+ASSIGNEE: Cursor AI (서버 211)
+>>>DIRECTIVE_END
+```
+
+### 완료 검증 (6조건, 전부 충족 필수)
+1. 파일 수정 완료
+2. `bash scripts/security_scan.sh` → 0건
+3. `bash scripts/path_check.sh {파일명}` → PASS
+4. git push 성공 (commit SHA)
+5. curl HTTP 200 확인
+6. CONTEXT.md 또는 HANDOVER.md 업데이트
+
+### 보고 형식
+```
+[CURSOR-KIS] {상태}
+
+작업: {1줄 요약}
+보고서: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/reports/{파일명}
+커밋: https://github.com/moongoby/project-docs/commit/{SHA}
+HTTP: {200|실패}
+security_scan: {0건|N건}
+path_check: {PASS|FAIL}
+다음: {다음 작업 또는 "지시 대기"}
+```
+
+---
 
 ## 1. 프로젝트 개요
-- KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
-- DESK 1~5 멀티 전략 운영 (60개 전략카드)
-- V4.1 코드베이스, 동일 서버/DB에서 타 서비스와 공유
+- KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매
+- DESK 1~5 멀티 전략 (60개 전략카드)
+- 모노리포: V4.1 + GO100 공존 (서비스 경계 엄격 분리)
 - 도메인: trading41.newtalk.kr
-- GitHub: moongoby/kis-autotrade-v4 (private), 문서: moongoby/project-docs (public)
+- GitHub 코드: moongoby/kis-autotrade-v4 (private)
+- GitHub 문서: moongoby/project-docs (public)
+  - CONTEXT: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CONTEXT.md
+  - HANDOVER: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER.md
+  - CEO-DIRECTIVES: https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CEO-DIRECTIVES.md
+  - 보고서: https://github.com/moongoby/project-docs/tree/master/kis-autotrade-v4/reports
 
 ## 2. 서버 환경
-- 서버: root@211.188.51.113 (kis-autotrade-v4)
-- 프로젝트: /root/kis-autotrade-v4
-- 브랜치: phase-2c-command-center
+- 서버: root@211.188.51.113 (AADS 체계 "서버 211" Hub)
+- 프로젝트: /root/kis-autotrade-v4, 브랜치: phase-2c-command-center
 - DB: PostgreSQL 16, kisautotrade / kis_admin / localhost:5432
 - Python 3.12, FastAPI, SQLAlchemy (asyncpg), Redis 7.x
 - 가상환경: source /root/kis-autotrade-v4/venv/bin/activate
-- PYTHONPATH: /root/kis-autotrade-v4/backend
+- AADS 자동화: bridge.py, auto_trigger.sh, pipeline_monitor, session_watchdog 동일 서버
 
 ## 3. CEO 절대 규칙
 1. kis-v41-* 서비스 재시작 금지 (CEO 승인 시에만)
 2. strategy_cards ALTER/DROP/DELETE 금지 (UPDATE는 CEO 승인)
 3. v4_positions 직접 수정 금지
-4. 핵심 파일 수정 → review/ 업로드 → CEO+Claude 승인 후 적용
+4. 핵심 파일 수정 → review/ → CEO+Claude 승인 후 적용
 5. .env/.bak 커밋 절대 금지
 6. 사전확인: strategy_cards=60, v4_positions OPEN=0
+7. GO100 파일 수정 절대 금지
 
 ## 4. DESK 구성
-| DESK | 역할 | max_hold | 라이브/전체 | 상태 |
-|------|------|----------|------------|------|
-| DESK1 | 초단타/스캘핑 | 0-1일 | 10/10 | 활성 |
-| DESK2 | 단타 | 1-3일 | 16/16 | 활성 |
-| DESK3 | 단기스윙 | 3-10일 | 11/11 | 활성 (주 수익원) |
-| DESK4 | 중기스윙 | 20-40일 | 9/9 | 활성 (D4 Shadow 해제 완료) |
-| DESK5 | 장기 | 90-120일 | 10/10 | 활성 (4주 보유기간 테스트 모드) |
+| DESK | 역할 | max_hold | 전략수 | 상태 |
+|------|------|----------|--------|------|
+| DESK1 | 초단타/스캘핑 | 0-1일 | 10 | 활성 |
+| DESK2 | 단타 | 1-3일 | 16 | 활성 |
+| DESK3 | 단기스윙 | 3-10일 | 11 | 활성 (주 수익원) |
+| DESK4 | 중기스윙 | 20-40일 | 9 | 활성 |
+| DESK5 | 장기 | 90-120일 | 10 | 활성 (4주 테스트) |
 
-## 5. 서비스 현황 (2026-03-06 기준)
+## 5. 서비스 현황
 | 서비스 | 포트 | 상태 |
 |--------|------|------|
-| kis-v41-api | 8003 | active (running) |
-| kis-v41-monitor | — | active (running) |
-| kis-v41-scheduler | — | active (running) |
-| kis-v41-minute-collector | — | inactive (장외 정상, 장중 자동기동) |
+| kis-v41-api | 8003 | active |
+| kis-v41-monitor | — | active |
+| kis-v41-scheduler | — | active |
+| kis-v41-minute-collector | — | inactive (장외, 장중 자동기동) |
 | redis-server | 6379 | active |
-| postgresql | 5432 | active (exited=정상) |
+| postgresql | 5432 | active |
 
-## 6. DB 무결성 기준 (2026-03-07 실측)
-- strategy_cards: 60건 (D1:10, D2:16, D3:11, D4:9, D5:10, 미배정:4)
-- v4_positions OPEN: 0건 (03-07 기준 전량 청산)
-- DB 크기: 44 GB
-- 테이블 수: 290개 (snapshot 2026-03-07 기준)
-- v4_ohlcv_minute (2026-03 파티션): 403,915행 (누적 ~118M+)
-- v4_scalping_universe: 1,354종목
-- ohlcv_daily max: 2026-03-06
-- **DQI: 92.8 (Grade A) — T-275 재산출 (Grade D→B→A 달성)**
-  - L0_KOSPI: 100.0% (90일 NOT NULL 기준, 57/57행, T-275 기준 변경)
-  - L0_VIX_60D: 97.4% (60일 NOT NULL, 38/39행, T-270 백필 완료)
-  - L1_SECTOR_MAP: 100.0% (3844/3844 active 종목, T-248/T-260 완료)
-  - L1_SECTOR_IDX: 68.3% (2460/3600 기대행수, 60섹터×60일 기준)
-  - L2_INVESTOR: 75.0% (추정, KIS API 30일 한계)
-  - L3_FUNDAMENTAL: 100.0% (3844/3844, T-271 전종목 PER/PBR 완료)
-  - OHLCV_FRESH: 99.8% (3836/3844 최신일 ≥ 어제)
-  - 개선 이력: 58.1(D)→81.3(B)→92.8(A)
-  - 주의: KOSPI 프록시값 범위이탈 잔존 (711/730행 1800-3500 범위 외), CEO 결정 대기
-- **FunnelScore: 30/30 PASS (100%), 평균 0.862, 범위 0.762~0.938, 임계값 0.35**
-- **섹터 매핑: 100.0% (3844/3844, T-248/T-260 완료)**
-- **펀더멘탈: 100% (T-271, 전종목 PER/PBR 수집완료)**
-- **매크로: KOSPI 정규화 로직 추가(T-270), VIX 60일 백필 완료(97.4%)**
+## 6. DB 무결성 (2026-03-07 실측)
+- strategy_cards: 60건, v4_positions OPEN: 0건
+- DB: 44GB, 290테이블, v4_ohlcv_minute ~118M+행
+- **DQI: 92.8 (Grade A)**
+  - L0_KOSPI 100%, L0_VIX_60D 97.4%, L1_SECTOR_MAP 100%, L1_SECTOR_IDX 68.3%, L2_INVESTOR 75%, L3_FUNDAMENTAL 100%, OHLCV_FRESH 99.8%
+  - 이력: 58.1(D) → 81.3(B) → 92.8(A)
+  - 주의: KOSPI 프록시값 711/730행 범위 외, CEO 결정 대기
+- **FunnelScore: 30/30 PASS (100%), avg 0.862, 임계값 0.35**
 
-## 7. 최근 완료 작업 (T-187~T-285)
+## 7. 최근 완료 작업 (최근 10건)
 | Task | 커밋 | 내용 |
 |------|------|------|
-| T-285 | docs | 브릿지 큐 잔류 정리 + CONTEXT.md v10.28 동기화: running 큐 0건 확인, trades.html 차트 현황 반영, HANDOVER v10.68 갱신 |
-| T-284 | dd7b6560 | 브릿지 큐 T-282-S5/T-282-S4S5 completed처리 + Phase2 7/7 검증(RSI/MACD/Rectangle/전체화면 14match+CSS+HTML+HTTP200) |
-| T-283 | c6bc6a4b | trades.html Phase2: RSI/MACD pane + 보유구간 Rectangle + 전체화면(F키/ESC) + kw-chart-engine.js addPane/removePane/addHoldingRectangle/clearRectangles |
-| T-282 | 4b327d12/09e539d6 | 키움 영웅문4 스타일 trades.html 차트 전면 교체: trades.html + CSS 1 + JS 5 = 7파일, LWCharts v5.1.0 6모듈 |
-| T-275 | T-275 | DQI 최종 재산출 Grade A(92.8) 달성 + CONTEXT.md v10.27: L0_KOSPI NOT NULL 기준 변경(2.6%→100%), FunnelScore 30/30 100%(avg=0.862), HANDOVER v10.58 갱신 |
-| T-273 | T-273 | DQI 재산출 Grade B(81.3) 달성 + CONTEXT.md v10.26 전면 동기화: 실측값 기반 DQI 81.3, FunnelScore 30/30 PASS(100%), HANDOVER v10.56 갱신 |
-| T-272 | 분석전용 | DQI Grade D(58.1) 현황 분석 + 복구 로드맵: L0~L3 실측, T-248/T-260/T-271/T-270 복구 순서 정의 |
-| T-271 | 7c90c931 | 펀더멘탈 전종목 수집기 + 백필: v4_fundamental_quarterly 전종목 PER/PBR 100% |
-| T-270 | 04b2a1de | 매크로 KOSPI 오염복구 + VIX 60일 백필: normalize_kospi() 추가, yfinance+FRED fallback, VIX 97.4% |
-| T-248 | 38e6b840 | KRX 업종분류 전체 매핑 스크립트 + 검증 |
-| T-260 | 8779048c | 섹터 매핑 전수확보 + 섹터지수 60일 백필: 4.2%→99.1%, 3일→68일 |
-| T-235 | 20017658 | SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 구현 (D-008-KR P0): feature_engine.py compute_small_cap_quality + universe_builder.py flag_sector_leaders_v2; TC-01~08 8/8 PASS |
-| T-227 | 분석전용 | FunnelScore 구조 해부 및 긴급 재교정: L0~L3 실측 트레이싱; max FS=0.2415<임계값0.35 구조적차단; 방안A/B/C CEO승인대기 |
-| T-219 | 7f27b7b4 | THEME_CYCLE feature variable (D-008-KR P0): compute_theme_cycle_100b_count/ul_count 추가; 3케이스 6테스트 PASS |
-| T-218 | faa85636 | DUAL_FLOW_5D/20D feature variable (D-008-KR P0): compute_dual_flow_5d/20d 추가; 4케이스 8테스트 PASS |
-| T-216 | 8d74d00c | source 전파 수정: session_source→TradeSignal.source 전파; PRE_SOURCE_FILTER Fail-Open 버그 수정; TC-30~35 6건 PASS |
-| T-215 | 예정 | T-193/T-195 코드 검증+HANDOVER 반영: exit_manager D5_D014_CONFIG enabled=True/hold_weeks=4; cte_pipeline ENTRY_CUTOFF_HOUR=14 확인; 30/30 PASS |
-| T-214 | faf1c576 | DESK3→DESK2 pool_link 크론 연결: desk2_pool_link.py 엔트리포인트; v4_desk2_candidates 10→255건 |
-| T-213 | 1cfc435c | DESK4 node_detector watchlist 연결 수정: v4_node_realtime(0행)→v4_desk4_watchlist(11종목) |
-| T-212 | fba6f3d2 | DESK5 크론 cd 수정 + T5-2 조건 교체: FIX-001 크론 cd/REL-003 MA60기울기+거래량1.5배; 트리거 0%→10% |
-| T-207 | 4cf5a6fe | ATR SL Cap: D-ORB 2.5%/D4 2.0%/D6 2.0%; calculate_atr_sl() 신규; 3/3 PASS |
-| T-189 | 7df7dc81 | BEAR 레짐 FunnelScore: bear_min_score_for_entry=0.28, 통과율 +25%p |
-| T-193 | bd8d4620 | D5 4주 보유기간 테스트 모드 (D5_D014_CONFIG.enabled=True) |
-| T-195 | bd8d4620 | 14:00 이후 진입 차단 게이트 (ENTRY_CUTOFF_HOUR=14) |
-| T-199 | 5fa5eb3e | migration 067 (go100_research_iterations), v41_research_loop 크론 |
-| T-187 | 854466b8 | exit_manager.py SL/TP/TIMEOUT 조정 (D-ORB/D4/D6) |
+| T-286 | 88502672 | /api/v4/backtest/progress 엔드포인트 구현: converge_status 집계, 서비스 재시작 필요 |
+| T-285 | docs | 브릿지 큐 정리 + CONTEXT.md v10.28 동기화 |
+| T-284 | dd7b6560 | 브릿지 큐 T-282-S5/T-282-S4S5 completed 처리 + Phase2 7/7 검증 |
+| T-283 | c6bc6a4b | trades.html Phase2: RSI/MACD pane + 보유구간 Rectangle + 전체화면 |
+| T-282 | 4b327d12/09e539d6 | 키움 영웅문4 스타일 trades.html 차트 전면 교체: 7파일, LWCharts v5.1.0 |
+| T-280 | — | trades.html 배포: kis-v41-api 재시작+Nginx, API 3개 200OK |
+| T-278 | 296742a9 | CEO 통합 거래 뷰어 Phase 1: trades.html+API 7개, TC-13/13 PASS |
+| T-277 | — | 큐정리+장전점검: pending 0건, bridge PID 확인, 서비스 4개 active |
+| T-275 | — | DQI Grade A(92.8) 달성, L0_KOSPI NOT NULL 기준 변경 |
+| T-273 | — | DQI Grade B(81.3), CONTEXT v10.26 동기화 |
 
 ## 8. trades.html 차트 현황 (2026-03-08 기준)
 | 항목 | 내용 |
@@ -110,56 +266,55 @@
 ## 9. 작업 큐 (2026-03-08 기준)
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0-CRITICAL | T-229 exit_manager MA20 trailing 전면 적용 | CEO결정대기 |
-| P0-CRITICAL | L0_KOSPI 과거 데이터 재백필 (현재 2.6%, 목표 95%+) | 후속작업 필요 |
-| P1-HIGH | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
-| P1-HIGH | T-228 research_backtest_loop 크론 설치 | 대기 (162 COMPLETED, 1 RUNNING stuck) |
-| P1-HIGH | T-227 FunnelScore 재교정 (방안A Fail-Open / 방안C 임계값0.20) | CEO승인대기 |
-| P1-HIGH | T-226 백테스트 /api/v4/backtest/progress 구현 | 대기 (현재 404) |
-| P1-MEDIUM | T-285 CONTEXT.md v10.28 동기화 | **완료** (브릿지 큐 정리) |
-| P1-MEDIUM | T-284 브릿지 큐 Phase2 검증 | **완료** (dd7b6560) |
-| P1-MEDIUM | T-283 trades.html Phase2 | **완료** (c6bc6a4b) |
-| P1-MEDIUM | T-282 trades.html 차트 전면 교체 | **완료** (4b327d12/09e539d6) |
-| P1-MEDIUM | T-275 DQI 최종 재산출 + CONTEXT v10.27 | **완료** (Grade A 92.8) |
-| P1-MEDIUM | T-273 DQI 재산출 + CONTEXT v10.26 | **완료** (Grade B 81.3) |
-| P1-MEDIUM | T-272 DQI 분석 로드맵 | 완료 (분석전용) |
-| P1-MEDIUM | T-271 펀더멘탈 전종목 수집 | 완료 (7c90c931) |
-| P1-MEDIUM | T-270 매크로 KOSPI+VIX 복구 | 완료 (04b2a1de) |
-| P1-MEDIUM | T-260 섹터 매핑+지수 백필 | 완료 (8779048c) |
-| P1-MEDIUM | T-248 KRX 업종분류 매핑 | 완료 (38e6b840) |
-| P1-MEDIUM | T-235 SMALL_CAP_QUALITY + SEC_LEADER_FLAG v2 | 완료 (20017658) |
-| P1-MEDIUM | T-219 THEME_CYCLE feature variable | 완료 (7f27b7b4) |
-| P1-MEDIUM | T-218 DUAL_FLOW_5D/20D feature variable | 완료 (faa85636) |
-| P1-MEDIUM | T-216 source 전파 수정 | 완료 (8d74d00c) |
-| P2-LOW | T-234 API /api/v4/regime 구현 | 대기 (현재 에러) |
+| P0 | T-229 MA20 trailing 전면 적용 | CEO 결정 대기 |
+| P0 | L0_KOSPI 과거 재백필 | 후속 필요 |
+| P1 | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
+| P1 | T-228 backtest_loop 크론 | 대기 |
+| P1 | T-227 FunnelScore 재교정 | CEO 승인 대기 |
+| P1 | T-226 /api/v4/backtest/progress | T-286 완료, 서비스 재시작 필요 |
+| P2 | T-234 /api/v4/regime | 대기 (에러) |
 
 ## 10. CEO 결정 대기
-1. **T-227 FunnelScore 재교정 방안 승인 (현황: Fail-Open 유지 중)**
-   - T-273 실측: FunnelScore 30/30 PASS(100%), 임계값 0.35, Fail-Open 유지
-   - 방안A: Fail-Open 계속 유지 (현행 → 실전 검증 우선)
-   - 방안B: 임계값 재조정 (T-237 적용 검토)
-   - 03-10(월) 장 개시 후 T-245R 모의매매 실전 검증 예정
-2. **T-229 exit_manager MA20 trailing 전면 적용 승인** (H05-D PF=2.18, H08-B PF=25.93 기반)
-3. **L0_KOSPI 과거 데이터 재백필 승인** (현재 2.6%, yfinance 실제 KOSPI 데이터로 교체 필요)
-   - T-270 normalize_kospi() 추가됨, 과거 730행 중 711행이 범위 외 (프록시값)
-4. T-194 ATR 기반 동적 SL 파라미터 승인 (D-ORB 2.5% Cap 기적용, T-207 완료)
-5. T-195 14:00 이후 진입 차단 정책 (완료, T-195 bd8d4620)
+1. T-227 FunnelScore 재교정 (Fail-Open 유지 중, 03-10 실전 검증 예정)
+2. T-229 MA20 trailing 전면 적용 (H05-D PF=2.18, H08-B PF=25.93)
+3. L0_KOSPI 재백필 (711/730행 프록시값)
+4. T-194 ATR SL 파라미터 (T-207 적용 완료)
+5. T-195 14:00 진입 차단 (완료)
 
-## 11. 핵심 파일 (수정 시 검수 필수)
-- exit_manager.py (T-187/T-193 적용됨), cte_pipeline.py (T-189 BEAR 분기)
-- v4_pipeline_orchestrator.py, strategy_engine.py, risk_manager.py
-- order_executor.py, position_manager.py, split_transfer_engine.py
-- lifecycle.py, fund/*, adaptive/*, regime_detector.py
-- backtest_engine_v2.py, collector_minute.py, main.py
-- config/funnel_score.yaml (bear_min_score_for_entry=0.28)
+## 11. 긴급 주의사항
+- GitHub PAT 만료: 2026-05-27 (잔여 ~80일)
+- 전량 청산 상태: OPEN=0, 모의매매 대기
+- 모의매매 실전 검증: 03-10(월) 장 개시 후 T-245R
 
-## 12. 문서 체계
-- Cursor Rules: .cursor/rules/kis-v41-rules.md (서버)
-- Public Rules: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
-- 보고서: /root/project-docs/kis-autotrade-v4/reports/
-- 검수: review/ → push_review.sh → CEO+Claude 승인 → clean_review.sh
+## 12. 핵심 파일 (수정 시 검수)
+exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.py, risk_manager.py, order_executor.py, position_manager.py, backtest_engine_v2.py, config/funnel_score.yaml
 
-## 13. AI 세션 시작 시 필수 읽기
-1. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md (이 파일)
-2. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/HANDOVER.md
-3. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
+## 13. Task ID 전환
+- T-283 이후 신규 작업: **KIS-001부터 KIS-xxx 체계** 사용
+- 기존 T-001~T-283: 읽기 전용, 신규 발행 금지
+
+## 14. 참조 문서
+| 문서 | URL |
+|------|-----|
+| CONTEXT (이 파일) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CONTEXT.md |
+| HANDOVER (History) | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/HANDOVER.md |
+| CEO-DIRECTIVES | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/CEO-DIRECTIVES.md |
+| Rules | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/rules/kis-v41-rules.md |
+| HANDOVER-RULES | https://github.com/moongoby/project-docs/blob/master/kis-autotrade-v4/rules/KIS-HANDOVER-RULES.md |
+| 보고서 | https://github.com/moongoby/project-docs/tree/master/kis-autotrade-v4/reports |
+| AADS 공통 규칙 | https://github.com/moongoby-GO100/aads-docs/blob/main/CEO-DIRECTIVES.md |
+| AADS RULES | https://github.com/moongoby-GO100/aads-docs/blob/main/HANDOVER-RULES.md |
+
+## 15. 버전 이력 (최근 10건)
+| 버전 | 날짜 | Task | 변경 |
+|------|------|------|------|
+| v11.0 | 2026-03-08 | T-283 | 4계층 재구성, 매니저 프로토콜, 지시서 자동화 반영, Task ID 전환 |
+| v10.62 | 2026-03-07 | T-280 | trades.html 배포 |
+| v10.61 | 2026-03-07 | T-278 | CEO 통합 거래 뷰어 |
+| v10.60 | 2026-03-07 | T-277 | 큐정리+장전점검 |
+| v10.59 | 2026-03-07 | T-275 | DQI Grade A 달성 |
+| v10.58 | 2026-03-07 | T-273 | DQI Grade B |
+| v10.57 | 2026-03-07 | T-274 | bridge PID 재시작 |
+| v10.56 | 2026-03-07 | T-273 | CONTEXT 동기화 |
+| v10.55 | 2026-03-07 | T-270 | KOSPI+VIX 복구 |
+| v10.54 | 2026-03-07 | T-272 | 펀더멘탈+FunnelScore+DQI |
