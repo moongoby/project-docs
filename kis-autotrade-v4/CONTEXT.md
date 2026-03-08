@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 프로젝트 컨텍스트 (Claude PM용)
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-07 (T-275 v10.27 동기화 — DQI Grade A(92.8) 달성, DB 44GB, 290테이블, T-275 DQI 재산출+CONTEXT 동기화, FunnelScore 30/30 PASS(100%), L0_KOSPI NOT NULL 기준 변경)
+> 최종 갱신: 2026-03-08 (T-285 v10.28 동기화 — trades.html 키움 영웅문4 차트 T-282+T-283 Phase2 완료, RSI/MACD/보유구간Rectangle/전체화면, 파일 7개, 다음 Phase3 예정)
 
 ## 1. 프로젝트 개요
 - KIS AutoTrade V4.1: 한국투자증권 API 기반 AI 자동매매 시스템
@@ -68,9 +68,13 @@
 - **펀더멘탈: 100% (T-271, 전종목 PER/PBR 수집완료)**
 - **매크로: KOSPI 정규화 로직 추가(T-270), VIX 60일 백필 완료(97.4%)**
 
-## 7. 최근 완료 작업 (T-187~T-273)
+## 7. 최근 완료 작업 (T-187~T-285)
 | Task | 커밋 | 내용 |
 |------|------|------|
+| T-285 | docs | 브릿지 큐 잔류 정리 + CONTEXT.md v10.28 동기화: running 큐 0건 확인, trades.html 차트 현황 반영, HANDOVER v10.68 갱신 |
+| T-284 | dd7b6560 | 브릿지 큐 T-282-S5/T-282-S4S5 completed처리 + Phase2 7/7 검증(RSI/MACD/Rectangle/전체화면 14match+CSS+HTML+HTTP200) |
+| T-283 | c6bc6a4b | trades.html Phase2: RSI/MACD pane + 보유구간 Rectangle + 전체화면(F키/ESC) + kw-chart-engine.js addPane/removePane/addHoldingRectangle/clearRectangles |
+| T-282 | 4b327d12/09e539d6 | 키움 영웅문4 스타일 trades.html 차트 전면 교체: trades.html + CSS 1 + JS 5 = 7파일, LWCharts v5.1.0 6모듈 |
 | T-275 | T-275 | DQI 최종 재산출 Grade A(92.8) 달성 + CONTEXT.md v10.27: L0_KOSPI NOT NULL 기준 변경(2.6%→100%), FunnelScore 30/30 100%(avg=0.862), HANDOVER v10.58 갱신 |
 | T-273 | T-273 | DQI 재산출 Grade B(81.3) 달성 + CONTEXT.md v10.26 전면 동기화: 실측값 기반 DQI 81.3, FunnelScore 30/30 PASS(100%), HANDOVER v10.56 갱신 |
 | T-272 | 분석전용 | DQI Grade D(58.1) 현황 분석 + 복구 로드맵: L0~L3 실측, T-248/T-260/T-271/T-270 복구 순서 정의 |
@@ -94,14 +98,28 @@
 | T-199 | 5fa5eb3e | migration 067 (go100_research_iterations), v41_research_loop 크론 |
 | T-187 | 854466b8 | exit_manager.py SL/TP/TIMEOUT 조정 (D-ORB/D4/D6) |
 
-## 8. 작업 큐 (2026-03-07 기준)
+## 8. trades.html 차트 현황 (2026-03-08 기준)
+| 항목 | 내용 |
+|------|------|
+| 기반 | LightweightCharts v5.1.0 (키움 영웅문4 스타일) |
+| 파일 구성 | trades.html + kw-chart-engine.css + kw-chart-engine.js + kw-chart-data.js + kw-chart-controls.js + kw-chart-indicators.js + kw-chart-trades.js (총 7파일) |
+| Phase1 (T-282) | 기본 캔들차트 + 매매신호 오버레이 (09e539d6/4b327d12) |
+| Phase2 (T-283) | RSI pane(14기간/70·30 수평선) + MACD pane(12/26/9) + 보유구간 Rectangle + 전체화면(F키/ESC) (c6bc6a4b) |
+| 다음 예정 | Phase3: 자동추세선, 거래량프로파일(VP), 분봉 실시간 연동 |
+
+## 9. 작업 큐 (2026-03-08 기준)
 | 순위 | 작업 | 상태 |
 |------|------|------|
 | P0-CRITICAL | T-229 exit_manager MA20 trailing 전면 적용 | CEO결정대기 |
 | P0-CRITICAL | L0_KOSPI 과거 데이터 재백필 (현재 2.6%, 목표 95%+) | 후속작업 필요 |
+| P1-HIGH | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
 | P1-HIGH | T-228 research_backtest_loop 크론 설치 | 대기 (162 COMPLETED, 1 RUNNING stuck) |
 | P1-HIGH | T-227 FunnelScore 재교정 (방안A Fail-Open / 방안C 임계값0.20) | CEO승인대기 |
 | P1-HIGH | T-226 백테스트 /api/v4/backtest/progress 구현 | 대기 (현재 404) |
+| P1-MEDIUM | T-285 CONTEXT.md v10.28 동기화 | **완료** (브릿지 큐 정리) |
+| P1-MEDIUM | T-284 브릿지 큐 Phase2 검증 | **완료** (dd7b6560) |
+| P1-MEDIUM | T-283 trades.html Phase2 | **완료** (c6bc6a4b) |
+| P1-MEDIUM | T-282 trades.html 차트 전면 교체 | **완료** (4b327d12/09e539d6) |
 | P1-MEDIUM | T-275 DQI 최종 재산출 + CONTEXT v10.27 | **완료** (Grade A 92.8) |
 | P1-MEDIUM | T-273 DQI 재산출 + CONTEXT v10.26 | **완료** (Grade B 81.3) |
 | P1-MEDIUM | T-272 DQI 분석 로드맵 | 완료 (분석전용) |
@@ -115,7 +133,7 @@
 | P1-MEDIUM | T-216 source 전파 수정 | 완료 (8d74d00c) |
 | P2-LOW | T-234 API /api/v4/regime 구현 | 대기 (현재 에러) |
 
-## 9. CEO 결정 대기
+## 10. CEO 결정 대기
 1. **T-227 FunnelScore 재교정 방안 승인 (현황: Fail-Open 유지 중)**
    - T-273 실측: FunnelScore 30/30 PASS(100%), 임계값 0.35, Fail-Open 유지
    - 방안A: Fail-Open 계속 유지 (현행 → 실전 검증 우선)
@@ -127,7 +145,7 @@
 4. T-194 ATR 기반 동적 SL 파라미터 승인 (D-ORB 2.5% Cap 기적용, T-207 완료)
 5. T-195 14:00 이후 진입 차단 정책 (완료, T-195 bd8d4620)
 
-## 10. 핵심 파일 (수정 시 검수 필수)
+## 11. 핵심 파일 (수정 시 검수 필수)
 - exit_manager.py (T-187/T-193 적용됨), cte_pipeline.py (T-189 BEAR 분기)
 - v4_pipeline_orchestrator.py, strategy_engine.py, risk_manager.py
 - order_executor.py, position_manager.py, split_transfer_engine.py
@@ -135,13 +153,13 @@
 - backtest_engine_v2.py, collector_minute.py, main.py
 - config/funnel_score.yaml (bear_min_score_for_entry=0.28)
 
-## 11. 문서 체계
+## 12. 문서 체계
 - Cursor Rules: .cursor/rules/kis-v41-rules.md (서버)
 - Public Rules: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
 - 보고서: /root/project-docs/kis-autotrade-v4/reports/
 - 검수: review/ → push_review.sh → CEO+Claude 승인 → clean_review.sh
 
-## 12. AI 세션 시작 시 필수 읽기
+## 13. AI 세션 시작 시 필수 읽기
 1. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md (이 파일)
 2. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/HANDOVER.md
 3. https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/rules/kis-v41-rules.md
