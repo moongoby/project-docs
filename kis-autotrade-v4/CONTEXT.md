@@ -60,6 +60,17 @@ KIS V4.1 전담 매니저 확인. 지시를 기다립니다.
 ### §2.3 지시서 필수 필드
 TASK_ID(KIS-xxx), PROJECT(KIS-V41), TITLE, PRIORITY(P0~P3), SIZE(XS~XL), IMPACT(H/M/L), EFFORT(H/M/L), DESCRIPTION, SUCCESS_CRITERIA, ASSIGNEE(Cursor AI 서버 211)
 
+### §2.6 claude_exec.sh SIZE별 타이머 (KIS-291 반영, 2026-03-08)
+SIZE 필드 기반 차등 타이머 (지시서에 SIZE 필드 필수 기입):
+| SIZE | 타이머 | 용도 |
+|------|--------|------|
+| XS   | 1200s (20분) | 단순 조회/확인 |
+| S    | 1200s (20분) | 소규모 수정 1~2파일 |
+| M    | 2400s (40분) | 중규모 구현 3~5파일 |
+| L    | 3600s (60분) | 대규모 구현 6파일+ |
+| XL   | 5400s (90분) | 복잡한 멀티스텝 작업 |
+| 미지정 | 2400s (기본값, 구 1200s에서 상향) |
+
 ### §2.4 완료 검증 6조건 (전부 충족 필수)
 1. 파일 수정 완료
 2. bash scripts/security_scan.sh → 0건
@@ -155,7 +166,7 @@ DESK5 익절 곡선: +100% → 원금 회수, +300% → 50% 추가 익절, +500%
 
 | 서비스 | 포트 | 상태 |
 |--------|------|------|
-| kis-v41-api | 8003 | active |
+| kis-v41-api | 8003 | active (재시작 2026-03-08 12:31, T-286 반영) |
 | kis-v41-monitor | — | active |
 | kis-v41-scheduler | — | active |
 | kis-v41-minute-collector | — | inactive (장외, 장중 자동기동) |
@@ -205,10 +216,12 @@ GO100 매니저: https://www.genspark.ai/agents?id=167071cf-c8b5-476a-8953-6168d
 | Phase2 (T-283) | RSI pane(14기간/70·30 수평선) + MACD pane(12/26/9) + 보유구간 Rectangle + 전체화면(F키/ESC) (c6bc6a4b) |
 | 다음 예정 | Phase3: 자동추세선, 거래량프로파일(VP), 분봉 실시간 연동 |
 
-### §10.1 trades.html Known Issues
-- HTML 로드 성공, 차트 데이터 미표시 (MA 전부 "-", 거래 목록 빈칸)
-- 원인: /api/chart-data, /api/stocks/search, /api/trades/unified — 3개 API Nginx proxy 미설정
-- 해결 방안: Nginx에 proxy_pass http://127.0.0.1:8003 추가 필요
+### §10.1 trades.html Known Issues (2026-03-08 업데이트)
+- **[해결] 빈화면**: KIS-295 → KIS-297 → KIS-298 순차 수정. 현재 trades.html 정상 로드.
+- **[해결] DOM ID 불일치**: kw-trade-list.js setDefaultDates() getElementById ID 수정 완료 (KIS-298)
+- **[해결] 한글 검색 400**: kw-chart-engine.js fetchSearch() 추가 (encodeURIComponent 처리), v4_trades_unified.py max_length=50/q.strip() 강화 (KIS-298)
+- **[대기] Nginx 프록시 미설정**: /api/chart-data, /api/stocks, /api/trades (비-v4 경로) — KIS-293 스크립트 생성 완료, root 실행 필요. 실제 경로 /api/v4/는 정상
+- **[대기] stock_name null**: backtest sessions/{id}/trades 응답에서 stock_name 전부 null — KIS-299 해결 예정
 
 ---
 
@@ -236,31 +249,39 @@ Look-ahead Bias 차단 (4항목): ①후보 D-1 일봉만 사용, ②진입 다�
 
 | 상태 | 엔드포인트 |
 |------|-----------|
+| 200 OK | /api/v4/backtest/progress (KIS-290 반영, 2026-03-08 12:31 재시작 후 활성화) |
 | 200 OK | /api/v4/backtest/sessions |
 | 200 OK | /api/v4/backtest/sessions/{id} |
 | 200 OK | /api/v4/backtest/sessions/{id}/trades |
 | 200 OK | /api/v4/positions?status=OPEN |
+| 200 OK | /api/v4/trades/unified (105,526건 정상) |
+| 200 OK | /api/v4/stocks/search (encodeURIComponent 필수, 한글 20건 반환) |
 | 401 Auth Required | /api/v4/data-collection/* |
-| 접근불가 (Nginx 미설정) | /api/chart-data |
-| 접근불가 (Nginx 미설정) | /api/stocks/search |
-| 접근불가 (Nginx 미설정) | /api/trades/unified |
 | 미응답 | /api/v4/health |
 | 미응답 | /api/v4/strategy-cards |
-| 재시작 필요 | /api/v4/backtest/progress (T-286 구현 완료, CEO 서비스 재시작 승인 대기) |
+| Nginx 미설정 (root 실행 필요) | /api/chart-data, /api/stocks, /api/trades (비-v4 경로 — KIS-293 스크립트 대기) |
+
+**참고**: /api/chart-data, /api/stocks/search, /api/trades/unified 는 잘못된 경로였음. 실제 경로는 /api/v4/ 접두사 필요. KIS-297 진단에서 확인.
 
 ### §12.1 백테스트 trade stock_name null 이슈
 - backtest sessions/{id}/trades 응답에서 stock_name이 전부 null
 - 원인 추정: API 조인 누락 (stock_universe 미조인)
-- 해결: 별도 작업 필요
+- 해결: KIS-299 대기
 
 ---
 
-## §13. 최근 완료 작업 (최근 10건)
+## §13. 최근 완료 작업 (최근 15건)
 
 | Task | 커밋 | 내용 |
 |------|------|------|
-| KIS-004 | — | HANDOVER.md v11.0 전면 재작성 — 85K→15건 History 분리 |
-| KIS-001 | — | CONTEXT.md v11.1 종합 업데이트: §6.5/§8.5/§8.8~§8.10/§10.5/§14 |
+| KIS-298 | 22bf9f23 | trades.html DOM ID 불일치 수정 + 한글검색 fetchSearch 추가 (encodeURIComponent) |
+| KIS-297 | project-docs d200cb7 | trades.html 빈화면 API 진단 6항목 (진단 전용, 정상 확인, claude_exec.sh XS/S:1200/M:2400/L:3600/XL:5400) |
+| KIS-295 | bad34b3f | trades.html 빈화면 수정: API 경로(/api/v4/) + 모듈 API + 날짜 형식 |
+| KIS-293 | — | Nginx 차트 API 프록시 스크립트 생성 (apply_nginx_kis293.sh — claudebot 권한 없어 root 실행 필요) |
+| KIS-291 | — | claude_exec.sh SIZE별 타이머 차등 확장: XS/S→1200s, M→2400s, L→3600s, XL→5400s |
+| KIS-290 | project-docs 9227ff1 | 03-10 장전 사전점검 + kis-v41-api 재시작(12:31) + backtest/progress 200 OK 확인 |
+| KIS-004 | project-docs | HANDOVER.md v11.0 전면 재작성 — 85K→15건 History 분리 |
+| KIS-001 | project-docs | CONTEXT.md v11.1 종합 업데이트: §6.5/§8.5/§8.8~§8.10/§10.5/§14 |
 | T-286 | 88502672 | /api/v4/backtest/progress 엔드포인트 구현 |
 | T-285 | docs | 브릿지 큐 정리 + CONTEXT.md v10.28 동기화 |
 | T-284 | dd7b6560 | 브릿지 큐 T-282-S5/T-282-S4S5 completed 처리 + Phase2 7/7 검증 |
@@ -268,23 +289,20 @@ Look-ahead Bias 차단 (4항목): ①후보 D-1 일봉만 사용, ②진입 다�
 | T-282 | 4b327d12/09e539d6 | 키움 영웅문4 스타일 trades.html 차트 전면 교체: 7파일, LWCharts v5.1.0 |
 | T-281 | — | Nginx trades.html static serving |
 | T-280 | — | trades.html 배포: kis-v41-api 재시작+Nginx, API 3개 200OK |
-| T-278 | 296742a9 | CEO 통합 거래 뷰어 Phase 1: trades.html+API 7개, TC-13/13 PASS |
 
 ---
 
-## §14. 작업 큐 (2026-03-08)
+## §14. 작업 큐 (2026-03-08 KIS-300 업데이트)
 
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0 | KIS-005 CONTEXT.md v12.0 전면 재작성 | 진행 중 |
-| P0 | Nginx 차트 API 프록시 설정 | 신규 대기 |
+| P0 | KIS-299 stock_name null 해결 (trades API 조인 수정) | 신규 대기 (KIS-003 대체) |
+| P0 | KIS-293 Nginx 차트 API 프록시 — apply_nginx_kis293.sh root 실행 | root 실행 대기 |
 | P0 | T-229 MA20 trailing 전면 적용 | CEO 결정 대기 |
 | P0 | L0_KOSPI 과거 재백필 | 후속 필요 |
-| P1 | 백테스트 trade stock_name 해결 | 신규 대기 |
 | P1 | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
 | P1 | T-228 backtest_loop 크론 | 대기 |
 | P1 | T-227 FunnelScore 재교정 | CEO 승인 대기 |
-| P1 | T-226 /api/v4/backtest/progress | T-286 완료, 서비스 재시작 필요 |
 | P2 | T-234 /api/v4/regime | 대기 (에러) |
 
 ---
@@ -344,9 +362,12 @@ exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.p
 ## §20. Task ID 전환
 
 - 레거시: T-001 ~ T-286 — 읽기 전용, 신규 발행 금지
-- 신규: KIS-001 ~ (현재 최신: KIS-004)
-- 다음 발행 번호: KIS-005
-- ⚠️ KIS-295는 존재하지 않음 (작업자 오기재, 무시할 것)
+- 신규 연번: KIS-288 ~ (현재 최신: KIS-300)
+  - CEO 지시 (2026-03-08): T-xxx와 연속 연번 방식. "KIS-001부터" 체계 삭제.
+  - KIS-288부터 시작하여 T-287이후를 KIS 번호로 이음
+- 문서 전용 Task: KIS-001 ~ KIS-004 (CONTEXT/HANDOVER 업데이트 전용)
+  - KIS-001: CONTEXT 업데이트, KIS-002~003: 별도 Nginx/stock_name 태스크(KIS-299로 대체), KIS-004: HANDOVER 재작성
+- 다음 발행 번호: KIS-301
 
 ---
 
@@ -459,6 +480,7 @@ KIS API xlsx 8개: 기본시세, 순위분석, 시세분석, 실시간시세, �
 
 | 버전 | 날짜 | Task | 변경 |
 |------|------|------|------|
+| v12.0 | 2026-03-08 | KIS-300 | §7 서비스 현황(kis-v41-api 재시작 12:31), §10.1 Known Issues 해결, §12 API 상태(backtest/progress 200 + 잘못된 경로 삭제), §13 KIS-290~298 추가, §14 큐 정리(T-226/KIS-002/003 삭제+KIS-299), §2.6 SIZE별 타이머, §20 연번체계 KIS-288부터 |
 | v12.0 | 2026-03-08 | KIS-005 | 전면 재작성: §번호 재정렬, 누락 섹션 23건 복원, KIS-295 오기재 정정, Task ID 현황 명시 |
 | v11.3 | 2026-03-08 | KIS-295(오기재) | §7에 trades.html 빈화면 수정 반영 (KIS-295는 존재하지 않는 번호) |
 | v11.1 | 2026-03-08 | KIS-001 | §6.5/§8.5/§8.8~§8.10/§10.5/§14 추가 |

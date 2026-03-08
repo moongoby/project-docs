@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-08 | 버전: v11.1
+> 최종 업데이트: 2026-03-08 | 버전: v11.2
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,20 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### KIS-300 — CONTEXT.md v12.0 전면 최신화 (2026-03-08)
+- **HANDOVER 버전**: v11.2
+- **커밋**: project-docs (git push 완료)
+- **작업 내용**:
+  - §7 서비스 현황: kis-v41-api 재시작 완료 (2026-03-08 12:31) 반영
+  - §10.1 Known Issues: 빈화면 해결(KIS-295~298), DOM ID/한글검색 해결(KIS-298), Nginx 프록시 대기(KIS-293), stock_name null 대기(KIS-299) 업데이트
+  - §12 API 상태: /api/v4/backtest/progress → 200 OK (KIS-290), /api/v4/trades/unified + /api/v4/stocks/search → 200 OK 추가, 잘못된 비-v4 경로 삭제
+  - §13 최근 완료: KIS-290, KIS-291, KIS-293, KIS-295, KIS-297, KIS-298 추가
+  - §14 작업 큐: T-226 삭제, KIS-002/003 삭제, KIS-299(stock_name null)로 대체
+  - §2.6 신규: claude_exec.sh SIZE별 타이머 표 (XS/S:1200s, M:2400s, L:3600s, XL:5400s)
+  - §20 Task ID: KIS-288부터 연번 체계 반영 (기존 "KIS-001부터" 삭제)
+  - §23 버전 이력: KIS-300 항목 추가
+- **보고서**: 없음 (문서 업데이트 전용)
 
 ### KIS-298 — trades.html DOM ID 불일치 + 한글 검색 400 수정 (2026-03-08)
 - **HANDOVER 버전**: v11.1
@@ -215,8 +229,9 @@
 | 구분 | 범위 | 상태 |
 |------|------|------|
 | 레거시 T-xxx | T-001 ~ T-286 | 읽기 전용, 신규 발행 금지 |
-| 신규 KIS-xxx | KIS-001 ~ KIS-003 (현재 최신) | 활성 |
-| 다음 발행 번호 | KIS-004 | — |
+| 신규 KIS-xxx (연번) | KIS-288 ~ KIS-300 (현재 최신) | 활성 (CEO 지시: KIS-288부터 연번) |
+| 문서 전용 | KIS-001 ~ KIS-004 | CONTEXT/HANDOVER 업데이트 전용 |
+| 다음 발행 번호 | KIS-301 | — |
 
 ---
 
@@ -224,6 +239,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.2 | 2026-03-08 | KIS-300 | CONTEXT.md v12.0 최신화 — KIS-290~298 반영, 연번체계 KIS-288부터, API 상태 갱신 |
 | v11.1 | 2026-03-08 | KIS-298 | trades.html DOM ID 수정 + 한글 검색 fetchSearch 추가 |
 | v11.0 | 2026-03-08 | — | History 계층 재구성, 85K→15건 정리, 구조화 |
 | v10.73 | 2026-03-08 | KIS-297 | trades.html 빈화면 API 진단 (진단 전용, 정상 확인) |
