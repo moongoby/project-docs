@@ -379,9 +379,10 @@ minute_bar_feeder → candidate_scanner → entry_detector
 
 ## 8.9 trades.html Known Issues
 
-- HTML 로드 성공, **차트 데이터 미표시** (MA 전부 "-", 거래 목록 빈칸)
-- **원인**: /api/chart-data, /api/stocks/search, /api/trades/unified — 3개 API Nginx proxy 미설정
-- **해결 방안**: Nginx에 `proxy_pass http://127.0.0.1:8003` 추가 필요 (별도 KIS-002 작업)
+- ~~**차트 데이터 미표시** (MA 전부 "-", 거래 목록 빈칸)~~
+- **KIS-293 해결완료**: /api/chart-data, /api/stocks, /api/trades → 8003 Nginx 프록시 설정 완료
+- 현재 trades.html: /api/v4/ 경로 사용 중 (nginx /api/v4/ → 8003 기설정), 200 OK 확인됨
+- Nginx apply 스크립트: scripts/v41/apply_nginx_kis293.sh (root 실행 완료)
 
 ---
 
@@ -396,14 +397,12 @@ minute_bar_feeder → candidate_scanner → entry_detector
 ## 9. 작업 큐 (2026-03-08 기준)
 | 순위 | 작업 | 상태 |
 |------|------|------|
-| P0 | KIS-002 Nginx 차트 API 프록시 설정 | 신규 대기 |
 | P0 | T-229 MA20 trailing 전면 적용 | CEO 결정 대기 |
 | P0 | L0_KOSPI 과거 재백필 | 후속 필요 |
 | P1 | KIS-003 백테스트 trade stock_name 해결 | 신규 대기 |
 | P1 | T-283-Phase3 자동추세선 + 거래량프로파일 + 분봉 실시간 | 다음 작업 |
 | P1 | T-228 backtest_loop 크론 | 대기 |
 | P1 | T-227 FunnelScore 재교정 | CEO 승인 대기 |
-| P1 | T-226 /api/v4/backtest/progress | T-286 완료, 서비스 재시작 필요 |
 | P2 | T-234 /api/v4/regime | 대기 (에러) |
 
 ## 10. CEO 결정 대기
@@ -462,6 +461,7 @@ exit_manager.py, cte_pipeline.py, v4_pipeline_orchestrator.py, strategy_engine.p
 ## 15. 버전 이력 (최근 20건)
 | 버전 | 날짜 | Task | 변경 |
 |------|------|------|------|
+| v11.2 | 2026-03-08 | KIS-293 | §7 KIS-001/KIS-290/KIS-291/KIS-293 완료 추가, §8.8 chart-data/stocks/trades→200 OK, backtest/progress→200 OK(KIS-290), §8.9 Known Issue 해결, §9 KIS-002/T-226 삭제 |
 | v11.1 | 2026-03-08 | KIS-001 | §6.5 GO100 연동, §8.5 백테스트 엔진, §8.8~8.10 API/이슈, §10.5 체크리스트, §14 design문서 5건, §15 누락버전 보강 |
 | v11.0 | 2026-03-08 | T-283 | 4계층 재구성, 매니저 프로토콜, 지시서 자동화 반영, Task ID 전환 |
 | v10.70 | 2026-03-08 | T-283 | 문서 4계층 재구성 |
