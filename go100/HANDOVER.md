@@ -1,5 +1,5 @@
-# GO100 인수인계서 v15.4 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 준비 + SaaS 버그수정+SEO+에러모니터링 + Commander 대시보드 + entry_rules 정규화 + 매니저 스냅샷 + Evolution Loop 24h 활성화 + 통합대시보드
-> 작성: 2026-02-28 | 최종 업데이트: 2026-03-06 KST (v15.4 갱신: T-178 Evolution Loop 활성화(GO100_EVOLUTION_LOOP_ENABLED=true/AUTO_APPROVE=true/MIN_GRADE=C), 크론 템플릿 go100_evolution_loop.cron, snapshot research_lab 섹션 포함, go100-dashboard.html 829줄 통합대시보드(섹션A~G 에이전트+연구소), 커밋 2206e2ab) | 대상: 다음 세션 AI
+# GO100 인수인계서 v16.0 — 자율 진화 루프 + 프론트엔드 완전체 + pandas 3.0 수정 + V3모델 활성화 완료(AUC 0.5656) + SaaS 버그수정+SEO+에러모니터링 + Commander 대시보드 + entry_rules 정규화 + 매니저 스냅샷 + Evolution Loop 24h 활성화 + 통합대시보드 + 능력 전면 개방(Agent Loop 20R/10T) + 환각 방지 5중 방어
+> 작성: 2026-02-28 | 최종 업데이트: 2026-03-09 KST (v16.0 갱신: T-051 능력 전면 개방 — Agent Loop 20R/10T, V3 모델 활성화 완료(AUC 0.5656), 모의계좌 실매매 전면 개방, 환각 방지 5중 방어(hallucination_guard.py), CEO 지시 D-008 추가) | 대상: 다음 세션 AI
 > 이전 문서: HANDOVER.md v13.2 (동일 파일, 버전 이력 하단 참조)
 
 ---
@@ -124,6 +124,7 @@
 | **DIR-GO100-FE-MOBILE-013** | FE | 03-04 | **PASS** | ✓ | 200 | 375/414/768/1024 반응형 완성, PWA manifest 추가 |
 | **DIR-GO100-FE-DESIGN-014** | FE | 03-04 | **PASS** | ✓ | 200 | 다크모드 기본, 통일 컬러 팔레트 적용, 백억이 채팅 마크다운+타이핑 인디케이터 |
 | **DIR-GO100-FE-FINAL-015** | FE | 03-04 | **PASS** | ✓ | 200 | BRIDGE 최종 통합: E2E API 7라우터 GREEN(strategy-cards/portfolios/paper-trading/live-trading/risk/scheduler/optimizer 200/405), FE 7페이지 auth-redirect 정상(200), API응답시간 최대0.034s(<2s), Git커밋 5cc2eaa3, HANDOVER v14.1, SaaS체크리스트 10항목 작성, closing_report cron 설정파일 준비(root 실행 필요) |
+| **T-051** | DOCS | 03-09 | **PASS** | ✓ | 200 | HANDOVER v16.0 능력 전면 개방: Agent Loop 20R/10T(5R/3T→전면 개방), V3 모델 활성화 완료(AUC 0.5656), 모의계좌 실매매 전면 개방(실계좌 CEO 승인 필수), 환각 방지 5중 방어 체계(hallucination_guard.py), CEO 지시 D-008 추가 |
 
 ### Phase 6 게이트 검증 결과 (2026-03-02 최종 확인)
 
@@ -220,7 +221,7 @@
 
 ### 중기 작업
 - **30일 모의투자 1사이클 완주** (session_id=2, 2026-02-27~03-29)
-- **V3 모델 CEO 승인 후 실전 투입**: `python3 scripts/go100/activate_v3_model.py --confirm`
+- **[완료] V3 모델 CEO 승인 + 활성화**: D-008 지시, AUC 0.5656 활성 상태 (activate_v3_model.py 실행 완료)
 - **소액 실매매 3일 검증** (모의투자 완주 + CEO 승인 후)
 - **SaaS 결제 연동** (Stripe/토스페이먼츠, CEO 승인 대기)
 
@@ -342,11 +343,13 @@ KIS_MOCK=true .venv/bin/python3 scripts/go100/test_kis_order_gateway.py
 5. **다음 우선순위**: T-034 재실행 (entry_rules 수정 후 거래 발생 확인) → V3 CEO 승인 → 모의투자 1사이클 완주
 6. 상태 확인: `systemctl status go100 && systemctl status go100-frontend`, `psql -d kisautotrade -c "\\dt go100_agent*"`
 7. 환경 확인: KIS_APP_KEY, KIS_APP_SECRET, DART_API_KEY, GO100_TELEGRAM_* (.env)
-8. **V3 모델 활성화**: CEO 승인 후 `python3 scripts/go100/activate_v3_model.py --confirm && sudo systemctl restart go100`
+8. **V3 모델 활성화**: ✅ **완료** — V3 Brain 활성화 완료(AUC 0.5656), CEO D-008 지시 적용
 9. **프론트엔드 현황**: **45페이지** LIVE, API 10/10 연동, 차트 11종, 모바일 PWA 완성, Commander 대시보드 추가 (진행률 98%)
 10. **pandas 환경**: .venv=3.0.1(크론 사용), venv=2.3.3(직접 실행) — indicator_precompute 패치 완료
 11. **entry_rules 이슈**: ~~go100_strategy_cards card_id=35,36 DB UPDATE 필요~~ → **T-033B 완료** (커밋 ba7f2431): SignalEvaluator + DB UPDATE 완료. T-034 재실행 필요
 12. **매니저 스냅샷**: https://go100.newtalk.kr/manager/snapshot.json (인증 불필요, 30분 갱신) — CEO·외부 AI용 공개 상태 확인 URL
+13. **Agent Loop (v16.0)**: 20R/10T 전면 개방 (D-008, T-051) — 환각 방지 5중 방어(hallucination_guard.py) 적용
+14. **모의계좌**: 실매매 전면 개방 — 실계좌 전환은 CEO 승인 필수 (D-008)
 
 ---
 
@@ -443,6 +446,37 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 ---
 
+## 13. 능력 전면 개방 (v16.0 — T-051, 2026-03-09)
+
+> CEO 지시 D-008: "능력 전면 개방, 실계좌만 잠금, 모의투자 적극 활용, 환각 자가 진화"
+
+### 변경 내역
+
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| Agent Loop | 최대 5라운드, 라운드당 3도구 | **최대 20라운드, 라운드당 10도구** |
+| V3 모델 | active:False (CEO 승인 대기) | **active:True (AUC 0.5656 활성화 완료)** |
+| 모의계좌 매매 | 제한적 운영 | **전면 개방 (CEO 승인 불필요)** |
+| 실계좌 매매 | 잠금 | **잠금 유지 — CEO 승인 필수** |
+| 환각 방지 | 없음 | **5중 방어 체계 (hallucination_guard.py)** |
+
+### 환각 방지 5중 방어 체계 (hallucination_guard.py)
+1. 실시간 데이터 Freshness 검증 (6도구 freshness_warning)
+2. 다중 소스 교차 검증 (pykrx + DART + KIS)
+3. Agent 출력 근거 추적 (도구 호출 기록 필수)
+4. CEO 오버라이드 파서 (parse_ceo_overrides)
+5. 자가 진화 루프 (Evolution Loop — 검증 후 반영)
+
+### 적용 환경 변수
+```bash
+GO100_AGENT_MAX_ROUNDS=20       # 최대 라운드 (기존: 5)
+GO100_AGENT_MAX_TOOLS=10        # 라운드당 최대 도구 (기존: 3)
+GO100_PAPER_TRADE_OPEN=true     # 모의계좌 전면 개방
+GO100_HALLUCINATION_GUARD=true  # 환각 방지 활성화
+```
+
+---
+
 ## 버전 이력
 
 | 버전 | 날짜 | 변경 |
@@ -473,6 +507,7 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | v12.0 | 03-03 | **Commander Architecture 완료** (DIR-001~DIR-009): 에이전트 10개 배포 완료(base/news/regime/risk/supply_demand/technical/bull/bear/debate/desk2~5/researcher/backtester/commander), 자기진화루프(agent_performance_tracker, 동적가중치), V3 모델 활성화(active:True, ai_scorer.py V3 업데이트), Telegram 확인(message_id:1981), 페이퍼트레이딩 V3 크론 등록(go100_morning_briefing/go100_paper_trading), git 권한 정리(/root o+x, safe.directory 설정) |
 | v14.1 | 03-04 | **DIR-015 BRIDGE 최종 E2E 검증 완료**: E2E API 7라우터 전수 GREEN(strategy-cards/portfolios/paper-trading/live-trading 200, risk/scheduler/optimizer 422/405/200), FE 7페이지 auth-redirect 정상(login 200), API 응답시간 전수 <0.04s(최대 paper-trading 0.034s), Git 커밋 5cc2eaa3, SaaS 체크리스트 10항목 작성 및 HANDOVER 섹션12 추가, closing_report cron 설정 완료(root 실행 필요: /etc/cron.d/go100_closing_report), 진행률 97% 확정 |
 | v14.2 | 03-05 | **Group A 감사 완료 (T-012~T-016)**: 모의투자 세션 ACTIVE 확인(거래0건 크론미발화), SaaS 인증 감사(agreed_terms 미저장 버그 식별, 이용약관/개인정보 페이지 완성 확인), API 전수 헬스체크(122경로 ALL GREEN), FE 44페이지 전수 점검(protected 307/public 200 정상), SaaS 체크리스트 #1/5/6 상태 업데이트 |
+| v16.0 | 03-09 | **T-051 능력 전면 개방**: Agent Loop 20R/10T(5R/3T→전면 개방), V3 모델 활성화 완료(AUC 0.5656), 모의계좌 실매매 전면 개방(실계좌 CEO 승인 필수), 환각 방지 5중 방어 체계(hallucination_guard.py), CEO 지시 D-008 추가, CONTEXT.md·CEO-DIRECTIVES.md 동기화 |
 | v15.4 | 03-06 | **어드민 시그널·리스크 + 매매 관리 + 거래 상세 (T-046)**: /admin/signals(시그널타임라인+리스크게이지4종+Kill Switch+도넛차트) + /admin/trading(세션+포지션+수익곡선+체결이력) + /admin/trading/[tradeId](거래상세+시그널역추적+슬리피지) 구현. 컴포넌트 6개 신규. API 5개 추가. 커밋 b8f247ca. 페이지 수 45→48 |
 | v15.3 | 03-06 | **Commander 군단 대시보드 + entry_rules 정규화 + 매니저 스냅샷**: T-033B entry_rules 포맷 정규화 완료(SignalEvaluator+DB UPDATE, 커밋 ba7f2431) + T-036 Commander 대시보드 구현(go100.newtalk.kr/go100/commander) + T-037 API 연동 + T-038/T-040 HANDOVER 갱신. 페이지 수 44→45, T-039 매니저 스냅샷 공개 URL(go100.newtalk.kr/manager/snapshot.json) 추가, Known Issue #8 해결 완료 |
 | v15.2 | 03-06 | **entry_rules 검증 + T-157 토글UI + 전체 세션 종합**: T-157 실매매/모의 토글 스위치 연동(커밋 fc398d2d), T-033/T-034 entry_rules 포맷 불일치 진단·수동실행 0건 확인, 페이지 수 34→44 갱신, migration 범위 035~065 갱신(064/065 추가), Known Issues #8 추가, 다음 작업 섹션 전면 갱신 |
@@ -552,3 +587,8 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 | T-036 | 03-06 | Commander 군단 대시보드 구현 — /go100/commander 페이지 신규 구현, 에이전트 10개 실시간 상태/가중치 표시, agent_performance_tracker API 연동 | PASS |
 | T-037 | 03-06 | Commander 대시보드 프론트엔드 완성 — 페이지 수 44→45, API 엔드포인트 연동, 에이전트 성과 차트 구현 | PASS |
 | T-038 | 03-06 | HANDOVER v15.3 업데이트 — T-036/T-037 Commander 대시보드 반영, 페이지 수 45, Commander Architecture §11 URL 추가 | PASS |
+
+### v16.0 추가 완료 작업 (2026-03-09) — T-051 능력 전면 개방
+| Task ID | 날짜 | 내용 | 상태 |
+|---------|------|------|------|
+| T-051 | 03-09 | 능력 전면 개방 — HANDOVER v16.0 갱신: Agent Loop 20R/10T(기존 5R/3T), V3 모델 활성화 완료(AUC 0.5656), 모의계좌 실매매 전면 개방(실계좌 CEO 승인 필수), 환각 방지 5중 방어 체계(hallucination_guard.py), CEO 지시 D-008 추가. CEO-DIRECTIVES.md D-003 갱신 + D-008 신규 추가. CONTEXT.md 동기화. 버전 v15.4→v16.0 | PASS |
