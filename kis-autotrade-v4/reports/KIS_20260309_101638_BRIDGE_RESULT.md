@@ -1,0 +1,9 @@
+---
+project: KIS
+task_id: 다음
+completed_at: 2026-03-09 10:39:06 KST
+status: error
+exit_code: 1
+---
+## 에러 종료
+{"type":"result","subtype":"success","is_error":true,"duration_ms":448,"duration_api_ms":0,"num_turns":1,"result":"You've hit your limit · resets Mar 11, 2pm (Asia/Seoul)","stop_reason":"stop_sequence","session_id":"e98ca99d-3e75-410a-bbe9-91a5537a3da3","total_cost_usd":0,"usage":{"input_tokens":0,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"output_tokens":0,"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens":0,"ephemeral_5m_input_tokens":0},"inference_geo":"","iterations":[],"speed":"standard"},"modelUsage":{},"permission_denials":[],"fast_mode_state":"off","uuid":"66a3e3b5-2b95-4c0f-9eb9-812943730494"}
