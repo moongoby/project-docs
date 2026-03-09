@@ -38,6 +38,20 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### T-053 — 모의투자 거래 발생 검증 + 다중 세션 확인 (2026-03-09)
+- **HANDOVER 버전**: v11.7
+- **커밋**: DB 전용 (entry_rules 완화, 수동 테스트 거래 삽입), project-docs 06895d5
+- **작업 내용**:
+  - entry_rules 포맷 검증: card_id=35,36 모두 SignalEvaluator 호환 확인 (`type` 기반)
+  - PaperTradingEngine30d.run_daily_check() 6개 세션 실행 → ok=True, 에러 없음
+  - 거래 미발생 원인: 최신 ohlcv=2026-03-06, sessions 3-7 start_date=2026-03-09 → 스킵; 시장조건 미충족
+  - card_id=35 volume_surge ratio 2.0 → 1.5 완화 (jsonb_set '{1,ratio}')
+  - 수동 테스트 거래 삽입: session_id=2, 005930 BUY 100주 @56,400 (DB 동작 검증)
+  - ACTIVE 세션: 6개 (session_id 2-7) — "3개 이상" 기준 충족
+  - 발견: 지시서 jsonb 경로 오류(`{conditions,1,value}` → `{1,ratio}`), PK 오류(`card_id` → `go100_card_id`)
+- **다음 단계**: 2026-03-10 장 시작 후 `run_paper_trading_daily.sh` 자동 실행으로 실제 신호 탐지
+- **보고서**: CUR-GO100-PAPER-TRADING-VERIFY-001-20260309.md (HTTP 200 ✅)
+
 ### KIS-302 — 03-10 장전 최종 시스템 헬스체크 전수점검 (2026-03-09)
 - **HANDOVER 버전**: v11.6
 - **커밋**: project-docs 5ba135f
