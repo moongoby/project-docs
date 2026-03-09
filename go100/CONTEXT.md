@@ -1,6 +1,6 @@
 # GO100 프로젝트 컨텍스트 (Claude PM용)
-> 최종 갱신: 2026-03-09 (T-051 HANDOVER v16.0 갱신 — 능력 전면 개방: Agent Loop 20R/10T, V3 모델 활성화 완료(AUC 0.5656), 환각 방지 5중 방어, CEO 지시 D-008)
-> 인계서: HANDOVER.md v16.0
+> 최종 갱신: 2026-03-09 (T-055 HANDOVER v17.0 갱신 — T-050~T-054 통합 반영: 능력 전면 개방, 전략 대량 생산 7카드, 모의투자 세션 3~7 ACTIVE, Admin War Room 스텁 11개, D-008 실행 완료, 진행률 99%)
+> 인계서: HANDOVER.md v17.0
 
 ## 1. 프로젝트 개요
 - **GO100 (백억이)**: 증권사급 AI 투자 에이전트 (조건검색 + 자동매매 + 자율 전략 진화)
@@ -17,7 +17,7 @@
 - 가상환경: source /root/kis-autotrade-v4/venv/bin/activate
 - **환경**: DART API 발급·설정 완료 (.env DART_API_KEY/OPENDART_API_KEY). Telegram 설정 완료 (GO100_TELEGRAM_BOT_TOKEN, GO100_TELEGRAM_CHAT_ID). 모닝 브리핑 자동 발송 가능.
 
-## 3. 작업 큐 (v16.0 기준, 2026-03-09)
+## 3. 작업 큐 (v17.0 기준, 2026-03-09)
 | 순위 | 작업 | 상태 |
 |------|------|------|
 | P0 | Agent Mode 활성화, 크론 검증, 무결성 모니터 | ✅ 완료 |
@@ -28,10 +28,14 @@
 | P5 | 자기리뷰(P5-1), Telegram+섹터(P5-2), 포트폴리오 최적화(P5-3), 개인화(P5-4) | ✅ 완료 |
 | P6 | 리스크+킬스위치(P6-1), KIS API 실주문 게이트웨이(P6-2) | ✅ 완료 |
 | P7 | P7-1 QA 완료, SaaS 버그수정(T-028), SEO(T-029/T-020), 에러모니터링(T-031) | ✅ 완료 |
-| P8 | entry_rules 포맷 수정(T-033B 완료), 모의투자 거래 발생 확인(T-034 재실행 필요) | ✅ T-033B 완료 / T-034 대기 |
-| P9 | 30일 모의투자 1사이클 완주 (session_id=2, ~03-29) | 🔧 진행 중 |
+| P8 | entry_rules 포맷 수정(T-033B 완료), T-034 재실행(T-053 완료) | ✅ **완료** |
+| P9 | 30일 모의투자 1사이클 완주 (session_id=2~7, ~03-29) | 🔧 진행 중 |
 | P10 | **V3 모델 활성화 완료** (AUC 0.5656, D-008) | ✅ **완료** |
-| P11 | **능력 전면 개방** (T-051): Agent Loop 20R/10T, 환각 방지 5중 방어, D-008 | ✅ **완료** |
+| P11 | **능력 전면 개방** (T-050/T-051): Agent Loop 20R/10T, 환각 방지 5중 방어, D-008 | ✅ **완료** |
+| P12 | **전략 대량 생산** (T-052): EvolutionLoop 7카드 5레짐, 세션 3~7 ACTIVE | ✅ **완료** |
+| P13 | **Admin War Room** (T-054): 메인 + 스텁 11개 구현 | ✅ **완료** |
+| P14 | **D-008 실행 완료** (T-055): CEO 지시 전면 이행, 진행률 99% | ✅ **완료** |
+| P15 | **10대 무기 장착** (T-056~T-061) | 📋 CEO 지시 대기 |
 | SaaS | 결제(T-021), 마켓플레이스, 최종 QA, 라이브 런칭 | 📋 설계 완료 |
 
 ## 4. 서비스 현황
@@ -43,7 +47,7 @@
 | PostgreSQL | 5432 | active |
 
 ## 5. 진행률
-- **전체**: 99% (v16.0 능력 전면 개방 기준)
+- **전체**: 99% (v17.0 — T-050~T-055 완료, D-008 실행 완료 기준)
 - E2E 23/23 PASS, Agent Tool **57개**, Screening Filters 35+, Gap 데이터 108,574건
 - DB 마이그레이션 035~065 (064 v4_users terms, 065 go100_error_log)
 - **페이지**: 45개 전수 LIVE (T-029에서 34→44, T-036/T-037 Commander 대시보드 추가로 45 확인)
@@ -53,12 +57,16 @@
 - **Commander 대시보드**: go100.newtalk.kr/go100/commander (T-036/T-037 완료)
 - **매니저 스냅샷**: https://go100.newtalk.kr/manager/snapshot.json (T-039 완료, 30분 갱신, 인증 불필요)
 - **✅ entry_rules 해결**: card_id=35,36 SignalEvaluator+DB UPDATE 완료 (T-033B, 커밋 ba7f2431)
-- **✅ 능력 전면 개방 (T-051)**: Agent Loop 20R/10T, V3 모델 활성화(AUC 0.5656), 환각 방지 5중 방어(hallucination_guard.py), CEO 지시 D-008
+- **✅ 능력 전면 개방 (T-050/T-051)**: Agent Loop 20R/10T, V3 모델 활성화(AUC 0.5656), 환각 방지 5중 방어(hallucination_guard.py), CEO 지시 D-008
+- **✅ 전략 대량 생산 (T-052)**: EvolutionLoop 7카드(TYPE-A~E+B-R/D-R), A등급 4개, 세션 3~7 ACTIVE. strategy_cards 42→49장
+- **✅ 모의투자 세션 3~7 가동 (T-053)**: T-034 재실행 완료, 신규 전략 entry_rules 정상 포맷
+- **✅ Admin War Room (T-054)**: /admin/war-room 메인 + 스텁 11개
+- **✅ CEO 지시 D-008 실행 완료 (T-055)**: HANDOVER v17.0 갱신, 진행률 99%
 
 ## 6. 필수 읽기 (세션 시작 시)
 1. /root/kis-autotrade-v4/.cursorrules
 2. /root/kis-autotrade-v4/CLAUDE.md
-3. go100/HANDOVER.md v15.3
+3. go100/HANDOVER.md v17.0
 4. go100/ARCHITECTURE.md, DB_SCHEMA.md
 
 ## 7. 규칙 요약
