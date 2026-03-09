@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-08 | 버전: v11.2
+> 최종 업데이트: 2026-03-09 | 버전: v11.4
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,21 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### T-052 — GO100 전략 카드 대량 생산 — EvolutionLoop 5레짐 (2026-03-09)
+- **HANDOVER 버전**: v11.4
+- **커밋**: efbc58ce (phase-2c-command-center), project-docs 13b129b
+- **작업 내용**:
+  - TYPE-A~E 5개 시장 레짐별 전략 카드 INSERT (card_id 55-59, LLM_GENERATED)
+  - 완화버전 2개 추가: TYPE-B-R(card_id=60), TYPE-D-R(card_id=61)
+  - 백테스트 7회 실행 완료: go100_orderbook_backtest_runs (run_id 3-9)
+  - ValidatorAgent 등급: A×4(TYPE-A/B/D/E), B×2(TYPE-C/B-R), C×1(TYPE-D-R)
+  - 모의투자 세션 5개 ACTIVE 생성 (session_id 3-7)
+  - 성공기준 4/4 달성: 카드49장 / 백테스트7회 / 세션5개 / 양수수익률6개
+  - 최고 성과: TYPE-E(카드59) +22.4% / PF=1.58 / Sharpe=2.31 (CEO T-001 52주신고가 전략)
+  - 주의: TYPE-D-R(card_id=61) MDD -21.3%, PF=0.88 — C등급 활성화됐으나 재설계 권장
+- **스크립트**: scripts/go100/t052_strategy_mass_production.py
+- **보고서**: CUR-GO100-STRATEGY-MASS-PRODUCTION-001-20260309.md (HTTP 200 ✅)
 
 ### KIS-301 — backtest sessions/trades stock_name null 수정 (2026-03-08)
 - **HANDOVER 버전**: v11.3
@@ -252,6 +267,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.4 | 2026-03-09 | T-052 | GO100 전략 카드 대량 생산 — 5레짐 7전략, 백테스트7회, 세션5개 ACTIVE |
 | v11.3 | 2026-03-08 | KIS-301 | backtest sessions/trades stock_name null 해결 — stock_universe LEFT JOIN, COALESCE |
 | v11.2 | 2026-03-08 | KIS-300 | CONTEXT.md v12.0 최신화 — KIS-290~298 반영, 연번체계 KIS-288부터, API 상태 갱신 |
 | v11.1 | 2026-03-08 | KIS-298 | trades.html DOM ID 수정 + 한글 검색 fetchSearch 추가 |
