@@ -38,6 +38,24 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### KIS-302 — 03-10 장전 최종 시스템 헬스체크 전수점검 (2026-03-09)
+- **HANDOVER 버전**: v11.6
+- **커밋**: project-docs 5ba135f
+- **작업 내용**:
+  - 10개 항목 전수점검 ALL PASS
+  - bridge.py: PID 2405236 (root, 21h+ 가동 중)
+  - funnel_score null_fallback: 0.5 ✅
+  - 서비스 5개 all active: kis-v41-api(20h+), kis-v41-monitor, kis-v41-scheduler, postgresql, redis-server
+  - strategy_cards: 60건, open_positions(OPEN): 0건
+  - Redis: PONG
+  - crontab: 44줄 (20잡+ 등록)
+  - backtest/progress: 200 OK, 3세션 CONVERGED(100%)
+  - trades/unified: 105,526건 (10만건+ ✅), win_rate 46.23%, PF 2.10
+  - GO100 ACTIVE 세션: 6개 (session 2-7, card_id 35/55-59)
+  - go100: active running (09:07 KST)
+- **보고서**: CUR-V41-KIS302-PREMARKET-HEALTHCHECK-001-20260309.md (HTTP 200 ✅)
+- **project-docs 커밋**: 5ba135f
+
 ### T-054 — Admin War Room 메인 + 사이드바 + 파이프라인 뷰 구현 검증 (2026-03-09)
 - **HANDOVER 버전**: v11.5
 - **커밋**: 기존 T-043~T-047 커밋 (57e3ef56, 1745df4f, 1e38518b, b8f247ca, 41bd6d80 등) — 재구현 불필요
