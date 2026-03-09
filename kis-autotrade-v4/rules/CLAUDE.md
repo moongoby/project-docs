@@ -74,3 +74,9 @@ curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/moongo
 - [ ] project-docs 보고서 push 완료 (GitHub raw URL 200 확인)
 
 두 체크가 모두 통과해야 태스크 "완료" 판정.
+
+## API 키 보안 절대 규칙 (R-KEY)
+- 절대 API 키를 소스코드/config에 하드코딩하지 않는다
+- 모든 시크릿은 `.env` 파일에만 저장
+- 커밋 전 pre-commit hook이 API 키 패턴 자동 감지 → 차단
+- 위반 시: 제공사가 키를 leaked 처리하여 영구 비활성화됨
