@@ -1,6 +1,6 @@
 # KIS AutoTrade V4.1 — Core Document
 > Public URL: https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/CONTEXT.md
-> 최종 갱신: 2026-03-08 | 버전: v12.0
+> 최종 갱신: 2026-03-08 | 버전: v12.1
 > 역할: Core 계층 — 프로젝트 현황, 서버, DB, 전략, 규칙, 작업큐, 참조문서의 단일 진실 소스(Single Source of Truth)
 > 이 문서를 읽고 CEO에게 추가 질문 없이 즉시 업무 수행이 가능해야 한다.
 
