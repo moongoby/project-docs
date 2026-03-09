@@ -20,10 +20,11 @@
 
 ### D-003 Agent 아키텍처
 - LLM: Gemini 2.5 Flash (주), Anthropic Claude Sonnet (폴백)
-- Agent Loop: 최대 5라운드, 라운드당 최대 3도구
+- Agent Loop: **최대 20라운드, 라운드당 최대 10도구** (전면 개방, T-051 기준 — 기존: 5라운드/3도구)
 - 도구: agent_tools.py(정의) + tool_executors.py(실행) 구조
-- 현재 50개 도구, 스크리닝 필터 35+
+- 현재 57개 도구, 스크리닝 필터 35+
 - 환경변수 GO100_AGENT_MODE로 ON/OFF 전환
+- 환각 방지: hallucination_guard.py 5중 방어 체계 (T-051 적용)
 
 ### D-004 데이터 신뢰성
 - Freshness Warning: 6개 도구에 데이터 신선도 경고 탑재
@@ -48,6 +49,20 @@
 - 이전 맥락 없이 작업하면 같은 실수 반복
 - 매 작업 완료 시 HANDOVER.md 업데이트 의무
 - HANDOVER.md 미업데이트는 작업 미완료로 간주
+
+### D-008 능력 전면 개방 (2026-03-09, T-051)
+> CEO 지시: "능력 전면 개방, 실계좌만 잠금, 모의투자 적극 활용, 환각 자가 진화"
+
+- **Agent Loop**: 5R/3T → **20R/10T 전면 개방**
+- **V3 모델**: 활성화 완료 (AUC 0.5656, brain_predictor_v3.py)
+- **모의계좌 실매매**: 전면 개방 — CEO 승인 불필요
+- **실계좌 전환**: 잠금 유지 — CEO(user_id=2) 승인 필수 (D-005 유지)
+- **환각 자가 진화**: hallucination_guard.py 5중 방어 체계 구축
+  1. 실시간 Freshness 검증 (6도구 freshness_warning)
+  2. 다중 소스 교차검증 (pykrx + DART + KIS)
+  3. Agent 출력 근거 추적 (도구 호출 로그 필수)
+  4. CEO 오버라이드 파서 (parse_ceo_overrides)
+  5. Evolution Loop 자가 검증 후 반영
 
 ---
 
@@ -258,3 +273,4 @@ echo "HTTP: $HTTP_CODE"
 | 버전 | 날짜 | 변경 |
 |------|------|------|
 | v1.0 | 2026-02-28 | 초판 — D-001~D-007, T-001~T-004, PATH-001, 절대 규칙 |
+| v1.1 | 2026-03-09 | D-003 Agent Loop 20R/10T 전면 개방, 도구 수 57개 갱신, hallucination_guard.py 추가. D-008 능력 전면 개방 지시 신규 추가 (T-051) |
