@@ -446,33 +446,48 @@ GO100_COMMANDER_MODE=false  # 기존 백억이 단독 모드
 
 ---
 
-## 13. 능력 전면 개방 (v16.0 — T-051, 2026-03-09)
+## 13. 능력 전면 개방 (v16.0 — T-050, 2026-03-09)
 
-> CEO 지시 D-008: "능력 전면 개방, 실계좌만 잠금, 모의투자 적극 활용, 환각 자가 진화"
+> CEO 지시 2026-03-08: "능력 전면 개방, 실계좌만 잠금, 모의투자 적극 활용, 환각 자가 진화"
 
 ### 변경 내역
 
 | 항목 | 이전 | 이후 |
 |------|------|------|
 | Agent Loop | 최대 5라운드, 라운드당 3도구 | **최대 20라운드, 라운드당 10도구** |
-| V3 모델 | active:False (CEO 승인 대기) | **active:True (AUC 0.5656 활성화 완료)** |
+| V3 모델 | train_result.json active:True (이미 활성) | **is_available=True 확인, AUC 0.5656** |
 | 모의계좌 매매 | 제한적 운영 | **전면 개방 (CEO 승인 불필요)** |
 | 실계좌 매매 | 잠금 | **잠금 유지 — CEO 승인 필수** |
 | 환각 방지 | 없음 | **5중 방어 체계 (hallucination_guard.py)** |
+| 토론 라운드 | 3라운드 하드코딩 | **5라운드 + DRAW 강제 판정** |
+| 메모리 자동로드 | 수동 | **run_agent() 시작 시 자동 주입** |
 
 ### 환각 방지 5중 방어 체계 (hallucination_guard.py)
-1. 실시간 데이터 Freshness 검증 (6도구 freshness_warning)
-2. 다중 소스 교차 검증 (pykrx + DART + KIS)
-3. Agent 출력 근거 추적 (도구 호출 기록 필수)
-4. CEO 오버라이드 파서 (parse_ceo_overrides)
-5. 자가 진화 루프 (Evolution Loop — 검증 후 반영)
+1. **verify_trade_facts**: 종목코드 6자리/가격 범위/거래시간/action 검증
+2. **double_check_numbers**: LLM 주장 vs DB 실데이터 수치 비교 (5% 이상 괴리 감지)
+3. **paper_trade_first**: 실계좌 전 모의투자 선행 강제 (LIVE_TRADING_ENABLED=false)
+4. **post_trade_review**: 거래 24h 후 근거 vs 결과 대조 (진입 근거 없는 손실 → 환각 의심)
+5. **learn_from_hallucination**: 환각 패턴 go100_episodic_memory에 저장 → 재발 방지
 
-### 적용 환경 변수
+### 적용 환경 변수 (.env)
 ```bash
-GO100_AGENT_MAX_ROUNDS=20       # 최대 라운드 (기존: 5)
-GO100_AGENT_MAX_TOOLS=10        # 라운드당 최대 도구 (기존: 3)
-GO100_PAPER_TRADE_OPEN=true     # 모의계좌 전면 개방
-GO100_HALLUCINATION_GUARD=true  # 환각 방지 활성화
+GO100_AGENT_MAX_ROUNDS=20          # 최대 라운드 (기존: 5)
+GO100_AGENT_MAX_TOOLS_PER_ROUND=10 # 라운드당 최대 도구 (기존: 3)
+GO100_AGENT_UNLIMITED_MODE=true    # 무제한 모드 플래그
+GO100_PAPER_TRADING_ENABLED=true   # 모의계좌 전면 개방
+GO100_PAPER_TRADING_UNLIMITED=true # 세션 수 제한 없음
+GO100_LIVE_TRADING_ENABLED=false   # 실계좌 잠금
+GO100_LIVE_TRADING_REQUIRES_CEO=true # 실계좌 CEO 승인 필수
+GO100_DEBATE_ROUNDS=5              # 토론 라운드 (기존: 3)
+```
+
+### 후속 조치 (root 실행 필요)
+```bash
+# 크론 설치
+sudo cp scripts/go100/go100_hallucination_review.cron /etc/cron.d/go100_hallucination_review
+sudo chmod 644 /etc/cron.d/go100_hallucination_review
+# V3 메타데이터 activate (선택사항, train_result.json은 이미 active=True)
+python3 scripts/go100/activate_v3_model.py --confirm
 ```
 
 ---
@@ -481,6 +496,7 @@ GO100_HALLUCINATION_GUARD=true  # 환각 방지 활성화
 
 | 버전 | 날짜 | 변경 |
 |------|------|------|
+| v16.0 | 03-09 | **T-050 백억이 능력 전면 개방**: Agent Loop 20R/10T, 환경변수 기반. 토론 5라운드+총사령관 강제판정. HallucinationGuard 5중방어(hallucination_guard.py). execute_buy/sell 환각방지 자동연동. go100_error_log 4컬럼 추가. 메모리 자동로드(run_agent). hallucination_daily_review.py 크론 스크립트. .env PAPER_TRADING_ENABLED=true/LIVE_TRADING_ENABLED=false. 커밋 4e7d5d8d |
 | v1.0 | 02-23 | 초판 |
 | v2.0 | 02-24 | 접속정보·계정·서비스 명령 추가 |
 | v3.0 | 02-25 | 아키텍처·DB 스키마·이슈 추가 |
