@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-09 | 버전: v11.4
+> 최종 업데이트: 2026-03-09 | 버전: v11.8
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,20 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### KIS-304 — GO100 TYPE-D-R (card_id=61) C등급 전략 비활성화 (2026-03-09)
+- **HANDOVER 버전**: v11.8
+- **커밋**: project-docs 91bb072
+- **작업 내용**:
+  - 작업 전 상태: card_id=61, is_active=true, card_status=BACKTESTED, last_backtest_return=-4.20, MDD=-21.3%
+  - `SUSPENDED` 상태가 check constraint 미허용 → `PAUSED`로 대체 적용
+  - `UPDATE go100_strategy_cards SET is_active=false, card_status='PAUSED' WHERE go100_card_id=61;` → UPDATE 1 ✅
+  - 관련 paper_trading_sessions: 0개 (PAUSED 처리 불필요)
+  - 변경 후 확인: is_active=false, card_status=PAUSED ✅
+  - 03-10 장 개시 전 실주문 방지 완료
+  - 재활성화 조건: 재설계 + 재백테스트 + CEO 승인 필요
+- **성공기준**: 3/3 달성 (is_active=false ✅ / card_status=PAUSED ✅ / 세션 PAUSED ✅(해당없음))
+- **보고서**: CUR-V41-KIS304-GO100-TYPED-R-SUSPEND-001-20260309.md (HTTP 200 ✅)
 
 ### T-053 — 모의투자 거래 발생 검증 + 다중 세션 확인 (2026-03-09)
 - **HANDOVER 버전**: v11.7
@@ -313,6 +327,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.8 | 2026-03-09 | KIS-304 | GO100 card_id=61 C등급 비활성화 — is_active=false, PAUSED |
 | v11.4 | 2026-03-09 | T-052 | GO100 전략 카드 대량 생산 — 5레짐 7전략, 백테스트7회, 세션5개 ACTIVE |
 | v11.3 | 2026-03-08 | KIS-301 | backtest sessions/trades stock_name null 해결 — stock_universe LEFT JOIN, COALESCE |
 | v11.2 | 2026-03-08 | KIS-300 | CONTEXT.md v12.0 최신화 — KIS-290~298 반영, 연번체계 KIS-288부터, API 상태 갱신 |
