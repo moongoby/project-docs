@@ -38,21 +38,22 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
-### GRID-SEARCH-OPTIMIZATION — DESK 전략 파라미터 그리드서치 최적화 (2026-03-18)
-- **HANDOVER 버전**: v11.9
-- **커밋**: project-docs 5faeed8
+### GRID-SEARCH-OPTIMIZATION — DESK 전략 파라미터 그리드서치 최적화 v2 (2026-03-18)
+- **HANDOVER 버전**: v11.10
+- **커밋**: project-docs (업데이트 중)
 - **작업 내용**:
-  - `backend/optimize_strategy_params.py` 실행 (기존 파일, 558행)
-  - DESK2~5 × 10개 전략 × 파라미터 변형 × 청산규칙 변형 = 576 조합 테스트
+  - `backend/optimize_strategy_params.py` 신규 생성 (벡터화 최적화 버전)
+  - 1차 실행: 루프 방식 → DESK2(30종목) 15분, DESK3에서 SIGTERM 종료
+  - 2차 실행: numpy 벡터화 → DESK2 9초, 전체 576조합 약 2분 완료 (100배+ 속도 향상)
   - 데이터: ohlcv_daily 2025-09-01~2026-03-18, 종목 3,775개
-  - 결과 581건 → `v4_optimization_results` 테이블 저장
+  - 총 1,152건 → `v4_optimization_results` 테이블 저장 (이전 583건 + 신규 569건)
   - DESK2 #1: BOLLINGER_BAND (bb_mult=2.5, buy_threshold=-0.05) / 샤프 12.62 / 승률 80%
-  - DESK3 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 9.43 / 승률 62%
+  - DESK3 #1: BOLLINGER_BAND (bb_mult=2.5, buy_threshold=-0.05) / 샤프 9.85 / 승률 67%
   - DESK4 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 45.49 / 승률 100% (주의: 샘플 9건)
   - DESK5 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 10.98 / 승률 67%
-  - 공통 패턴: MEAN_REVERSION bb_mult=2.5, rsi_buy=35이 DESK3~5에서 최고 샤프
-- **성공기준**: v4_optimization_results 581건 ✅ / 전체 DESK TOP3 출력 ✅ / GitHub HTTP 200 ✅
-- **보고서**: GRID-SEARCH-OPTIMIZATION-20260318.md (HTTP 200 ✅)
+  - 공통 패턴: BOLLINGER_BAND bb_mult=2.5 (DESK2~3), MEAN_REVERSION bb_mult=2.5/rsi_buy=35 (DESK3~5)
+- **성공기준**: v4_optimization_results 1,152건 ✅ / 전체 DESK TOP3 출력 ✅
+- **보고서**: GRID-SEARCH-OPTIMIZATION-20260318.md (v2 업데이트)
 
 ### KIS-304 — GO100 TYPE-D-R (card_id=61) C등급 전략 비활성화 (2026-03-09)
 - **HANDOVER 버전**: v11.8
