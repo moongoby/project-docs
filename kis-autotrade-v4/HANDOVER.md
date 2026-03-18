@@ -38,6 +38,22 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### GRID-SEARCH-OPTIMIZATION — DESK 전략 파라미터 그리드서치 최적화 (2026-03-18)
+- **HANDOVER 버전**: v11.9
+- **커밋**: project-docs 5faeed8
+- **작업 내용**:
+  - `backend/optimize_strategy_params.py` 실행 (기존 파일, 558행)
+  - DESK2~5 × 10개 전략 × 파라미터 변형 × 청산규칙 변형 = 576 조합 테스트
+  - 데이터: ohlcv_daily 2025-09-01~2026-03-18, 종목 3,775개
+  - 결과 581건 → `v4_optimization_results` 테이블 저장
+  - DESK2 #1: BOLLINGER_BAND (bb_mult=2.5, buy_threshold=-0.05) / 샤프 12.62 / 승률 80%
+  - DESK3 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 9.43 / 승률 62%
+  - DESK4 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 45.49 / 승률 100% (주의: 샘플 9건)
+  - DESK5 #1: MEAN_REVERSION (bb_mult=2.5, rsi_buy=35) / 샤프 10.98 / 승률 67%
+  - 공통 패턴: MEAN_REVERSION bb_mult=2.5, rsi_buy=35이 DESK3~5에서 최고 샤프
+- **성공기준**: v4_optimization_results 581건 ✅ / 전체 DESK TOP3 출력 ✅ / GitHub HTTP 200 ✅
+- **보고서**: GRID-SEARCH-OPTIMIZATION-20260318.md (HTTP 200 ✅)
+
 ### KIS-304 — GO100 TYPE-D-R (card_id=61) C등급 전략 비활성화 (2026-03-09)
 - **HANDOVER 버전**: v11.8
 - **커밋**: project-docs 91bb072
