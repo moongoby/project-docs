@@ -22,7 +22,7 @@ DESK_EXIT_RULES(손절/익절/보유일)와 전략별 진입 파라미터를 그
 - **스크립트**: `backend/optimize_strategy_params.py` (기존 파일 활용)
 - **테스트 대상**: DESK 2/3/4/5 × 10개 전략 × 파라미터 변형 × 청산규칙 변형
 - **총 조합 수**: 576 조합
-- **유효 결과**: 581건 (총 거래 3건 이상인 결과만 저장)
+- **유효 결과**: 583건 (총 거래 3건 이상인 결과만 저장)
 - **데이터 기간**: 2025-09-01 ~ 2026-03-18 (룩백 포함, 종목 수 3,775개)
 
 ---
@@ -30,7 +30,7 @@ DESK_EXIT_RULES(손절/익절/보유일)와 전략별 진입 파라미터를 그
 ## 2. 검증 체크리스트
 
 - [x] 구현 목표: `v4_optimization_results` 테이블에 576 조합 × DESK2~5 백테스트 결과 저장
-- [x] 검증 방법: `SELECT COUNT(*) FROM v4_optimization_results` → 581건 확인
+- [x] 검증 방법: `SELECT COUNT(*) FROM v4_optimization_results` → 583건 확인
 - [x] 완료 기준: DESK별 결과 저장 + TOP 3 출력 완료 ✅
 - [x] 실패 기준: 테이블 결과 0건 또는 오류 종료 → 해당없음
 - [x] 서비스 재시작 확인: 서비스 재시작 없음 (백테스트 스크립트만 실행)
@@ -49,7 +49,7 @@ DESK_EXIT_RULES(손절/익절/보유일)와 전략별 진입 파라미터를 그
        4 |    144 |       45.49 |        100.0 |       642.8
        5 |    144 |       10.98 |         80.0 |       424.6
 ```
-총 581건 저장 완료.
+총 583건 저장 완료.
 
 ---
 
@@ -123,5 +123,5 @@ DESK_EXIT_RULES(손절/익절/보유일)와 전략별 진입 파라미터를 그
 ## 7. 파일 정보
 
 - 스크립트: `/root/kis-autotrade-v4/backend/optimize_strategy_params.py` (558행)
-- 결과 테이블: `v4_optimization_results` (581건)
+- 결과 테이블: `v4_optimization_results` (583건)
 - 로그: `/tmp/optimize_run.log`
