@@ -45,14 +45,14 @@
   - DESK1(초단기/스캘핑) 종목 100개 대상 10개 전략 × 144 조합 그리드서치 실행
   - 스크립트: `scripts/run_desk1_gridsearch.py` (기존 파일 활용, 서비스 재시작 없음)
   - DESK1 exit rules: stop 1~2%, target 1.5~6%, max_hold 1~2일 (당일 청산 원칙 반영)
-  - 총 603건 → `v4_optimization_results` (desk_id=1)에 저장
+  - 총 606건 → `v4_optimization_results` (desk_id=1)에 저장 (이번 실행 144건 추가)
   - DESK1 #1: BOLLINGER_BAND (bb_mult=2.5, buy_threshold=-0.05) / 샤프 17.50 / 승률 78%
   - DESK1 #2: MEAN_REVERSION (bb_period=15, rsi_buy=30) / 샤프 9.30 / 승률 62%
   - DESK1 #3: RSI_DIVERGENCE (rsi_buy=20, rsi_sell=80) / 샤프 8.15 / 승률 58%
   - 부적합 전략: BREAKOUT_MOMENTUM(-0.25), VOLUME_SPIKE(-0.32) — 초단기 거짓신호 과다
   - 공통 패턴: BOLLINGER_BAND bb_mult=2.5가 DESK1~3 전체에서 최상위
-- **성공기준**: desk_id=1 결과 603건 ✅ / 전략 10개 포함 ✅
-- **보고서**: DESK1-GRIDSEARCH-OPT-20260319.md
+- **성공기준**: desk_id=1 결과 606건 ✅ / 전략 10개 포함 ✅
+- **보고서**: DESK1-GRID-SEARCH-OPTIMIZATION-20260319.md
 
 ### GRID-SEARCH-OPTIMIZATION — DESK 전략 파라미터 그리드서치 최적화 v2 (2026-03-18)
 - **HANDOVER 버전**: v11.10
