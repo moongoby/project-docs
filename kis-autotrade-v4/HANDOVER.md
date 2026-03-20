@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-09 | 버전: v11.8
+> 최종 업데이트: 2026-03-20 | 버전: v11.14
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,18 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### GO100-WHY-BADGE — 검증 페이지 매매 근거(WHY) 표시 (2026-03-20)
+- **HANDOVER 버전**: v11.14
+- **커밋**: GO100-WHY-BADGE-20260320 보고서 push
+- **작업 내용**:
+  - CEO 지시: 모든 검증 페이지에 매매 근거(WHY) 반드시 표시
+  - TradeHistory.tsx: `SIGNAL_LABELS` export 추가 (재사용 가능)
+  - SignalTimeline.tsx: `signal_name`/`dip_pct`/`desk_id` 뱃지 — 이미 구현됨
+  - TradeHistoryTable.tsx: `reason`/`regime_at_entry` 컬럼 — 이미 구현됨
+  - TradeDetail.tsx: `signal_source` InfoRow 표시 — 이미 구현됨
+  - 빌드 성공(51/51 pages), go100-frontend active 확인
+- **보고서**: go100/reports/GO100-WHY-BADGE-20260320.md
 
 ### DESK1-VOL-CORRECTION — DESK1 volume_ratio 보정 v2 (2026-03-20)
 - **HANDOVER 버전**: v11.13
