@@ -40,16 +40,16 @@
 
 ### DESK1-VOL-CORRECTION — DESK1 volume_ratio 보정 (2026-03-20)
 - **HANDOVER 버전**: v11.12
-- **커밋**: `0e91a973` feat(desk1): KIS REST API로 volume_ratio 보정 추가
+- **커밋**: `0e91a973` (REST API 보정) + `294583d0` (price-only fallback)
 - **작업 내용**:
   - 문제: WS tick 수집이 35종목 한정이라 current_volume이 실제보다 극히 낮음 → volume_ratio 0.00으로 surge=False
-  - 수정: `scripts/run_desk1_scanner.py` — KIS REST API acml_vol 보정 추가
-  - `_get_kis_access_token()`: KIS_VIRTUAL_APP_KEY/SECRET으로 모의투자 토큰 발급 (메모리+파일 캐시, 20시간 유효)
-  - `_fetch_kis_acml_vol()`: `FHKST01010100` TR → `acml_vol` + `stck_prpr` 반환
+  - 수정: `scripts/run_desk1_scanner.py` — 2단계 보정 추가
+  - **1단계** `_get_kis_access_token()` + `_fetch_kis_acml_vol()`: `FHKST01010100` TR → `acml_vol`+`stck_prpr` 보정
   - 보정 조건: `current_volume < prev_day_volume * 0.05` (5% 미만) → REST API로 실제 누적거래량 조회
-  - `acml_vol > current_volume`일 때만 덮어씀 (모의투자 acml_vol=0 반환 시 데이터 훼손 방지)
+  - **2단계 price-only fallback**: REST API acml_vol=0 반환 시, `price_chg >= 5%` 종목은 confidence 40+α(최대 65)로 2차 추가
+  - 008600 사례(price_chg=14.07%, vol_ratio=0.00) → `[PRICE_ONLY]` 경로로 surge 감지 보장
   - `sleep(0.11)` rate limit 준수 (~9 req/sec)
-- **성공기준**: 가격급등(≥5%) + acml_vol 보정 후 vol_ratio≥1.0으로 surge=True 감지
+- **성공기준**: REST API 성공 시 surge=True; 실패 시 [PRICE_ONLY] 경로로 감지
 - **보고서**: DESK1-VOLUME-CORRECTION-20260320.md
 
 ### DESK1-GRIDSEARCH-OPT — DESK1 그리드서치 최적화 (2026-03-19)
@@ -374,7 +374,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
-| v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — KIS REST acml_vol + price-only 폴백 |
+| v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — REST acml_vol(1차) + price-only fallback(2차) 완성 |
 | v11.8 | 2026-03-09 | KIS-304 | GO100 card_id=61 C등급 비활성화 — is_active=false, PAUSED |
 | v11.4 | 2026-03-09 | T-052 | GO100 전략 카드 대량 생산 — 5레짐 7전략, 백테스트7회, 세션5개 ACTIVE |
 | v11.3 | 2026-03-08 | KIS-301 | backtest sessions/trades stock_name null 해결 — stock_universe LEFT JOIN, COALESCE |

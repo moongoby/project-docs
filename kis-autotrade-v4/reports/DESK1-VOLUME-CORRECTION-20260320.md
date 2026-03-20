@@ -22,6 +22,11 @@ WS tick 수집 35종목 한계로 `current_volume`이 과소 집계되는 문제
    - REST API로 `acml_vol` 조회 → `acml_vol > current_volume` 이면 `entry["current_volume"]` 덮어씀
    - API 현재가(`stck_prpr`)도 유효하면 함께 보정
    - `time.sleep(0.11)` — ~9 req/sec, KIS rate limit(초당 10회) 준수
+4. **price-only fallback** (커밋 `294583d0` 추가):
+   - `scan_universe()` 이후 `vol_ratio < 1.0` + `price_chg >= 5%` 종목을 2차 포함
+   - 모의투자 acml_vol=0 반환 시에도 가격 급등 종목 감지 보장
+   - confidence 상한 **65** (volume 확인 종목과 구분), 킬존 보너스 +10 포함
+   - 008600 사례: `price_chg=14.07% vol_ratio=0.00` → `surge=False` 문제 해결
 
 ### 변경 파일
 | 파일 | 변경 유형 |
@@ -59,7 +64,7 @@ print(f'008600: acml_vol={vol}, price={price}')
 "
 ```
 
-**장중 실행 로그 기대 패턴**
+**장중 실행 로그 기대 패턴 (케이스 1: REST API 성공)**
 ```
 스캔 대상: 35종목 (거래량 보정 필요: 30종목)
 [VOL_FIX] KIS REST API로 거래량 보정 시작
@@ -68,14 +73,22 @@ print(f'008600: acml_vol={vol}, price={price}')
 급등감지 008600: price_chg=14.07% vol_ratio=1.52 surge=True conf=75
 ```
 
+**장중 실행 로그 기대 패턴 (케이스 2: REST API acml_vol=0 → price-only fallback)**
+```
+[VOL_FIX] 보정 완료: 0/30종목
+급등감지 008600: price_chg=14.07% vol_ratio=0.00 surge=False conf=0
+[PRICE_ONLY] 008600: price_chg=14.07% vol_ratio=0.00 → conf=57 (거래량 미측정)
+DESK1 스캔 완료: 1건 감지, 1건 신규 저장
+```
+
 ### 완료 기준
-- `[VOL_FIX]` 로그에서 `보정 완료: N/M종목` 출력
-- 가격 급등(≥5%) 종목의 `vol_ratio`가 0.0 대신 실측값(≥0.x) 으로 계산됨
-- `surge=True` 종목이 정상 감지됨
+- **케이스 1**: `[VOL_FIX] 보정 완료: N/M종목` + `surge=True` 감지
+- **케이스 2 (모의투자 acml_vol=0)**: `[PRICE_ONLY]` 로그로 가격 급등 종목 감지
+- 둘 중 하나 이상 달성 시 완료
 
 ### 실패 기준
 - `[KIS_REST] APP_KEY/SECRET 환경변수 없음` 계속 출력 → `.env` 확인 필요
-- `needs_volume_fix` 목록은 있으나 `fix_count=0` → API 응답 acml_vol=0 (모의투자 미지원 종목 가능)
+- `needs_volume_fix`도 0, `price_only_results`도 0 → tick 데이터 자체가 없는 경우
 - syntax 오류 → 배포 불가
 
 ### 서비스 재시작 확인
@@ -98,9 +111,13 @@ journalctl -u cron --since "5 minutes ago" | grep desk1
 | API 호출 속도 | `sleep(0.11)` (~9 req/sec) | KIS 모의투자 rate limit 초당 10회 준수 |
 | 토큰 캐시 | 메모리 + 파일(`/tmp/kis_token_cache_desk1.json`) | 3분 크론 재실행마다 토큰 재발급 방지 |
 | `acml_vol` 조건 | `acml_vol > current_volume` 일 때만 덮어씀 | 모의투자에서 acml_vol=0 반환 시 데이터 훼손 방지 |
+| price-only fallback | confidence 상한 65, volume 확인 종목은 50+α | 거래량 미측정 종목과 실제 거래량 증가 종목 구분 |
+| 구현 분리 | REST 보정(1차) → price-only(2차) 독립 처리 | 어느 경로로든 가격 급등 종목 누락 방지 |
 
 ---
 
 ## 코드 레포 커밋 체크포인트
-- [x] 코드 레포 커밋 완료 (kis-autotrade-v4) — `0e91a973`
-- [x] project-docs 보고서 push 완료
+- [x] 코드 레포 커밋 완료 (kis-autotrade-v4)
+  - `0e91a973` feat(desk1): KIS REST API로 volume_ratio 보정 추가
+  - `294583d0` feat(desk1): price-only fallback 추가 — 거래량 미측정 시 가격 급등 단독 통과
+- [ ] project-docs 보고서 push 완료
