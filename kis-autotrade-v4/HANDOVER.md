@@ -38,18 +38,19 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
-### DESK1-VOL-CORRECTION — DESK1 volume_ratio 보정 (2026-03-20)
-- **HANDOVER 버전**: v11.12
-- **커밋**: `0e91a973` (REST API 보정) + `294583d0` (price-only fallback)
+### DESK1-VOL-CORRECTION — DESK1 volume_ratio 보정 v2 (2026-03-20)
+- **HANDOVER 버전**: v11.13
+- **커밋**: `0e91a973` + `294583d0` + `3a432889` + `1e362c52`
 - **작업 내용**:
   - 문제: WS tick 수집이 35종목 한정이라 current_volume이 실제보다 극히 낮음 → volume_ratio 0.00으로 surge=False
   - 수정: `scripts/run_desk1_scanner.py` — 2단계 보정 추가
   - **1단계** `_get_kis_access_token()` + `_fetch_kis_acml_vol()`: `FHKST01010100` TR → `acml_vol`+`stck_prpr` 보정
-  - 보정 조건: `current_volume < prev_day_volume * 0.05` (5% 미만) → REST API로 실제 누적거래량 조회
-  - **2단계 price-only fallback**: REST API acml_vol=0 반환 시, `price_chg >= 5%` 종목은 confidence 40+α(최대 65)로 2차 추가
-  - 008600 사례(price_chg=14.07%, vol_ratio=0.00) → `[PRICE_ONLY]` 경로로 surge 감지 보장
-  - `sleep(0.11)` rate limit 준수 (~9 req/sec)
-- **성공기준**: REST API 성공 시 surge=True; 실패 시 [PRICE_ONLY] 경로로 감지
+  - **2단계 price-only fallback**: REST API acml_vol=0 반환 시, `price_chg >= 5%` 종목 confidence 40+α(최대 65)로 감지
+  - **버그 수정 v2** (`1e362c52`): 임계값 0.05→0.95 상향, prev_day_volume=0 케이스 완전 누락 버그 2건 수정
+    - 버그1: 0.0792인 475150(+11.15%) 보정 제외 → 임계값 0.95로 해결
+    - 버그2: 008600처럼 prev=0이면 vol_ratio=36625로 보정·폴백 모두 스킵 → `or prev_day_volume==0` + 폴백 가드 추가
+  - `sleep(0.11)` rate limit 준수 (~9 req/sec) | 002780: ×11.4배, 475150: ×7.3배 보정 확인
+- **성공기준**: REST API 성공 시 surge=True; 실패 시 [PRICE_ONLY] 경로로 감지; prev=0 종목도 폴백 포함
 - **보고서**: DESK1-VOLUME-CORRECTION-20260320.md
 
 ### DESK1-GRIDSEARCH-OPT — DESK1 그리드서치 최적화 (2026-03-19)

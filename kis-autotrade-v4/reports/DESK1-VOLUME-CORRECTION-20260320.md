@@ -103,16 +103,52 @@ journalctl -u cron --since "5 minutes ago" | grep desk1
 
 ---
 
+## 추가 수정 (2026-03-20 — 커밋 `1e362c52`)
+
+### 발견된 버그 2건
+
+**버그 1: 임계값 0.05 과소 설정**
+- WS vol_ratio가 0.0792인 종목(475150, 가격+11.15%)이 보정 대상에서 제외
+- 0.0792 > 0.05라서 REST API 호출 스킵 → 실제 acml_vol(8,522,609) 조회 못 함
+- 수정: `_VOLUME_CORRECTION_THRESHOLD = 0.05` → `0.95` (surge 임계 1.0 미만 전체 보정)
+
+**버그 2: prev_day_volume=0 케이스 누락 (008600 사례)**
+- DB에서 전일 거래량이 0으로 기록된 경우 `vol_ratio_ws = ws_volume / max(0, 1) = 36625`
+- 36625 >= 0.95라서 REST 보정 대상 제외
+- detect_surge()에서는 `prev_day_volume <= 0 → volume_ratio = 0.0 → surge=False`
+- price-only fallback에서도 `vol_ratio(36625) >= 1.0 → continue` → 완전 누락
+- 수정 1: 보정 조건에 `or int(prev_day_volume) == 0` 추가
+- 수정 2: price-only fallback에 `stock["prev_day_volume"] > 0` 가드 추가
+
+### 수정 후 검증 (실시간 API 테스트)
+
+```
+종목코드    WS거래량    전일거래량    WS비율    보정대상  REST_acml_vol  REST가격  price_chg
+002780    5,230,457  66,076,371   0.0792      Y    59,668,737    1,210    +20.59% → ratio=0.903
+008600       36,625           0  36625.00      Y  조회필요(모의투자)    -      +14.07%
+475150    1,162,129  14,628,900   0.0794      Y     8,522,609   61,400    +11.15% → ratio=0.5826
+089150      576,156   5,917,914   0.0974      Y      0(모의투자)    -       +7.36%
+261780    1,471,770  30,802,101   0.0478      Y      0(모의투자)    -       +6.61%
+```
+
+- KIS REST API 토큰 발급: 200 OK ✅
+- acml_vol 조회 (008600): `acml_vol=172442`, `stck_prpr=2820` ✅
+- 002780: WS 5.2M → REST 59.7M (×11.4배), ratio=0.0792→0.903
+- 475150: WS 1.2M → REST 8.5M (×7.3배), ratio=0.0794→0.5826
+
+---
+
 ## 핵심 설계 결정
 
 | 항목 | 결정 | 이유 |
 |------|------|------|
-| 보정 임계값 | 5% (`_VOLUME_CORRECTION_THRESHOLD = 0.05`) | WS 35종목 한계상 대부분이 5% 미만으로 나타남 |
+| 보정 임계값 | **0.95** (`_VOLUME_CORRECTION_THRESHOLD`) | WS 35종목은 실질적으로 모든 종목이 surge 임계(1.0) 미달, 전부 보정 필요 |
+| prev_day_volume=0 | `or int(prev_day_volume) == 0` 추가 | 전일 거래량 미수집 시 WS ratio 인위 상승 방지 (008600 사례) |
+| price-only 가드 | `stock["prev_day_volume"] > 0 and vol_ratio >= 1.0` | prev=0 인 경우 vol_ratio 36625로 폴백 스킵되던 버그 해결 |
 | API 호출 속도 | `sleep(0.11)` (~9 req/sec) | KIS 모의투자 rate limit 초당 10회 준수 |
 | 토큰 캐시 | 메모리 + 파일(`/tmp/kis_token_cache_desk1.json`) | 3분 크론 재실행마다 토큰 재발급 방지 |
 | `acml_vol` 조건 | `acml_vol > current_volume` 일 때만 덮어씀 | 모의투자에서 acml_vol=0 반환 시 데이터 훼손 방지 |
 | price-only fallback | confidence 상한 65, volume 확인 종목은 50+α | 거래량 미측정 종목과 실제 거래량 증가 종목 구분 |
-| 구현 분리 | REST 보정(1차) → price-only(2차) 독립 처리 | 어느 경로로든 가격 급등 종목 누락 방지 |
 
 ---
 
@@ -120,6 +156,6 @@ journalctl -u cron --since "5 minutes ago" | grep desk1
 - [x] 코드 레포 커밋 완료 (kis-autotrade-v4)
   - `0e91a973` feat(desk1): KIS REST API로 volume_ratio 보정 추가
   - `294583d0` feat(desk1): price-only fallback 추가 — 거래량 미측정 시 가격 급등 단독 통과
-- [x] project-docs 보고서 push 완료
-  - GitHub raw URL 200 확인: `https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/DESK1-VOLUME-CORRECTION-20260320.md`
-  - HANDOVER.md 업데이트 커밋: `d3901c2`
+  - `3a432889` fix: desk1_scanner SQL 수정
+  - `1e362c52` fix(desk1): 임계값 0.95 상향 + prev_day_volume=0 버그 2건 수정
+- [ ] project-docs 보고서 push 완료
