@@ -45,9 +45,26 @@
 ✓ Generating static pages (51/51)
 ```
 
+빌드 완료: 2026-03-20 17:3x (.next 클린 빌드, 이전 아티팩트 손상으로 rm -rf .next 후 재빌드)
+
 ## 서비스 상태
 
 ```
+sudo systemctl restart go100-frontend → active
 curl http://localhost:3000/go100 → 307 (정상)
-에러 로그 0건
+journalctl -u go100-frontend --since "1 min ago" | grep -i error → 출력 없음 (0건)
 ```
+
+## 코드 레포 커밋
+
+| 커밋 | 내용 |
+|------|------|
+| `bf6d87db` | TradeHistory.tsx SIGNAL_LABELS export + 근거 컬럼 |
+| `33401791` | SignalTimeline, TradeDetail, TradeHistoryTable WHY 뱃지 |
+
+---
+
+## 체크포인트
+
+- [x] 코드 레포 커밋 완료 (kis-autotrade-v4, commits: bf6d87db, 33401791)
+- [x] project-docs 보고서 push 완료
