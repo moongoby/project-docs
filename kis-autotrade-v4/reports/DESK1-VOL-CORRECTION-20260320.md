@@ -89,6 +89,27 @@ confidence 내림차순 TOP 10 → DB 저장
 
 ---
 
+## 5b. 실제 단위 테스트 결과 (2026-03-20 재검증)
+
+```
+테스트 1 PASS: acml_vol=1234567  (rt_cd=0 정상 응답)
+테스트 2 PASS: rt_cd!=0 → 0     (오류 응답 안전 처리)
+테스트 3 PASS: HTTP 500 → 0     (서버 오류 안전 처리)
+테스트 4 PASS: 예외 → 0         (타임아웃 등 예외 안전 처리)
+모든 단위 테스트 통과
+```
+
+통합 시뮬레이션 (008600 & 012345):
+```
+스캔 대상: 2종목 (volume 보정: 1종목)
+008600: price_chg=14.10% vol_ratio=1.67 surge=True conf=96 kill_zone=True  ← REST API 보정
+012345: price_chg=5.00%  vol_ratio=0.00 surge=False (표준 경로)
+price-only fallback 012345: price_chg=5.00% vol_ratio=0.00 conf=55 (volume 부족)
+DESK1 스캔 완료: 2건 감지, 2건 신규 저장
+```
+
+---
+
 ## 6. 주의사항
 
 - 모의투자 API는 일부 종목 acml_vol=0 반환 가능 → price-only 폴백이 안전망 역할
