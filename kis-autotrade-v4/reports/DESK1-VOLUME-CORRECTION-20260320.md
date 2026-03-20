@@ -120,4 +120,6 @@ journalctl -u cron --since "5 minutes ago" | grep desk1
 - [x] 코드 레포 커밋 완료 (kis-autotrade-v4)
   - `0e91a973` feat(desk1): KIS REST API로 volume_ratio 보정 추가
   - `294583d0` feat(desk1): price-only fallback 추가 — 거래량 미측정 시 가격 급등 단독 통과
-- [ ] project-docs 보고서 push 완료
+- [x] project-docs 보고서 push 완료
+  - GitHub raw URL 200 확인: `https://raw.githubusercontent.com/moongoby/project-docs/master/kis-autotrade-v4/reports/DESK1-VOLUME-CORRECTION-20260320.md`
+  - HANDOVER.md 업데이트 커밋: `d3901c2`
