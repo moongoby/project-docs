@@ -102,5 +102,5 @@ journalctl -u cron --since "5 minutes ago" | grep desk1
 ---
 
 ## 코드 레포 커밋 체크포인트
-- [ ] 코드 레포 커밋 완료 (kis-autotrade-v4)
-- [ ] project-docs 보고서 push 완료
+- [x] 코드 레포 커밋 완료 (kis-autotrade-v4) — `0e91a973`
+- [x] project-docs 보고서 push 완료

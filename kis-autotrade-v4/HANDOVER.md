@@ -38,6 +38,20 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### DESK1-VOL-CORRECTION — DESK1 volume_ratio 보정 (2026-03-20)
+- **HANDOVER 버전**: v11.12
+- **커밋**: scripts/run_desk1_scanner.py
+- **작업 내용**:
+  - 문제: WS tick 수집이 35종목 한정이라 current_volume이 실제보다 극히 낮음 → volume_ratio 0.00으로 surge=False
+  - 수정: `scripts/run_desk1_scanner.py` v2 — KIS REST API + price-only 폴백 추가
+  - `_get_kis_access_token()`: KIS_VIRTUAL_APP_KEY/SECRET으로 모의투자 토큰 발급 (세션 캐시)
+  - `_fetch_kis_acml_vol()`: `/uapi/domestic-stock/v1/quotations/inquire-price` → acml_vol 조회, rate limit 0.12초 간격
+  - volume 보정 조건: current_volume < prev_day_volume * 0.02 이면 REST API 조회
+  - REST API도 실패 시 price-only 모드: price_change >= 5% 이면 confidence 40~70으로 통과
+  - price-only 결과는 `scan_universe()` 이후 append → confidence 내림차순 상위 10개로 재정렬
+- **성공기준**: price_chg=14%이고 vol_ratio=0.00인 종목이 surge=True로 감지됨
+- **보고서**: DESK1-VOL-CORRECTION-20260320.md
+
 ### DESK1-GRIDSEARCH-OPT — DESK1 그리드서치 최적화 (2026-03-19)
 - **HANDOVER 버전**: v11.11
 - **커밋**: project-docs (업데이트 중)
@@ -360,6 +374,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — KIS REST acml_vol + price-only 폴백 |
 | v11.8 | 2026-03-09 | KIS-304 | GO100 card_id=61 C등급 비활성화 — is_active=false, PAUSED |
 | v11.4 | 2026-03-09 | T-052 | GO100 전략 카드 대량 생산 — 5레짐 7전략, 백테스트7회, 세션5개 ACTIVE |
 | v11.3 | 2026-03-08 | KIS-301 | backtest sessions/trades stock_name null 해결 — stock_universe LEFT JOIN, COALESCE |
