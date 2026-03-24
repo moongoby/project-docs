@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-20 | 버전: v11.14
+> 최종 업데이트: 2026-03-24 | 버전: v11.15
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,18 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### P0-PROMPT-SCHEMA — LLM 가설 생성 프롬프트 개선 (2026-03-24)
+- **HANDOVER 버전**: v11.15
+- **작업 내용**:
+  - 문제: LLM이 자연어 조건 생성 → SignalEvaluator 해석 불가 → trades=0 (238건 중 237건, 99.6%)
+  - 작업1: l2_desk_generator.py 프롬프트에 indicator 카탈로그(6개 entry + 4개 exit type), JSON 스키마 강제, Few-shot 예시 3건 추가
+  - 작업2: `_validate_hypothesis()` 검증 레이어 — conditions list/dict/type 검증 + 실패 시 최대 2회 재생성 + 3회 실패 시 GENERATION_FAIL
+  - 작업3: `_detect_contradictions()` 모순 탐지 — 골든크로스+RSI<35, 데드+RSI>65, 상향+하향돌파, 골든+데드 4쌍 감지 + 자동 재생성
+  - hypothesis_rule_mapper.py: 구조화 dict 직접 변환 + exit_signal.rules 매핑 + 레거시 호환
+  - 단위 테스트 전체 통과 (검증/모순탐지/매퍼 new+legacy 형식)
+- **기대효과**: LLM→SignalEvaluator 변환 성공률 ~0.4% → 90%+
+- **보고서**: go100/reports/P0-PROMPT-SCHEMA-20260324.md
 
 ### GO100-WHY-BADGE — 검증 페이지 매매 근거(WHY) 표시 (2026-03-20)
 - **HANDOVER 버전**: v11.14
@@ -387,6 +399,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.15 | 2026-03-24 | P0-PROMPT-SCHEMA | LLM 가설 프롬프트 JSON 스키마 강제 + indicator 카탈로그 + 검증 레이어 + 모순 탐지 |
 | v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — REST acml_vol(1차) + price-only fallback(2차) 완성 |
 | v11.8 | 2026-03-09 | KIS-304 | GO100 card_id=61 C등급 비활성화 — is_active=false, PAUSED |
 | v11.4 | 2026-03-09 | T-052 | GO100 전략 카드 대량 생산 — 5레짐 7전략, 백테스트7회, 세션5개 ACTIVE |
