@@ -2,7 +2,7 @@
 
 **날짜**: 2026-03-27
 **브랜치**: phase-2c-command-center
-**커밋**: 3a8acfe3
+**커밋**: b5c49244 (최신)
 
 ---
 
@@ -43,6 +43,10 @@ open_positions: 0
 - `load_active_strategy_cards(conn, min_stage=2)`: stage_id >= 2 카드 로드 (HYPOTHESIS 포함)
 - `load_hypothesis_bt_cards(conn)`: stage_id=1 HYPOTHESIS 백테스트 전용 카드 로드
 - `_load_params_from_db(include_hypothesis_bt=True)` 호출로 연결
+- `strategy_cards_to_priority_order()`: HYPOTHESIS 카드 → HYP_{card_id} SID 자동 생성
+- `load_strat_params_from_cards()`: HYPOTHESIS 카드 → StratParam 기본값 자동 생성
+- `load_atr_params_from_cards()`: HYPOTHESIS 카드 ATR 기본값 추가
+- `simulate_day_neutral()`: STRAT_PARAMS.get(sid) 안전 처리 (KeyError 방지)
 
 ### 작업 4: strategy_promotion_engine.py 승격 로직 ✅
 - `_promote_hypothesis_1_to_2()`: BT → 가상매매 (sharpe≥1.2, mdd≥-8%, return>0)
