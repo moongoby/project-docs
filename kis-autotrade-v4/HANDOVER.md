@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-27 | 버전: v11.16
+> 최종 업데이트: 2026-03-27 | 버전: v11.17
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,21 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### PHASE3-RERUN — 가설엔진 → 통합엔진 연결 + 카탈로그 확장 (2026-03-27)
+- **HANDOVER 버전**: v11.17
+- **커밋**: `eb248a5f` (보고서) + `b5c49244` (코드)
+- **작업 내용**:
+  - Phase 3 재실행: 가설엔진 PASS → 통합엔진 연결 전체 파이프라인 완성
+  - 작업1: 카탈로그 확장 — Entry 32종(+13), Exit 7종(+3) 수급/외부데이터 지표 추가
+  - 작업2: hypothesis_pipeline._register_temp_card() — PASS 가설 → HYPOTHESIS 카드(stage_id=1) 등록
+  - 작업3: 통합엔진 run_unified_engine.py — HYPOTHESIS BT 카드 로드 + StratParam 자동생성 + 안전처리
+  - 작업4: strategy_promotion_engine.py — HYPOTHESIS 1→2→3→4 승격 로직
+  - 작업5: seed_walkforward_pass_cards.py — 1회성 시드 (10건 이미 등록 확인)
+  - SignalEvaluator: Phase 3 지표 DATA_NOT_AVAILABLE 패턴 적용 (16개 타입)
+  - PaperTradingEngine30d 직접 호출 경로 제거 (CEO 확정 원칙)
+- **검증 결과**: Import OK, Entry=32/Exit=7, HYPOTHESIS 10건 stage_id=1, 에러 0건
+- **보고서**: report/go100/PHASE3-RERUN-20260327.md
 
 ### PHASE1-CTE-CARD-PIPELINE — CTE 하드코딩 제거, 전략 카드 기반 전환 (2026-03-27)
 - **HANDOVER 버전**: v11.16
@@ -417,6 +432,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.17 | 2026-03-27 | PHASE3-RERUN | 가설엔진→통합엔진 연결, 카탈로그 32+7종, HYPOTHESIS 카드 10건 시드, 승격 파이프라인 완성 |
 | v11.16 | 2026-03-27 | PHASE1-CTE-CARD-PIPELINE | CTE 하드코딩 제거 → go100_strategy_cards 기반 전환, 7 DESK 카드 + 6 컴포넌트 구현 |
 | v11.15 | 2026-03-24 | P0-PROMPT-SCHEMA | LLM 가설 프롬프트 JSON 스키마 강제 + indicator 카탈로그 + 검증 레이어 + 모순 탐지 |
 | v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — REST acml_vol(1차) + price-only fallback(2차) 완성 |
