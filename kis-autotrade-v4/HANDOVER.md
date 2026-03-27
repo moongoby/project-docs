@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-27 | 버전: v11.17
+> 최종 업데이트: 2026-03-27 | 버전: v11.18
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,19 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### PHASE2-VIRTUAL-OHLCV — 가상매매 기술지표 실제 OHLCV 교체 (2026-03-27)
+- **HANDOVER 버전**: v11.18
+- **커밋**: `d2df117c`
+- **작업 내용**:
+  - Phase 2: 가상매매(`--mode virtual`) 기술지표를 랜덤→실제 OHLCV 기반으로 교체
+  - `make_real_signal()` 265줄 구현: indicator_precompute()의 MA/RSI/MACD/ADX/BB/Stoch → TradeSignal 주입
+  - `_load_ohlcv_sync()` + `_virtual_ohlcv_cache`: psycopg2 동기 OHLCV 로드 + 메모리 캐시 (장 시작 1회 프리로드)
+  - `action_signal()`: OHLCV 프리로드 → make_real_signal() 우선 → legacy 폴백
+  - `action_nxt_signal()`: 동일 Phase 2 패턴 적용
+  - 기존 `_LEGACY_make_neutral_signal()` 삭제 안함 (폴백 보존)
+- **검증 결과**: RSI=75.0(실제), vol_ratio=0.38(실제), ATR=15(실제), import/syntax OK, 에러 0건
+- **보고서**: report/v41/PHASE2-VIRTUAL-OHLCV-20260327.md
 
 ### PHASE3-RERUN — 가설엔진 → 통합엔진 연결 + 카탈로그 확장 (2026-03-27)
 - **HANDOVER 버전**: v11.17
