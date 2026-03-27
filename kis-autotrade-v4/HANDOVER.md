@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-24 | 버전: v11.15
+> 최종 업데이트: 2026-03-27 | 버전: v11.16
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,24 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### PHASE1-CTE-CARD-PIPELINE — CTE 하드코딩 제거, 전략 카드 기반 전환 (2026-03-27)
+- **HANDOVER 버전**: v11.16
+- **커밋**: `ed6fa0ad` (Phase 1 메인) + `12aba107` (Phase 1 보강) + `7bc862a9` (검증 리포트)
+- **작업 내용**:
+  - CTE 파이프라인의 하드코딩된 전략 매핑을 go100_strategy_cards 테이블 기반으로 전환
+  - 7개 DESK 전략 카드 시드 (card_id 67-73): D2/D4/D5/D6/D7/S1/D-ORB, 모두 PAPER_LIVE/stage=2
+  - 6개 핵심 컴포넌트 구현:
+    1. `CTEPipeline.evaluate_with_card()` — 카드 기반 평가 엔트리포인트
+    2. `BounceConfirmationGate.evaluate_bounce()` — 14개 조건 타입 제네릭 평가기
+    3. `TriggerTacticMatrix` 4개 카드 기반 메서드
+    4. `SignalGenerator._load_strategy_cards()` — async DB 로드
+    5. `run_unified_engine.load_active_strategy_cards()` — 카드 기반 전략 우선순위
+    6. DB 마이그레이션 074/075 (스키마 확장 + DESK 시드)
+  - Phase 1 보강: ai_client 3단폴백 (R-AUTH 준수), bounce_conditions 평가기 315줄 추가
+  - 기존 하드코딩 로직 fallback 보존 (안정성)
+- **검증 결과**: 7 DESK 카드 DB 확인, 6 컴포넌트 import 성공, 서비스 active, 에러 로그 0건
+- **보고서**: report/PHASE1-CTE-PIPELINE-RESULT-20260327.md, report/v41/PHASE1-CTE-CARD-PIPELINE-20260327.md
 
 ### P0-PROMPT-SCHEMA — LLM 가설 생성 프롬프트 개선 (2026-03-24)
 - **HANDOVER 버전**: v11.15
@@ -399,6 +417,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.16 | 2026-03-27 | PHASE1-CTE-CARD-PIPELINE | CTE 하드코딩 제거 → go100_strategy_cards 기반 전환, 7 DESK 카드 + 6 컴포넌트 구현 |
 | v11.15 | 2026-03-24 | P0-PROMPT-SCHEMA | LLM 가설 프롬프트 JSON 스키마 강제 + indicator 카탈로그 + 검증 레이어 + 모순 탐지 |
 | v11.12 | 2026-03-20 | DESK1-VOL-CORRECTION | DESK1 volume_ratio 보정 — REST acml_vol(1차) + price-only fallback(2차) 완성 |
 | v11.8 | 2026-03-09 | KIS-304 | GO100 card_id=61 C등급 비활성화 — is_active=false, PAUSED |
