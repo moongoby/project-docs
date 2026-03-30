@@ -1,8 +1,18 @@
 # GO100 프로젝트 규칙
 # globs: backend/app/routers/go100/**, backend/app/services/go100/**, frontend/src/go100/**, frontend/src/app/(protected)/go100/**, docs/**, .cursorrules
 
-## 필수 참조 문서 (작업 전 반드시 읽기)
-- docs/CONTEXT.md (프로젝트 전체 맥락)
+## 필수 참조 문서 (3계층 체계, 작업 전 반드시 읽기)
+
+| 계층 | 파일 | 역할 | 읽기 시점 |
+|------|------|------|-----------|
+| Core | CONTEXT.md | 프로젝트 현황, 서버, DB, Agent, 규칙, 작업큐 | 매 세션 필수 |
+| Directives | CEO-DIRECTIVES.md | CEO 투자철학, 전략 지시, 절대규칙 | 매 세션 필수 |
+| Rules | go100-rules.md (본 파일) | 서비스 경계, 파일 목록, API, 문서 규칙 | 온보딩/규칙확인 |
+| History L1 | /root/project-docs/go100/handover/HANDOVER.md | 현재 상태 요약, 즉시 체크리스트, 다음 작업 | 매 세션 필수 |
+| History L2 | /root/project-docs/go100/handover/HANDOVER-DETAIL.md | 완료 작업 테이블, 아키텍처, DB, 파일 경로 | 이전 작업 참조 시 |
+| Archive L3 | /root/project-docs/go100/handover/HANDOVER-ARCHIVE.md | 과거 전체 이력 + 핵심 발견 보관 | 장기 참조 시 |
+
+### 기타 참조
 - docs/ISSUES.md (미해결 이슈)
 - docs/CHANGELOG.md (최근 변경)
 - docs/ROADMAP.md (진행 상태)
@@ -10,7 +20,6 @@
 - docs/API_SPEC.md (API 명세)
 - docs/PLANNING.md (기획서)
 - docs/ARCHITECTURE.md (아키텍처)
-- docs/HANDOVER.md (인수인계)
 
 ## GO100 절대 규칙
 1. go100_* 파일/테이블만 수정
@@ -46,22 +55,16 @@
 - GET /api/v1/strategy-cards/for-backtest
 
 ## user_id 매핑 (★ 핵심)
-- [CEO-EMAIL-NV]: v4_users.user_id=3, legacy users.id=15
-- [CEO-EMAIL-GM]: v4_users.user_id=2, legacy users.id=6
+- moongoby@naver.com: v4_users.user_id=3, legacy users.id=15
+- moongoby@gmail.com: v4_users.user_id=2, legacy users.id=6
 - JWT에는 legacy id가 들어있으므로 반드시 get_effective_uid() 사용
 
 ## 문서 동기화
 - 커밋 후 반드시: bash /root/project-docs/scripts/sync_go100.sh
 - 보고서: report/<YYYYMMDD>-<TASK-ID>.md 생성 후 sync
 
-## 문서 저장 규칙 (2026-02-24 추가)
-- 보고서 파일명: `CUR-GO100-{TASK}-{SEQ}-{YYYYMMDD}.md`
-- 저장 위치: `go100/reports/` (교차 저장 금지)
-- 상세: go100/rules/DOCUMENT-RULES.md
-- 마스터: https://raw.githubusercontent.com/moongoby/project-docs/master/DOCUMENT-NAMING-CONVENTION.md
-
-## Git 운영 규칙
-- 작업 시작: 브랜치 분기 필수 ({type}/CUR-GO100-{TASK-ID})
-- 커밋 전: bash scripts/pre-commit-check.sh 실행 필수
-- 보호 파일 변경 시: git diff로 의도한 변경만 포함 확인
-- GO100 카드 지원 코드 삭제 금지 (trade/page.tsx, ScheduleForm.tsx)
+## API 키 보안 절대 규칙 (R-KEY)
+- 절대 API 키를 소스코드/config 파일에 하드코딩하지 않는다
+- 모든 시크릿은 `.env` 파일에만 저장
+- 커밋 전 pre-commit hook이 API 키 패턴 자동 감지 → 차단
+- 위반 시: 제공사가 키를 leaked 처리하여 영구 비활성화됨
