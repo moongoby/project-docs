@@ -1,7 +1,34 @@
-# HANDOVER History – KIS AutoTrade V4.1 (v10.62~v10.53)
+# HANDOVER History – KIS AutoTrade V4.1 (v11.4~v10.53)
 
 > 이 파일은 HANDOVER.md에서 분리된 히스토리입니다. 최신 내용은 HANDOVER.md를 참조하세요.
-> 분리일: 2026-03-08, KIS-004 지시에 의거
+> 분리일: 2026-03-08, KIS-004 지시에 의거 / 2026-03-30 v11.19 업데이트 배치 이동
+
+---
+
+## 3. 완료된 작업 (v11.4~v11.1 | 2026-03-08~03-09)
+
+| Task ID | 날짜 | 커밋 | HTTP | 핵심 결과 |
+|---------|------|------|------|-----------|
+| **T-052 GO100 전략카드 대량생산 5레짐** | 03-09 | efbc58ce | — | TYPE-A~E card_id=55~59 + 완화2건(60/61), BT7회, ACTIVE세션5개, TYPE-E +22.4%/PF=1.58/Sharpe=2.31, C등급(card_id=61) 재설계권장 |
+| **KIS-301 stock_name null 수정** | 03-08 | phase-2c | 200 | stock_universe LEFT JOIN + COALESCE(u.stock_name,t.stock_code), 74건 non-null 확인 |
+| **KIS-300 CONTEXT.md v12.0 최신화** | 03-08 | project-docs | — | §7서비스/§10KnownIssues/§12API/§13완료/§14작업큐/§2.6타이머표/§20TaskID 전면갱신 |
+| **KIS-298 trades.html DOM ID + 한글검색** | 03-08 | phase-2c | 200 | DOM ID수정(kwFilterDateFrom→filter-date-from)/fetchSearch() encodeURIComponent/stocks/search q.strip() |
+| **KIS-297 trades API 진단** | 03-08 | project-docs | 200 | /api/v4/trades/unified 200(105526건) 확인, 빈화면 KIS-295서 해결 확인, 잔여이슈3건 문서화 |
+| **KIS-001 CONTEXT.md v11.1 종합업데이트** | 03-08 | project-docs | — | §6.5 GO100연동/§8.5 BT엔진/§8.8 API상태표/§8.9~10 KnownIssues/§10.5 체크리스트 추가 |
+| **v10.72 AADS-178 좀비프로세스 근본수정** | 03-08 | 9c7b3b5a | — | 5건수정: RESULT폴링부모감시/L1타이머그룹kill/task_id필터/PID lockfile/PROJECT빈값, 211+68배포 |
+| **v10.70 T-283 문서 4계층 재구성** | 03-08 | project-docs | — | CONTEXT.md v11.0/CEO-DIRECTIVES.md v2.0/KIS-HANDOVER-RULES.md v1.0 신규, Task ID KIS-xxx 전환 선언 |
+| **v10.69 T-284 브릿지 큐정리 + Phase2검증** | 03-08 | project-docs | — | T-282/T-283 완료처리, Phase2 7/7 PASS |
+| **v10.68 T-285 컨텍스트 동기화** | 03-08 | project-docs | — | CONTEXT.md v10.28 동기화 |
+| **v10.67 T-286 backtest/progress 구현** | 03-08 | 88502672 | — | /api/v4/backtest/progress converge_status 집계, 세션별 진행률 계산 |
+| **v10.66 T-283 trades.html Phase2** | 03-08 | c6bc6a4b | 200 | RSI/MACD pane, 보유Rectangle, F키전체화면 추가 |
+| **v10.65 T-282-S4S5 HTML 조립** | 03-08 | 4b327d12 | 200 | trades.html(292줄) INIT스크립트+모듈6개, 외부HTTP 7/7 |
+| **v10.64 T-282 키움 스타일 차트** | 03-08 | 09e539d6 | 200 | trades.html 전면재구현 519줄, CSS 533줄, JS 5모듈 |
+| **v10.63 T-281 Nginx static 배포** | 03-07 | nginx설정 | 200 | /trades.html + /static/ location 추가, nginx reload |
+| **v10.62 T-280 trades.html 배포** | 03-07 | 스크립트 | 200 | API 3개 200OK, /manager/trades.html 워크어라운드, deploy_static.sh |
+| **v10.61 T-278 CEO 통합거래뷰어 Phase1** | 03-07 | 296742a9 | 200 | 7개 엔드포인트, trades.html/css/js, TC-13/13 ALL PASS |
+| **v10.60 T-277 큐정리+장전점검** | 03-07 | 보고서 | — | pending T-T- 0건, 서비스4개 active, DB지표6개, READY |
+| **v10.59 T-275 DQI Grade A(92.8) 달성** | 03-07 | 보고서 | — | L0_KOSPI NOT NULL 100%, FunnelScore 30/30 100% avg=0.862, DQI 58.1(D)→81.3(B)→92.8(A) |
+| **v10.58 T-273 DQI Grade B(81.3)** | 03-07 | 보고서 | — | DQI B달성, FunnelScore 100% 확인, CONTEXT.md v10.26 |
 
 ---
 

@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-27 | 버전: v11.18
+> 최종 업데이트: 2026-03-30 | 버전: v11.21
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,58 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### REPLAY-DESK2-DEPRECATED — ReplayEngine 동적 전략카드 로딩 + DESK2 deprecated (2026-03-30)
+- **HANDOVER 버전**: v11.21
+- **커밋**: `d98541e3` (replay/desk2) + `4f08f2db` + `2efb4744` + `ec243bde` (seed완료)
+- **작업 내용**:
+  - **ReplayEngine 동적 전략카드 로딩** (3단계, +211줄):
+    - `replay_engine.py`: `load_strategy_cards()` 추가 — `go100_strategy_cards` DB에서 ACTIVE 카드 동적 로드
+    - `entry_detector.py`: SignalEvaluator 기반 CARD_* 전략 진입 fallback (+118줄)
+    - `candidate_scanner.py`: CARD_* 범용 후보 스캐닝 지원
+  - **DESK2 백테스트 deprecated** (2단계):
+    - `backtest_runner.py`: deprecated 마킹, GO100 BacktestService 통합으로 대체
+    - `backend/app/services/backtest/__init__.py`: deprecated stub 처리
+  - **레거시 backtest/ deprecated** (1단계): ReplayEngine 완전 대체
+  - **대가 전략 시드 완료** (`4f08f2db`, `2efb4744`, `ec243bde`):
+    - `v4_master_strategies` 15건 저장 (래리 윌리엄스, 터틀, CANSLIM 등)
+    - `ai_client._parse_json`: JSONDecodeError 시 빈 dict 반환 (Gemini 비정형 응답 방어)
+    - `formalize_strategy`: JSON 정형화 실패 시 1회 재시도 + 강제 JSON 출력
+    - `run_master_collector.py` 독립 실행 스크립트 추가
+- **검증 결과**: 6파일 +211/-2줄, v4_master_strategies 15건, ReplayEngine 동적 카드 로딩 활성화
+
+### MASTER-STRATEGY-SEED-PIPELINE — 대가 전략 시드 파이프라인 (2026-03-29)
+- **HANDOVER 버전**: v11.20
+- **커밋**: `1998df81` + `ef5a8fa2` + `cf7b9a5b` + `f7d5d561` + `fdbc3f5f`
+- **작업 내용**:
+  - `master_strategy_collector.py` 신규 (406줄): SearXNG 검색 → Gemini(LiteLLM) 정형화 → `v4_master_strategies` UPSERT
+  - `ai_client.py`: `claude-opus-4` OPUS 모델 + `select_model()` 지원 추가 (R-AUTH 준수)
+  - `run_master_strategy_collect.py` 스크립트 (81줄): CLI 수동 실행 지원
+  - **L2 가설 생성에 대가 전략 동적 주입**:
+    - `hypothesis_engine.py`: `v4_master_strategies` 조회 → few-shot 샘플로 프롬프트 보강
+    - `l2_desk_generator.py`: 대가 전략 시드 3건 자동 삽입 (+35줄)
+  - `v4_master_strategies` 마이그레이션 SQL 추가 (`f7d5d561`)
+  - SearXNG URL 수정: `localhost` → `68.183.183.11:8888` (KIS서버 직접 접근)
+  - fix: `minute simulator` 메서드 이름 `run_backtest` → `run` 수정 (`fdbc3f5f`)
+- **검증 결과**: 3파일 신규 518줄 추가, L2 가설 생성 few-shot 주입 활성화, SearXNG 정상 연결
+
+### BACKTEST-PERF-OPT — 백테스트 성능 최적화 + DESK 프랙탈 통합 (2026-03-28)
+- **HANDOVER 버전**: v11.19
+- **커밋**: `cbfec41d` + `e357b1a7` + `e65f7be3` + `25cd4ed6` + `6c5e6b15`
+- **작업 내용**:
+  - **DESK 프랙탈 시스템 P1~P6 통합엔진 반영** (`cbfec41d`, 7파일 +889/-549):
+    - `minute_simulator.py` 전면 재편 (+728줄)
+    - `minute_cache.py` 신규 (136줄): 분봉 데이터 캐싱 레이어
+    - `signal_evaluator.py` +38줄, `trading_cost.py` +419줄
+    - `expression_parser.py` +39줄: 프랙탈 조건 파싱 확장
+    - `scripts/run_unified_engine.py` +52줄: P1~P6 프랙탈 모드 반영
+  - **UniverseEngine DataCache 주간 캐시** (`e357b1a7`):
+    - `universe/engine.py`: source 필터로 3844→328종목 처리 (필요 종목만 로드)
+  - **indicator_precompute 1회 사전계산** (`e65f7be3`):
+    - `backtest/simulator.py`: 지표 반복계산 제거 → 백테스트 **21시간 → 3분** (420배 단축)
+  - `MinuteBacktestSimulator` alias 추가 (`25cd4ed6`): `Go100MinuteSimulator` import 호환
+  - 백테스트 **24시간 데몬 모드** 전환 (`6c5e6b15`): 워치독 크론 추가, 상시 실행 체계
+- **검증 결과**: 백테스트 21시간→3분 ✅, 유니버스 3844→328 캐시 ✅, DESK 프랙탈 P1~P6 통합 ✅
 
 ### PHASE2-VIRTUAL-OHLCV — 가상매매 기술지표 실제 OHLCV 교체 (2026-03-27)
 - **HANDOVER 버전**: v11.18
@@ -216,205 +268,6 @@
 - **보고서**: CUR-GO100-ADMIN-WARROOM-001-20260309.md (HTTP 200 ✅)
 - **project-docs 커밋**: 8dda01b
 
-### T-052 — GO100 전략 카드 대량 생산 — EvolutionLoop 5레짐 (2026-03-09)
-- **HANDOVER 버전**: v11.4
-- **커밋**: efbc58ce (phase-2c-command-center), project-docs 13b129b
-- **작업 내용**:
-  - TYPE-A~E 5개 시장 레짐별 전략 카드 INSERT (card_id 55-59, LLM_GENERATED)
-  - 완화버전 2개 추가: TYPE-B-R(card_id=60), TYPE-D-R(card_id=61)
-  - 백테스트 7회 실행 완료: go100_orderbook_backtest_runs (run_id 3-9)
-  - ValidatorAgent 등급: A×4(TYPE-A/B/D/E), B×2(TYPE-C/B-R), C×1(TYPE-D-R)
-  - 모의투자 세션 5개 ACTIVE 생성 (session_id 3-7)
-  - 성공기준 4/4 달성: 카드49장 / 백테스트7회 / 세션5개 / 양수수익률6개
-  - 최고 성과: TYPE-E(카드59) +22.4% / PF=1.58 / Sharpe=2.31 (CEO T-001 52주신고가 전략)
-  - 주의: TYPE-D-R(card_id=61) MDD -21.3%, PF=0.88 — C등급 활성화됐으나 재설계 권장
-- **스크립트**: scripts/go100/t052_strategy_mass_production.py
-- **보고서**: CUR-GO100-STRATEGY-MASS-PRODUCTION-001-20260309.md (HTTP 200 ✅)
-
-### KIS-301 — backtest sessions/trades stock_name null 수정 (2026-03-08)
-- **HANDOVER 버전**: v11.3
-- **커밋**: phase-2c-command-center (코드레포), project-docs (문서레포)
-- **작업 내용**:
-  - 파일: `backend/app/api/v4_backtest_api.py` (라인 225-248)
-  - 원인: `data_sql`에 `stock_universe` JOIN 누락, `"stock_name": None` 하드코딩
-  - 수정: `LEFT JOIN stock_universe u ON u.stock_code = t.stock_code` 추가
-  - 수정: `COALESCE(u.stock_name, t.stock_code) AS stock_name` 적용
-  - 수정: `"stock_name": m.get("stock_name")` 으로 실제 값 매핑
-  - 재시작: `go100` (8002), `kis-v41-api` (8003) 모두 재시작
-  - 검증: 외부 URL curl → 74건 전부 non-null (흥구석유 등 실제 종목명)
-- **보고서**: KIS_20260308_141842_BRIDGE_RESULT.md
-
-### KIS-300 — CONTEXT.md v12.0 전면 최신화 (2026-03-08)
-- **HANDOVER 버전**: v11.2
-- **커밋**: project-docs (git push 완료)
-- **작업 내용**:
-  - §7 서비스 현황: kis-v41-api 재시작 완료 (2026-03-08 12:31) 반영
-  - §10.1 Known Issues: 빈화면 해결(KIS-295~298), DOM ID/한글검색 해결(KIS-298), Nginx 프록시 대기(KIS-293), stock_name null 대기(KIS-299) 업데이트
-  - §12 API 상태: /api/v4/backtest/progress → 200 OK (KIS-290), /api/v4/trades/unified + /api/v4/stocks/search → 200 OK 추가, 잘못된 비-v4 경로 삭제
-  - §13 최근 완료: KIS-290, KIS-291, KIS-293, KIS-295, KIS-297, KIS-298 추가
-  - §14 작업 큐: T-226 삭제, KIS-002/003 삭제, KIS-299(stock_name null)로 대체
-  - §2.6 신규: claude_exec.sh SIZE별 타이머 표 (XS/S:1200s, M:2400s, L:3600s, XL:5400s)
-  - §20 Task ID: KIS-288부터 연번 체계 반영 (기존 "KIS-001부터" 삭제)
-  - §23 버전 이력: KIS-300 항목 추가
-- **보고서**: 없음 (문서 업데이트 전용)
-
-### KIS-298 — trades.html DOM ID 불일치 + 한글 검색 400 수정 (2026-03-08)
-- **HANDOVER 버전**: v11.1
-- **커밋**: phase-2c-command-center (코드레포)
-- **작업 내용**:
-  - ① kw-trade-list.js setDefaultDates() DOM ID 수정: kwFilterDateFrom→filter-date-from, kwFilterDateTo→filter-date-to
-    - 영향: 날짜 기본값(최근 3개월) 정상 설정, 초기 쿼리 부하 감소 (전체 105,526건 → 3개월 데이터)
-  - ② kw-chart-engine.js fetchSearch() 신규 추가: encodeURIComponent로 한글 URL 인코딩 처리
-    - `KWChartEngine.prototype.fetchSearch(q)` — 빈 쿼리 시 빈 배열 즉시 반환, 비어있지 않으면 `/api/v4/stocks/search?q=<encoded>` 호출
-  - ③ v4_trades_unified.py stocks/search 엔드포인트 강화: max_length=50 추가, q.strip() 처리, 공백만인 경우 [] 반환
-  - ④ CONTEXT.md §8.9 KIS-298 완료 사항 추가 (최종 갱신: 2026-03-08)
-  - 검증: URL-encoded Korean search → HTTP 200 + 20건 반환 ✅, trades API Korean stock_name → 2,089건 ✅
-  - 보안 스캔: SQL injection 0건 (:q 파라미터 바인딩), XSS 0건
-  - 한계: raw 한글 URL (encodes 미적용 curl) → nginx/uvicorn HTTP 400은 HTTP 프로토콜 제약으로 수정 불가. 브라우저 fetch는 encodeURIComponent로 정상 처리됨
-- **보고서**: CUR-V41-KIS298-BRIDGE-001-20260308.md
-
-### KIS-297 — trades.html 빈화면 API 진단 (2026-03-08)
-- **HANDOVER 버전**: v10.73
-- **커밋**: project-docs d200cb7
-- **작업 내용**:
-  - 6개 진단 항목 전부 실행 및 기록 (진단 전용, 코드 수정 없음)
-  - 내부/외부 API 테스트: 지시서 URL `/api/chart-data`, `/api/stocks/search`, `/api/trades/unified` 모두 404 (잘못된 경로, `/api/v4/` 프리픽스 누락)
-  - Nginx 설정 확인: `/api/v4/` → 8003 + X-Internal-API-Key 주입 정상 / `/api/` → 8001
-  - 라우터 등록 확인: v4_trades_unified_router import+include 모두 정상 (line 131, 439)
-  - JS fetch URL 확인: kw-chart-engine.js가 `/api/v4/` 올바른 경로 사용. `kw-chart-data.js` 파일 없음 (지시서 오류)
-  - claude_exec.sh 타이머: XS/S→1200, M→2400, L→3600, XL→5400
-  - 추가 확인: 올바른 경로 `/api/v4/trades/unified` → HTTP 200 (105,526건) 정상 작동
-  - INTERNAL_API_KEY (.env = nginx) 일치 확인
-  - 빈화면 결론: KIS-295에서 이미 수정됨, 현재 정상 작동
-  - 잔여 이슈: ①날짜 DOM ID 불일치(kwFilterDateFrom↔filter-date-from) ②한글 검색 400 ③stock_name null
-- **보고서**: CUR-V41-KIS297-TRADES-API-DIAG-001-20260308.md (HTTP 200 확인)
-
-### KIS-001 — CONTEXT.md v11.1 종합 업데이트 (2026-03-08)
-- **HANDOVER 버전**: v10.71
-- **커밋**: (project-docs)
-- **작업 내용**:
-  - §6.5 GO100 연동 아키텍처 신규 추가: 3대 브릿지(자본 컨트롤, 리스크/킬스위치, 에피소드 메모리) 정의, Phase1 기획 완료/Phase2~3 구현 대기, 안전 수칙(코드 침범 금지, REST API만 사용, Read-Only/Append-Only, 독립 네임스페이스)
-  - §8.5 백테스트 엔진 현황 신규 추가: backtest_engine_v2.py(164세션 완료), replay/ 패키지(6모듈 minute_bar_feeder→candidate_scanner→entry_detector→exit_simulator→result_aggregator→replay_engine), Look-ahead Bias 차단 4항목, 청산 5모드(Hard Stop -3%, ATR Trailing, Time Close 15:20, Partial TP +3%→50%, DD Force), 비용 모델 편도 0.47%, 세션#164 결과(DESK2 DAILY 1W +0.07% WR56.76% PF1.074 Sharpe3.307), 분봉 리플레이 결과(포트폴리오 PF=0.834 FAIL, D6만 PF=1.144 CONDITIONAL)
-  - §8.8 API 엔드포인트 상태표 신규: 200OK 3개(backtest sessions/sessions/{id}/sessions/{id}/trades), 401 Auth 1개(data-collection/*), 접근불가 3개(chart-data/stocks/search/trades/unified — Nginx 미설정), 미응답 2개(health/strategy-cards), 재시작 필요 1개(backtest/progress T-286)
-  - §8.9 trades.html Known Issues: 차트 데이터 미표시 원인(3개 API Nginx proxy 미설정), 해결방안(proxy_pass 추가 필요)
-  - §8.10 백테스트 trade stock_name null: API 조인 누락 추정, 별도 작업 필요
-  - §9 작업큐에 KIS-002(Nginx 프록시), KIS-003(stock_name) 추가
-  - §10.5 03-10 모의매매 사전 체크리스트: bridge.py PID, FunnelScore Fail-Open, 서비스 4개, strategy_cards=60/OPEN=0, Redis, 크론 5건+
-  - §14 design 문서 5건 추가: DESK-FRACTAL-ARCHITECTURE-v3.0, V41-GO100-INTEGRATION-ARCHITECTURE-v1.0, DESK2-DESIGN-SPEC-v3.0, SYSTEM-ARCHITECTURE-FLOWCHART-v1.0, CUR-V41-REPLAY-BACKTEST-001
-  - §15 누락 버전 보강
-  - CEO-DIRECTIVES.md에 D1/D3/S2 RETIRED 표시 반영
-
-### v10.72 — AADS-178 좀비 프로세스 근본수정 5건 (2026-03-08)
-- **HANDOVER 버전**: v10.72
-- **커밋**: 코드레포 9c7b3b5a
-- **작업 내용**:
-  - ①auto_trigger.sh RESULT 폴링 부모PID 감시: kill -0 $_parent_pid로 부모 프로세스 존재 확인, 부모 사망 시 폴링 즉시 종료
-  - ②claude_exec.sh L1 타이머 setsid + 프로세스 그룹 kill: setsid로 새 세션 생성, kill -- -$PID로 프로세스 그룹 전체 종료, 좀비 잔류 방지
-  - ③genspark_bridge.py task_id 없는 directive skip 필터: task_id 미포함 지시서 자동 무시, 로그 기록 후 archived/ 이동
-  - ④auto_trigger.sh PID lockfile: /tmp/auto_trigger.pid로 중복 실행 방지, trap으로 종료 시 자동 정리
-  - ⑤claude_exec.sh 빈 PROJECT fallback: PROJECT 필드 누락 시 파일명에서 추출, 추출 불가 시 "UNKNOWN" 할당
-  - 211+68 서버 배포 완료
-  - STATUS.md AADS-178 최신화
-  - KIS-001/KIS-002 실패복구 → 재실행 트리거
-
-### v10.70 — T-283 문서 4계층 재구성 (2026-03-08)
-- **HANDOVER 버전**: v10.70
-- **커밋**: project-docs
-- **작업 내용**:
-  - CONTEXT.md v11.0 전면 재작성: 매니저 자기인식 프로토콜(나는 누구인가, 채팅창 확인, 세션 시작 보고), 지시서 자동화 시스템(bridge.py 동작 원리, 절대 금지, 올바른 흐름, 필수 필드, 예시 3개 M/L/S, 완료 검증 6조건, 보고 형식)
-  - CEO-DIRECTIVES.md v2.0: §0 운영원칙(D-023 v2 토큰 상한 없음), §5 AADS 공통 규칙 참조(D-016/D-022/D-023v2/D-033/D-034/R-001/R-008/R-021), §9-10 지시서 자동화 규칙, §9-11 매니저 자기인식 의무
-  - KIS-HANDOVER-RULES.md v1.0 신규 생성: 문서 체계, 파이프라인, 매니저 역할, 작업자 규칙, 서비스 경계, 승인 권한, 대화창 라우팅, Task ID 전환 — 9개 섹션
-  - aads-docs/KIS-HANDOVER.md 리다이렉트 설정
-  - Task ID 전환 선언: T-283 이후 KIS-001부터 KIS-xxx 체계
-
-### v10.69 — T-284 브릿지 큐 정리 + Phase2 검증 (2026-03-08)
-- **커밋**: project-docs
-- **작업 내용**:
-  - T-282-S4S5/S5 completed 처리
-  - T-283 Phase2(커밋 c6bc6a4b) 검증 7/7 PASS: 7파일 존재 확인, node -c 5/5 JS 문법, addPane/removePane/addHoldingRectangle/clearRectangles 함수 확인, kw-fullscreen CSS 확인, HTTP 200 확인, 보고서 URL 200 확인
-  - HANDOVER v10.67 동기화
-
-### v10.68 — T-285 컨텍스트 동기화 v10.28 (2026-03-08)
-- **커밋**: project-docs
-- **작업 내용**: CONTEXT.md v10.28 동기화 — HANDOVER.md와 CONTEXT.md 간 불일치 해소
-
-### v10.67 — T-286 /api/v4/backtest/progress 엔드포인트 구현 (2026-03-08)
-- **커밋**: 88502672
-- **작업 내용**:
-  - /api/v4/backtest/progress 엔드포인트 구현: converge_status 집계, 세션별 진행률 계산
-  - 서비스 재시작 필요 (kis-v41-api) — CEO 승인 대기
-
-### v10.66 — T-283 trades.html Phase2 RSI/MACD + 보유구간 + 전체화면 (2026-03-08)
-- **커밋**: c6bc6a4b (phase-2c-command-center)
-- **작업 내용**:
-  - kw-chart-engine.js: addPane(rsi|macd)/removePane/addHoldingRectangle/clearRectangles 함수 추가
-  - RSI pane: 14기간, 과매수 70/과매도 30 수평선
-  - MACD pane: 12/26/9 파라미터, MACD선 #2196F3 + Signal선 #FF9800 + Histogram
-  - trades-kiwoom.css: .kw-pane-rsi/.kw-pane-macd/.kw-holding-rect/.kw-fullscreen 스타일 추가
-  - trades.html: new KWChartEngine() 인스턴스 방식 전환, F키 CSS 전체화면, ESC 해제, onTradeSelect Rectangle 자동 표시
-  - 검증: node -c 5/5 PASS, HTTP 200
-
-### v10.65 — T-282-S4S5 HTML 조립 완료 (2026-03-08)
-- **커밋**: 4b327d12 (phase-2c-command-center)
-- **작업 내용**:
-  - frontend/trades.html (292줄) + frontend/static/trades.html 동기화
-  - STEP4: LWCharts v5.1.0 INIT 스크립트 + 모듈 6개 조립
-  - STEP5 검증: 7/7 파일 PASS, 5/5 JS 문법, 5/5 Export, COLORS.UP 20회, CSS 14회, HTML 모듈 참조 6개
-  - 외부 HTTP 7/7 = 200 (trading41.newtalk.kr)
-
-### v10.64 — T-282 키움 영웅문4 스타일 차트 전면 교체 (2026-03-08)
-- **커밋**: 09e539d6 (phase-2c-command-center)
-- **작업 내용**:
-  - trades.html 전면 재구현: 519줄/21,216바이트
-  - CSS: trades-kiwoom.css 533줄
-  - JS 5모듈: kw-chart-engine.js, kw-indicators.js, kw-trade-list.js, kw-markers-tooltip.js, kw-data-grid.js
-  - Nginx: nginx/kis-autotrade.conf 설정
-  - 검증: 7/7 PASS, 5/5 JS 문법, 5/5 Export, HTTP 200 (Host: trading.newtalk.kr)
-
-### v10.63 — T-281 Nginx trades.html static serving (2026-03-07)
-- **작업 내용**:
-  - /etc/nginx/sites-available/kis-autotrade에 location=/trades.html + location /static/ 추가 (frontend/static/)
-  - nginx -t OK + reload
-  - https://trading41.newtalk.kr/trades.html = CEO 통합 뷰어 접근 확인
-  - /static/css/js 200 확인
-
-### v10.62 — T-280 trades.html 배포 (2026-03-07)
-- **작업 내용**:
-  - kis-v41-api 재시작 + Nginx reload
-  - API 3개 200OK: stocks/search, trades/unified, hypothesis-matrix
-  - /manager/trades.html 200 (워크어라운드)
-  - deploy_static.sh 업데이트
-
-### v10.61 — T-278 CEO 통합 거래 뷰어 Phase 1 (2026-03-07)
-- **커밋**: 296742a9
-- **작업 내용**:
-  - trades.html + API 7개 구현
-  - trades-viewer.css/js 작성
-  - 히스토리 오버레이 + 종목명 우선 표시 전역 규칙
-  - desk2-backtest.js/dashboard.js 소급 적용
-  - TC-13/13 ALL PASS
-
-### v10.60 — T-277 큐정리 + 장전점검 (2026-03-07)
-- **작업 내용**:
-  - pending/running T-T- 0건 달성 (이중 prefix 버그 정리)
-  - bridge PID 2077107 확인, startswith("T-") 패치 L859/L862 적용
-  - 서비스 4개 active: go100, frontend, redis, postgresql
-  - DB 지표 6개: strategy_cards=60, open_positions=0, dqi_vix_null_pct=2.6%, fundamental_pct=100%, sector_map_pct=99.1%
-  - 03-10 장전 준비 상태: READY (Redis API disconnected Known Issue 별도)
-
-### v10.59 — T-275 DQI 최종 재산출 Grade A (92.8) 달성 (2026-03-07)
-- **작업 내용**:
-  - L0_KOSPI NOT NULL 기준 변경: 2.6% → 100%
-  - FunnelScore 30/30 100% (avg=0.862)
-  - L1_MAP 100%, OHLCV 99.8%
-  - DQI 이력: 58.1(D) → 81.3(B) → 92.8(A)
-
-### v10.58 — T-273 DQI 재산출 Grade B (81.3) + CONTEXT v10.26 (2026-03-07)
-- **작업 내용**:
-  - DQI Grade B(81.3) 달성
-  - FunnelScore 30/30 100% 확인
-  - CONTEXT.md v10.26 동기화
-
 ---
 
 ## 핵심 발견 및 교훈 (이번 구간)
@@ -435,9 +288,9 @@
 | 구분 | 범위 | 상태 |
 |------|------|------|
 | 레거시 T-xxx | T-001 ~ T-286 | 읽기 전용, 신규 발행 금지 |
-| 신규 KIS-xxx (연번) | KIS-288 ~ KIS-301 (현재 최신) | 활성 (CEO 지시: KIS-288부터 연번) |
+| 신규 KIS-xxx (연번) | KIS-288 ~ KIS-304 (현재 최신) | 활성 (CEO 지시: KIS-288부터 연번) |
 | 문서 전용 | KIS-001 ~ KIS-004 | CONTEXT/HANDOVER 업데이트 전용 |
-| 다음 발행 번호 | KIS-302 | — |
+| 다음 발행 번호 | KIS-305 | — |
 
 ---
 
@@ -445,6 +298,10 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.21 | 2026-03-30 | REPLAY-DESK2-DEPRECATED | ReplayEngine 동적 전략카드 로딩 + DESK2/레거시 deprecated + 대가전략 시드 15건 완료 |
+| v11.20 | 2026-03-29 | MASTER-STRATEGY-SEED-PIPELINE | 대가 전략 수집 파이프라인 신규 + L2 few-shot 주입 + SearXNG URL 수정 |
+| v11.19 | 2026-03-28 | BACKTEST-PERF-OPT | 백테스트 21시간→3분(420배), UniverseEngine 3844→328 캐시, DESK 프랙탈 P1~P6 통합 |
+| v11.18 | 2026-03-27 | PHASE2-VIRTUAL-OHLCV | 가상매매 기술지표 랜덤→실제 OHLCV 교체, make_real_signal() 265줄, 장 시작 1회 프리로드 |
 | v11.17 | 2026-03-27 | PHASE3-RERUN | 가설엔진→통합엔진 연결, 카탈로그 32+7종, HYPOTHESIS 카드 10건 시드, 승격 파이프라인 완성 |
 | v11.16 | 2026-03-27 | PHASE1-CTE-CARD-PIPELINE | CTE 하드코딩 제거 → go100_strategy_cards 기반 전환, 7 DESK 카드 + 6 컴포넌트 구현 |
 | v11.15 | 2026-03-24 | P0-PROMPT-SCHEMA | LLM 가설 프롬프트 JSON 스키마 강제 + indicator 카탈로그 + 검증 레이어 + 모순 탐지 |
