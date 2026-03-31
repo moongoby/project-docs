@@ -1,5 +1,5 @@
 # GO100 인수인계서 L1 — 현재 상태 요약
-> 최종 업데이트: 2026-03-30 | v18.0 (3계층 전환) | 이전 버전: v17.0 (2026-03-09)
+> 최종 업데이트: 2026-03-30 | v18.0 (3계층 전환 + 03-09~03-30 갱신) | 이전 버전: v17.0 (2026-03-09)
 > 상세 정보 → [HANDOVER-DETAIL.md](HANDOVER-DETAIL.md) | 이력 → [HANDOVER-ARCHIVE.md](HANDOVER-ARCHIVE.md)
 
 ---
@@ -14,7 +14,7 @@
 | 모의투자 | session_id 2~7 ACTIVE (2026-02-27~03-29) |
 | 실계좌 | 잠금 — CEO 승인 필수 |
 | Agent Loop | 20라운드 / 10도구 (D-008 전면 개방) |
-| 마지막 HANDOVER 갱신 | v17.0 / 2026-03-09 |
+| 마지막 HANDOVER 갱신 | v18.0 / 2026-03-30 |
 
 ---
 
@@ -32,7 +32,7 @@
 
 | 우선순위 | 태스크 | 상태 |
 |----------|--------|------|
-| 1 | **30일 모의투자 1사이클 완주** (session_id=2~7, ~03-29) | 진행중 |
+| 1 | **30일 모의투자 1사이클 완주** (session_id=2~7, ~03-29) | 기간 만료 — 결과 검토 필요 |
 | 2 | **T-056~T-061 10대 무기 장착** | CEO 지시 대기 |
 | 3 | 소액 실매매 3일 검증 | 모의투자 완주 + CEO 승인 후 |
 | 4 | SaaS 결제 연동 (Stripe/토스페이먼츠) | 설계 완료, CEO 승인 대기 |
@@ -43,16 +43,16 @@
 
 | 날짜 | 커밋 | 내용 |
 |------|------|------|
-| ~03-30 | `958e29b` | Phase 3 — run_unified_engine load_active_strategy_cards |
-| ~03-30 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 |
-| ~03-30 | `947c0cc` | paper trading monitor dashboard 구현 |
-| ~03-30 | `fd1b5a5` | backtest result dashboard with charts |
-| ~03-30 | `0f7d44f` | hypothesis center search/filter 강화 |
-| ~03-30 | `089de17` | bridge go100_strategy_hypotheses → v4_hav_hypotheses on PASS |
-| ~03-30 | `19834a9` | flock lock + PID guard for backtest worker dedup |
-| ~03-30 | `65e5369` | P0 cron path + pipeline promote stage + backtest dedup fix |
-| ~03-30 | `14766a0` | 뉴스매매 백테스트 분석 결과 및 진화 메모리 추가 |
-| ~03-30 | `3a3a8d6` | v4_desk_config 시드 데이터 + 스케줄러 에러 로그 |
+| 03-27 | `958e29b` | Phase 3 — run_unified_engine load_active_strategy_cards |
+| 03-27 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 |
+| 03-23 | `3a3a8d6` | v4_desk_config 시드 데이터 + 스케줄러 에러 로그 |
+| 03-23 | `947c0cc` | paper trading monitor dashboard 구현 |
+| 03-23 | `fd1b5a5` | backtest result dashboard with charts |
+| 03-23 | `0f7d44f` | hypothesis center search/filter 강화 |
+| 03-23 | `19834a9` | flock lock + PID guard for backtest worker dedup |
+| 03-23 | `089de17` | bridge go100_strategy_hypotheses → v4_hav_hypotheses on PASS |
+| 03-23 | `65e5369` | P0 cron path + pipeline promote stage + backtest dedup fix |
+| 03-16 | `14766a0` | 뉴스매매 백테스트 분석 결과 및 진화 메모리 추가 |
 
 ---
 

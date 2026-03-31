@@ -47,18 +47,18 @@
 
 ### 03-09 이후 커밋 반영 (2026-03-09~03-30)
 
-| 커밋 | 내용 |
-|------|------|
-| `958e29b` | Phase 3 — run_unified_engine에 load_active_strategy_cards 통합 |
-| `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 구축 (backend submodule) |
-| `947c0cc` | paper trading monitor dashboard 신규 구현 |
-| `fd1b5a5` | backtest result dashboard with charts |
-| `0f7d44f` | hypothesis center search/filter 강화 (2회 커밋) |
-| `089de17` | bridge: go100_strategy_hypotheses → v4_hav_hypotheses on PASS |
-| `19834a9` | flock lock + PID guard for backtest worker dedup |
-| `65e5369` | P0 cron path + pipeline promote stage + backtest dedup fix |
-| `14766a0` | 뉴스매매 백테스트 분석 결과 및 진화 메모리 추가 |
-| `3a3a8d6` | v4_desk_config 시드 데이터 + 스케줄러 에러 로그 |
+| 날짜 | 커밋 | 내용 |
+|------|------|------|
+| 03-27 | `958e29b` | Phase 3 — run_unified_engine에 load_active_strategy_cards 통합 |
+| 03-27 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 구축 (backend submodule) |
+| 03-23 | `3a3a8d6` | v4_desk_config 시드 데이터 + 스케줄러 에러 로그 |
+| 03-23 | `947c0cc` | paper trading monitor dashboard 신규 구현 |
+| 03-23 | `fd1b5a5` | backtest result dashboard with charts |
+| 03-23 | `0f7d44f` | hypothesis center search/filter 강화 (2회 커밋) |
+| 03-23 | `089de17` | bridge: go100_strategy_hypotheses → v4_hav_hypotheses on PASS |
+| 03-23 | `19834a9` | flock lock + PID guard for backtest worker dedup |
+| 03-23 | `65e5369` | P0 cron path + pipeline promote stage + backtest dedup fix |
+| 03-16 | `14766a0` | 뉴스매매 백테스트 분석 결과 및 진화 메모리 추가 |
 
 ---
 
@@ -175,7 +175,7 @@ GO100_DEBATE_ROUNDS=5
 | # | 이슈 | 심각도 | 상태 |
 |---|------|--------|------|
 | 1~8 | 모두 해결 완료 | — | [L3 아카이브 참조](HANDOVER-ARCHIVE.md#known-issues) |
-| 9 | 30일 모의투자 1사이클 미완주 | MED | 진행중 (03-29 완료 예정) |
+| 9 | 30일 모의투자 1사이클 미완주 | MED | 기간 만료 (03-29) — 결과 검토 필요 |
 
 ---
 
