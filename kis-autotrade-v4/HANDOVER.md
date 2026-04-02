@@ -38,18 +38,18 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
-### CUR-GO100-BROKER-GATEWAY-CONNECT — GO100 실매매 BrokerGateway 연결 (2026-04-02)
+### CUR-GO100-BROKER-GATEWAY-LIVE-CONNECT — GO100 실매매 BrokerGateway 연결 완료 (2026-04-02)
 - **HANDOVER 버전**: v11.22
 - **브랜치**: `phase-2c-command-center`
-- **작업 내용**:
-  - `factory.py`: `MockKISApi()` 하드코딩을 `GO100_LIVE_TRADING_ENABLED` 환경변수 기반 분기로 교체
-  - `BrokerGatewayKISAdapter` 클래스 신규 (+95줄): BrokerGateway를 KISApiInterface로 래핑, `set_account_id()`로 전략카드 account_id 설정
-  - `live_service.py`: `run_now(dry_run=None)` → 환경변수 기반 실매매/모의 자동판단 + account_id 로깅
-  - 안전장치 5중: 환경변수 게이트 + A-1 HOTFIX(broker_gateway.py) + hallucination_guard + V4OrderExecutor dry_run + accounts.is_mock
-- **활성화**: `.env`에 `GO100_LIVE_TRADING_ENABLED=true` 추가 + A-1 HOTFIX 해제(CEO 승인) + `systemctl restart go100`
+- **수정 파일 3개**:
+  - `factory.py`: `BrokerGatewayKISAdapter` 추가 + `_create_kis_api()` 환경변수 분기 (`GO100_LIVE_TRADING_ENABLED`)
+  - `live_engine.py`: `BrokerGatewayExecutor` 추가 + `_get_executor()` BrokerGateway 경로 추가
+  - `broker_gateway.py`: A-1 HOTFIX 실계좌 차단을 환경변수 조건부로 변경
+- **실행 흐름**: 전략카드(account_id=7) → live_engine → BrokerGatewayExecutor → BrokerGateway.place_order(account_id) → KIS 실전 API
+- **안전장치**: 환경변수 게이트(기본 off) + BrokerGateway HOTFIX 조건부 + dry_run 기본 True + WARNING 로그
+- **활성화**: `.env`에 `GO100_LIVE_TRADING_ENABLED=true` 추가 + `systemctl restart go100`
 - **미설정 시**: 기존 MockKISApi fallback (무영향)
-- **검증 결과**: 2파일 구문 검증 통과, go100 서비스 active, 에러 0건
-- **보고서**: go100/reports/CUR-GO100-BROKER-GATEWAY-CONNECT-001-20260402.md
+- **검증 결과**: 3파일 구문 검증 통과, go100 서비스 active, 에러 0건
 
 ### REPLAY-DESK2-DEPRECATED — ReplayEngine 동적 전략카드 로딩 + DESK2 deprecated (2026-03-30)
 - **HANDOVER 버전**: v11.21
