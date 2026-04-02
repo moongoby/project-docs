@@ -43,12 +43,13 @@
 - **브랜치**: `phase-2c-command-center`
 - **작업 내용**:
   - `factory.py`: `MockKISApi()` 하드코딩을 `GO100_LIVE_TRADING_ENABLED` 환경변수 기반 분기로 교체
-  - `BrokerGatewayKISAdapter` 추가: BrokerGateway를 KISApiInterface로 래핑, account_id 기반 실매매
-  - `live_engine.py`: `BrokerGatewayExecutor` 추가 + `_get_executor()` BrokerGateway 우선 분기
-  - `broker_gateway.py`: A-1 HOTFIX가 env var 존중하도록 이미 수정 확인
-- **활성화**: `.env`에 `GO100_LIVE_TRADING_ENABLED=true` 추가 + `systemctl restart go100`
+  - `BrokerGatewayKISAdapter` 클래스 신규 (+95줄): BrokerGateway를 KISApiInterface로 래핑, `set_account_id()`로 전략카드 account_id 설정
+  - `live_service.py`: `run_now(dry_run=None)` → 환경변수 기반 실매매/모의 자동판단 + account_id 로깅
+  - 안전장치 5중: 환경변수 게이트 + A-1 HOTFIX(broker_gateway.py) + hallucination_guard + V4OrderExecutor dry_run + accounts.is_mock
+- **활성화**: `.env`에 `GO100_LIVE_TRADING_ENABLED=true` 추가 + A-1 HOTFIX 해제(CEO 승인) + `systemctl restart go100`
 - **미설정 시**: 기존 MockKISApi fallback (무영향)
-- **검증**: 3파일 구문 검증 통과, strategy_cards=57, open_positions=22
+- **검증 결과**: 2파일 구문 검증 통과, go100 서비스 active, 에러 0건
+- **보고서**: go100/reports/CUR-GO100-BROKER-GATEWAY-CONNECT-001-20260402.md
 
 ### REPLAY-DESK2-DEPRECATED — ReplayEngine 동적 전략카드 로딩 + DESK2 deprecated (2026-03-30)
 - **HANDOVER 버전**: v11.21
@@ -310,6 +311,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_service dry_run 자동판단 |
 | v11.21 | 2026-03-30 | REPLAY-DESK2-DEPRECATED | ReplayEngine 동적 전략카드 로딩 + DESK2/레거시 deprecated + 대가전략 시드 15건 완료 |
 | v11.20 | 2026-03-29 | MASTER-STRATEGY-SEED-PIPELINE | 대가 전략 수집 파이프라인 신규 + L2 few-shot 주입 + SearXNG URL 수정 |
 | v11.19 | 2026-03-28 | BACKTEST-PERF-OPT | 백테스트 21시간→3분(420배), UniverseEngine 3844→328 캐시, DESK 프랙탈 P1~P6 통합 |
