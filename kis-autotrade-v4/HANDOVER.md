@@ -311,7 +311,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
-| v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_service dry_run 자동판단 |
+| v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_engine BrokerGatewayExecutor 경로 + broker_gateway A-1 조건부 해제 |
 | v11.21 | 2026-03-30 | REPLAY-DESK2-DEPRECATED | ReplayEngine 동적 전략카드 로딩 + DESK2/레거시 deprecated + 대가전략 시드 15건 완료 |
 | v11.20 | 2026-03-29 | MASTER-STRATEGY-SEED-PIPELINE | 대가 전략 수집 파이프라인 신규 + L2 few-shot 주입 + SearXNG URL 수정 |
 | v11.19 | 2026-03-28 | BACKTEST-PERF-OPT | 백테스트 21시간→3분(420배), UniverseEngine 3844→328 캐시, DESK 프랙탈 P1~P6 통합 |
