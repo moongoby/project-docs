@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-03-30 | 버전: v11.21
+> 최종 업데이트: 2026-04-02 | 버전: v11.22
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,18 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### CUR-GO100-BROKER-GATEWAY-CONNECT — GO100 실매매 BrokerGateway 연결 (2026-04-02)
+- **HANDOVER 버전**: v11.22
+- **브랜치**: `phase-2c-command-center`
+- **작업 내용**:
+  - `factory.py`: `MockKISApi()` 하드코딩을 `GO100_LIVE_TRADING_ENABLED` 환경변수 기반 분기로 교체
+  - `BrokerGatewayKISAdapter` 추가: BrokerGateway를 KISApiInterface로 래핑, account_id 기반 실매매
+  - `live_engine.py`: `BrokerGatewayExecutor` 추가 + `_get_executor()` BrokerGateway 우선 분기
+  - `broker_gateway.py`: A-1 HOTFIX가 env var 존중하도록 이미 수정 확인
+- **활성화**: `.env`에 `GO100_LIVE_TRADING_ENABLED=true` 추가 + `systemctl restart go100`
+- **미설정 시**: 기존 MockKISApi fallback (무영향)
+- **검증**: 3파일 구문 검증 통과, strategy_cards=57, open_positions=22
 
 ### REPLAY-DESK2-DEPRECATED — ReplayEngine 동적 전략카드 로딩 + DESK2 deprecated (2026-03-30)
 - **HANDOVER 버전**: v11.21
