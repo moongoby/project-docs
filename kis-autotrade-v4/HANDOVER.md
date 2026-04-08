@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-04-02 | 버전: v11.22
+> 최종 업데이트: 2026-04-08 | 버전: v11.23
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,22 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### P0-1 — go100_live_daily_summary portfolio_id 컬럼 누락 버그 수정 (2026-04-08)
+- **HANDOVER 버전**: v11.23
+- **우선순위**: P0 (긴급)
+- **증상**: capital_arbiter_v2.py 실매매 실행 시 UndefinedColumnError: column "portfolio_id" does not exist
+- **근본 원인**: go100_live_daily_summary 테이블에서 portfolio_id 컬럼 누락
+- **수정 파일 2개**:
+  - `backend/migrations/050_live_daily_summary_portfolio_id.sql` (신규): portfolio_id 컬럼 추가 + UNIQUE(user_id, portfolio_id, summary_date) 제약 + 인덱스
+  - `backend/app/services/go100/ai/live_trading.py`: update_daily_summary() 함수 수정 — go100_portfolios에서 portfolio_id 조회 + INSERT/ON CONFLICT 업데이트
+- **변경 내용**:
+  - ADD COLUMN portfolio_id INTEGER
+  - DROP old UNIQUE(user_id, summary_date), ADD new UNIQUE(user_id, portfolio_id, summary_date)
+  - INSERT에 portfolio_id 추가, ON CONFLICT 절 변경
+  - portfolio_id 조회 로직 추가 (활성 포트폴리오 중 최신 선택)
+- **검증 결과**: 문법 검사 통과, 정적 분석 통과 (F821/F811/E722), 커밋 621dd06d
+- **보고서**: CUR-V41-P01-LIVE-DAILY-SUMMARY-PORTFOLIO-ID-001-20260408.md (HTTP 200 ✅)
 
 ### CUR-GO100-BROKER-GATEWAY-LIVE-CONNECT — GO100 실매매 BrokerGateway 연결 완료 (2026-04-02)
 - **HANDOVER 버전**: v11.22
@@ -311,6 +327,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.23 | 2026-04-08 | P0-1 | go100_live_daily_summary portfolio_id 컬럼 추가 (Migration 050) + live_trading.py update_daily_summary() portfolio_id 로직 추가 |
 | v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_engine BrokerGatewayExecutor 경로 + broker_gateway A-1 조건부 해제 |
 | v11.21 | 2026-03-30 | REPLAY-DESK2-DEPRECATED | ReplayEngine 동적 전략카드 로딩 + DESK2/레거시 deprecated + 대가전략 시드 15건 완료 |
 | v11.20 | 2026-03-29 | MASTER-STRATEGY-SEED-PIPELINE | 대가 전략 수집 파이프라인 신규 + L2 few-shot 주입 + SearXNG URL 수정 |
