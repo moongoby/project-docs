@@ -45,10 +45,11 @@
 | T-054 | 03-09 | Admin War Room 메인 + 스텁 11개 | PASS |
 | T-055 | 03-09 | HANDOVER v17.0 갱신 (최종) | PASS |
 
-### 03-09 이후 커밋 반영 (2026-03-09~03-30)
+### 03-09 이후 커밋 반영 (2026-03-09~04-20)
 
 | 날짜 | 커밋 | 내용 |
 |------|------|------|
+| **04-20** | **ebab09fa** | **GO100-V5-P2-3: /backtest/[id] 사용자용 백테스트 상세 페이지 생성** |
 | 03-27 | `958e29b` | Phase 3 — run_unified_engine에 load_active_strategy_cards 통합 |
 | 03-27 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 구축 (backend submodule) |
 | 03-23 | `3a3a8d6` | v4_desk_config 시드 데이터 + 스케줄러 에러 로그 |
