@@ -1,5 +1,5 @@
 # GO100 인수인계서 L1 — 현재 상태 요약
-> 최종 업데이트: 2026-04-20 | v18.2 (GO100-V5-P2-9 사이트맵 경로 리다이렉트 추가) | 이전 버전: v18.1 (2026-04-20)
+> 최종 업데이트: 2026-04-20 | v18.3 (GO100-V5-P0-2 투자 유의사항 페이지 생성) | 이전 버전: v18.2 (2026-04-20)
 > 상세 정보 → [HANDOVER-DETAIL.md](HANDOVER-DETAIL.md) | 이력 → [HANDOVER-ARCHIVE.md](HANDOVER-ARCHIVE.md)
 
 ---
@@ -43,6 +43,7 @@
 
 | 날짜 | 커밋 | 내용 |
 |------|------|------|
+| 04-20 | `6d4f0395` | GO100-V5-P0-2 — 투자 유의사항 페이지 생성 (frontend/src/app/legal/disclaimer/page.tsx) |
 | 04-20 | `6bd70fdb` | GO100-V5-P2-9 — 사이트맵 경로 리다이렉트 10개 추가 (next.js page.tsx, /ai/chat → /llm 등) |
 | 03-27 | `958e29b` | Phase 3 — run_unified_engine load_active_strategy_cards |
 | 03-27 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 |
