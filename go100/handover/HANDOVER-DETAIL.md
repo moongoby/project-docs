@@ -1,5 +1,5 @@
 # GO100 인수인계서 L2 — 상세 정보
-> 최종 업데이트: 2026-03-30 | v18.0
+> 최종 업데이트: 2026-04-20 | v18.2
 > 요약 → [HANDOVER.md](HANDOVER.md) | 이력 → [HANDOVER-ARCHIVE.md](HANDOVER-ARCHIVE.md)
 
 ---
@@ -49,6 +49,7 @@
 
 | 날짜 | 커밋 | 내용 |
 |------|------|------|
+| **04-20** | **6bd70fdb** | **GO100-V5-P2-9: 사이트맵 경로 리다이렉트 10개 추가** (/ai/chat → /llm 등) |
 | **04-20** | **ebab09fa** | **GO100-V5-P2-3: /backtest/[id] 사용자용 백테스트 상세 페이지 생성** |
 | 03-27 | `958e29b` | Phase 3 — run_unified_engine에 load_active_strategy_cards 통합 |
 | 03-27 | `ff74b54` | Phase 1 — 전략카드 기반 CTE 파이프라인 구축 (backend submodule) |
