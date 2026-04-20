@@ -38,6 +38,27 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### GO100-V5-P2-8 — /dashboard 마켓/시그널 탭 추가 (2026-04-20)
+- **HANDOVER 버전**: v11.24
+- **우선순위**: P2 (보통)
+- **작업 내용**:
+  - `/dashboard/page.tsx` 탭 방식으로 확장 (포트폴리오/마켓/AI시그널)
+  - 기존 portfolio 탭에 모든 코드 100% 보존
+  - Market 탭: `getSectors()` + `getRankings()` 활용
+    - 주요 섹터 8개, 상승주/하락주/거래량 TOP 5
+    - TrendingUp/Down 아이콘, 변동률 표시
+  - Signals 탭: `/api/go100/admin/signal-timeline` 기반
+    - 최근 AI 시그널 20건
+    - 신호 타입(BUY/SELL/HOLD) 색상 배지 + 신뢰도 + 시간
+  - URL query `?tab=portfolio|market|signals` 로 탭 상태 유지 (next/navigation useRouter)
+  - 모든 종목 표시: StockLabel 컴포넌트 사용
+- **수정 파일 3개**:
+  - `frontend/src/app/(protected)/dashboard/page.tsx` (+79/-47줄): Tabs 구조 재구성
+  - `frontend/src/components/dashboard/MarketTab.tsx` (신규, +227줄): 시장 데이터 뷰
+  - `frontend/src/components/dashboard/SignalsTab.tsx` (신규, +240줄): AI 시그널 뷰
+- **검증 결과**: 커밋 5281372b, API 키 유출 0건, Syntax 0건, 코드 검증 통과
+- **보고서**: go100/reports/GO100-V5-P2-8-20260420.md (HTTP 200 ✅)
+
 ### P0-1 — go100_live_daily_summary portfolio_id 컬럼 누락 버그 수정 (2026-04-08)
 - **HANDOVER 버전**: v11.23
 - **우선순위**: P0 (긴급)
@@ -327,6 +348,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.24 | 2026-04-20 | GO100-V5-P2-8 | /dashboard 탭 확장 (portfolio/market/signals) — Tabs UI 재구성, MarketTab(섹터/상승/하락/거래량), SignalsTab(AI신호) |
 | v11.23 | 2026-04-08 | P0-1 | go100_live_daily_summary portfolio_id 컬럼 추가 (Migration 050) + live_trading.py update_daily_summary() portfolio_id 로직 추가 |
 | v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_engine BrokerGatewayExecutor 경로 + broker_gateway A-1 조건부 해제 |
 | v11.21 | 2026-03-30 | REPLAY-DESK2-DEPRECATED | ReplayEngine 동적 전략카드 로딩 + DESK2/레거시 deprecated + 대가전략 시드 15건 완료 |
