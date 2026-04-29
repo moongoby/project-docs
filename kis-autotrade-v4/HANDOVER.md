@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-04-08 | 버전: v11.23
+> 최종 업데이트: 2026-04-29 | 버전: v11.27
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,22 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### GO100-P0-B-ERRLOG — 파이프라인 오류 로깅/헬스 기록 누락 보강 (2026-04-29)
+- **HANDOVER 버전**: v11.27
+- **우선순위**: P0 재작업 (runner-f4d04adc retry)
+- **핵심 수정**:
+  1. **condition_search_collector**: `run_condition_search_collect()`에 no_condition_list skip/오류/성공 pipeline_error_logger 연결
+  2. **kis_condition_search_collector**: `run_kis_condition_search_collect()`에 no_kis_configs/collect_loop오류/config_errors/성공 연결
+  3. **kis_ws_collector**: `KISWebSocketCollector.run()`/`_run_extended()` Exception 블록에 pipeline_error_logger 연결 (ConnectionClosedError 정상 종료 제외)
+  4. **scalping_monitor**: `_execute_sell()` 예외 블록에 pipeline_error_logger 연결 (실주문 실패 추적, 로직 변경 없음)
+  5. **go100_pipeline_health.sh**: [15] 섹션 추가 — 24시간 pipeline/job_name별 오류·성공·skip 집계
+- **검증**: py_compile ALL OK, import ALL OK, bash -n OK, pre-commit hook 통과
+- **KIS 실주문 영향**: scalping_monitor._execute_sell 예외경로 로그 추가만 (매도 로직 변경 없음)
+- **미검증**: go100_error_log.pipeline 컬럼 실제 기록 (runner-c5123d38 pipeline_error_logger 컬럼 추가 승인 후 확인)
+- **커밋**: f45b84e1 (kis-autotrade-v4)
+- **보고서**: go100/reports/GO100-P0-B-ERRLOG-20260429.md (HTTP 200 ✅)
+
 
 ### GO100-P0-LIVE-RETRY — 실매매 파이프라인 P0 재조치 (runner-617cf487, 2026-04-29)
 - **HANDOVER 버전**: v11.26
