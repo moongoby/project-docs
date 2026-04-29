@@ -38,6 +38,40 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### GO100-P0-PIPELINE-FIX — 실매매 데이터 수집 파이프라인 P0 장애 조치 (2026-04-29)
+- **HANDOVER 버전**: v11.25
+- **우선순위**: P0 긴급
+- **작업 내용**:
+  1. **collect_minute_topmovers.py IndexError 수정**: SQL 주석 내 `2%+` → psycopg2 placeholder 오파싱. LIKE 패턴을 `%%` embedded → `%s` 파라미터로 분리. 즉시 장중 수집 재개 확인.
+  2. **조건검색 no_condition_list 복구**: Kiwoom 수집기(빈 DB 의존)→ KIS psearch-title/psearch-result REST API 직접 수집기로 교체. `run_kis_condition_search_collect()` 사용.
+  3. **스캘핑 유니버스 경로 오류 수정**: crontab `scripts/collection/...` 상대경로 → `run_scalping_universe.sh` 래퍼로 절대경로+.env+PYTHONPATH 보장. crontab 즉시 적용.
+  4. **401 중복 API cron 제거**: `requests.post('/api/go100/conditions/collect')` JWT 없는 cron → 삭제.
+  5. **pipeline_error_logger.py 신규**: cron/systemd/background 오류 → `go100_error_log` INSERT (source='pipeline_cron').
+  6. **go100_pipeline_health.sh 신규**: 스캘핑/신호/분봉/조건검색/스냅샷/오류/API 상태 일괄 CLI 헬스체크.
+  7. **go100_pipeline_log_extend.sql (idempotent)**: go100_error_log에 pipeline/job_name/component 컬럼 추가, health_view 생성.
+- **수정 파일 6개**:
+  - `backend/scripts/collect_minute_topmovers.py` (수정): IndexError 수정 + error logger 통합
+  - `scripts/cron/collect_condition_search.sh` (수정): KIS API 수집기로 교체
+  - `backend/app/services/go100/pipeline_error_logger.py` (신규): 공통 파이프라인 에러 로거
+  - `scripts/cron/run_scalping_universe.sh` (신규): 절대경로 wrapper
+  - `scripts/ops/go100_pipeline_health.sh` (신규): CLI 헬스체크
+  - `migrations/go100_pipeline_log_extend.sql` (신규): idempotent DB 확장
+- **crontab 변경 (즉시 적용)**:
+  - scalping_universe: `venv/bin/python scripts/...` → `scripts/cron/run_scalping_universe.sh`
+  - condition_search: 401 API cron 제거, script cron만 유지
+- **검증**:
+  - topmovers 쿼리 dry-run 5건 반환 확인 (IndexError 없음)
+  - pipeline_error_logger DB 기록 확인 (log_pipeline_success: True)
+  - 헬스체크 실행: stock_price_snapshot 3572종목, ohlcv_minute 15:30 수집 확인
+  - scalping_universe 최신: 2026-03-02 (58일 미갱신, 내일 16:10부터 정상 실행 예정)
+  - FastAPI HTTP 200 OK
+- **남은 리스크**:
+  - v4_scalping_universe: 다음 영업일 16:10까지 신규 갱신 불가 (crontab 수정 완료, 대기 중)
+  - v4_condition_search: KIS hts_id 미설정 계정은 skip 예상. kis_configs.hts_id 입력 필요
+  - v4_scalping_signals: scalping_universe 갱신 후 신호 발생 시작 예정
+- **커밋**: c5060a1a
+- **보고서**: go100/reports/GO100-P0-PIPELINE-FIX-20260429.md
+
 ### GO100-V5-P2-8 — /dashboard 마켓/시그널 탭 추가 (2026-04-20)
 - **HANDOVER 버전**: v11.24
 - **우선순위**: P2 (보통)
@@ -348,6 +382,7 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.25 | 2026-04-29 | GO100-P0-PIPELINE-FIX | 실매매 파이프라인 P0 장애 조치 — topmovers IndexError, scalping_universe cron 경로, condition_search Kiwoom→KIS, pipeline_error_logger, health_check |
 | v11.24 | 2026-04-20 | GO100-V5-P2-8 | /dashboard 탭 확장 (portfolio/market/signals) — Tabs UI 재구성, MarketTab(섹터/상승/하락/거래량), SignalsTab(AI신호) |
 | v11.23 | 2026-04-08 | P0-1 | go100_live_daily_summary portfolio_id 컬럼 추가 (Migration 050) + live_trading.py update_daily_summary() portfolio_id 로직 추가 |
 | v11.22 | 2026-04-02 | GO100-BROKER-GATEWAY-CONNECT | factory.py MockKISApi→BrokerGateway 환경변수 분기 + live_engine BrokerGatewayExecutor 경로 + broker_gateway A-1 조건부 해제 |
