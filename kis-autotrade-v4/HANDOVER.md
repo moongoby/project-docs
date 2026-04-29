@@ -38,6 +38,19 @@
 
 ## 최근 작업 이력 (15건, 최신순)
 
+### GO100-P0-LIVE-RETRY — 실매매 파이프라인 P0 재조치 (runner-617cf487, 2026-04-29)
+- **HANDOVER 버전**: v11.26
+- **우선순위**: P0 긴급 재조치
+- **핵심 수정**:
+  1. **account_snapshots 57일 FK 위반 복구** (sync_account_snapshots.py): accounts.user_id=v4_users기준(1,3)이 account_snapshots FK=users.id(6,15)와 불일치. _fetch_active_accounts에서 email 기반 legacy_user_id 매핑 추가. 오늘 1건 삽입 성공 확인.
+  2. **collect_minute_tier2.py % 파라미터화**: LIKE 패턴 f-string 직접 임베드→%s 파라미터 분리. topmovers의 IndexError 유형 잠재 버그 방지.
+  3. **condition_search all_skip 집계**: 모든 계정 hts_id_not_set 시 top-level skipped 키 추가.
+  4. **go100_pipeline_health.sh 12항목**: account_snapshots staleness, KIS hts_id 설정 현황 체크 추가.
+- **남은 이슈(코드 외)**: v4_condition_search NULL (kis_configs.hts_id 입력 필요), KIWOOM 토큰 [8005] 재발급 필요, KIS account_id=9 토큰 만료.
+- **커밋**: 6e582880 (kis-autotrade-v4)
+- **보고서**: go100/reports/GO100-P0-LIVE-RETRY-20260429.md (HTTP 200 ✅)
+
+
 ### GO100-P0-PIPELINE-FIX — 실매매 데이터 수집 파이프라인 P0 장애 조치 (2026-04-29)
 - **HANDOVER 버전**: v11.25
 - **우선순위**: P0 긴급
