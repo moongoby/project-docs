@@ -1,6 +1,6 @@
 # DB 스키마 카탈로그 -- KIS AutoTrade (GO100 + V4.1 통합)
 
-> 자동 생성: 2026-04-30 06:00 KST
+> 자동 생성: 2026-05-01 06:00 KST
 > 생성기: scripts/generate_db_catalog.py
 > DB: PostgreSQL kisautotrade @ localhost (peer auth)
 > 총 테이블: 368개 | 뷰: 13개 | 합계: 381개
@@ -35,9 +35,9 @@
 
 | # | 테이블 | 프로젝트 | 카테고리 | 행 수 | 크기 | 최신 데이터 |
 |---|--------|---------|---------|-------|------|------------|
-| 1 | `go100_backtest_runs` | [GO100] | AI | 45 | 232 kB | 2026-04-10 |
+| 1 | `go100_backtest_runs` | [GO100] | AI | 8 | 232 kB | 2025-12-30 |
 | 2 | `go100_calibration_params` | [GO100] | AI | 12 | 48 kB | 2026-02-26 |
-| 3 | `go100_fit_analysis` | [GO100] | AI | 40 | 88 kB | 2026-02-21 |
+| 3 | `go100_fit_analysis` | [GO100] | AI | 0 | 88 kB | - |
 | 4 | `go100_gap_calibrator` | [GO100] | AI | 110,735 | 33 MB | 2026-03-03 |
 | 5 | `go100_optimization_runs` | [GO100] | AI | 0 | 48 kB | - |
 | 6 | `go100_portfolio_optimizations` | [GO100] | AI | 17 | 64 kB | 2026-03-04 |
@@ -72,19 +72,19 @@
 | 35 | `go100_commander_decisions` | [GO100] | ETC | 0 | 40 kB | - |
 | 36 | `go100_dart_disclosures` | [GO100] | ETC | 200 | 136 kB | 2026-04-07 |
 | 37 | `go100_data_discrepancy` | [GO100] | ETC | 0 | 40 kB | - |
-| 38 | `go100_data_integrity_log` | [GO100] | ETC | 282,659 | 68 MB | 2026-04-29 |
+| 38 | `go100_data_integrity_log` | [GO100] | ETC | 288,275 | 69 MB | 2026-04-30 |
 | 39 | `go100_debate_log` | [GO100] | ETC | 5 | 64 kB | 2026-03-04 |
 | 40 | `go100_derivatives_daily` | [GO100] | ETC | 0 | 16 kB | - |
 | 41 | `go100_desk_allocation` | [GO100] | ETC | 2 | 64 kB | 2026-02-21 |
 | 42 | `go100_episodic_memory` | [GO100] | ETC | 1 | 96 kB | 2026-02-27 |
-| 43 | `go100_error_log` | [GO100] | ETC | 943 | 1752 kB | 2026-04-29 |
+| 43 | `go100_error_log` | [GO100] | ETC | 22,301 | 29 MB | 2026-04-30 |
 | 44 | `go100_etf_components` | [GO100] | ETC | 0 | 24 kB | - |
 | 45 | `go100_events` | [GO100] | ETC | 25 | 96 kB | 2026-02-27 |
 | 46 | `go100_evolution_loops` | [GO100] | ETC | 0 | 16 kB | - |
 | 47 | `go100_experience_log` | [GO100] | ETC | 308 | 160 kB | - |
 | 48 | `go100_financial_analysis` | [GO100] | ETC | 0 | 24 kB | - |
 | 49 | `go100_gap_analysis` | [GO100] | ETC | 0 | 16 kB | - |
-| 50 | `go100_goals` | [GO100] | ETC | 6 | 72 kB | 2026-02-26 |
+| 50 | `go100_goals` | [GO100] | ETC | 7 | 88 kB | 2026-04-30 |
 | 51 | `go100_hypotheses` | [GO100] | ETC | 0 | 48 kB | - |
 | 52 | `go100_index_realtime` | [GO100] | ETC | 0 | 16 kB | - |
 | 53 | `go100_institution_estimate` | [GO100] | ETC | 0 | 32 kB | - |
@@ -95,10 +95,10 @@
 | 58 | `go100_market_summary` | [GO100] | ETC | 0 | 24 kB | - |
 | 59 | `go100_model_routing` | [GO100] | ETC | 18 | 64 kB | 2026-04-29 |
 | 60 | `go100_paper_archive` | [GO100] | ETC | 0 | 48 kB | - |
-| 61 | `go100_paper_snapshots` | [GO100] | ETC | 3,610 | 848 kB | 2026-04-29 |
+| 61 | `go100_paper_snapshots` | [GO100] | ETC | 3,801 | 864 kB | 2026-04-30 |
 | 62 | `go100_portfolio_allocations` | [GO100] | ETC | 0 | 32 kB | - |
-| 63 | `go100_portfolio_snapshots` | [GO100] | ETC | 401 | 200 kB | 2026-04-29 |
-| 64 | `go100_portfolios` | [GO100] | ETC | 19 | 88 kB | 2026-04-09 |
+| 63 | `go100_portfolio_snapshots` | [GO100] | ETC | 408 | 216 kB | 2026-04-30 |
+| 64 | `go100_portfolios` | [GO100] | ETC | 25 | 96 kB | 2026-04-30 |
 | 65 | `go100_program_trading_daily` | [GO100] | ETC | 0 | 16 kB | - |
 | 66 | `go100_research_iterations` | [GO100] | ETC | 3 | 64 kB | 2026-03-06 |
 | 67 | `go100_short_selling` | [GO100] | ETC | 0 | 16 kB | - |
@@ -112,13 +112,13 @@
 | 75 | `v4_bet_history` | [V4.1] | ETC | 0 | 8192 bytes | - |
 | 76 | `v4_compound_growth_daily` | [V4.1] | ETC | 0 | 24 kB | - |
 | 77 | `v4_daily_portfolio` | [V4.1] | ETC | 67 | 88 kB | 2026-04-29 |
-| 78 | `v4_desk1_candidates` | [V4.1] | ETC | 247 | 104 kB | 2026-04-29 |
-| 79 | `v4_desk2_candidates` | [V4.1] | ETC | 4,086 | 1680 kB | 2026-04-29 |
+| 78 | `v4_desk1_candidates` | [V4.1] | ETC | 255 | 104 kB | 2026-04-30 |
+| 79 | `v4_desk2_candidates` | [V4.1] | ETC | 4,096 | 1704 kB | 2026-04-30 |
 | 80 | `v4_desk2_daily_summary` | [V4.1] | ETC | 1 | 40 kB | 2026-03-03 |
 | 81 | `v4_desk2_dcs_history` | [V4.1] | ETC | 0 | 40 kB | - |
 | 82 | `v4_desk3_explosion_log` | [V4.1] | ETC | 0 | 16 kB | - |
 | 83 | `v4_desk3_explosion_watch` | [V4.1] | ETC | 0 | 16 kB | - |
-| 84 | `v4_desk3_pool` | [V4.1] | ETC | 3,416 | 1592 kB | 2026-04-29 |
+| 84 | `v4_desk3_pool` | [V4.1] | ETC | 3,516 | 1624 kB | 2026-04-30 |
 | 85 | `v4_desk4_harvest_log` | [V4.1] | ETC | 0 | 16 kB | - |
 | 86 | `v4_desk4_harvest_pool` | [V4.1] | ETC | 0 | 16 kB | - |
 | 87 | `v4_desk4_watchlist` | [V4.1] | ETC | 54 | 96 kB | 2026-03-30 |
@@ -134,7 +134,7 @@
 | 97 | `v4_hav_drift_events` | [V4.1] | ETC | 0 | 16 kB | - |
 | 98 | `v4_hav_hypotheses` | [V4.1] | ETC | 42,081 | 52 MB | 2026-04-27 |
 | 99 | `v4_hav_validation_runs` | [V4.1] | ETC | 0 | 24 kB | - |
-| 100 | `v4_macro_daily` | [V4.1] | ETC | 767 | 424 kB | 2026-04-29 |
+| 100 | `v4_macro_daily` | [V4.1] | ETC | 768 | 424 kB | 2026-04-30 |
 | 101 | `v4_master_strategies` | [V4.1] | ETC | 17 | 272 kB | 2026-03-30 |
 | 102 | `v4_meta_rules` | [V4.1] | ETC | 376 | 760 kB | 2026-04-10 |
 | 103 | `v4_minute_collect_progress` | [V4.1] | ETC | 867 | 3240 kB | 2026-03-26 |
@@ -144,7 +144,7 @@
 | 107 | `v4_pick_reasons` | [V4.1] | ETC | 2,265 | 1720 kB | 2026-03-19 |
 | 108 | `v4_pyramid_chain` | [V4.1] | ETC | 1 | 72 kB | 2026-03-05 |
 | 109 | `v4_pyramid_chain_log` | [V4.1] | ETC | 5 | 40 kB | 2026-03-05 |
-| 110 | `v4_reservations` | [V4.1] | ETC | 35,043 | 12 MB | 2026-04-21 |
+| 110 | `v4_reservations` | [V4.1] | ETC | 35,400 | 12 MB | 2026-04-30 |
 | 111 | `v4_smart_entries` | [V4.1] | ETC | 12 | 72 kB | 2026-03-19 |
 | 112 | `v4_stage_history` | [V4.1] | ETC | 0 | 32 kB | - |
 | 113 | `v4_stage_transitions` | [V4.1] | ETC | 4 | 64 kB | 2026-03-05 |
@@ -157,21 +157,21 @@
 | 120 | `ai_episode_memory` | [공통] | ETC | 25 | 152 kB | 2026-04-29 |
 | 121 | `daily_trading_stats` | [공통] | ETC | 1 | 88 kB | 2026-01-29 |
 | 122 | `daily_trading_summary` | [공통] | ETC | 0 | 32 kB | - |
-| 123 | `data_crypto_daily` | [공통] | ETC | 992 | 296 kB | 2026-04-28 |
+| 123 | `data_crypto_daily` | [공통] | ETC | 996 | 296 kB | 2026-04-29 |
 | 124 | `data_fx_daily` | [공통] | ETC | 881 | 336 kB | 2026-04-03 |
 | 125 | `desk5_seeds` | [공통] | ETC | 0 | 80 kB | - |
 | 126 | `live_trading_results` | [공통] | ETC | 7,986 | 1688 kB | 2026-02-06 |
 | 127 | `portfolios` | [공통] | ETC | 5 | 56 kB | 2026-01-25 |
 | 128 | `stock_lifecycle` | [공통] | ETC | 3,428 | 1384 kB | 2026-03-16 |
-| 129 | `stock_price_snapshot` | [공통] | ETC | 3,588 | 66 MB | 2026-04-29 |
+| 129 | `stock_price_snapshot` | [공통] | ETC | 3,588 | 66 MB | 2026-04-30 |
 | 130 | `strategies` | [공통] | ETC | 51 | 72 kB | 2026-02-07 |
 | 131 | `trading_events` | [공통] | ETC | 9 | 96 kB | 2026-01-27 |
 | 132 | `waverider_performance` | [공통] | ETC | 0 | 16 kB | - |
-| 133 | `go100_global_market` | [GO100] | GLOBAL | 345 | 232 kB | 2026-04-28 |
+| 133 | `go100_global_market` | [GO100] | GLOBAL | 346 | 232 kB | 2026-04-29 |
 | 134 | `go100_account_reconciliation` | [GO100] | INFRA | 0 | 32 kB | - |
 | 135 | `go100_agent_reports` | [GO100] | INFRA | 124 | 248 kB | 2026-03-07 |
-| 136 | `go100_alerts` | [GO100] | INFRA | 7,730 | 2232 kB | 2026-04-29 |
-| 137 | `go100_chat_messages` | [GO100] | INFRA | 105 | 248 kB | 2026-04-29 |
+| 136 | `go100_alerts` | [GO100] | INFRA | 7,826 | 2240 kB | 2026-04-30 |
+| 137 | `go100_chat_messages` | [GO100] | INFRA | 109 | 248 kB | 2026-04-30 |
 | 138 | `go100_chat_sessions` | [GO100] | INFRA | 15 | 40 kB | 2026-04-29 |
 | 139 | `go100_credit_trend` | [GO100] | INFRA | 0 | 16 kB | - |
 | 140 | `go100_daily_briefings` | [GO100] | INFRA | 31 | 368 kB | 2026-04-08 |
@@ -183,26 +183,26 @@
 | 146 | `go100_llm_models` | [GO100] | INFRA | 15 | 144 kB | 2026-04-28 |
 | 147 | `go100_notification_settings` | [GO100] | INFRA | 2 | 72 kB | 2026-03-03 |
 | 148 | `go100_notifications` | [GO100] | INFRA | 29 | 168 kB | 2026-04-17 |
-| 149 | `go100_paper_accounts` | [GO100] | INFRA | 190 | 128 kB | 2026-03-26 |
-| 150 | `go100_paper_trading_sessions` | [GO100] | INFRA | 25 | 136 kB | 2026-03-26 |
+| 149 | `go100_paper_accounts` | [GO100] | INFRA | 191 | 128 kB | 2026-04-30 |
+| 150 | `go100_paper_trading_sessions` | [GO100] | INFRA | 18 | 136 kB | 2026-03-26 |
 | 151 | `go100_pending_configs` | [GO100] | INFRA | 0 | 24 kB | - |
 | 152 | `go100_push_subscriptions` | [GO100] | INFRA | 2 | 80 kB | 2026-02-24 |
-| 153 | `go100_reports` | [GO100] | INFRA | 2,102 | 736 kB | 2026-04-29 |
+| 153 | `go100_reports` | [GO100] | INFRA | 2,109 | 744 kB | 2026-04-30 |
 | 154 | `go100_usage_logs` | [GO100] | INFRA | 176 | 104 kB | 2026-04-29 |
 | 155 | `go100_user_memory` | [GO100] | INFRA | 4,785 | 8904 kB | 2026-04-29 |
 | 156 | `go100_user_preferences` | [GO100] | INFRA | 1 | 64 kB | 2026-02-27 |
 | 157 | `go100_user_profile` | [GO100] | INFRA | 1 | 48 kB | 2026-02-26 |
 | 158 | `go100_user_profiles` | [GO100] | INFRA | 0 | 24 kB | - |
 | 159 | `v4_account_config` | [V4.1] | INFRA | 1 | 64 kB | 2026-02-13 |
-| 160 | `v4_account_holdings` | [V4.1] | INFRA | 1,594,522 | 433 MB | 2026-04-29 |
-| 161 | `v4_account_sync_log` | [V4.1] | INFRA | 222,619 | 47 MB | 2026-04-29 |
-| 162 | `v4_alerts` | [V4.1] | INFRA | 1,384 | 856 kB | 2026-04-29 |
-| 163 | `v4_api_error_log` | [V4.1] | INFRA | 82 | 112 kB | 2026-04-17 |
-| 164 | `v4_api_tokens` | [V4.1] | INFRA | 1 | 48 kB | 2026-03-04 |
+| 160 | `v4_account_holdings` | [V4.1] | INFRA | 1,603,752 | 436 MB | 2026-04-30 |
+| 161 | `v4_account_sync_log` | [V4.1] | INFRA | 223,599 | 48 MB | 2026-04-30 |
+| 162 | `v4_alerts` | [V4.1] | INFRA | 1,396 | 864 kB | 2026-04-30 |
+| 163 | `v4_api_error_log` | [V4.1] | INFRA | 324 | 320 kB | 2026-04-30 |
+| 164 | `v4_api_tokens` | [V4.1] | INFRA | 243 | 184 kB | 2026-04-30 |
 | 165 | `v4_chat_messages` | [V4.1] | INFRA | 264 | 304 kB | 2026-04-10 |
 | 166 | `v4_chat_sessions` | [V4.1] | INFRA | 52 | 72 kB | 2026-04-10 |
-| 167 | `v4_credit_balance` | [V4.1] | INFRA | 1,958 | 576 kB | 2026-04-29 |
-| 168 | `v4_daily_reports` | [V4.1] | INFRA | 69 | 184 kB | 2026-04-29 |
+| 167 | `v4_credit_balance` | [V4.1] | INFRA | 2,058 | 608 kB | 2026-04-30 |
+| 168 | `v4_daily_reports` | [V4.1] | INFRA | 70 | 184 kB | 2026-04-30 |
 | 169 | `v4_desk_config` | [V4.1] | INFRA | 5 | 48 kB | 2026-03-23 |
 | 170 | `v4_llm_usage` | [V4.1] | INFRA | 0 | 24 kB | - |
 | 171 | `v4_migration_history` | [V4.1] | INFRA | 2 | 80 kB | 2026-02-13 |
@@ -211,22 +211,22 @@
 | 174 | `v4_notifications` | [V4.1] | INFRA | 8 | 112 kB | 2026-03-04 |
 | 175 | `v4_reports` | [V4.1] | INFRA | 0 | 32 kB | - |
 | 176 | `v4_stage_config` | [V4.1] | INFRA | 4 | 32 kB | 2026-03-05 |
-| 177 | `v4_system_heartbeat` | [V4.1] | INFRA | 3,334,726 | 1421 MB | 2026-04-29 |
+| 177 | `v4_system_heartbeat` | [V4.1] | INFRA | 3,353,082 | 1429 MB | 2026-04-30 |
 | 178 | `v4_system_state_log` | [V4.1] | INFRA | 0 | 16 kB | - |
 | 179 | `v4_user_settings` | [V4.1] | INFRA | 0 | 24 kB | - |
 | 180 | `v4_user_strategies` | [V4.1] | INFRA | 0 | 32 kB | - |
-| 181 | `v4_users` | [V4.1] | INFRA | 22 | 96 kB | 2026-04-29 |
-| 182 | `account_rate_quotas` | [공통] | INFRA | 8 | 80 kB | 2026-04-29 |
-| 183 | `account_snapshots` | [공통] | INFRA | 578 | 120 kB | 2026-04-29 |
-| 184 | `accounts` | [공통] | INFRA | 8 | 248 kB | 2026-04-08 |
+| 181 | `v4_users` | [V4.1] | INFRA | 22 | 96 kB | 2026-04-30 |
+| 182 | `account_rate_quotas` | [공통] | INFRA | 8 | 80 kB | 2026-04-30 |
+| 183 | `account_snapshots` | [공통] | INFRA | 1,035 | 168 kB | 2026-04-30 |
+| 184 | `accounts` | [공통] | INFRA | 8 | 256 kB | 2026-04-08 |
 | 185 | `claude_usage_log` | [공통] | INFRA | 388 | 152 kB | 2026-03-09 |
-| 186 | `kis_configs` | [공통] | INFRA | 5 | 400 kB | 2026-04-30 |
+| 186 | `kis_configs` | [공통] | INFRA | 5 | 440 kB | 2026-05-01 |
 | 187 | `llm_cost_daily` | [공통] | INFRA | 100 | 112 kB | 2026-04-08 |
 | 188 | `llm_requests` | [공통] | INFRA | 1,443 | 672 kB | 2026-04-29 |
 | 189 | `payments` | [공통] | INFRA | 0 | 32 kB | - |
 | 190 | `social_accounts` | [공통] | INFRA | 5 | 64 kB | - |
 | 191 | `user_push_subscriptions` | [공통] | INFRA | 0 | 24 kB | - |
-| 192 | `user_sessions` | [공통] | INFRA | 81 | 248 kB | 2026-05-29 |
+| 192 | `user_sessions` | [공통] | INFRA | 94 | 248 kB | 2026-05-30 |
 | 193 | `user_settings` | [공통] | INFRA | 10 | 88 kB | 2026-02-11 |
 | 194 | `user_strategies` | [공통] | INFRA | 181 | 104 kB | - |
 | 195 | `users` | [공통] | INFRA | 18 | 80 kB | 2099-12-31 |
@@ -239,17 +239,17 @@
 | 202 | `go100_program_trade` | [GO100] | INVESTOR | 0 | 16 kB | - |
 | 203 | `go100_sector_investor` | [GO100] | INVESTOR | 0 | 16 kB | - |
 | 204 | `v4_capital_flow` | [V4.1] | INVESTOR | 1 | 64 kB | 2026-03-05 |
-| 205 | `v4_investor_daily` | [V4.1] | INVESTOR | 2,737,091 | 1234 MB | 2026-04-29 |
-| 206 | `v4_market_investor_daily` | [V4.1] | INVESTOR | 3,704 | 1792 kB | 2026-04-29 |
-| 207 | `v4_program_trades` | [V4.1] | INVESTOR | 38,727 | 6992 kB | 2026-04-29 |
+| 205 | `v4_investor_daily` | [V4.1] | INVESTOR | 2,738,571 | 1238 MB | 2026-04-30 |
+| 206 | `v4_market_investor_daily` | [V4.1] | INVESTOR | 3,706 | 1792 kB | 2026-04-30 |
+| 207 | `v4_program_trades` | [V4.1] | INVESTOR | 42,571 | 7608 kB | 2026-04-30 |
 | 208 | `v4_supply_chain` | [V4.1] | INVESTOR | 1,012 | 176 kB | 2026-03-07 |
 | 209 | `market_turnover_daily` | [공통] | INVESTOR | 26,148 | 3264 kB | 2026-02-05 |
 | 210 | `go100_delisted_ohlcv` | [GO100] | MARKET | 24,127 | 4336 kB | 2026-02-20 |
 | 211 | `go100_kiwoom_daily_ohlcv` | [GO100] | MARKET | 0 | 32 kB | - |
 | 212 | `go100_kiwoom_minute_ohlcv` | [GO100] | MARKET | 0 | 32 kB | - |
 | 213 | `go100_nxt_ohlcv_daily` | [GO100] | MARKET | 136,891 | 55 MB | 2026-03-25 |
-| 214 | `go100_tick_daily_stats` | [GO100] | MARKET | 933 | 224 kB | 2026-04-29 |
-| 215 | `v4_ohlcv_minute` | [V4.1] | MARKET | 214,232,860 | 0 bytes | 2026-04-29 |
+| 214 | `go100_tick_daily_stats` | [GO100] | MARKET | 954 | 232 kB | 2026-04-30 |
+| 215 | `v4_ohlcv_minute` | [V4.1] | MARKET | 214,351,240 | 0 bytes | 2026-04-30 |
 | 216 | `v4_ohlcv_minute_2025_01` | [V4.1] | MARKET | 0 | 48 kB | - |
 | 217 | `v4_ohlcv_minute_2025_02` | [V4.1] | MARKET | 2,414,556 | 607 MB | 2025-02-28 |
 | 218 | `v4_ohlcv_minute_2025_03` | [V4.1] | MARKET | 13,955,932 | 3523 MB | 2025-03-31 |
@@ -265,17 +265,17 @@
 | 228 | `v4_ohlcv_minute_2026_01` | [V4.1] | MARKET | 18,295,639 | 4648 MB | 2026-01-30 |
 | 229 | `v4_ohlcv_minute_2026_02` | [V4.1] | MARKET | 15,570,495 | 3970 MB | 2026-02-27 |
 | 230 | `v4_ohlcv_minute_2026_03` | [V4.1] | MARKET | 17,722,304 | 4533 MB | 2026-03-31 |
-| 231 | `v4_ohlcv_minute_2026_04` | [V4.1] | MARKET | 2,500,077 | 679 MB | 2026-04-29 |
+| 231 | `v4_ohlcv_minute_2026_04` | [V4.1] | MARKET | 2,618,744 | 735 MB | 2026-04-30 |
 | 232 | `v4_sector_index_daily` | [V4.1] | MARKET | 4,080 | 648 kB | 2026-03-07 |
-| 233 | `v4_tick_data` | [V4.1] | MARKET | 3,552,594 | 576 MB | 2026-04-29 |
-| 234 | `v4_vkospi_daily` | [V4.1] | MARKET | 1,552 | 408 kB | 2026-04-29 |
+| 233 | `v4_tick_data` | [V4.1] | MARKET | 3,601,547 | 584 MB | 2026-04-30 |
+| 234 | `v4_vkospi_daily` | [V4.1] | MARKET | 1,553 | 408 kB | 2026-04-30 |
 | 235 | `data_global_index_daily` | [공통] | MARKET | 2,897 | 680 kB | 2026-04-01 |
-| 236 | `index_daily` | [공통] | MARKET | 2,289 | 576 kB | 2026-04-29 |
-| 237 | `ohlcv_daily` | [공통] | MARKET | 2,750,476 | 889 MB | 2026-04-29 |
+| 236 | `index_daily` | [공통] | MARKET | 2,295 | 576 kB | 2026-04-30 |
+| 237 | `ohlcv_daily` | [공통] | MARKET | 2,754,294 | 889 MB | 2026-04-30 |
 | 238 | `ohlcv_monthly` | [공통] | MARKET | 89,307 | 13 MB | 2026-02-11 |
 | 239 | `ohlcv_weekly` | [공통] | MARKET | 357,381 | 50 MB | 2026-02-11 |
 | 240 | `price_tick_snapshots` | [공통] | MARKET | 35,865 | 4640 kB | 2026-02-05 |
-| 241 | `go100_news_items` | [GO100] | NEWS | 2,995,704 | 2686 MB | 2026-04-30 |
+| 241 | `go100_news_items` | [GO100] | NEWS | 3,007,121 | 2696 MB | 2026-05-01 |
 | 242 | `go100_kiwoom_trade_strength` | [GO100] | POSITION | 0 | 32 kB | - |
 | 243 | `go100_live_orders` | [GO100] | POSITION | 124 | 144 kB | 2026-04-22 |
 | 244 | `go100_member_trades` | [GO100] | POSITION | 0 | 16 kB | - |
@@ -284,7 +284,7 @@
 | 247 | `go100_orders` | [GO100] | POSITION | 118 | 120 kB | 2026-04-29 |
 | 248 | `go100_paper_orders` | [GO100] | POSITION | 0 | 32 kB | - |
 | 249 | `go100_paper_positions` | [GO100] | POSITION | 0 | 24 kB | - |
-| 250 | `go100_paper_trades` | [GO100] | POSITION | 335 | 120 kB | 2026-04-24 |
+| 250 | `go100_paper_trades` | [GO100] | POSITION | 233 | 128 kB | 2026-04-24 |
 | 251 | `go100_position_sizing` | [GO100] | POSITION | 1 | 64 kB | 2026-02-28 |
 | 252 | `go100_positions` | [GO100] | POSITION | 130 | 128 kB | 2026-04-28 |
 | 253 | `go100_trades` | [GO100] | POSITION | 224 | 136 kB | 2026-04-29 |
@@ -301,8 +301,8 @@
 | 264 | `v4_mock_trades` | [V4.1] | POSITION | 508 | 312 kB | 2026-04-10 |
 | 265 | `v4_mock_trades_bak_20260324` | [V4.1] | POSITION | 298 | 136 kB | 2026-03-23 |
 | 266 | `v4_order_executions` | [V4.1] | POSITION | 0 | 48 kB | - |
-| 267 | `v4_order_requests` | [V4.1] | POSITION | 2,873 | 1592 kB | 2026-04-21 |
-| 268 | `v4_orderbook_realtime` | [V4.1] | POSITION | 14,758,079 | 5545 MB | 2026-04-29 |
+| 267 | `v4_order_requests` | [V4.1] | POSITION | 3,152 | 1640 kB | 2026-04-30 |
+| 268 | `v4_orderbook_realtime` | [V4.1] | POSITION | 14,939,181 | 5613 MB | 2026-04-30 |
 | 269 | `v4_paper_trades` | [V4.1] | POSITION | 7 | 32 kB | 2026-03-01 |
 | 270 | `v4_position_extended` | [V4.1] | POSITION | 3 | 80 kB | 2026-02-12 |
 | 271 | `v4_position_transfers` | [V4.1] | POSITION | 12 | 64 kB | 2026-03-03 |
@@ -311,8 +311,8 @@
 | 274 | `v4_trade_analysis` | [V4.1] | POSITION | 0 | 8192 bytes | - |
 | 275 | `v4_trade_executions` | [V4.1] | POSITION | 13 | 112 kB | 2026-03-04 |
 | 276 | `v4_trade_history` | [V4.1] | POSITION | 0 | 64 kB | - |
-| 277 | `v4_trade_schedules` | [V4.1] | POSITION | 6 | 88 kB | 2026-04-21 |
-| 278 | `v4_trade_strength_history` | [V4.1] | POSITION | 20,615,309 | 2856 MB | 2026-04-29 |
+| 277 | `v4_trade_schedules` | [V4.1] | POSITION | 14 | 88 kB | 2026-04-21 |
+| 278 | `v4_trade_strength_history` | [V4.1] | POSITION | 20,889,796 | 2900 MB | 2026-04-30 |
 | 279 | `v4_trades` | [V4.1] | POSITION | 40 | 136 kB | 2026-03-03 |
 | 280 | `v4_trades_backup_20260218` | [V4.1] | POSITION | 0 | 0 bytes | - |
 | 281 | `v4_virtual_trades_full` | [V4.1] | POSITION | 1,076 | 472 kB | 2026-04-10 |
@@ -338,32 +338,32 @@
 | 301 | `waverider_positions` | [공통] | POSITION | 0 | 24 kB | - |
 | 302 | `go100_risk_disclaimers` | [GO100] | RISK | 0 | 72 kB | - |
 | 303 | `go100_risk_events` | [GO100] | RISK | 353 | 144 kB | 2026-04-20 |
-| 304 | `go100_risk_rules` | [GO100] | RISK | 3 | 88 kB | 2026-04-20 |
+| 304 | `go100_risk_rules` | [GO100] | RISK | 5 | 88 kB | 2026-04-20 |
 | 305 | `go100_user_risk_setting_changes` | [GO100] | RISK | 0 | 24 kB | - |
-| 306 | `go100_user_risk_settings` | [GO100] | RISK | 17 | 32 kB | 2026-04-21 |
+| 306 | `go100_user_risk_settings` | [GO100] | RISK | 18 | 32 kB | 2026-04-30 |
 | 307 | `v4_backtest_regime_analysis` | [V4.1] | RISK | 230 | 480 kB | 2025-01-01 |
 | 308 | `v4_bt_daily_risk_log` | [V4.1] | RISK | 32 | 96 kB | 2026-02-20 |
-| 309 | `v4_market_regime_daily` | [V4.1] | RISK | 1,157 | 568 kB | 2026-04-29 |
+| 309 | `v4_market_regime_daily` | [V4.1] | RISK | 1,158 | 568 kB | 2026-04-30 |
 | 310 | `go100_cross_market_signals` | [GO100] | STRATEGY | 53 | 112 kB | 2026-04-15 |
 | 311 | `go100_hypothesis_backtests` | [GO100] | STRATEGY | 0 | 48 kB | - |
 | 312 | `go100_kiwoom_condition_list` | [GO100] | STRATEGY | 0 | 8192 bytes | - |
 | 313 | `go100_kiwoom_condition_stocks` | [GO100] | STRATEGY | 0 | 24 kB | - |
 | 314 | `go100_kiwoom_conditions` | [GO100] | STRATEGY | 0 | 16 kB | - |
 | 315 | `go100_signal_performance` | [GO100] | STRATEGY | 0 | 8192 bytes | - |
-| 316 | `go100_strategy_cards` | [GO100] | STRATEGY | 86 | 552 kB | 2026-04-17 |
+| 316 | `go100_strategy_cards` | [GO100] | STRATEGY | 51 | 544 kB | 2026-03-30 |
 | 317 | `go100_strategy_edit_history` | [GO100] | STRATEGY | 0 | 40 kB | - |
-| 318 | `go100_strategy_hypotheses` | [GO100] | STRATEGY | 294 | 8152 kB | 2026-04-22 |
+| 318 | `go100_strategy_hypotheses` | [GO100] | STRATEGY | 0 | 2912 kB | - |
 | 319 | `go100_strategy_hypotheses_backup_20260421` | [GO100] | STRATEGY | 243 | 544 kB | 2026-04-11 |
 | 320 | `go100_strategy_knowledge` | [GO100] | STRATEGY | 17 | 176 kB | 2026-03-04 |
 | 321 | `go100_strategy_portfolio_snapshots` | [GO100] | STRATEGY | 0 | 40 kB | - |
-| 322 | `go100_strategy_portfolios` | [GO100] | STRATEGY | 23 | 56 kB | 2026-03-26 |
+| 322 | `go100_strategy_portfolios` | [GO100] | STRATEGY | 25 | 56 kB | 2026-04-30 |
 | 323 | `v4_condition_search` | [V4.1] | STRATEGY | 0 | 96 kB | - |
 | 324 | `v4_desk1_signals` | [V4.1] | STRATEGY | 30 | 40 kB | 2026-04-27 |
-| 325 | `v4_desk2_signals` | [V4.1] | STRATEGY | 2,980 | 464 kB | 2026-04-21 |
+| 325 | `v4_desk2_signals` | [V4.1] | STRATEGY | 3,060 | 472 kB | 2026-04-30 |
 | 326 | `v4_desk_signal_history` | [V4.1] | STRATEGY | 0 | 24 kB | - |
 | 327 | `v4_desk_strategy_mapping` | [V4.1] | STRATEGY | 56 | 112 kB | 2026-03-20 |
 | 328 | `v4_explosion_signals` | [V4.1] | STRATEGY | 38 | 56 kB | 2026-03-19 |
-| 329 | `v4_scalping_signals` | [V4.1] | STRATEGY | 0 | 40 kB | - |
+| 329 | `v4_scalping_signals` | [V4.1] | STRATEGY | 28 | 88 kB | 2026-04-30 |
 | 330 | `v4_scoring_weights` | [V4.1] | STRATEGY | 1 | 64 kB | 2026-02-12 |
 | 331 | `v4_signals` | [V4.1] | STRATEGY | 127,362 | 42 MB | 2026-03-13 |
 | 332 | `v4_strategy_performance` | [V4.1] | STRATEGY | 0 | 32 kB | - |
@@ -375,17 +375,17 @@
 | 338 | `trading_signals` | [공통] | STRATEGY | 137,185 | 30 MB | 2026-03-04 |
 | 339 | `waverider_signals` | [공통] | STRATEGY | 0 | 32 kB | - |
 | 340 | `go100_delisted_stocks` | [GO100] | UNIVERSE | 100 | 72 kB | 2024-08-22 |
-| 341 | `go100_fundamentals` | [GO100] | UNIVERSE | 2,720 | 1904 kB | 2026-04-29 |
+| 341 | `go100_fundamentals` | [GO100] | UNIVERSE | 2,720 | 1904 kB | 2026-04-30 |
 | 342 | `go100_fundamentals_pit` | [GO100] | UNIVERSE | 33,471 | 6768 kB | 2026-12-31 |
 | 343 | `go100_sector_components` | [GO100] | UNIVERSE | 0 | 32 kB | - |
 | 344 | `go100_sector_correlation` | [GO100] | UNIVERSE | 1,624 | 536 kB | 2026-02-26 |
-| 345 | `go100_sector_price` | [GO100] | UNIVERSE | 8,200 | 1592 kB | 2026-04-29 |
+| 345 | `go100_sector_price` | [GO100] | UNIVERSE | 8,229 | 1600 kB | 2026-04-30 |
 | 346 | `v4_fundamental_quarterly` | [V4.1] | UNIVERSE | 10,271 | 4016 kB | 2026-04-24 |
 | 347 | `v4_market_calendar` | [V4.1] | UNIVERSE | 129 | 96 kB | 2026-12-30 |
-| 348 | `v4_market_ranking` | [V4.1] | UNIVERSE | 9,330 | 6504 kB | 2026-04-29 |
-| 349 | `v4_scalping_universe` | [V4.1] | UNIVERSE | 1,733 | 448 kB | 2026-04-29 |
+| 348 | `v4_market_ranking` | [V4.1] | UNIVERSE | 9,540 | 6520 kB | 2026-04-30 |
+| 349 | `v4_scalping_universe` | [V4.1] | UNIVERSE | 2,121 | 528 kB | 2026-04-30 |
 | 350 | `v4_sector_correlation` | [V4.1] | UNIVERSE | 0 | 24 kB | - |
-| 351 | `v4_sector_daily` | [V4.1] | UNIVERSE | 16,275 | 13 MB | 2026-04-29 |
+| 351 | `v4_sector_daily` | [V4.1] | UNIVERSE | 16,304 | 13 MB | 2026-04-30 |
 | 352 | `v4_sector_mapping` | [V4.1] | UNIVERSE | 3,844 | 5376 kB | 2026-03-07 |
 | 353 | `v4_sector_price` | [V4.1] | UNIVERSE | 0 | 24 kB | - |
 | 354 | `v4_sector_stock_mapping` | [V4.1] | UNIVERSE | 2,770 | 616 kB | 2026-02-26 |
@@ -431,7 +431,7 @@
 
 #### `go100_backtest_runs` [GO100]
 
-행 수: 45 | 크기: 232 kB | 최신: 2026-04-10
+행 수: 8 | 크기: 232 kB | 최신: 2025-12-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -500,7 +500,7 @@
 
 #### `go100_fit_analysis` [GO100]
 
-행 수: 40 | 크기: 88 kB | 최신: 2026-02-21
+행 수: 0 | 크기: 88 kB
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -1545,7 +1545,7 @@
 
 #### `go100_data_integrity_log` [GO100]
 
-행 수: 282,659 | 크기: 68 MB | 최신: 2026-04-29
+행 수: 288,275 | 크기: 69 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -1674,7 +1674,7 @@
 
 #### `go100_error_log` [GO100]
 
-행 수: 943 | 크기: 1752 kB | 최신: 2026-04-29
+행 수: 22,301 | 크기: 29 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -1873,7 +1873,7 @@
 
 #### `go100_goals` [GO100]
 
-행 수: 6 | 크기: 72 kB | 최신: 2026-02-26
+행 수: 7 | 크기: 88 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -1896,6 +1896,10 @@
 | 17 | `updated_at` | timestamp with time zone | Y |  | now() |
 | 18 | `scenarios` | jsonb | Y |  |  |
 | 19 | `recommended_strategies` | jsonb | Y |  |  |
+| 20 | `target_cagr` | numeric | Y |  |  |
+| 21 | `risk_tolerance` | character varying(50) | Y |  |  |
+| 22 | `investment_horizon` | character varying(50) | Y |  |  |
+| 23 | `progress` | numeric | Y |  | 0 |
 
 **인덱스:**
 
@@ -2144,7 +2148,7 @@
 
 #### `go100_paper_snapshots` [GO100]
 
-행 수: 3,610 | 크기: 848 kB | 최신: 2026-04-29
+행 수: 3,801 | 크기: 864 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -2198,7 +2202,7 @@
 
 #### `go100_portfolio_snapshots` [GO100]
 
-행 수: 401 | 크기: 200 kB | 최신: 2026-04-29
+행 수: 408 | 크기: 216 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -2226,7 +2230,7 @@
 
 #### `go100_portfolios` [GO100]
 
-행 수: 19 | 크기: 88 kB | 최신: 2026-04-09
+행 수: 25 | 크기: 96 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -2572,7 +2576,7 @@
 
 #### `v4_desk1_candidates` [V4.1]
 
-행 수: 247 | 크기: 104 kB | 최신: 2026-04-29
+행 수: 255 | 크기: 104 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -2601,7 +2605,7 @@
 
 #### `v4_desk2_candidates` [V4.1]
 
-행 수: 4,086 | 크기: 1680 kB | 최신: 2026-04-29
+행 수: 4,096 | 크기: 1704 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -2737,7 +2741,7 @@
 
 #### `v4_desk3_pool` [V4.1]
 
-행 수: 3,416 | 크기: 1592 kB | 최신: 2026-04-29
+행 수: 3,516 | 크기: 1624 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -3194,7 +3198,7 @@
 
 #### `v4_macro_daily` [V4.1]
 
-행 수: 767 | 크기: 424 kB | 최신: 2026-04-29
+행 수: 768 | 크기: 424 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -3489,7 +3493,7 @@
 
 #### `v4_reservations` [V4.1]
 
-행 수: 35,043 | 크기: 12 MB | 최신: 2026-04-21
+행 수: 35,400 | 크기: 12 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -3831,7 +3835,7 @@
 
 #### `data_crypto_daily` [공통]
 
-행 수: 992 | 크기: 296 kB | 최신: 2026-04-28
+행 수: 996 | 크기: 296 kB | 최신: 2026-04-29
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4043,7 +4047,7 @@
 
 #### `stock_price_snapshot` [공통]
 
-행 수: 3,588 | 크기: 66 MB | 최신: 2026-04-29
+행 수: 3,588 | 크기: 66 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4166,7 +4170,7 @@
 
 #### `go100_global_market` [GO100]
 
-행 수: 345 | 크기: 232 kB | 최신: 2026-04-28
+행 수: 346 | 크기: 232 kB | 최신: 2026-04-29
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4261,7 +4265,7 @@
 
 #### `go100_alerts` [GO100]
 
-행 수: 7,730 | 크기: 2232 kB | 최신: 2026-04-29
+행 수: 7,826 | 크기: 2240 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4287,7 +4291,7 @@
 
 #### `go100_chat_messages` [GO100]
 
-행 수: 105 | 크기: 248 kB | 최신: 2026-04-29
+행 수: 109 | 크기: 248 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4604,7 +4608,7 @@
 
 #### `go100_paper_accounts` [GO100]
 
-행 수: 190 | 크기: 128 kB | 최신: 2026-03-26
+행 수: 191 | 크기: 128 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4630,7 +4634,7 @@
 
 #### `go100_paper_trading_sessions` [GO100]
 
-행 수: 25 | 크기: 136 kB | 최신: 2026-03-26
+행 수: 18 | 크기: 136 kB | 최신: 2026-03-26
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4714,7 +4718,7 @@
 
 #### `go100_reports` [GO100]
 
-행 수: 2,102 | 크기: 736 kB | 최신: 2026-04-29
+행 수: 2,109 | 크기: 744 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4903,7 +4907,7 @@
 
 #### `v4_account_holdings` [V4.1]
 
-행 수: 1,594,522 | 크기: 433 MB | 최신: 2026-04-29
+행 수: 1,603,752 | 크기: 436 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4938,7 +4942,7 @@
 
 #### `v4_account_sync_log` [V4.1]
 
-행 수: 222,619 | 크기: 47 MB | 최신: 2026-04-29
+행 수: 223,599 | 크기: 48 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4971,7 +4975,7 @@
 
 #### `v4_alerts` [V4.1]
 
-행 수: 1,384 | 크기: 856 kB | 최신: 2026-04-29
+행 수: 1,396 | 크기: 864 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -4997,7 +5001,7 @@
 
 #### `v4_api_error_log` [V4.1]
 
-행 수: 82 | 크기: 112 kB | 최신: 2026-04-17
+행 수: 324 | 크기: 320 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5020,7 +5024,7 @@
 
 #### `v4_api_tokens` [V4.1]
 
-행 수: 1 | 크기: 48 kB | 최신: 2026-03-04
+행 수: 243 | 크기: 184 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5085,7 +5089,7 @@
 
 #### `v4_credit_balance` [V4.1]
 
-행 수: 1,958 | 크기: 576 kB | 최신: 2026-04-29
+행 수: 2,058 | 크기: 608 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5110,7 +5114,7 @@
 
 #### `v4_daily_reports` [V4.1]
 
-행 수: 69 | 크기: 184 kB | 최신: 2026-04-29
+행 수: 70 | 크기: 184 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5323,7 +5327,7 @@
 
 #### `v4_system_heartbeat` [V4.1]
 
-행 수: 3,334,726 | 크기: 1421 MB | 최신: 2026-04-29
+행 수: 3,353,082 | 크기: 1429 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5426,7 +5430,7 @@
 
 #### `v4_users` [V4.1]
 
-행 수: 22 | 크기: 96 kB | 최신: 2026-04-29
+행 수: 22 | 크기: 96 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5455,7 +5459,7 @@
 
 #### `account_rate_quotas` [공통]
 
-행 수: 8 | 크기: 80 kB | 최신: 2026-04-29
+행 수: 8 | 크기: 80 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5477,7 +5481,7 @@
 
 #### `account_snapshots` [공통]
 
-행 수: 578 | 크기: 120 kB | 최신: 2026-04-29
+행 수: 1,035 | 크기: 168 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5500,7 +5504,7 @@
 
 #### `accounts` [공통]
 
-행 수: 8 | 크기: 248 kB | 최신: 2026-04-08
+행 수: 8 | 크기: 256 kB | 최신: 2026-04-08
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5566,7 +5570,7 @@
 
 #### `kis_configs` [공통]
 
-행 수: 5 | 크기: 400 kB | 최신: 2026-04-30
+행 수: 5 | 크기: 440 kB | 최신: 2026-05-01
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -5741,7 +5745,7 @@
 
 #### `user_sessions` [공통]
 
-행 수: 81 | 크기: 248 kB | 최신: 2026-05-29
+행 수: 94 | 크기: 248 kB | 최신: 2026-05-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6103,7 +6107,7 @@
 
 #### `v4_investor_daily` [V4.1]
 
-행 수: 2,737,091 | 크기: 1234 MB | 최신: 2026-04-29
+행 수: 2,738,571 | 크기: 1238 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6143,7 +6147,7 @@
 
 #### `v4_market_investor_daily` [V4.1]
 
-행 수: 3,704 | 크기: 1792 kB | 최신: 2026-04-29
+행 수: 3,706 | 크기: 1792 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6166,7 +6170,7 @@
 
 #### `v4_program_trades` [V4.1]
 
-행 수: 38,727 | 크기: 6992 kB | 최신: 2026-04-29
+행 수: 42,571 | 크기: 7608 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6339,7 +6343,7 @@
 
 #### `go100_tick_daily_stats` [GO100]
 
-행 수: 933 | 크기: 224 kB | 최신: 2026-04-29
+행 수: 954 | 크기: 232 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6361,7 +6365,7 @@
 
 #### `v4_ohlcv_minute` [V4.1]
 
-행 수: 214,232,860 | 크기: 0 bytes | 최신: 2026-04-29
+행 수: 214,351,240 | 크기: 0 bytes | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6825,7 +6829,7 @@
 
 #### `v4_ohlcv_minute_2026_04` [V4.1]
 
-행 수: 2,500,077 | 크기: 679 MB | 최신: 2026-04-29
+행 수: 2,618,744 | 크기: 735 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6876,7 +6880,7 @@
 
 #### `v4_tick_data` [V4.1]
 
-행 수: 3,552,594 | 크기: 576 MB | 최신: 2026-04-29
+행 수: 3,601,547 | 크기: 584 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6901,7 +6905,7 @@
 
 #### `v4_vkospi_daily` [V4.1]
 
-행 수: 1,552 | 크기: 408 kB | 최신: 2026-04-29
+행 수: 1,553 | 크기: 408 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6951,7 +6955,7 @@
 
 #### `index_daily` [공통]
 
-행 수: 2,289 | 크기: 576 kB | 최신: 2026-04-29
+행 수: 2,295 | 크기: 576 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -6977,7 +6981,7 @@
 
 #### `ohlcv_daily` [공통]
 
-행 수: 2,750,476 | 크기: 889 MB | 최신: 2026-04-29
+행 수: 2,754,294 | 크기: 889 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -7076,7 +7080,7 @@
 
 #### `go100_news_items` [GO100]
 
-행 수: 2,995,704 | 크기: 2686 MB | 최신: 2026-04-30
+행 수: 3,007,121 | 크기: 2696 MB | 최신: 2026-05-01
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -7349,7 +7353,7 @@
 
 #### `go100_paper_trades` [GO100]
 
-행 수: 335 | 크기: 120 kB | 최신: 2026-04-24
+행 수: 233 | 크기: 128 kB | 최신: 2026-04-24
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -7956,7 +7960,7 @@
 
 #### `v4_order_requests` [V4.1]
 
-행 수: 2,873 | 크기: 1592 kB | 최신: 2026-04-21
+행 수: 3,152 | 크기: 1640 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -7996,7 +8000,7 @@
 
 #### `v4_orderbook_realtime` [V4.1]
 
-행 수: 14,758,079 | 크기: 5545 MB | 최신: 2026-04-29
+행 수: 14,939,181 | 크기: 5613 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -8380,7 +8384,7 @@
 
 #### `v4_trade_schedules` [V4.1]
 
-행 수: 6 | 크기: 88 kB | 최신: 2026-04-21
+행 수: 14 | 크기: 88 kB | 최신: 2026-04-21
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -8412,7 +8416,7 @@
 
 #### `v4_trade_strength_history` [V4.1]
 
-행 수: 20,615,309 | 크기: 2856 MB | 최신: 2026-04-29
+행 수: 20,889,796 | 크기: 2900 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9263,7 +9267,7 @@
 
 #### `go100_risk_rules` [GO100]
 
-행 수: 3 | 크기: 88 kB | 최신: 2026-04-20
+행 수: 5 | 크기: 88 kB | 최신: 2026-04-20
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9307,7 +9311,7 @@
 
 #### `go100_user_risk_settings` [GO100]
 
-행 수: 17 | 크기: 32 kB | 최신: 2026-04-21
+행 수: 18 | 크기: 32 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9411,7 +9415,7 @@
 
 #### `v4_market_regime_daily` [V4.1]
 
-행 수: 1,157 | 크기: 568 kB | 최신: 2026-04-29
+행 수: 1,158 | 크기: 568 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9573,7 +9577,7 @@
 
 #### `go100_strategy_cards` [GO100]
 
-행 수: 86 | 크기: 552 kB | 최신: 2026-04-17
+행 수: 51 | 크기: 544 kB | 최신: 2026-03-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9686,7 +9690,7 @@
 
 #### `go100_strategy_hypotheses` [GO100]
 
-행 수: 294 | 크기: 8152 kB | 최신: 2026-04-22
+행 수: 0 | 크기: 2912 kB
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9849,7 +9853,7 @@
 
 #### `go100_strategy_portfolios` [GO100]
 
-행 수: 23 | 크기: 56 kB | 최신: 2026-03-26
+행 수: 25 | 크기: 56 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -9928,7 +9932,7 @@
 
 #### `v4_desk2_signals` [V4.1]
 
-행 수: 2,980 | 크기: 464 kB | 최신: 2026-04-21
+행 수: 3,060 | 크기: 472 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10037,7 +10041,7 @@
 
 #### `v4_scalping_signals` [V4.1]
 
-행 수: 0 | 크기: 40 kB
+행 수: 28 | 크기: 88 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10415,7 +10419,7 @@
 
 #### `go100_fundamentals` [GO100]
 
-행 수: 2,720 | 크기: 1904 kB | 최신: 2026-04-29
+행 수: 2,720 | 크기: 1904 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10524,7 +10528,7 @@
 
 #### `go100_sector_price` [GO100]
 
-행 수: 8,200 | 크기: 1592 kB | 최신: 2026-04-29
+행 수: 8,229 | 크기: 1600 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10612,7 +10616,7 @@
 
 #### `v4_market_ranking` [V4.1]
 
-행 수: 9,330 | 크기: 6504 kB | 최신: 2026-04-29
+행 수: 9,540 | 크기: 6520 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10641,7 +10645,7 @@
 
 #### `v4_scalping_universe` [V4.1]
 
-행 수: 1,733 | 크기: 448 kB | 최신: 2026-04-29
+행 수: 2,121 | 크기: 528 kB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
@@ -10692,7 +10696,7 @@
 
 #### `v4_sector_daily` [V4.1]
 
-행 수: 16,275 | 크기: 13 MB | 최신: 2026-04-29
+행 수: 16,304 | 크기: 13 MB | 최신: 2026-04-30
 
 | # | 컬럼 | 타입 | NULL | PK | 기본값 |
 |---|------|------|------|----|--------|
