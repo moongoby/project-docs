@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-05-04 | 버전: v11.28
+> 최종 업데이트: 2026-05-04 | 버전: v11.29
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,33 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### GO100-BG-DEPLOY-P0 — GO100 프론트 완전 무중단 배포 체계 P0 구현 (2026-05-04)
+- **HANDOVER 버전**: v11.29
+- **우선순위**: P0
+- **핵심 구현**:
+  1. **Blue/Green systemd 유닛 템플릿**: `scripts/systemd/go100-frontend-{blue,green}.service.template`
+     - blue=port 3000 / green=port 3001, NEXT_DIST_DIR 환경변수 분리
+     - next.config.mjs 이미 `distDir: process.env.NEXT_DIST_DIR || '.next'` 지원 — 코드 변경 없음
+  2. **install_go100_bluegreen_units.sh**: dry-run/apply 분리, .next → .next.blue 초기 복사, go100-frontend stop/disable 전환 포함
+  3. **switch_go100_frontend.sh**: Nginx upstream 포트 감지 → health check → config 교체 → nginx -t → -s reload (dry-run 기본, --apply 시 실행)
+  4. **deploy_frontend_blue_green.sh v5**: lock → active 감지 → inactive staging 빌드 → 산출물 검증 → service restart → health check → Nginx switch (dry-run/apply 분리)
+  5. **.githooks/pre-commit**: rm -rf .next / 직접 build / systemctl restart go100-frontend 커밋 차단
+  6. **install_go100_deploy_hooks.sh**: git core.hooksPath=.githooks 설정 (dry-run/apply)
+  7. **check_go100_deploy_safety.sh**: 10-point 종합 점검 (PASS 25 / WARN 6 / FAIL 0)
+  8. **docs/go100/zero-downtime-deploy.md**: 설치 순서, 배포 플로우, 롤백, 훅 운영 매뉴얼
+- **검증 결과**:
+  - bash -n: 6개 스크립트 모두 PASS
+  - dry-run: install/switch/deploy 모두 EXIT 0
+  - check_go100_deploy_safety.sh: PASS 25 / WARN 6 / FAIL 0 (WARN=미설치 상태 정상)
+  - pre-commit hook 검수 시스템: 오류 0건, 경고 0건
+- **커밋**: d797e92c (11파일, 1511줄)
+- **미실행 (CEO 승인 후 Runner 실행)**:
+  - `install_go100_bluegreen_units.sh --apply` (systemd 전환)
+  - `install_go100_deploy_hooks.sh --apply` (hook 활성화)
+  - `deploy_frontend_blue_green.sh --apply` (최초 BG 배포)
+- **KIS 실주문 영향**: 없음 (프론트 배포 스크립트/docs/hooks만 변경)
+- **보고서**: go100/reports/GO100-BG-DEPLOY-P0-20260504.md
 
 ### KIS-KIWOOM-CRON-SETUP — 키움 토큰 갱신 크론 07:00 KST 조정 + 수집 크론 등록 (2026-05-04)
 - **HANDOVER 버전**: v11.28
