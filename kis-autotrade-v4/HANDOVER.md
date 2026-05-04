@@ -1,5 +1,5 @@
 # HANDOVER – KIS AutoTrade V4.1
-> 최종 업데이트: 2026-04-29 | 버전: v11.27
+> 최종 업데이트: 2026-05-04 | 버전: v11.28
 > 역할: History 계층 — 최근 작업 이력 상세 기록
 > Core(프로젝트 현황·규칙·환경)는 CONTEXT.md를 참조하라.
 
@@ -37,6 +37,26 @@
 ---
 
 ## 최근 작업 이력 (15건, 최신순)
+
+### KIS-KIWOOM-CRON-SETUP — 키움 토큰 갱신 크론 07:00 KST 조정 + 수집 크론 등록 (2026-05-04)
+- **HANDOVER 버전**: v11.28
+- **우선순위**: P2 (운영)
+- **작업 내용**:
+  1. **키움 토큰 갱신 크론 정리**: 08:40 중복 2개 제거, 07:50 → 0 7(07:00 KST) 통합
+  2. **토큰 갱신 시간 조정**: NXT 시장 개시 08:00 KST에 맞춰 07:00으로 앞당김 (1시간 여유)
+  3. **키움 데이터 수집 크론 등록** (신규 3개):
+     - 30 16: collect_kiwoom_ohlcv.sh (일봉 수집)
+     - 40 16: collect_kiwoom_minute.sh (분봉 수집)
+     - 0 17: collect_kiwoom_supply.sh (수급 수집)
+- **최종 크론 타임라인**:
+  - 07:00 KST: 키움 토큰 갱신 (장 시작 1시간 전)
+  - 16:20 KST: 키움 토큰 갱신 (장 후)
+  - 16:30 KST: 키움 OHLCV 수집
+  - 16:40 KST: 키움 분봉 수집
+  - 17:00 KST: 키움 수급 수집
+- **검증**: crontab 설치 완료, /var/log/go100/ 디렉토리 확인
+- **보고서**: kis-autotrade-v4/reports/KIS-KIWOOM-CRON-SETUP-20260504.md (HTTP 200 ✅)
+
 
 ### GO100-P0-B-ERRLOG — 파이프라인 오류 로깅/헬스 기록 누락 보강 (2026-04-29)
 - **HANDOVER 버전**: v11.27
@@ -411,6 +431,9 @@
 
 | 버전 | 날짜 | Task | 변경 요약 |
 |------|------|------|-----------|
+| v11.28 | 2026-05-04 | KIS-KIWOOM-CRON-SETUP | 키움 토큰 갱신 크론 07:00 KST 조정 + 키움 수집 크론(OHLCV/분봉/수급) 3개 등록 |
+| v11.27 | 2026-04-29 | GO100-P0-B-ERRLOG | 파이프라인 오류 로깅 pipeline/job_name/component 컬럼 추가 + health_check 강화 |
+| v11.26 | 2026-04-29 | GO100-P0-LIVE-RETRY | account_snapshots FK 복구 + collect_minute_tier2 % 파라미터화 + condition_search all_skip |
 | v11.25 | 2026-04-29 | GO100-P0-PIPELINE-FIX | 실매매 파이프라인 P0 장애 조치 — topmovers IndexError, scalping_universe cron 경로, condition_search Kiwoom→KIS, pipeline_error_logger, health_check |
 | v11.24 | 2026-04-20 | GO100-V5-P2-8 | /dashboard 탭 확장 (portfolio/market/signals) — Tabs UI 재구성, MarketTab(섹터/상승/하락/거래량), SignalsTab(AI신호) |
 | v11.23 | 2026-04-08 | P0-1 | go100_live_daily_summary portfolio_id 컬럼 추가 (Migration 050) + live_trading.py update_daily_summary() portfolio_id 로직 추가 |
